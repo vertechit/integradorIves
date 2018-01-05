@@ -1,0 +1,63 @@
+﻿<Window x:Class="Vertech.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Vertech"
+        mc:Ignorable="d"
+        Title="Vertech" Height="400" Width="600" WindowStartupLocation="CenterScreen" ResizeMode="NoResize" >
+
+    <Viewbox>
+        <Grid  x:Name="Main_Page" Height="400" Width="600">
+
+            <Grid.ColumnDefinitions>
+
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+
+            </Grid.ColumnDefinitions>
+
+            <Grid.RowDefinitions>
+
+                <RowDefinition/>
+                <RowDefinition/>
+                <RowDefinition/>
+
+            </Grid.RowDefinitions>
+
+            <Button 
+                Name="BtnTeste" 
+                Content="Clicar" 
+                Grid.Column="1" 
+                Grid.Row="2" 
+                Height="30" 
+                Width="150" 
+                FontFamily="Century Gothic" 
+                FontSize="15" 
+                Click="BtnTeste_Click"/>
+
+            <Image
+                Name="___Vertech_component_logo_png" 
+                HorizontalAlignment="Left" 
+                Height="88" 
+                Margin="152,45,0,0" 
+                VerticalAlignment="Top" 
+                Width="290" 
+                Grid.ColumnSpan="3" 
+                Source="/Vertech;component/Imagens/logo.png"
+                Stretch="Fill"/>
+
+            <TextBox Name ="txtFolderIni" HorizontalAlignment="Left" Height="23" Margin="182,43,0,0" Grid.Row="1" TextWrapping="Wrap" VerticalAlignment="Top" Width="238" Grid.ColumnSpan="3"/>
+            <Label Name="LblCaminho" Content="Pasta inicial" HorizontalAlignment="Left" Margin="90,39,0,0" Grid.Row="1" VerticalAlignment="Top"/>
+            <Button Name="BtnProcurarIni" Content="..." Grid.Column="2" HorizontalAlignment="Left" Margin="49,44,0,0" Grid.Row="1" VerticalAlignment="Top" Width="36" Click="BtnProcurarIni_Click"/>
+            
+            <TextBox x:Name ="txtFolderFim" HorizontalAlignment="Left" Height="23" Margin="182,84,0,0" Grid.Row="1" TextWrapping="Wrap" VerticalAlignment="Top" Width="238" Grid.ColumnSpan="3"/>
+            <Label x:Name="LblCaminhoFim" Content="Pasta final" HorizontalAlignment="Left" Margin="90,80,0,0" Grid.Row="1" VerticalAlignment="Top"/>
+            <Button x:Name="BtnProcurarFim" Content="..." Grid.Column="2" HorizontalAlignment="Left" Margin="49,85,0,0" Grid.Row="1" VerticalAlignment="Top" Width="36" Click="BtnProcurarFim_Click"/>
+
+        </Grid>
+    </Viewbox>
+
+
+</Window>
