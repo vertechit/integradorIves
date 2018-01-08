@@ -16,6 +16,10 @@ using System.Threading;
 using System.IO;
 using System.Net.Sockets;
 using System.Windows.Forms;
+using Vertech.apiIntegra;
+using Vertech.Uteis;
+using System.Xml;
+//using Vertech.EsoConsulta;
 
 
 namespace Vertech
@@ -25,18 +29,39 @@ namespace Vertech
     /// </summary>
     public partial class MainWindow : Window
     {
-        private static string nomeAbreviadoArquivo = "";
+        //private static string nomeAbreviadoArquivo = "";
 
         public MainWindow()
         {
             InitializeComponent();
+
+            Parametros.SetGrupo(1);
+            Parametros.SetToken("8EE07DE66C97D8CFBAE04C47E8F51D76");
+
         }
 
         private void BtnTeste_Click(object sender, RoutedEventArgs e)
         {
+            
+            List<integraResponse> retorno = null;
+            /*var thread = new Thread(
+                () =>
+                {
+                    retorno = Envia_Esocial();
+                });
+            thread.Start();
+            thread.Join();
+            */
+            retorno = Envia_Esocial();
+            txtstate.Text = retorno[0].protocolo.ToString();
 
-            //Thread thread = new Thread();
-            //thread.Start();
+            /*// manipulador de diretorios
+            DirectoryInfo dirInfo = new DirectoryInfo(@txtFolderIni.Text);
+
+            // procurar arquivos
+            BuscaArquivos(dirInfo);
+            */
+
         }
 
         private void BtnProcurarIni_Click(object sender, RoutedEventArgs e)
@@ -44,6 +69,8 @@ namespace Vertech
             FolderBrowserDialog dlgf = new FolderBrowserDialog();
             dlgf.ShowDialog();
             txtFolderIni.Text = dlgf.SelectedPath;
+
+            Parametros.SetDirArq(txtFolderIni.Text);
 
             /*OpenFileDialog dlg = new OpenFileDialog();
             dlg.Title = "Envio de Arquivo - Cliente";
@@ -57,6 +84,19 @@ namespace Vertech
             FolderBrowserDialog dlgf = new FolderBrowserDialog();
             dlgf.ShowDialog();
             txtFolderFim.Text = dlgf.SelectedPath;
+
+        }
+
+        private List<integraResponse> Envia_Esocial()
+        {
+            
+            Integra Vertech = new Integra();
+
+            List<integraResponse> Response = Vertech.Job();
+
+            //txtstate.Text = Response.protocolo.ToString();
+
+            return Response;
         }
     }
 }

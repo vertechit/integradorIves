@@ -28,7 +28,7 @@
 
             <Button 
                 Name="BtnTeste" 
-                Content="Clicar" 
+                Content="Enviar" 
                 Grid.Column="1" 
                 Grid.Row="2" 
                 Height="30" 
@@ -55,6 +55,7 @@
             <TextBox x:Name ="txtFolderFim" HorizontalAlignment="Left" Height="23" Margin="182,84,0,0" Grid.Row="1" TextWrapping="Wrap" VerticalAlignment="Top" Width="238" Grid.ColumnSpan="3"/>
             <Label x:Name="LblCaminhoFim" Content="Pasta final" HorizontalAlignment="Left" Margin="90,80,0,0" Grid.Row="1" VerticalAlignment="Top"/>
             <Button x:Name="BtnProcurarFim" Content="..." Grid.Column="2" HorizontalAlignment="Left" Margin="49,85,0,0" Grid.Row="1" VerticalAlignment="Top" Width="36" Click="BtnProcurarFim_Click"/>
+            <TextBox x:Name="txtstate" Grid.Column="1" HorizontalAlignment="Left" Height="23" Margin="44,10,0,0" Grid.Row="2" TextWrapping="Wrap" VerticalAlignment="Top" Width="120"/>
 
         </Grid>
     </Viewbox>

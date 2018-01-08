@@ -1,0 +1,163 @@
+<?xml version="1.0" encoding="utf-8"?>
+<wsdl:definitions xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:tns="http://www.esocial.gov.br/ws" xmlns:xs="http://www.w3.org/2001/XMLSchema" name="EsocialService" targetNamespace="http://www.esocial.gov.br/ws" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">
+  <wsdl:types>
+    <xs:schema elementFormDefault="qualified" targetNamespace="http://www.esocial.gov.br/ws">
+      <xs:element name="consultaRequest">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element minOccurs="0" name="grupo" type="xs:long" />
+            <xs:element minOccurs="0" name="protocolo" type="xs:long" />
+            <xs:element minOccurs="0" name="iderp" type="xs:string" />
+            <xs:element minOccurs="0" name="cdEvento" type="xs:string" />
+            <xs:element minOccurs="0" name="token" type="xs:string" />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="consultaResponse">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element minOccurs="0" ref="tns:consultaProtocolo" />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="consultaProtocolo">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element ref="tns:identificador" />
+            <xs:element ref="tns:status" />
+            <xs:element ref="tns:retornoEventos" />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="identificador">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element name="lote" type="xs:long" />
+            <xs:element name="protocolo" type="xs:long" />
+            <xs:element name="dtHr" type="xs:dateTime" />
+            <xs:element name="tpinscricao" type="xs:string" />
+            <xs:element name="nrinscricao" type="xs:string" />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="status">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element name="cdResposta" type="xs:long" />
+            <xs:element name="descResposta" type="xs:string" />
+            <xs:element name="msg" type="xs:string" />
+            <xs:element minOccurs="0" maxOccurs="1" ref="tns:ocorrencias" />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="ocorrencias">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element minOccurs="0" maxOccurs="unbounded" ref="tns:ocorrencia" />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="ocorrencia">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element minOccurs="0" name="lote" type="xs:long" />
+            <xs:element name="seq" type="xs:int" />
+            <xs:element name="dados" type="xs:string" />
+            <xs:element name="idIves" type="xs:long" />
+            <xs:element minOccurs="0" name="idIvesPai" type="xs:long" />
+            <xs:element name="mensagem" type="xs:string" />
+            <xs:element minOccurs="0" name="reg" type="xs:string" />
+            <xs:element ref="tns:estrutura" />
+            <xs:element ref="tns:divergencia" />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="estrutura">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element maxOccurs="unbounded" name="msg" type="xs:string" />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="divergencia">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element maxOccurs="unbounded" name="msg" type="xs:string" />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="retornoEventos">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element minOccurs="0" maxOccurs="unbounded" ref="tns:evento" />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="evento">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element name="cdEvento" type="xs:string" />
+            <xs:element name="idErp" type="xs:long" />
+            <xs:element name="nroProtocolo" type="xs:string" />
+            <xs:element name="nroRecibo" type="xs:string" />
+            <xs:element name="situacao" type="xs:string" />
+            <xs:element name="loteIntegra" type="xs:string" />
+            <xs:element name="nroProtocoloIntegra" type="xs:string" />
+            <xs:element name="dtHrIntegra" type="xs:string" />
+            <xs:element name="tpinsc" type="xs:string" />
+            <xs:element name="nrinsc" type="xs:string" />
+            <xs:element name="dtHrProtocolo" type="xs:string" />
+            <xs:element name="dtHrRecibo" type="xs:string" />
+            <xs:element minOccurs="0" maxOccurs="1" ref="tns:erros" />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="erros">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element minOccurs="0" maxOccurs="unbounded" ref="tns:erro" />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="erro">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element minOccurs="0" name="cdErro" type="xs:int" />
+            <xs:element name="descErro" type="xs:string" />
+            <xs:element name="tpErro" type="xs:string" />
+            <xs:element name="localizacao" type="xs:string" />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+    </xs:schema>
+  </wsdl:types>
+  <wsdl:message name="consultaRequest">
+    <wsdl:part name="consultaRequest" element="tns:consultaRequest" />
+  </wsdl:message>
+  <wsdl:message name="consultaResponse">
+    <wsdl:part name="consultaResponse" element="tns:consultaResponse" />
+  </wsdl:message>
+  <wsdl:portType name="EsocialService">
+    <wsdl:operation name="consultaRequest">
+      <wsdl:input name="consultaRequest" message="tns:consultaRequest" />
+      <wsdl:output name="consultaResponse" message="tns:consultaResponse" />
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="EsocialBinding" type="tns:EsocialService">
+    <soap:binding transport="http://schemas.xmlsoap.org/soap/http" />
+    <wsdl:operation name="consultaRequest">
+      <soap:operation soapAction="" />
+      <wsdl:input name="consultaRequest">
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output name="consultaResponse">
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="EsocialService">
+    <wsdl:port name="EsocialBinding" binding="tns:EsocialBinding">
+      <soap:address location="https://apiesocial.vertech-it.com.br/vch-esocial/consultaintegra" />
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>
