@@ -21,7 +21,7 @@ namespace Vertech.Uteis
 
         }
 
-        public List<string> Lista_arq()
+        public List<string> Lista_arquivos()
         {
             string dir = Parametros.GetDirArq();
             DirectoryInfo dirInfo = new DirectoryInfo(@dir);
@@ -33,7 +33,7 @@ namespace Vertech.Uteis
         public List<integraResponse> Job()
         {
             string dir = Parametros.GetDirArq();
-            var arq = Lista_arq();
+            var arq = Lista_arquivos();
             var Lista = new List<integraResponse>();
 
             foreach (var arq_name in arq)
@@ -49,26 +49,20 @@ namespace Vertech.Uteis
         public integraResponse Enviar(integraRequest Request)
         {
             EsocialServiceClient VertechCliente = new EsocialServiceClient();
-            //identificador Id = this.Retorna_ID();
-            //esocial Eso = this.Retorna_Esocial(Id, dir, arq);
-
-            //integraRequest1 Integra1 = new integraRequest1();
-            //integraRequest Integra = new integraRequest();
-
-            //Integra.esocial = Eso;
-            //Integra1.integraRequest = Integra;
-
-
             integraResponse Response = new integraResponse();
-            //integraResponse1 Response1 = new integraResponse1();
 
-            //Response1.integraResponse = Response;
+            try
+            {
+                VertechCliente.Open();
 
-            VertechCliente.Open();
+                Response = VertechCliente.integraRequest(Request);
 
-            Response = VertechCliente.integraRequest(Request);
-
-            VertechCliente.Close();
+                VertechCliente.Close();
+            }
+            catch(Exception e)
+            {
+                MessageBox.Show("Erro ao enviar");
+            }
 
             return Response;
         }
@@ -77,8 +71,15 @@ namespace Vertech.Uteis
         {
             identificador Id = new identificador();
 
-            Id.grupo = Parametros.GetGrupo();
-            Id.token = Parametros.GetToken();
+            try
+            {
+                Id.grupo = Parametros.GetGrupo();
+                Id.token = Parametros.GetToken();
+            }
+            catch (Exception e)
+            {
+                MessageBox.Show("Erro ao atribuir identificador");
+            }
 
             return Id;
         }
@@ -87,9 +88,16 @@ namespace Vertech.Uteis
         {
             esocial eso = new esocial();
 
-            eso.identificador = id;
+            try
+            {
+                eso.identificador = id;
 
-            eso.registro = LerArquivo(dir, arq);
+                eso.registro = LerArquivo(dir, arq);
+            }
+            catch(Exception e)
+            {
+                MessageBox.Show("Erro no retorno do arquivo");
+            }
 
             return eso;
         }
@@ -98,16 +106,23 @@ namespace Vertech.Uteis
         {
             List<string> File_Names = new List<string>();
 
-            foreach (FileInfo file in dir.GetFiles())
+            try
             {
-                File_Names.Add(file.Name);
-            }
+                foreach (FileInfo file in dir.GetFiles())
+                {
+                    File_Names.Add(file.Name);
+                }
 
-            /*// busca arquivos do proximo sub-diretorio
-            foreach (DirectoryInfo subDir in dir.GetDirectories())
+                /*// busca arquivos do proximo sub-diretorio
+                foreach (DirectoryInfo subDir in dir.GetDirectories())
+                {
+                    BuscaArquivos(subDir);
+                }*/
+            }
+            catch (Exception e)
             {
-                BuscaArquivos(subDir);
-            }*/
+                MessageBox.Show("Erro ao buscar arquivos na pasta indicada");
+            }
 
             return File_Names;
         }
@@ -117,8 +132,14 @@ namespace Vertech.Uteis
             string[] lines= null;
 
             string s = string.Concat(dir, '\\', arq);
-
-            lines = System.IO.File.ReadAllLines(@s);
+            try
+            {
+                lines = System.IO.File.ReadAllLines(@s);
+            }
+            catch (Exception e)
+            {
+                MessageBox.Show("Erro na leitura do arquivo");
+            }
 
             return lines;
         }

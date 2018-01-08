@@ -55,6 +55,9 @@ namespace Vertech
             retorno = Envia_Esocial();
             txtstate.Text = retorno[0].protocolo.ToString();
 
+            Consulta consult = new Consulta();
+
+            consult.ConsultaProtocolo(retorno);
             /*// manipulador de diretorios
             DirectoryInfo dirInfo = new DirectoryInfo(@txtFolderIni.Text);
 
