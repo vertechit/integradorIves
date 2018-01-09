@@ -1,0 +1,75 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<asmv1:assembly xsi:schemaLocation="urn:schemas-microsoft-com:asm.v1 assembly.adaptive.xsd" manifestVersion="1.0" xmlns:asmv1="urn:schemas-microsoft-com:asm.v1" xmlns="urn:schemas-microsoft-com:asm.v2" xmlns:asmv2="urn:schemas-microsoft-com:asm.v2" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:co.v1="urn:schemas-microsoft-com:clickonce.v1" xmlns:asmv3="urn:schemas-microsoft-com:asm.v3" xmlns:dsig="http://www.w3.org/2000/09/xmldsig#" xmlns:co.v2="urn:schemas-microsoft-com:clickonce.v2">
+  <asmv1:assemblyIdentity name="Vertech.exe" version="1.0.0.0" publicKeyToken="d9ccbd23d58076c6" language="neutral" processorArchitecture="msil" type="win32" />
+  <description asmv2:iconFile="Vertechs-20180109_143803.ico" xmlns="urn:schemas-microsoft-com:asm.v1" />
+  <application />
+  <entryPoint>
+    <assemblyIdentity name="Vertech" version="1.0.0.0" language="neutral" processorArchitecture="msil" />
+    <commandLine file="Vertech.exe" parameters="" />
+  </entryPoint>
+  <trustInfo>
+    <security>
+      <applicationRequestMinimum>
+        <PermissionSet Unrestricted="true" ID="Custom" SameSite="site" />
+        <defaultAssemblyRequest permissionSetReference="Custom" />
+      </applicationRequestMinimum>
+      <requestedPrivileges xmlns="urn:schemas-microsoft-com:asm.v3">
+        <!--
+          Opções de Manifesto UAC
+          Se desejar mudar o nível de Controle de Conta de Usuário do Windows, substitua o 
+          nó requestedExecutionLevel por um dos seguintes.
+
+        <requestedExecutionLevel  level="asInvoker" uiAccess="false" />
+        <requestedExecutionLevel  level="requireAdministrator" uiAccess="false" />
+        <requestedExecutionLevel  level="highestAvailable" uiAccess="false" />
+
+         Se deseja usar a Virtualização de Arquivos e Registro para compatibilidade 
+         com versões anteriores, exclua o nó requestedExecutionLevel.
+    -->
+        <requestedExecutionLevel level="asInvoker" uiAccess="false" />
+      </requestedPrivileges>
+    </security>
+  </trustInfo>
+  <dependency>
+    <dependentOS>
+      <osVersionInfo>
+        <os majorVersion="5" minorVersion="1" buildNumber="2600" servicePackMajor="0" />
+      </osVersionInfo>
+    </dependentOS>
+  </dependency>
+  <dependency>
+    <dependentAssembly dependencyType="preRequisite" allowDelayedBinding="true">
+      <assemblyIdentity name="Microsoft.Windows.CommonLanguageRuntime" version="4.0.30319.0" />
+    </dependentAssembly>
+  </dependency>
+  <dependency>
+    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="Vertech.exe" size="622560">
+      <assemblyIdentity name="Vertech" version="1.0.0.0" language="neutral" processorArchitecture="msil" />
+      <hash>
+        <dsig:Transforms>
+          <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+        </dsig:Transforms>
+        <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
+        <dsig:DigestValue>sYEg+G3dAGdRUsYU6dmbJC7SZay6laDLmQwPnT41Tzg=</dsig:DigestValue>
+      </hash>
+    </dependentAssembly>
+  </dependency>
+  <file name="Vertech.exe.config" size="1271">
+    <hash>
+      <dsig:Transforms>
+        <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+      </dsig:Transforms>
+      <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
+      <dsig:DigestValue>sF2K/pMOSKQW9ZjlKig/8IaJtd4TtWHJkwLPMoNFzfE=</dsig:DigestValue>
+    </hash>
+  </file>
+  <file name="Vertechs-20180109_143803.ico" size="270398">
+    <hash>
+      <dsig:Transforms>
+        <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+      </dsig:Transforms>
+      <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
+      <dsig:DigestValue>1BdvrMg4aYO+4Jseht9sm6fyCug2qRNokJwU+AyLtjg=</dsig:DigestValue>
+    </hash>
+  </file>
+<publisherIdentity name="CN=DESKTOP-HCSJ92L\renam" issuerKeyHash="4aa1e7a148dae49227acd1eb011cbbf103fae3a9" /><Signature Id="StrongNameSignature" xmlns="http://www.w3.org/2000/09/xmldsig#"><SignedInfo><CanonicalizationMethod Algorithm="http://www.w3.org/2001/10/xml-exc-c14n#" /><SignatureMethod Algorithm="http://www.w3.org/2000/09/xmldsig#rsa-sha256" /><Reference URI=""><Transforms><Transform Algorithm="http://www.w3.org/2000/09/xmldsig#enveloped-signature" /><Transform Algorithm="http://www.w3.org/2001/10/xml-exc-c14n#" /></Transforms><DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" /><DigestValue>k7q2q6K5rwwTjDSaSJYK2Z2J20PVbeM36PUHeHgE74I=</DigestValue></Reference></SignedInfo><SignatureValue>fLn3B7ipkJkfqaueszq2JGEtAktcXeVBNmSJOsAX9wbgW88TgFP+jiHiKBh1nnzr2TW8Nq2VD9dSzGPX4Pc3JkCYuT9kMbEOXZpyNlQbLfwbRd/WPpYIoC06Jy1wLsGDjhZlqOfBnRBocjSrgHKw+yN/3DR7fdAvwG/iqh4g2rw=</SignatureValue><KeyInfo Id="StrongNameKeyInfo"><KeyValue><RSAKeyValue><Modulus>z7HPstuDg9t77J1Hzi/Fsc/KpPvMf0cnbg8IuHpJf5bLrGcP3FUOOwE0tW49egr6hQta4ocaL3Q5nV/ZcDJvUHQP04M9lSBuHSoEWxVrqgSEk8eW0vr7ZGBgXG6BZ/Wpm/uQ5zFM2rZwOW2sFqFXX5ySh5sXMEV4ZH4lxlT2qSc=</Modulus><Exponent>AQAB</Exponent></RSAKeyValue></KeyValue><msrel:RelData xmlns:msrel="http://schemas.microsoft.com/windows/rel/2005/reldata"><r:license xmlns:r="urn:mpeg:mpeg21:2003:01-REL-R-NS" xmlns:as="http://schemas.microsoft.com/windows/pki/2005/Authenticode"><r:grant><as:ManifestInformation Hash="82ef04787807f5e837e36dd543db899dd90a96489a348c130cafb9a2abb6ba93" Description="" Url=""><as:assemblyIdentity name="Vertech.exe" version="1.0.0.0" publicKeyToken="d9ccbd23d58076c6" language="neutral" processorArchitecture="msil" type="win32" /></as:ManifestInformation><as:SignedBy /><as:AuthenticodePublisher><as:X509SubjectName>CN=DESKTOP-HCSJ92L\renam</as:X509SubjectName></as:AuthenticodePublisher></r:grant><r:issuer><Signature Id="AuthenticodeSignature" xmlns="http://www.w3.org/2000/09/xmldsig#"><SignedInfo><CanonicalizationMethod Algorithm="http://www.w3.org/2001/10/xml-exc-c14n#" /><SignatureMethod Algorithm="http://www.w3.org/2000/09/xmldsig#rsa-sha256" /><Reference URI=""><Transforms><Transform Algorithm="http://www.w3.org/2000/09/xmldsig#enveloped-signature" /><Transform Algorithm="http://www.w3.org/2001/10/xml-exc-c14n#" /></Transforms><DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" /><DigestValue>yKbkIdH2XLGBvXRT9noD6dMIBYEymAndCM4LRl6m9qM=</DigestValue></Reference></SignedInfo><SignatureValue>SwhlHw8hSCkfR79/323gmj/2xvMx9B9q7w6oJshgtR7Klb0Havk/FsbHEVQjemGXWqQEz/FxQmpF2DhYmNrBI8AkYdNUR2Y4hpB0zG8y1UhFGHuXTi9+XGGwaiC77q9CyhdYYDjI+V6PbBfNnFO2ZFgRHCFWiK0ozDceoKSR2kA=</SignatureValue><KeyInfo><KeyValue><RSAKeyValue><Modulus>z7HPstuDg9t77J1Hzi/Fsc/KpPvMf0cnbg8IuHpJf5bLrGcP3FUOOwE0tW49egr6hQta4ocaL3Q5nV/ZcDJvUHQP04M9lSBuHSoEWxVrqgSEk8eW0vr7ZGBgXG6BZ/Wpm/uQ5zFM2rZwOW2sFqFXX5ySh5sXMEV4ZH4lxlT2qSc=</Modulus><Exponent>AQAB</Exponent></RSAKeyValue></KeyValue><X509Data><X509Certificate>MIIB7TCCAVagAwIBAgIQZOthgf1vP4hFPkXuQE+pAzANBgkqhkiG9w0BAQsFADA1MTMwMQYDVQQDHioARABFAFMASwBUAE8AUAAtAEgAQwBTAEoAOQAyAEwAXAByAGUAbgBhAG0wHhcNMTgwMTA5MTU1ODE4WhcNMTkwMTA5MjE1ODE4WjA1MTMwMQYDVQQDHioARABFAFMASwBUAE8AUAAtAEgAQwBTAEoAOQAyAEwAXAByAGUAbgBhAG0wgZ8wDQYJKoZIhvcNAQEBBQADgY0AMIGJAoGBAM+xz7Lbg4Pbe+ydR84vxbHPyqT7zH9HJ24PCLh6SX+Wy6xnD9xVDjsBNLVuPXoK+oULWuKHGi90OZ1f2XAyb1B0D9ODPZUgbh0qBFsVa6oEhJPHltL6+2RgYFxugWf1qZv7kOcxTNq2cDltrBahV1+ckoebFzBFeGR+JcZU9qknAgMBAAEwDQYJKoZIhvcNAQELBQADgYEAUoLm9WTjYuopKTF+vFYQ6AATDwEYwY6EhECdn7x0rqlV5dsULq2pr6HtfxPVMNhk/8Mt1dzts76QmIFLZ8DG7vIDDTBuSPDOYEELusQPCkhhG/GvPjL5IOSd9TaQUSYVI4WMm1MYa9IhD/tVMSPTrNSlHifIrzkQNaXgo0uZyEQ=</X509Certificate></X509Data></KeyInfo></Signature></r:issuer></r:license></msrel:RelData></KeyInfo></Signature></asmv1:assembly>

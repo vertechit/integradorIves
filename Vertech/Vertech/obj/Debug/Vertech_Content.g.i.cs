@@ -8,6 +8,6 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-[assembly: System.Windows.Resources.AssemblyAssociatedContentFileAttribute("imagens/logo.png")]
+[assembly: System.Windows.Resources.AssemblyAssociatedContentFileAttribute("vertechs-20180109_143803.ico")]
 
 
