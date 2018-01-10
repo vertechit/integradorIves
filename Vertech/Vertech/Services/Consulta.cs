@@ -64,7 +64,7 @@ namespace Vertech.Services
             }
             catch(Exception e)
             {
-                MessageBox.Show(e.Message);
+                MessageBox.Show(e.InnerException.Message);
             }
 
             

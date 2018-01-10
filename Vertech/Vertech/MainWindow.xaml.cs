@@ -29,68 +29,77 @@ namespace Vertech
     /// </summary>
     public partial class MainWindow : Window
     {
-        //private static string nomeAbreviadoArquivo = "";
+        public Integra Integra = new Integra();
+        public Consulta Consulta = new Consulta();
 
         public MainWindow()
         {
             InitializeComponent();
 
-            //Parametros.SetGrupo(1);
-            //Parametros.SetToken("8EE07DE66C97D8CFBAE04C47E8F51D76");
-
         }
 
         private void BtnEnviar_Click(object sender, RoutedEventArgs e)
         {
-            if ((Parametros.GetDirArq()) != null && Parametros.GetGrupo() != null && Parametros.GetToken() != null)
+            if(Parametros.GetDirToke() != null)
             {
-                Thread t = new Thread(Envia_Esocial);
-                t.Start();
-
-                DirectoryInfo dir = new DirectoryInfo(Parametros.GetDirArq());
-
-                Contagem(dir);
-            }
-
-            else
-            {
-                System.Windows.Forms.MessageBox.Show("Você precisa selecionar um pasta de origem dos arquivos");
-            }
-
-            
-        }
-
-        private void BtnConsultar_Click(object sender, RoutedEventArgs e)
-        {
-            if ((Parametros.GetDirArq()) != null && (Parametros.GetDirFim()) != null && Parametros.GetGrupo() != null && Parametros.GetToken() != null)
-            {
-                if ((Parametros.GetDirArq()) != (Parametros.GetDirFim()))
+                if ((Parametros.GetDirArq()) != null && Parametros.GetGrupo() != null && Parametros.GetToken() != null)
                 {
-                    Thread t = new Thread(Consulta_Retorno);
+                    Thread t = new Thread(Envia_Esocial);
                     t.Start();
+                    t.Join();
 
                     DirectoryInfo dir = new DirectoryInfo(Parametros.GetDirArq());
 
                     Contagem(dir);
                 }
-                //Consulta_Retorno();
+
                 else
                 {
-                    System.Windows.Forms.MessageBox.Show("Os diretórios devem ser diferentes");
+                    System.Windows.Forms.MessageBox.Show("Você precisa selecionar um pasta de origem dos arquivos");
                 }
             }
+            else
+                System.Windows.Forms.MessageBox.Show("Para enviar você precisa anexar um token valido");
 
-            else if((Parametros.GetDirArq()) == null )
+
+        }
+
+        private void BtnConsultar_Click(object sender, RoutedEventArgs e)
+        {
+            if(Parametros.GetDirToke() != null)
             {
-                System.Windows.Forms.MessageBox.Show("Você precisa selecionar um pasta de origem dos arquivos");
+                if ((Parametros.GetDirArq()) != null && (Parametros.GetDirFim()) != null && Parametros.GetGrupo() != null && Parametros.GetToken() != null)
+                {
+                    if ((Parametros.GetDirArq()) != (Parametros.GetDirFim()))
+                    {
+                        //Thread t = new Thread(Consulta_Retorno);
+                        //t.Start();
+                        //t.Join();
+                        Consulta_Retorno();
+                        DirectoryInfo dir = new DirectoryInfo(Parametros.GetDirArq());
 
+                        Contagem(dir);
+                    }
+
+                    else
+                    {
+                        System.Windows.Forms.MessageBox.Show("Os diretórios devem ser diferentes");
+                    }
+                }
+
+                else if ((Parametros.GetDirArq()) == null)
+                {
+                    System.Windows.Forms.MessageBox.Show("Você precisa selecionar um pasta de origem dos arquivos");
+
+                }
+                else
+                {
+                    System.Windows.Forms.MessageBox.Show("Você precisa selecionar um pasta de destino para os arquivos");
+                }
             }
             else
-            {
-                System.Windows.Forms.MessageBox.Show("Você precisa selecionar um pasta de destino para os arquivos");
-            }
+                System.Windows.Forms.MessageBox.Show("Para consultar você precisa anexar um token valido");
 
-            
         }
 
         private void BtnProcurarIni_Click(object sender, RoutedEventArgs e)
@@ -99,16 +108,18 @@ namespace Vertech
             dlgf.ShowDialog();
             txtFolderIni.Text = dlgf.SelectedPath;
 
-            Parametros.SetDirArq(txtFolderIni.Text);
+            if(txtFolderIni.Text != "")
+            {
+                Parametros.SetDirArq(txtFolderIni.Text);
 
-            DirectoryInfo dir = new DirectoryInfo(Parametros.GetDirArq());
+                if (Parametros.GetDirArq() != null)
+                {
+                    DirectoryInfo dir = new DirectoryInfo(Parametros.GetDirArq());
 
-            Contagem(dir);
-            /*OpenFileDialog dlg = new OpenFileDialog();
-            dlg.Title = "Envio de Arquivo - Cliente";
-            dlg.ShowDialog();
-            txtArquivo.Text = dlg.FileName;
-            nomeAbreviadoArquivo = dlg.SafeFileName;*/
+                    Contagem(dir);
+                }
+            }
+            
         }
 
         private void BtnProcurarFim_Click(object sender, RoutedEventArgs e)
@@ -117,21 +128,32 @@ namespace Vertech
             dlgf.ShowDialog();
             txtFolderFim.Text = dlgf.SelectedPath;
 
-            Parametros.SetDirFim(txtFolderFim.Text);
+            if(txtFolderFim.Text != "")
+            {
+                Parametros.SetDirFim(txtFolderFim.Text);
+            }
+
+            
         }
 
         private void Envia_Esocial()
         {
-            Integra Vertech = new Integra();
+            //Integra Vertech = new Integra();
 
-            Vertech.Job();
+            //Vertech.Job();
+            Integra.Job();
         }
 
         private void Consulta_Retorno()
         {
-            Consulta Vertech = new Consulta();
+            int i = 0;
+            //Consulta Vertech = new Consulta();
 
-            Vertech.Job();
+            //Vertech.Job();
+
+            Consulta.Job();
+
+            
         }
 
         private void Contagem(DirectoryInfo dir)
@@ -184,24 +206,67 @@ namespace Vertech
             LblqtdCons.Content = j;
         }
 
-        private void DefineToken(string dir)
-        {
-            string [] lines = System.IO.File.ReadAllLines(@dir);
-
-            Parametros.SetGrupo(Convert.ToInt32(lines[0]));
-            Parametros.SetToken(lines[1]);
-        }
-
         private void BtnProcurarToken_Click(object sender, RoutedEventArgs e)
         {
             OpenFileDialog dlg = new OpenFileDialog();
             dlg.Title = "Arquivo de token";
             dlg.ShowDialog();
-            txtFolderToken.Text = dlg.FileName;
 
-            Parametros.SetDirToke(txtFolderToken.Text);
+            var s = dlg.SafeFileName;
 
-            DefineToken(Parametros.GetDirToke());
+            var b =  s.Contains(".file");
+
+            if(b == true)
+            {
+                Parametros.SetDirToke(dlg.FileName);
+
+                if(DefineToken(Parametros.GetDirToke()) == true)
+                {
+                    txtFolderToken.Text = dlg.FileName;
+                }
+            }
+            else if(dlg.FileName != "" && b == false)
+            {
+                System.Windows.Forms.MessageBox.Show("Formato do arquivo não suportado");
+                Parametros.SetDirToke(null);
+                txtFolderToken.Text = "";
+            }
+            
         }
+
+        private bool DefineToken(string dir)
+        {
+            string [] lines = System.IO.File.ReadAllLines(@dir);
+
+            try
+            {
+                if (lines.Length == 2)
+                {
+                    Parametros.SetGrupo(Convert.ToInt32(lines[0]));
+                    Parametros.SetToken(lines[1]);
+
+                    return true;
+                }
+                else
+                {
+                    System.Windows.Forms.MessageBox.Show("Arquivo não suportado");
+                    Parametros.SetDirToke(null);
+                    txtFolderToken.Text = "";
+
+                    return false;
+                }
+            }
+            catch
+            {
+                System.Windows.Forms.MessageBox.Show("Infomações inválidas");
+                Parametros.SetDirToke(null);
+                txtFolderToken.Text = "";
+                return false;
+            }
+            
+
+        }
+
+        
     }
 }

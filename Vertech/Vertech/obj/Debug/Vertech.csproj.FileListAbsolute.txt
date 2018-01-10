@@ -43,7 +43,3 @@ C:\Users\renam\Documents\Git\integradorIves\Vertech\Vertech\obj\Debug\Vertech.cs
 C:\Users\renam\Documents\Git\integradorIves\Vertech\Vertech\obj\Debug\Vertech.csproj.CoreCompileInputs.cache
 C:\Users\renam\Documents\Git\integradorIves\Vertech\Vertech\obj\Debug\Vertech.exe
 C:\Users\renam\Documents\Git\integradorIves\Vertech\Vertech\obj\Debug\Vertech.pdb
-C:\Users\renam\Documents\Git\integradorIves\Vertech\Vertech\bin\Debug\Vertech.exe.manifest
-C:\Users\renam\Documents\Git\integradorIves\Vertech\Vertech\bin\Debug\Vertech.application
-C:\Users\renam\Documents\Git\integradorIves\Vertech\Vertech\obj\Debug\Vertech.exe.manifest
-C:\Users\renam\Documents\Git\integradorIves\Vertech\Vertech\obj\Debug\Vertech.application

@@ -5,10 +5,10 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Vertech"
         mc:Ignorable="d"
-        Title="Integrador iVes" Height="400" Width="600" WindowStartupLocation="CenterScreen" ResizeMode="NoResize" >
+        Title="Integrador iVes" Height="600" Width="800" WindowStartupLocation="CenterScreen" ResizeMode="NoResize" >
 
     <Viewbox>
-        <Grid  x:Name="Main_Page" Height="400" Width="600">
+        <Grid  x:Name="Main_Page" Height="600" Width="800">
 
             <Grid.ColumnDefinitions>
 
@@ -51,29 +51,29 @@
                 Name="___Vertech_component_logo_png" 
                 HorizontalAlignment="Left" 
                 Height="88" 
-                Margin="152,8,0,0" 
+                Margin="256,50,0,0" 
                 VerticalAlignment="Top" 
                 Width="290" 
                 Grid.ColumnSpan="3" 
                 Source="/Vertech;component/Imagens/logo.png"
                 Stretch="Fill"/>
 
-            <TextBlock Name ="txtFolderIni" HorizontalAlignment="Left" Height="23" Margin="182,46,0,0" Grid.Row="1" TextWrapping="Wrap" VerticalAlignment="Top" Width="238" Grid.ColumnSpan="3"/>
-            <Label Name="LblCaminho" Content="Origem" HorizontalAlignment="Left" Margin="130,40,0,0" Grid.Row="1" VerticalAlignment="Top"/>
-            <Button Name="BtnProcurarIni" Content="..." Grid.Column="2" HorizontalAlignment="Left" Margin="25,44,0,0" Grid.Row="1" VerticalAlignment="Top" Width="36" Click="BtnProcurarIni_Click"/>
+            <TextBlock Name ="txtFolderIni" HorizontalAlignment="Left" Height="23" Margin="213,91,0,0" Grid.Row="1" TextWrapping="Wrap" VerticalAlignment="Top" Width="365" Grid.ColumnSpan="3"/>
+            <Label Name="LblCaminho" Content="Origem" HorizontalAlignment="Left" Margin="161,86,0,0" Grid.Row="1" VerticalAlignment="Top"/>
+            <Button Name="BtnProcurarIni" Content="..." Grid.Column="2" HorizontalAlignment="Left" Margin="56,90,0,0" Grid.Row="1" VerticalAlignment="Top" Width="36" Click="BtnProcurarIni_Click"/>
 
-            <TextBlock x:Name ="txtFolderFim" HorizontalAlignment="Left" Height="23" Margin="182,87,0,0" Grid.Row="1" TextWrapping="Wrap" VerticalAlignment="Top" Width="238" Grid.ColumnSpan="3"/>
-            <Label x:Name="LblCaminhoFim" Content="Destino" HorizontalAlignment="Left" Margin="129,82,0,0" Grid.Row="1" VerticalAlignment="Top"/>
-            <Button x:Name="BtnProcurarFim" Content="..." Grid.Column="2" HorizontalAlignment="Left" Margin="25,85,0,0" Grid.Row="1" VerticalAlignment="Top" Width="36" Click="BtnProcurarFim_Click"/>
+            <TextBlock x:Name ="txtFolderFim" HorizontalAlignment="Left" Height="23" Margin="213,150,0,0" Grid.Row="1" TextWrapping="Wrap" VerticalAlignment="Top" Width="365" Grid.ColumnSpan="3"/>
+            <Label x:Name="LblCaminhoFim" Content="Destino" HorizontalAlignment="Left" Margin="160,146,0,0" Grid.Row="1" VerticalAlignment="Top"/>
+            <Button x:Name="BtnProcurarFim" Content="..." Grid.Column="2" HorizontalAlignment="Left" Margin="56,149,0,0" Grid.Row="1" VerticalAlignment="Top" Width="36" Click="BtnProcurarFim_Click"/>
 
-            <Label x:Name="LbltmEnv" Content="Qtd para envio" Grid.Column="1" HorizontalAlignment="Left" Margin="25,33,0,0" Grid.Row="2" VerticalAlignment="Top"/>
-            <Label x:Name="LbltmCons" Content="Qtd para consulta" Grid.Column="1" HorizontalAlignment="Left" Margin="23,75,0,0" Grid.Row="2" VerticalAlignment="Top" RenderTransformOrigin="0.534,0.562"/>
-            <Label x:Name="LblqtdEnv" Content="0" Grid.Column="1" HorizontalAlignment="Left" Margin="160,33,0,0" Grid.Row="2" VerticalAlignment="Top"/>
-            <Label x:Name="LblqtdCons" Content="0" Grid.Column="1" HorizontalAlignment="Left" Margin="160,75,0,0" Grid.Row="2" VerticalAlignment="Top"/>
-            
-            <TextBlock x:Name ="txtFolderToken" HorizontalAlignment="Left" Height="23" Margin="182,7,0,0" Grid.Row="1" TextWrapping="Wrap" VerticalAlignment="Top" Width="238" Grid.ColumnSpan="3"/>
-            <Label x:Name="LblToken" Content="Token" HorizontalAlignment="Left" Margin="130,1,0,0" Grid.Row="1" VerticalAlignment="Top"/>
-            <Button x:Name="BtnProcurarToken" Content="..." Grid.Column="2" HorizontalAlignment="Left" Margin="25,5,0,0" Grid.Row="1" VerticalAlignment="Top" Width="36" Click="BtnProcurarToken_Click"/>
+            <Label x:Name="LbltmEnv" Content="Quantidade para envio" Grid.Column="1" HorizontalAlignment="Left" Margin="50,61,0,0" Grid.Row="2" VerticalAlignment="Top"/>
+            <Label x:Name="LbltmCons" Content="Quantidade para consulta" Grid.Column="1" HorizontalAlignment="Left" Margin="50,103,0,0" Grid.Row="2" VerticalAlignment="Top" RenderTransformOrigin="0.534,0.562"/>
+            <Label x:Name="LblqtdEnv" Content="0" Grid.Column="1" HorizontalAlignment="Left" Margin="203,61,0,0" Grid.Row="2" VerticalAlignment="Top"/>
+            <Label x:Name="LblqtdCons" Content="0" Grid.Column="1" HorizontalAlignment="Left" Margin="203,103,0,0" Grid.Row="2" VerticalAlignment="Top"/>
+
+            <TextBlock x:Name ="txtFolderToken" HorizontalAlignment="Left" Height="23" Margin="213,30,0,0" Grid.Row="1" TextWrapping="Wrap" VerticalAlignment="Top" Width="365" Grid.ColumnSpan="3"/>
+            <Label x:Name="LblToken" Content="Token" HorizontalAlignment="Left" Margin="168,25,0,0" Grid.Row="1" VerticalAlignment="Top"/>
+            <Button x:Name="BtnProcurarToken" Content="..." Grid.Column="2" HorizontalAlignment="Left" Margin="56,29,0,0" Grid.Row="1" VerticalAlignment="Top" Width="36" Click="BtnProcurarToken_Click"/>
 
         </Grid>
     </Viewbox>
