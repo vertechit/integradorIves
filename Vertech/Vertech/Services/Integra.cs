@@ -39,7 +39,9 @@ namespace Vertech.Services
             {
                 foreach (var arq_name in L_arq)
                 {
-                    if(Verificacao(arq_name) == 0)
+                    int ctrl = Verificacao(arq_name);
+
+                    if (ctrl == 0)
                     {
                         integraRequest Request = new integraRequest();
                         Request.esocial = Retorna_Esocial(Retorna_ID(), dir, arq_name);
@@ -53,17 +55,18 @@ namespace Vertech.Services
                         else
                             MessageBox.Show("Erro no envio, retorno invalido!");
                     }
-                    else
+                    else if(ctrl == 1)
                     {
                         MessageBox.Show("O arquivo " + arq_name +" já foi enviado!");
                     }
-                    
+                    else
+                        MessageBox.Show("O arquivo " + arq_name + " é invalido");
+
                 }
             }
 
             else
                 MessageBox.Show("A pasta selecionada não contem os arquivos necessários para o envio");
-
 
         }
 
@@ -157,6 +160,7 @@ namespace Vertech.Services
         {
             string dir = Parametros.GetDirArq();
             DirectoryInfo diretorio = new DirectoryInfo(dir);
+
             int n = arq.Length;
             string name = arq.Remove(n - 3, 3);
 
@@ -171,8 +175,28 @@ namespace Vertech.Services
                 }
             }
 
+            int tam = 0;
+            string[] lines = LerArquivo(dir, arq);
 
-            return 0;
+            tam = lines.Length;
+
+            if (tam >= 3)
+            {
+                if (lines[0].Contains("|OPEN|") && lines[tam - 1].Contains("|CLOSE|"))
+                {
+                    return 0;
+                }
+
+                else
+                {
+                    return 2;
+                }
+            }
+
+            else
+            {
+                return 2;
+            }
         }
 
         public string[] LerArquivo(string dir, string arq)

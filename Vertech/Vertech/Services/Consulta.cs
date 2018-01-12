@@ -48,6 +48,8 @@ namespace Vertech.Services
             Request.grupo = Parametros.GetGrupo();
             Request.grupoSpecified = true;
 
+            MessageBox.Show(Request.token.ToString() + "\n" + Request.protocolo.ToString() + "\n" + Request.grupo.ToString() + "\n" + Request.protocoloSpecified.ToString());
+
             apiConsulta.EsocialServiceClient req = new apiConsulta.EsocialServiceClient();
             try
             {
@@ -64,7 +66,7 @@ namespace Vertech.Services
             }
             catch(Exception e)
             {
-                MessageBox.Show(e.InnerException.Message);
+                MessageBox.Show(e.TargetSite.ToString());
             }
 
             
