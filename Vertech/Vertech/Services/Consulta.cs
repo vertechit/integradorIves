@@ -42,13 +42,16 @@ namespace Vertech.Services
             consultaRequest Request = new consultaRequest();
             consultaResponse Response = new consultaResponse();
 
+            string dir = Parametros.GetDirArq();
+            var s = string.Concat(dir, '\\', "logConsulta.txt");
+
             Request.protocolo = Prot.protocolo;
             Request.protocoloSpecified = Prot.protocoloSpecified;
             Request.token = Parametros.GetToken();
             Request.grupo = Parametros.GetGrupo();
             Request.grupoSpecified = true;
 
-            MessageBox.Show(Request.token.ToString() + "\n" + Request.protocolo.ToString() + "\n" + Request.grupo.ToString() + "\n" + Request.protocoloSpecified.ToString());
+            //MessageBox.Show(Request.token.ToString() + "\n" + Request.protocolo.ToString() + "\n" + Request.grupo.ToString() + "\n" + Request.protocoloSpecified.ToString());
 
             apiConsulta.EsocialServiceClient req = new apiConsulta.EsocialServiceClient();
             try
@@ -57,7 +60,14 @@ namespace Vertech.Services
                 Response = req.consultaRequest(Request);
                 req.Close();
 
-                MessageBox.Show("Arquivo "+ filename +"\nNúmero protocolo: " + Response.consultaProtocolo.identificador.protocolo + '\n' + Convert.ToString(Response.consultaProtocolo.status.descResposta));
+                StreamWriter w = File.AppendText(@s);
+
+                GeraLog(filename
+                    , Response.consultaProtocolo.identificador.protocolo.ToString()
+                    , Convert.ToString(Response.consultaProtocolo.status.descResposta)
+                    , w);
+
+                w.Close();
 
                 if(Response.consultaProtocolo.status.cdResposta == 3)
                 {
@@ -66,10 +76,16 @@ namespace Vertech.Services
             }
             catch(Exception e)
             {
-                MessageBox.Show(e.TargetSite.ToString());
+
+                /*StreamWriter arq = File.AppendText(@s);
+                //MessageBox.Show(e.TargetSite.ToString());
+                GeraLog(filename
+                    , Response.consultaProtocolo.identificador.protocolo.ToString()
+                    , e.Message.ToString()
+                    , arq);
+                arq.Close();*/
             }
 
-            
         }
 
         private void Mover_Consultado(string filename)
@@ -96,6 +112,17 @@ namespace Vertech.Services
             // To move an entire directory. To programmatically modify or combine
             // path strings, use the System.IO.Path class.
             //System.IO.Directory.Move(@"C:\Users\Public\public\test\", @"C:\Users\Public\private");
+        }
+
+        private void GeraLog(string filename, string nroprt, string desc, TextWriter w)
+        {
+            w.Write("\r\nLog Entry : ");
+            w.WriteLine("{0} {1}", DateTime.Now.ToLongTimeString(),
+                DateTime.Now.ToLongDateString());
+            w.WriteLine("Arquivo: {0}", filename);
+            w.WriteLine("Número protocolo: {0}", nroprt);
+            w.WriteLine("Descrição: {0}", desc);
+            w.WriteLine("-------------------------------");
         }
     }
 }
