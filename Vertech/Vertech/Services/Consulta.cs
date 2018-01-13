@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Vertech.apiConsulta;
-//using Vertech.apiIntegra;
+
 using Vertech.Services;
 using System.Threading;
 using System.IO;
@@ -18,18 +18,15 @@ namespace Vertech.Services
         public void Job()
         {
             Consulta consulta = new Consulta();
-            Integra integra = new Integra();
+            Processos processo = new Processos();
 
-            List<string> lista = integra.Listar_arquivos(".dat");
+            List<string> lista = processo.Listar_arquivos(".dat");
+
             if (lista.Count > 0)
             {
                 foreach (var arq_name in lista)
                 {
-                    var str = integra.LerArquivo(Parametros.GetDirArq(), arq_name);
-                    apiIntegra.integraResponse response = new apiIntegra.integraResponse();
-                    response.protocolo = Convert.ToUInt32(str[0]);
-                    response.protocoloSpecified = Convert.ToBoolean(str[1]);
-                    consulta.ConsultaProtocolo(response, arq_name);
+                    consulta.ConsultaProtocolo(Set_Protocolo(arq_name), arq_name);
                 }
             }
 
@@ -41,9 +38,9 @@ namespace Vertech.Services
         {
             consultaRequest Request = new consultaRequest();
             consultaResponse Response = new consultaResponse();
+            Processos processo = new Processos();
 
-            string dir = Parametros.GetDirArq();
-            var s = string.Concat(dir, '\\', "logConsulta.txt");
+            var s = processo.MontaCaminhoDir(Parametros.GetDirArq(), "logConsulta.txt");
 
             Request.protocolo = Prot.protocolo;
             Request.protocoloSpecified = Prot.protocoloSpecified;
@@ -51,9 +48,9 @@ namespace Vertech.Services
             Request.grupo = Parametros.GetGrupo();
             Request.grupoSpecified = true;
 
-            //MessageBox.Show(Request.token.ToString() + "\n" + Request.protocolo.ToString() + "\n" + Request.grupo.ToString() + "\n" + Request.protocoloSpecified.ToString());
-
+           
             apiConsulta.EsocialServiceClient req = new apiConsulta.EsocialServiceClient();
+
             try
             {
                 req.Open();
@@ -62,7 +59,7 @@ namespace Vertech.Services
 
                 StreamWriter w = File.AppendText(@s);
 
-                GeraLog(filename
+                processo.GeraLogConsulta(filename
                     , Response.consultaProtocolo.identificador.protocolo.ToString()
                     , Convert.ToString(Response.consultaProtocolo.status.descResposta)
                     , w);
@@ -71,58 +68,31 @@ namespace Vertech.Services
 
                 if(Response.consultaProtocolo.status.cdResposta == 3)
                 {
-                    Mover_Consultado(filename);
+                    processo.Mover_Consultado(filename);
                 }
             }
             catch(Exception e)
             {
+                StreamWriter arq = File.AppendText(@s);
 
-                /*StreamWriter arq = File.AppendText(@s);
-                //MessageBox.Show(e.TargetSite.ToString());
-                GeraLog(filename
-                    , Response.consultaProtocolo.identificador.protocolo.ToString()
-                    , e.Message.ToString()
-                    , arq);
-                arq.Close();*/
+                processo.GeraLogConsulta(filename, "Falha!", e.Message.ToString(), arq);
+
+                arq.Close();
             }
 
         }
 
-        private void Mover_Consultado(string filename)
+        private apiIntegra.integraResponse Set_Protocolo(string arq_name)
         {
-            string origem = Parametros.GetDirArq();
-            string destino = Parametros.GetDirFim();
+            Processos processo = new Processos();
+            apiIntegra.integraResponse response = new apiIntegra.integraResponse();
 
-            string o = string.Concat(origem,'\\', filename);
-            string d = string.Concat(destino, '\\', filename);
+            var retorno = processo.LerArquivo(Parametros.GetDirArq(), arq_name);
 
-            System.IO.File.Move(o, d);
+            response.protocolo = Convert.ToUInt32(retorno[0]);
+            response.protocoloSpecified = Convert.ToBoolean(retorno[1]);
 
-            int n = filename.Length;
-            string name = filename.Remove(n - 3, 3);
-
-            int j = name.Length;
-            name = name.Remove(j - j, 5);
-            name = string.Concat(name, "txt");
-            
-            o = string.Concat(origem, '\\', name);
-            d = string.Concat(destino, '\\', name);
-
-            System.IO.File.Move(o, d);
-            // To move an entire directory. To programmatically modify or combine
-            // path strings, use the System.IO.Path class.
-            //System.IO.Directory.Move(@"C:\Users\Public\public\test\", @"C:\Users\Public\private");
-        }
-
-        private void GeraLog(string filename, string nroprt, string desc, TextWriter w)
-        {
-            w.Write("\r\nLog Entry : ");
-            w.WriteLine("{0} {1}", DateTime.Now.ToLongTimeString(),
-                DateTime.Now.ToLongDateString());
-            w.WriteLine("Arquivo: {0}", filename);
-            w.WriteLine("Número protocolo: {0}", nroprt);
-            w.WriteLine("Descrição: {0}", desc);
-            w.WriteLine("-------------------------------");
+            return response;
         }
     }
 }

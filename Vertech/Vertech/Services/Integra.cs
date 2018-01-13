@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+
 using Vertech.apiIntegra;
 using System.Threading;
 using System.IO;
@@ -16,52 +17,54 @@ namespace Vertech.Services
     public class Integra
     {
 
-        public Integra()
-        {
-
-        }
-
-        public List<string> Listar_arquivos(string ext)
-        {
-            string dir = Parametros.GetDirArq();
-            DirectoryInfo dirInfo = new DirectoryInfo(@dir);
-            List<string> Arquivo = BuscaArquivos(dirInfo, ext);
-
-            return Arquivo;
-        }
-
         public void Job()
         {
-            string dir = Parametros.GetDirArq();
-            var L_arq = Listar_arquivos(".txt");
+            Processos processo = new Processos();
 
-            if(L_arq.Count > 0)
+            var s = processo.MontaCaminhoDir(Parametros.GetDirArq(),"logEnvio.txt");
+
+            var lista = processo.Listar_arquivos(".txt");
+
+            if(lista.Count > 0)
             {
-                foreach (var arq_name in L_arq)
+                foreach (var arq_name in lista)
                 {
-                    int ctrl = Verificacao(arq_name);
+                    int ctrl = processo.VerificacaoIntegra(arq_name);
 
                     if (ctrl == 0)
                     {
                         integraRequest Request = new integraRequest();
-                        Request.esocial = Retorna_Esocial(Retorna_ID(), dir, arq_name);
+
+                        Request.esocial = Retorna_Esocial(Retorna_Identificador(), arq_name);
+
                         integraResponse Response = Enviar(Request);
 
                         if (Response.protocolo > 0)
                         {
-                            SalvaProtocolo(Response, arq_name);
-                            MessageBox.Show("Arquivo " + arq_name + " foi enviado com sucesso!");
+                            StreamWriter w = File.AppendText(@s);
+                            processo.SalvaProtocolo(Response, arq_name);
+                            processo.GeraLogIntegra(arq_name, "Foi enviado com sucesso!", w);
+                            w.Close();
                         }
                         else
-                            MessageBox.Show("Erro no envio, retorno invalido!");
+                        {
+                            StreamWriter w = File.AppendText(@s);
+                            processo.GeraLogIntegra(arq_name, "Erro no envio, retorno invalido!", w);
+                            w.Close();
+                        }
                     }
-                    else if(ctrl == 1)
+                    else if (ctrl == 1)
                     {
-                        MessageBox.Show("O arquivo " + arq_name +" já foi enviado!");
+                        StreamWriter w = File.AppendText(@s);
+                        processo.GeraLogIntegra(arq_name, "Já foi enviado!", w);
+                        w.Close();
                     }
                     else
-                        MessageBox.Show("O arquivo " + arq_name + " é invalido");
-
+                    {
+                        StreamWriter w = File.AppendText(@s);
+                        processo.GeraLogIntegra(arq_name, "É invalido", w);
+                        w.Close();
+                    }
                 }
             }
 
@@ -70,29 +73,7 @@ namespace Vertech.Services
 
         }
 
-        public integraResponse Enviar(integraRequest Request)
-        {
-            EsocialServiceClient VertechCliente = new EsocialServiceClient();
-            integraResponse Response = new integraResponse();
-
-            try
-            {
-                VertechCliente.Open();
-
-                Response = VertechCliente.integraRequest(Request);
-
-                VertechCliente.Close();
-
-            }
-            catch(Exception e)
-            {
-                MessageBox.Show(e.Message);
-            }
-
-            return Response;
-        }
-
-        public identificador Retorna_ID()
+        public identificador Retorna_Identificador()
         {
             identificador Id = new identificador();
 
@@ -109,17 +90,20 @@ namespace Vertech.Services
             return Id;
         }
 
-        public esocial Retorna_Esocial(identificador id, string dir, string arq)
+        public esocial Retorna_Esocial(identificador id, string arq)
         {
+            var dir = Parametros.GetDirArq();
+
             esocial eso = new esocial();
+            Processos process = new Processos();
 
             try
             {
                 eso.identificador = id;
 
-                eso.registro = LerArquivo(dir, arq);
+                eso.registro = process.LerArquivo(dir, arq);
             }
-            catch(Exception e)
+            catch (Exception e)
             {
                 MessageBox.Show("Erro no retorno do arquivo");
             }
@@ -127,108 +111,27 @@ namespace Vertech.Services
             return eso;
         }
 
-        private List<string> BuscaArquivos(DirectoryInfo dir, string ext)
+        public integraResponse Enviar(integraRequest Request)
         {
-            List<string> File_Names = new List<string>();
+            EsocialServiceClient req = new EsocialServiceClient();
+            integraResponse Response = new integraResponse();
 
             try
             {
-                foreach (FileInfo file in dir.GetFiles())
-                {
-                    if (file.Extension == ext)
-                    {
-                        File_Names.Add(file.Name);
-                        //MessageBox.Show(file.Name);
-                    }
-                }
+                req.Open();
 
-                /*// busca arquivos do proximo sub-diretorio
-                foreach (DirectoryInfo subDir in dir.GetDirectories())
-                {
-                    BuscaArquivos(subDir);
-                }*/
+                Response = req.integraRequest(Request);
+
+                req.Close();
+
             }
-            catch (Exception e)
+            catch(Exception e)
             {
-                MessageBox.Show("Erro ao buscar arquivos na pasta indicada");
+                MessageBox.Show(e.Message);
             }
 
-            return File_Names;
+            return Response;
         }
 
-        private int Verificacao(string arq)
-        {
-            string dir = Parametros.GetDirArq();
-            DirectoryInfo diretorio = new DirectoryInfo(dir);
-
-            int n = arq.Length;
-            string name = arq.Remove(n - 3, 3);
-
-            name = string.Concat("prot_", name, "dat");
-
-            foreach (var item in diretorio.GetFiles())
-            {
-                if(item.Extension == ".dat")
-                {
-                    if (item.Name == name)
-                        return 1;
-                }
-            }
-
-            int tam = 0;
-            string[] lines = LerArquivo(dir, arq);
-
-            tam = lines.Length;
-
-            if (tam >= 3)
-            {
-                if (lines[0].Contains("|OPEN|") && lines[tam - 1].Contains("|CLOSE|"))
-                {
-                    return 0;
-                }
-
-                else
-                {
-                    return 2;
-                }
-            }
-
-            else
-            {
-                return 2;
-            }
-        }
-
-        public string[] LerArquivo(string dir, string arq)
-        {
-            string[] lines= null;
-
-            string s = string.Concat(dir, '\\', arq);
-            try
-            {
-                lines = System.IO.File.ReadAllLines(@s);
-            }
-            catch (Exception e)
-            {
-                MessageBox.Show("Erro na leitura do arquivo");
-            }
-
-            return lines;
-        }
-
-        private void SalvaProtocolo(integraResponse Response, string arq)
-        {
-            string dir = Parametros.GetDirArq();
-            int n = arq.Length;
-            string name = arq.Remove(n - 3, 3);
-
-            name = string.Concat("prot_",name,"dat");
-
-            string s = string.Concat(dir, '\\', name);
-
-            string[] lines = { Convert.ToString(Response.protocolo), Convert.ToString(Response.protocoloSpecified)};
-            
-            System.IO.File.WriteAllLines(@s, lines);
-        }
     }
 }

@@ -19,7 +19,6 @@ using System.Windows.Forms;
 using Vertech.apiIntegra;
 using Vertech.Services;
 using System.Xml;
-//using Vertech.EsoConsulta;
 
 
 namespace Vertech
@@ -44,13 +43,11 @@ namespace Vertech
             {
                 if ((Parametros.GetDirArq()) != null && Parametros.GetGrupo() != null && Parametros.GetToken() != null)
                 {
-                    Thread t = new Thread(Envia_Esocial);
+                    Thread t = new Thread(Integra_Esocial);
                     t.Start();
-                    t.Join();
+                    //t.Join();
 
-                    DirectoryInfo dir = new DirectoryInfo(Parametros.GetDirArq());
-
-                    Contagem(dir);
+                    Job();
                 }
 
                 else
@@ -72,13 +69,11 @@ namespace Vertech
                 {
                     if ((Parametros.GetDirArq()) != (Parametros.GetDirFim()))
                     {
-                        //Thread t = new Thread(Consulta_Retorno);
-                        //t.Start();
+                        Thread t = new Thread(Consulta_Retorno);
+                        t.Start();
                         //t.Join();
-                        Consulta_Retorno();
-                        DirectoryInfo dir = new DirectoryInfo(Parametros.GetDirArq());
 
-                        Contagem(dir);
+                        Job();
                     }
 
                     else
@@ -114,9 +109,9 @@ namespace Vertech
 
                 if (Parametros.GetDirArq() != null)
                 {
-                    DirectoryInfo dir = new DirectoryInfo(Parametros.GetDirArq());
 
-                    Contagem(dir);
+                    Job();
+
                 }
             }
             
@@ -136,27 +131,49 @@ namespace Vertech
             
         }
 
-        private void Envia_Esocial()
+        private void BtnProcurarToken_Click(object sender, RoutedEventArgs e)
         {
-            //Integra Vertech = new Integra();
+            OpenFileDialog dlg = new OpenFileDialog();
+            dlg.Title = "Arquivo de token";
+            dlg.ShowDialog();
 
-            //Vertech.Job();
+            var s = dlg.SafeFileName;
+
+            var b = s.Contains(".file");
+
+            if (b == true)
+            {
+                Parametros.SetDirToke(dlg.FileName);
+
+                if (DefineToken(Parametros.GetDirToke()) == true)
+                {
+                    txtFolderToken.Text = dlg.FileName;
+                }
+            }
+            else if (dlg.FileName != "" && b == false)
+            {
+                System.Windows.Forms.MessageBox.Show("Formato do arquivo não suportado");
+                Parametros.SetDirToke(null);
+                txtFolderToken.Text = "";
+            }
+
+        }
+
+        private void Integra_Esocial()
+        {
             Integra.Job();
+
+            System.Windows.Forms.MessageBox.Show("Finalizado o processo de integração, foi criado um arquivo de log na pasta de origem");
         }
 
         private void Consulta_Retorno()
         {
-            int i = 0;
-            //Consulta Vertech = new Consulta();
-
-            //Vertech.Job();
-
             Consulta.Job();
 
-            
+            System.Windows.Forms.MessageBox.Show("Finalizado o processo de consulta, foi criado um arquivo de log na pasta de origem");
         }
 
-        private void Contagem(DirectoryInfo dir)
+        public void Contagem(DirectoryInfo dir)
         {
             int i = 0;
             int j = 0;
@@ -168,8 +185,11 @@ namespace Vertech
                 {
                     if (file.Extension == ".txt")
                     {
-                        i++;
-                        ltxt.Add(file.Name);
+                        if (file.Name != "logEnvio.txt" && file.Name != "logConsulta.txt")
+                        {
+                            i++;
+                            ltxt.Add(file.Name);
+                        }
                     }
                     if(file.Extension == ".dat")
                     {
@@ -206,34 +226,6 @@ namespace Vertech
             LblqtdCons.Content = j;
         }
 
-        private void BtnProcurarToken_Click(object sender, RoutedEventArgs e)
-        {
-            OpenFileDialog dlg = new OpenFileDialog();
-            dlg.Title = "Arquivo de token";
-            dlg.ShowDialog();
-
-            var s = dlg.SafeFileName;
-
-            var b =  s.Contains(".file");
-
-            if(b == true)
-            {
-                Parametros.SetDirToke(dlg.FileName);
-
-                if(DefineToken(Parametros.GetDirToke()) == true)
-                {
-                    txtFolderToken.Text = dlg.FileName;
-                }
-            }
-            else if(dlg.FileName != "" && b == false)
-            {
-                System.Windows.Forms.MessageBox.Show("Formato do arquivo não suportado");
-                Parametros.SetDirToke(null);
-                txtFolderToken.Text = "";
-            }
-            
-        }
-
         private bool DefineToken(string dir)
         {
             string [] lines = System.IO.File.ReadAllLines(@dir);
@@ -267,6 +259,25 @@ namespace Vertech
 
         }
 
-        
+        private void Job()
+        {
+            if(Parametros.GetDirArq() != null)
+            {
+                DirectoryInfo dir = new DirectoryInfo(Parametros.GetDirArq());
+
+                Contagem(dir);
+            }
+                        
+        }
+
+        private void LblqtdEnv_MouseMove(object sender, System.Windows.Input.MouseEventArgs e)
+        {
+            Job();
+        }
+
+        private void LblqtdCons_MouseMove(object sender, System.Windows.Input.MouseEventArgs e)
+        {
+            Job();
+        }
     }
 }

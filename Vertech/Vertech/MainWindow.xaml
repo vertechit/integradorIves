@@ -68,8 +68,8 @@
 
             <Label x:Name="LbltmEnv" Content="Quantidade para envio" Grid.Column="1" HorizontalAlignment="Left" Margin="50,61,0,0" Grid.Row="2" VerticalAlignment="Top"/>
             <Label x:Name="LbltmCons" Content="Quantidade para consulta" Grid.Column="1" HorizontalAlignment="Left" Margin="50,103,0,0" Grid.Row="2" VerticalAlignment="Top" RenderTransformOrigin="0.534,0.562"/>
-            <Label x:Name="LblqtdEnv" Content="0" Grid.Column="1" HorizontalAlignment="Left" Margin="203,61,0,0" Grid.Row="2" VerticalAlignment="Top"/>
-            <Label x:Name="LblqtdCons" Content="0" Grid.Column="1" HorizontalAlignment="Left" Margin="203,103,0,0" Grid.Row="2" VerticalAlignment="Top"/>
+            <Label x:Name="LblqtdEnv" Content="0" Grid.Column="1" HorizontalAlignment="Left" Margin="203,61,0,0" Grid.Row="2" VerticalAlignment="Top" MouseMove="LblqtdEnv_MouseMove"/>
+            <Label x:Name="LblqtdCons" Content="0" Grid.Column="1" HorizontalAlignment="Left" Margin="203,103,0,0" Grid.Row="2" VerticalAlignment="Top" MouseMove="LblqtdCons_MouseMove"/>
 
             <TextBlock x:Name ="txtFolderToken" HorizontalAlignment="Left" Height="23" Margin="213,30,0,0" Grid.Row="1" TextWrapping="Wrap" VerticalAlignment="Top" Width="365" Grid.ColumnSpan="3"/>
             <Label x:Name="LblToken" Content="Token" HorizontalAlignment="Left" Margin="168,25,0,0" Grid.Row="1" VerticalAlignment="Top"/>
