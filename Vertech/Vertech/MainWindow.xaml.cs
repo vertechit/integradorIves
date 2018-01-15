@@ -34,7 +34,6 @@ namespace Vertech
         public MainWindow()
         {
             InitializeComponent();
-
         }
 
         private void BtnEnviar_Click(object sender, RoutedEventArgs e)
@@ -43,9 +42,13 @@ namespace Vertech
             {
                 if ((Parametros.GetDirArq()) != null && Parametros.GetGrupo() != null && Parametros.GetToken() != null)
                 {
+                    this.Cursor = System.Windows.Input.Cursors.Wait;
+
                     Thread t = new Thread(Integra_Esocial);
                     t.Start();
-                    //t.Join();
+                    t.Join();
+
+                    this.Cursor = System.Windows.Input.Cursors.Arrow;
 
                     Job();
                 }
@@ -69,9 +72,13 @@ namespace Vertech
                 {
                     if ((Parametros.GetDirArq()) != (Parametros.GetDirFim()))
                     {
+                        this.Cursor = System.Windows.Input.Cursors.Wait;
+
                         Thread t = new Thread(Consulta_Retorno);
                         t.Start();
-                        //t.Join();
+                        t.Join();
+
+                        this.Cursor = System.Windows.Input.Cursors.Arrow;
 
                         Job();
                     }
@@ -163,14 +170,14 @@ namespace Vertech
         {
             Integra.Job();
 
-            System.Windows.Forms.MessageBox.Show("Finalizado o processo de integração, foi criado um arquivo de log na pasta de origem");
+            System.Windows.Forms.MessageBox.Show("Finalizado o processo de integração, acesse a pasta de origem para verificar o log");
         }
 
         private void Consulta_Retorno()
         {
             Consulta.Job();
 
-            System.Windows.Forms.MessageBox.Show("Finalizado o processo de consulta, foi criado um arquivo de log na pasta de origem");
+            System.Windows.Forms.MessageBox.Show("Finalizado o processo de consulta, acesse a pasta de origem para verificar o log");
         }
 
         public void Contagem(DirectoryInfo dir)
@@ -219,7 +226,7 @@ namespace Vertech
             }
             catch (Exception e)
             {
-                System.Windows.Forms.MessageBox.Show("Erro ao buscar arquivos na pasta indicada");
+                System.Windows.Forms.MessageBox.Show("Erro ao buscar arquivos na pasta selecionada");
             }
 
             LblqtdEnv.Content = i;

@@ -1,6 +1,4 @@
 C:\Users\renam\Documents\Git\integradorIves\Vertech\Vertech\bin\Release\Vertech.exe.config
-C:\Users\renam\Documents\Git\integradorIves\Vertech\Vertech\bin\Release\Vertech.exe.manifest
-C:\Users\renam\Documents\Git\integradorIves\Vertech\Vertech\bin\Release\Vertech.application
 C:\Users\renam\Documents\Git\integradorIves\Vertech\Vertech\bin\Release\Vertech.exe
 C:\Users\renam\Documents\Git\integradorIves\Vertech\Vertech\bin\Release\Vertech.pdb
 C:\Users\renam\Documents\Git\integradorIves\Vertech\Vertech\obj\Release\MainWindow.g.cs
@@ -12,7 +10,6 @@ C:\Users\renam\Documents\Git\integradorIves\Vertech\Vertech\obj\Release\Vertech.
 C:\Users\renam\Documents\Git\integradorIves\Vertech\Vertech\obj\Release\Vertech.Properties.Resources.resources
 C:\Users\renam\Documents\Git\integradorIves\Vertech\Vertech\obj\Release\Vertech.csproj.GenerateResource.Cache
 C:\Users\renam\Documents\Git\integradorIves\Vertech\Vertech\obj\Release\Vertech.csproj.CoreCompileInputs.cache
-C:\Users\renam\Documents\Git\integradorIves\Vertech\Vertech\obj\Release\Vertech.exe.manifest
-C:\Users\renam\Documents\Git\integradorIves\Vertech\Vertech\obj\Release\Vertech.application
 C:\Users\renam\Documents\Git\integradorIves\Vertech\Vertech\obj\Release\Vertech.exe
 C:\Users\renam\Documents\Git\integradorIves\Vertech\Vertech\obj\Release\Vertech.pdb
+C:\Users\renam\Documents\Git\integradorIves\Vertech\Vertech\obj\Release\Vertech.csprojResolveAssemblyReference.cache

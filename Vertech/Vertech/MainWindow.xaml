@@ -48,14 +48,14 @@
                 FontSize="15" Click="BtnConsultar_Click"/>
 
             <Image
-                Name="___Vertech_component_logo_png" 
+                Name="_Vertech_component_logo_png" 
                 HorizontalAlignment="Left" 
                 Height="88" 
                 Margin="256,50,0,0" 
                 VerticalAlignment="Top" 
                 Width="290" 
                 Grid.ColumnSpan="3" 
-                Source="/Vertech;component/Imagens/logo.png"
+                Source="/Integrador;component/Imagens/logo.png"
                 Stretch="Fill"/>
 
             <TextBlock Name ="txtFolderIni" HorizontalAlignment="Left" Height="23" Margin="213,91,0,0" Grid.Row="1" TextWrapping="Wrap" VerticalAlignment="Top" Width="365" Grid.ColumnSpan="3"/>
@@ -72,7 +72,7 @@
             <Label x:Name="LblqtdCons" Content="0" Grid.Column="1" HorizontalAlignment="Left" Margin="203,103,0,0" Grid.Row="2" VerticalAlignment="Top" MouseMove="LblqtdCons_MouseMove"/>
 
             <TextBlock x:Name ="txtFolderToken" HorizontalAlignment="Left" Height="23" Margin="213,30,0,0" Grid.Row="1" TextWrapping="Wrap" VerticalAlignment="Top" Width="365" Grid.ColumnSpan="3"/>
-            <Label x:Name="LblToken" Content="Token" HorizontalAlignment="Left" Margin="168,25,0,0" Grid.Row="1" VerticalAlignment="Top"/>
+            <Label x:Name="LblToken" Content="Token" HorizontalAlignment="Left" Margin="169,25,0,0" Grid.Row="1" VerticalAlignment="Top"/>
             <Button x:Name="BtnProcurarToken" Content="..." Grid.Column="2" HorizontalAlignment="Left" Margin="56,29,0,0" Grid.Row="1" VerticalAlignment="Top" Width="36" Click="BtnProcurarToken_Click"/>
 
         </Grid>

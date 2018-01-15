@@ -1,14 +1,14 @@
-﻿Vertech
+﻿Integrador
 
 
 winexe
 C#
 .cs
-C:\Users\renam\Documents\Git\integradorIves\Vertech\Vertech\obj\Release\
+C:\Users\renam\Documents\Git\integradorIves\Vertech\Vertech\obj\Debug\
 Vertech
 none
 false
-TRACE
+DEBUG;TRACE
 C:\Users\renam\Documents\Git\integradorIves\Vertech\Vertech\App.xaml
 11151548125
 

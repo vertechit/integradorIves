@@ -7,7 +7,7 @@
     <ProjectGuid>{DF19BA97-1C06-4040-90C2-72B5912283B5}</ProjectGuid>
     <OutputType>WinExe</OutputType>
     <RootNamespace>Vertech</RootNamespace>
-    <AssemblyName>Vertech</AssemblyName>
+    <AssemblyName>Integrador</AssemblyName>
     <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{60dc8134-eba5-43b8-bcc9-bb4bc16c2548};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
@@ -28,7 +28,7 @@
     <ProductName>Integrador iVes</ProductName>
     <PublisherName>Vertech-IT</PublisherName>
     <SuiteName>iVes</SuiteName>
-    <ApplicationRevision>2</ApplicationRevision>
+    <ApplicationRevision>4</ApplicationRevision>
     <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
     <UseApplicationTrust>true</UseApplicationTrust>
     <CreateDesktopShortcut>true</CreateDesktopShortcut>
@@ -55,7 +55,8 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <PropertyGroup>
-    <ApplicationIcon>Vertechs-20180109_143803.ico</ApplicationIcon>
+    <ApplicationIcon>
+    </ApplicationIcon>
   </PropertyGroup>
   <PropertyGroup>
     <ManifestCertificateThumbprint>0BBAF4214311C98C283860A7104CBEDA515E8037</ManifestCertificateThumbprint>
@@ -64,7 +65,7 @@
     <ManifestKeyFile>Vertech_TemporaryKey.pfx</ManifestKeyFile>
   </PropertyGroup>
   <PropertyGroup>
-    <GenerateManifests>false</GenerateManifests>
+    <GenerateManifests>true</GenerateManifests>
   </PropertyGroup>
   <PropertyGroup>
     <SignManifests>false</SignManifests>
@@ -79,6 +80,10 @@
   <PropertyGroup>
     <TargetZone>LocalIntranet</TargetZone>
   </PropertyGroup>
+  <PropertyGroup />
+  <PropertyGroup />
+  <PropertyGroup />
+  <PropertyGroup />
   <PropertyGroup>
     <ApplicationManifest>Properties\app.manifest</ApplicationManifest>
   </PropertyGroup>
@@ -155,17 +160,17 @@
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
     <None Include="Connected Services\apiConsulta\EsocialService.wsdl" />
-    <None Include="Connected Services\apiConsulta\Vertech.apiConsulta.consultaResponse11.datasource">
+    <None Include="Connected Services\apiConsulta\Vertech.apiConsulta.consultaResponse.datasource">
       <DependentUpon>Reference.svcmap</DependentUpon>
     </None>
-    <None Include="Connected Services\apiConsulta\Vertech.apiConsulta.consultaResponse2.datasource">
+    <None Include="Connected Services\apiConsulta\Vertech.apiConsulta.consultaResponse1.datasource">
       <DependentUpon>Reference.svcmap</DependentUpon>
     </None>
     <None Include="Connected Services\apiIntegra\EsocialService.wsdl" />
-    <None Include="Connected Services\apiIntegra\Vertech.apiIntegra.integraResponse11.datasource">
+    <None Include="Connected Services\apiIntegra\Vertech.apiIntegra.integraResponse.datasource">
       <DependentUpon>Reference.svcmap</DependentUpon>
     </None>
-    <None Include="Connected Services\apiIntegra\Vertech.apiIntegra.integraResponse2.datasource">
+    <None Include="Connected Services\apiIntegra\Vertech.apiIntegra.integraResponse1.datasource">
       <DependentUpon>Reference.svcmap</DependentUpon>
     </None>
     <None Include="Properties\app.manifest" />
@@ -224,7 +229,7 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Vertechs-20180109_143803.ico" />
+    <Resource Include="Imagens\Vertechs-20180109_143803.ico" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
