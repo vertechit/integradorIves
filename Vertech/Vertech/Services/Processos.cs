@@ -112,7 +112,7 @@ namespace Vertech.Services
                 {
                     if (file.Extension == ext)
                     {
-                        if (file.Name != "logEnvio.txt" && file.Name != "logConsulta.txt")
+                        if (file.Name != "logEnvio.txt" && file.Name != "logConsulta.txt" && file.Name.Contains("log_") == false)
                             File_Names.Add(file.Name);
                     }
                 }
@@ -167,6 +167,159 @@ namespace Vertech.Services
             w.WriteLine("Número protocolo: {0}", nroprt);
             w.WriteLine("Descrição: {0}", desc);
             w.WriteLine("-------------------------------");
+        }
+
+        public void GeraLogDetalhado(string filename, apiConsulta.consultaResponse retorno)
+        {
+            int n = filename.Length;
+            string name = filename.Remove(n - 3, 3);
+
+            int m = name.Length;
+            name = name.Remove(m - m, 5);
+            name = string.Concat(name, "txt");
+            
+
+            try
+            {
+                int i = 0;
+                foreach (var item in retorno.consultaProtocolo.retornoEventos)
+                {
+
+                    if (item.erros != null || item.ocorrencias != null)
+                    {
+                        string nome = "";
+
+                        if (item.idErp != null)
+                        {
+                            nome = string.Concat("log_",item.idErp, ".txt");
+                        }
+                        else
+                        {
+                            nome = string.Concat("log_",item.id, ".txt");
+                        }
+
+                        string s = MontaCaminhoDir(Parametros.GetDirArq(), nome);
+
+                        StreamWriter w = File.AppendText(@s);
+
+                        w.WriteLine("");
+                        w.WriteLine("Arquivo: " + name);
+                        w.WriteLine("");
+                        w.WriteLine("Data: {0} {1}", DateTime.Now.ToLongTimeString(), DateTime.Now.ToLongDateString());
+                        w.WriteLine("");
+
+                        if (item.id != null)
+                        {
+                            w.WriteLine("ID: " + item.id.ToString());
+                        }
+                        if(item.cdEvento != null)
+                        {
+                            w.WriteLine("Codigo do evento: " + item.cdEvento.ToString());
+                        }
+                        if (item.idErp != null)
+                        {
+                            w.WriteLine("ID ERP: " + item.idErp.ToString());
+                        }
+                        if(item.idIves != null)
+                        {
+                            w.WriteLine("ID iVES: " + item.idIves.ToString());
+                        }
+                        if(item.nroProtocolo != null)
+                        {
+                            w.WriteLine("Nr Protocolo: " + item.nroProtocolo.ToString());
+                        }
+                        if(item.nroRecibo != null)
+                        {
+                            w.WriteLine("Nr Recibo: " + item.nroRecibo.ToString());
+                        }
+                        if(item.acao != null)
+                        {
+                            w.WriteLine("Ação: " + item.acao.ToString());
+                        }
+                        if(item.divergente != null)
+                        {
+                            w.WriteLine("Divergencia: " + item.divergente.ToString());
+                        }
+                        if(item.situacao != null)
+                        {
+                            w.WriteLine("Situação: " + item.situacao.ToString());
+                        }
+                        if(item.dtHrIntegra != null)
+                        {
+                            w.WriteLine("DtHrIntegra: " + item.dtHrIntegra.ToString());
+                        }
+                        if(item.dtHrProtocolo != null)
+                        {
+                            w.WriteLine("DtHrProtocolo: " + item.dtHrProtocolo.ToString());
+                        }
+                        if(item.dtHrRecibo != null)
+                        {
+                            w.WriteLine("DtHrRecibo: " + item.dtHrRecibo.ToString());
+                        }
+                        if(item.ocorrencias != null)
+                        {
+                            w.WriteLine("");
+                            w.WriteLine("Divergencias:");
+                            w.WriteLine("");
+                            foreach (var diverg in item.ocorrencias.ocorrencia.divergencia)
+                            {
+                                w.WriteLine(diverg);
+                            }
+
+                            
+                            if(item.ocorrencias.ocorrencia.estrutura.msg != null)
+                            {
+                                w.WriteLine("");
+                                w.WriteLine("Estrutura:");
+                                w.WriteLine("");
+                                w.WriteLine(item.ocorrencias.ocorrencia.estrutura.msg);
+                                if(item.ocorrencias.ocorrencia.estrutura.Text != null)
+                                {
+                                    w.WriteLine("");
+                                    w.WriteLine("Texto: " + item.ocorrencias.ocorrencia.estrutura.Text);
+                                }
+                            }
+                               
+                        }
+
+                        if(item.erros != null)
+                        {
+                            w.WriteLine("");
+                            w.WriteLine("\nErros");
+                            w.WriteLine("");
+                            if (item.erros.Length > 0)
+                            {
+                                foreach (var erro in item.erros)
+                                {
+                                    if (erro.cdErro != null)
+                                    {
+                                        w.WriteLine("Codigo do Erro: " + erro.cdErro.ToString());
+                                        
+                                    }
+                                    if(erro.descErro != null)
+                                    {
+                                        w.WriteLine("Codigo do Erro: " + erro.descErro.ToString());
+                                        w.WriteLine("");
+                                    }
+                                }
+                            }
+                        }
+
+                        w.WriteLine("");
+                        w.WriteLine("----------------------------------------");
+                        w.WriteLine("");
+                        w.Close();
+                    }
+
+                    i++;
+                }
+            }
+            catch(Exception e)
+            {
+
+            }
+
+            
         }
 
         public void GeraLogIntegra(string filename, string str, TextWriter w)

@@ -148,11 +148,11 @@ namespace Vertech.apiConsulta {
     [System.Xml.Serialization.XmlTypeAttribute(AnonymousType=true, Namespace="http://www.esocial.gov.br/ws")]
     public partial class consultaResponse : object, System.ComponentModel.INotifyPropertyChanged {
         
-        private consultaProtocolo consultaProtocoloField;
+        private consultaResponseConsultaProtocolo consultaProtocoloField;
         
         /// <remarks/>
         [System.Xml.Serialization.XmlElementAttribute(Order=0)]
-        public consultaProtocolo consultaProtocolo {
+        public consultaResponseConsultaProtocolo consultaProtocolo {
             get {
                 return this.consultaProtocoloField;
             }
@@ -178,17 +178,17 @@ namespace Vertech.apiConsulta {
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
     [System.Xml.Serialization.XmlTypeAttribute(AnonymousType=true, Namespace="http://www.esocial.gov.br/ws")]
-    public partial class consultaProtocolo : object, System.ComponentModel.INotifyPropertyChanged {
+    public partial class consultaResponseConsultaProtocolo : object, System.ComponentModel.INotifyPropertyChanged {
         
-        private identificador identificadorField;
+        private consultaResponseConsultaProtocoloIdentificador identificadorField;
         
-        private status statusField;
+        private consultaResponseConsultaProtocoloStatus statusField;
         
-        private evento[] retornoEventosField;
+        private consultaResponseConsultaProtocoloEvento[] retornoEventosField;
         
         /// <remarks/>
         [System.Xml.Serialization.XmlElementAttribute(Order=0)]
-        public identificador identificador {
+        public consultaResponseConsultaProtocoloIdentificador identificador {
             get {
                 return this.identificadorField;
             }
@@ -200,7 +200,7 @@ namespace Vertech.apiConsulta {
         
         /// <remarks/>
         [System.Xml.Serialization.XmlElementAttribute(Order=1)]
-        public status status {
+        public consultaResponseConsultaProtocoloStatus status {
             get {
                 return this.statusField;
             }
@@ -213,7 +213,7 @@ namespace Vertech.apiConsulta {
         /// <remarks/>
         [System.Xml.Serialization.XmlArrayAttribute(Order=2)]
         [System.Xml.Serialization.XmlArrayItemAttribute("evento", IsNullable=false)]
-        public evento[] retornoEventos {
+        public consultaResponseConsultaProtocoloEvento[] retornoEventos {
             get {
                 return this.retornoEventosField;
             }
@@ -239,21 +239,21 @@ namespace Vertech.apiConsulta {
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
     [System.Xml.Serialization.XmlTypeAttribute(AnonymousType=true, Namespace="http://www.esocial.gov.br/ws")]
-    public partial class identificador : object, System.ComponentModel.INotifyPropertyChanged {
+    public partial class consultaResponseConsultaProtocoloIdentificador : object, System.ComponentModel.INotifyPropertyChanged {
         
-        private long loteField;
+        private short loteField;
         
-        private long protocoloField;
+        private short protocoloField;
         
         private System.DateTime dtHrField;
         
-        private string tpinscricaoField;
+        private sbyte tpinscrField;
         
-        private string nrinscricaoField;
+        private int nrinscrField;
         
         /// <remarks/>
         [System.Xml.Serialization.XmlElementAttribute(Order=0)]
-        public long lote {
+        public short lote {
             get {
                 return this.loteField;
             }
@@ -265,7 +265,7 @@ namespace Vertech.apiConsulta {
         
         /// <remarks/>
         [System.Xml.Serialization.XmlElementAttribute(Order=1)]
-        public long protocolo {
+        public short protocolo {
             get {
                 return this.protocoloField;
             }
@@ -289,25 +289,25 @@ namespace Vertech.apiConsulta {
         
         /// <remarks/>
         [System.Xml.Serialization.XmlElementAttribute(Order=3)]
-        public string tpinscricao {
+        public sbyte tpinscr {
             get {
-                return this.tpinscricaoField;
+                return this.tpinscrField;
             }
             set {
-                this.tpinscricaoField = value;
-                this.RaisePropertyChanged("tpinscricao");
+                this.tpinscrField = value;
+                this.RaisePropertyChanged("tpinscr");
             }
         }
         
         /// <remarks/>
         [System.Xml.Serialization.XmlElementAttribute(Order=4)]
-        public string nrinscricao {
+        public int nrinscr {
             get {
-                return this.nrinscricaoField;
+                return this.nrinscrField;
             }
             set {
-                this.nrinscricaoField = value;
-                this.RaisePropertyChanged("nrinscricao");
+                this.nrinscrField = value;
+                this.RaisePropertyChanged("nrinscr");
             }
         }
         
@@ -327,19 +327,15 @@ namespace Vertech.apiConsulta {
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
     [System.Xml.Serialization.XmlTypeAttribute(AnonymousType=true, Namespace="http://www.esocial.gov.br/ws")]
-    public partial class status : object, System.ComponentModel.INotifyPropertyChanged {
+    public partial class consultaResponseConsultaProtocoloStatus : object, System.ComponentModel.INotifyPropertyChanged {
         
-        private long cdRespostaField;
+        private sbyte cdRespostaField;
         
         private string descRespostaField;
         
-        private string msgField;
-        
-        private ocorrencia[] ocorrenciasField;
-        
         /// <remarks/>
         [System.Xml.Serialization.XmlElementAttribute(Order=0)]
-        public long cdResposta {
+        public sbyte cdResposta {
             get {
                 return this.cdRespostaField;
             }
@@ -361,31 +357,6 @@ namespace Vertech.apiConsulta {
             }
         }
         
-        /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Order=2)]
-        public string msg {
-            get {
-                return this.msgField;
-            }
-            set {
-                this.msgField = value;
-                this.RaisePropertyChanged("msg");
-            }
-        }
-        
-        /// <remarks/>
-        [System.Xml.Serialization.XmlArrayAttribute(Order=3)]
-        [System.Xml.Serialization.XmlArrayItemAttribute("ocorrencia", IsNullable=false)]
-        public ocorrencia[] ocorrencias {
-            get {
-                return this.ocorrenciasField;
-            }
-            set {
-                this.ocorrenciasField = value;
-                this.RaisePropertyChanged("ocorrencias");
-            }
-        }
-        
         public event System.ComponentModel.PropertyChangedEventHandler PropertyChanged;
         
         protected void RaisePropertyChanged(string propertyName) {
@@ -402,185 +373,11 @@ namespace Vertech.apiConsulta {
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
     [System.Xml.Serialization.XmlTypeAttribute(AnonymousType=true, Namespace="http://www.esocial.gov.br/ws")]
-    public partial class ocorrencia : object, System.ComponentModel.INotifyPropertyChanged {
-        
-        private long loteField;
-        
-        private bool loteFieldSpecified;
-        
-        private int seqField;
-        
-        private string dadosField;
-        
-        private long idIvesField;
-        
-        private long idIvesPaiField;
-        
-        private bool idIvesPaiFieldSpecified;
-        
-        private string mensagemField;
-        
-        private string regField;
-        
-        private string[] estruturaField;
-        
-        private string[] divergenciaField;
-        
-        /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Order=0)]
-        public long lote {
-            get {
-                return this.loteField;
-            }
-            set {
-                this.loteField = value;
-                this.RaisePropertyChanged("lote");
-            }
-        }
-        
-        /// <remarks/>
-        [System.Xml.Serialization.XmlIgnoreAttribute()]
-        public bool loteSpecified {
-            get {
-                return this.loteFieldSpecified;
-            }
-            set {
-                this.loteFieldSpecified = value;
-                this.RaisePropertyChanged("loteSpecified");
-            }
-        }
-        
-        /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Order=1)]
-        public int seq {
-            get {
-                return this.seqField;
-            }
-            set {
-                this.seqField = value;
-                this.RaisePropertyChanged("seq");
-            }
-        }
-        
-        /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Order=2)]
-        public string dados {
-            get {
-                return this.dadosField;
-            }
-            set {
-                this.dadosField = value;
-                this.RaisePropertyChanged("dados");
-            }
-        }
-        
-        /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Order=3)]
-        public long idIves {
-            get {
-                return this.idIvesField;
-            }
-            set {
-                this.idIvesField = value;
-                this.RaisePropertyChanged("idIves");
-            }
-        }
-        
-        /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Order=4)]
-        public long idIvesPai {
-            get {
-                return this.idIvesPaiField;
-            }
-            set {
-                this.idIvesPaiField = value;
-                this.RaisePropertyChanged("idIvesPai");
-            }
-        }
-        
-        /// <remarks/>
-        [System.Xml.Serialization.XmlIgnoreAttribute()]
-        public bool idIvesPaiSpecified {
-            get {
-                return this.idIvesPaiFieldSpecified;
-            }
-            set {
-                this.idIvesPaiFieldSpecified = value;
-                this.RaisePropertyChanged("idIvesPaiSpecified");
-            }
-        }
-        
-        /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Order=5)]
-        public string mensagem {
-            get {
-                return this.mensagemField;
-            }
-            set {
-                this.mensagemField = value;
-                this.RaisePropertyChanged("mensagem");
-            }
-        }
-        
-        /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Order=6)]
-        public string reg {
-            get {
-                return this.regField;
-            }
-            set {
-                this.regField = value;
-                this.RaisePropertyChanged("reg");
-            }
-        }
-        
-        /// <remarks/>
-        [System.Xml.Serialization.XmlArrayAttribute(Order=7)]
-        [System.Xml.Serialization.XmlArrayItemAttribute("msg", IsNullable=false)]
-        public string[] estrutura {
-            get {
-                return this.estruturaField;
-            }
-            set {
-                this.estruturaField = value;
-                this.RaisePropertyChanged("estrutura");
-            }
-        }
-        
-        /// <remarks/>
-        [System.Xml.Serialization.XmlArrayAttribute(Order=8)]
-        [System.Xml.Serialization.XmlArrayItemAttribute("msg", IsNullable=false)]
-        public string[] divergencia {
-            get {
-                return this.divergenciaField;
-            }
-            set {
-                this.divergenciaField = value;
-                this.RaisePropertyChanged("divergencia");
-            }
-        }
-        
-        public event System.ComponentModel.PropertyChangedEventHandler PropertyChanged;
-        
-        protected void RaisePropertyChanged(string propertyName) {
-            System.ComponentModel.PropertyChangedEventHandler propertyChanged = this.PropertyChanged;
-            if ((propertyChanged != null)) {
-                propertyChanged(this, new System.ComponentModel.PropertyChangedEventArgs(propertyName));
-            }
-        }
-    }
-    
-    /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.7.2558.0")]
-    [System.SerializableAttribute()]
-    [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.ComponentModel.DesignerCategoryAttribute("code")]
-    [System.Xml.Serialization.XmlTypeAttribute(AnonymousType=true, Namespace="http://www.esocial.gov.br/ws")]
-    public partial class evento : object, System.ComponentModel.INotifyPropertyChanged {
+    public partial class consultaResponseConsultaProtocoloEvento : object, System.ComponentModel.INotifyPropertyChanged {
         
         private string cdEventoField;
         
-        private long idErpField;
+        private string idErpField;
         
         private string nroProtocoloField;
         
@@ -588,21 +385,27 @@ namespace Vertech.apiConsulta {
         
         private string situacaoField;
         
-        private string loteIntegraField;
+        private string acaoField;
         
-        private string nroProtocoloIntegraField;
+        private short idIvesField;
         
-        private string dtHrIntegraField;
+        private System.DateTime dtHrIntegraField;
         
-        private string tpinscField;
+        private System.DateTime dtHrProtocoloField;
         
-        private string nrinscField;
+        private bool dtHrProtocoloFieldSpecified;
         
-        private string dtHrProtocoloField;
+        private System.DateTime dtHrReciboField;
         
-        private string dtHrReciboField;
+        private bool dtHrReciboFieldSpecified;
         
-        private erro[] errosField;
+        private string divergenteField;
+        
+        private consultaResponseConsultaProtocoloEventoOcorrencias ocorrenciasField;
+        
+        private consultaResponseConsultaProtocoloEventoErro[] errosField;
+        
+        private string idField;
         
         /// <remarks/>
         [System.Xml.Serialization.XmlElementAttribute(Order=0)]
@@ -618,7 +421,7 @@ namespace Vertech.apiConsulta {
         
         /// <remarks/>
         [System.Xml.Serialization.XmlElementAttribute(Order=1)]
-        public long idErp {
+        public string idErp {
             get {
                 return this.idErpField;
             }
@@ -666,31 +469,31 @@ namespace Vertech.apiConsulta {
         
         /// <remarks/>
         [System.Xml.Serialization.XmlElementAttribute(Order=5)]
-        public string loteIntegra {
+        public string acao {
             get {
-                return this.loteIntegraField;
+                return this.acaoField;
             }
             set {
-                this.loteIntegraField = value;
-                this.RaisePropertyChanged("loteIntegra");
+                this.acaoField = value;
+                this.RaisePropertyChanged("acao");
             }
         }
         
         /// <remarks/>
         [System.Xml.Serialization.XmlElementAttribute(Order=6)]
-        public string nroProtocoloIntegra {
+        public short idIves {
             get {
-                return this.nroProtocoloIntegraField;
+                return this.idIvesField;
             }
             set {
-                this.nroProtocoloIntegraField = value;
-                this.RaisePropertyChanged("nroProtocoloIntegra");
+                this.idIvesField = value;
+                this.RaisePropertyChanged("idIves");
             }
         }
         
         /// <remarks/>
         [System.Xml.Serialization.XmlElementAttribute(Order=7)]
-        public string dtHrIntegra {
+        public System.DateTime dtHrIntegra {
             get {
                 return this.dtHrIntegraField;
             }
@@ -702,31 +505,7 @@ namespace Vertech.apiConsulta {
         
         /// <remarks/>
         [System.Xml.Serialization.XmlElementAttribute(Order=8)]
-        public string tpinsc {
-            get {
-                return this.tpinscField;
-            }
-            set {
-                this.tpinscField = value;
-                this.RaisePropertyChanged("tpinsc");
-            }
-        }
-        
-        /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Order=9)]
-        public string nrinsc {
-            get {
-                return this.nrinscField;
-            }
-            set {
-                this.nrinscField = value;
-                this.RaisePropertyChanged("nrinsc");
-            }
-        }
-        
-        /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Order=10)]
-        public string dtHrProtocolo {
+        public System.DateTime dtHrProtocolo {
             get {
                 return this.dtHrProtocoloField;
             }
@@ -737,8 +516,20 @@ namespace Vertech.apiConsulta {
         }
         
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Order=11)]
-        public string dtHrRecibo {
+        [System.Xml.Serialization.XmlIgnoreAttribute()]
+        public bool dtHrProtocoloSpecified {
+            get {
+                return this.dtHrProtocoloFieldSpecified;
+            }
+            set {
+                this.dtHrProtocoloFieldSpecified = value;
+                this.RaisePropertyChanged("dtHrProtocoloSpecified");
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Order=9)]
+        public System.DateTime dtHrRecibo {
             get {
                 return this.dtHrReciboField;
             }
@@ -749,15 +540,63 @@ namespace Vertech.apiConsulta {
         }
         
         /// <remarks/>
+        [System.Xml.Serialization.XmlIgnoreAttribute()]
+        public bool dtHrReciboSpecified {
+            get {
+                return this.dtHrReciboFieldSpecified;
+            }
+            set {
+                this.dtHrReciboFieldSpecified = value;
+                this.RaisePropertyChanged("dtHrReciboSpecified");
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Order=10)]
+        public string divergente {
+            get {
+                return this.divergenteField;
+            }
+            set {
+                this.divergenteField = value;
+                this.RaisePropertyChanged("divergente");
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Order=11)]
+        public consultaResponseConsultaProtocoloEventoOcorrencias ocorrencias {
+            get {
+                return this.ocorrenciasField;
+            }
+            set {
+                this.ocorrenciasField = value;
+                this.RaisePropertyChanged("ocorrencias");
+            }
+        }
+        
+        /// <remarks/>
         [System.Xml.Serialization.XmlArrayAttribute(Order=12)]
         [System.Xml.Serialization.XmlArrayItemAttribute("erro", IsNullable=false)]
-        public erro[] erros {
+        public consultaResponseConsultaProtocoloEventoErro[] erros {
             get {
                 return this.errosField;
             }
             set {
                 this.errosField = value;
                 this.RaisePropertyChanged("erros");
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlAttributeAttribute()]
+        public string id {
+            get {
+                return this.idField;
+            }
+            set {
+                this.idField = value;
+                this.RaisePropertyChanged("id");
             }
         }
         
@@ -777,39 +616,150 @@ namespace Vertech.apiConsulta {
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
     [System.Xml.Serialization.XmlTypeAttribute(AnonymousType=true, Namespace="http://www.esocial.gov.br/ws")]
-    public partial class erro : object, System.ComponentModel.INotifyPropertyChanged {
+    public partial class consultaResponseConsultaProtocoloEventoOcorrencias : object, System.ComponentModel.INotifyPropertyChanged {
         
-        private int cdErroField;
+        private consultaResponseConsultaProtocoloEventoOcorrenciasOcorrencia ocorrenciaField;
         
-        private bool cdErroFieldSpecified;
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Order=0)]
+        public consultaResponseConsultaProtocoloEventoOcorrenciasOcorrencia ocorrencia {
+            get {
+                return this.ocorrenciaField;
+            }
+            set {
+                this.ocorrenciaField = value;
+                this.RaisePropertyChanged("ocorrencia");
+            }
+        }
+        
+        public event System.ComponentModel.PropertyChangedEventHandler PropertyChanged;
+        
+        protected void RaisePropertyChanged(string propertyName) {
+            System.ComponentModel.PropertyChangedEventHandler propertyChanged = this.PropertyChanged;
+            if ((propertyChanged != null)) {
+                propertyChanged(this, new System.ComponentModel.PropertyChangedEventArgs(propertyName));
+            }
+        }
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.7.2558.0")]
+    [System.SerializableAttribute()]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    [System.Xml.Serialization.XmlTypeAttribute(AnonymousType=true, Namespace="http://www.esocial.gov.br/ws")]
+    public partial class consultaResponseConsultaProtocoloEventoOcorrenciasOcorrencia : object, System.ComponentModel.INotifyPropertyChanged {
+        
+        private consultaResponseConsultaProtocoloEventoOcorrenciasOcorrenciaEstrutura estruturaField;
+        
+        private string[] divergenciaField;
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Order=0)]
+        public consultaResponseConsultaProtocoloEventoOcorrenciasOcorrenciaEstrutura estrutura {
+            get {
+                return this.estruturaField;
+            }
+            set {
+                this.estruturaField = value;
+                this.RaisePropertyChanged("estrutura");
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlArrayAttribute(Order=1)]
+        [System.Xml.Serialization.XmlArrayItemAttribute("msg", IsNullable=false)]
+        public string[] divergencia {
+            get {
+                return this.divergenciaField;
+            }
+            set {
+                this.divergenciaField = value;
+                this.RaisePropertyChanged("divergencia");
+            }
+        }
+        
+        public event System.ComponentModel.PropertyChangedEventHandler PropertyChanged;
+        
+        protected void RaisePropertyChanged(string propertyName) {
+            System.ComponentModel.PropertyChangedEventHandler propertyChanged = this.PropertyChanged;
+            if ((propertyChanged != null)) {
+                propertyChanged(this, new System.ComponentModel.PropertyChangedEventArgs(propertyName));
+            }
+        }
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.7.2558.0")]
+    [System.SerializableAttribute()]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    [System.Xml.Serialization.XmlTypeAttribute(AnonymousType=true, Namespace="http://www.esocial.gov.br/ws")]
+    public partial class consultaResponseConsultaProtocoloEventoOcorrenciasOcorrenciaEstrutura : object, System.ComponentModel.INotifyPropertyChanged {
+        
+        private string msgField;
+        
+        private string[] textField;
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Order=0)]
+        public string msg {
+            get {
+                return this.msgField;
+            }
+            set {
+                this.msgField = value;
+                this.RaisePropertyChanged("msg");
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlTextAttribute()]
+        public string[] Text {
+            get {
+                return this.textField;
+            }
+            set {
+                this.textField = value;
+                this.RaisePropertyChanged("Text");
+            }
+        }
+        
+        public event System.ComponentModel.PropertyChangedEventHandler PropertyChanged;
+        
+        protected void RaisePropertyChanged(string propertyName) {
+            System.ComponentModel.PropertyChangedEventHandler propertyChanged = this.PropertyChanged;
+            if ((propertyChanged != null)) {
+                propertyChanged(this, new System.ComponentModel.PropertyChangedEventArgs(propertyName));
+            }
+        }
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.7.2558.0")]
+    [System.SerializableAttribute()]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    [System.Xml.Serialization.XmlTypeAttribute(AnonymousType=true, Namespace="http://www.esocial.gov.br/ws")]
+    public partial class consultaResponseConsultaProtocoloEventoErro : object, System.ComponentModel.INotifyPropertyChanged {
+        
+        private short cdErroField;
         
         private string descErroField;
         
-        private string tpErroField;
+        private sbyte tpErroField;
         
         private string localizacaoField;
         
         /// <remarks/>
         [System.Xml.Serialization.XmlElementAttribute(Order=0)]
-        public int cdErro {
+        public short cdErro {
             get {
                 return this.cdErroField;
             }
             set {
                 this.cdErroField = value;
                 this.RaisePropertyChanged("cdErro");
-            }
-        }
-        
-        /// <remarks/>
-        [System.Xml.Serialization.XmlIgnoreAttribute()]
-        public bool cdErroSpecified {
-            get {
-                return this.cdErroFieldSpecified;
-            }
-            set {
-                this.cdErroFieldSpecified = value;
-                this.RaisePropertyChanged("cdErroSpecified");
             }
         }
         
@@ -827,7 +777,7 @@ namespace Vertech.apiConsulta {
         
         /// <remarks/>
         [System.Xml.Serialization.XmlElementAttribute(Order=2)]
-        public string tpErro {
+        public sbyte tpErro {
             get {
                 return this.tpErroField;
             }

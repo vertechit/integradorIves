@@ -27,6 +27,7 @@ namespace Vertech.Services
                 foreach (var arq_name in lista)
                 {
                     consulta.ConsultaProtocolo(Set_Protocolo(arq_name), arq_name);
+                    Thread.Sleep(1000);
                 }
             }
 
@@ -59,10 +60,14 @@ namespace Vertech.Services
 
                 StreamWriter w = File.AppendText(@s);
 
+                //MessageBox.Show(Response.consultaProtocolo.retornoEventos[0]);
+
                 processo.GeraLogConsulta(filename
                     , Response.consultaProtocolo.identificador.protocolo.ToString()
                     , Convert.ToString(Response.consultaProtocolo.status.descResposta)
                     , w);
+
+                processo.GeraLogDetalhado(filename, Response);
 
                 w.Close();
 
@@ -75,7 +80,7 @@ namespace Vertech.Services
             {
                 StreamWriter arq = File.AppendText(@s);
 
-                processo.GeraLogConsulta(filename, "Falha!", e.Message.ToString(), arq);
+                processo.GeraLogConsulta(filename, Request.protocolo.ToString(), e.Message.ToString(), arq);
 
                 arq.Close();
             }

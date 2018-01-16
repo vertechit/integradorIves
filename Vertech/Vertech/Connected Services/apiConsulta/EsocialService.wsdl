@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <wsdl:definitions xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:tns="http://www.esocial.gov.br/ws" xmlns:xs="http://www.w3.org/2001/XMLSchema" name="EsocialService" targetNamespace="http://www.esocial.gov.br/ws" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">
   <wsdl:types>
-    <xs:schema elementFormDefault="qualified" targetNamespace="http://www.esocial.gov.br/ws">
+    <xs:schema attributeFormDefault="unqualified" elementFormDefault="qualified" targetNamespace="http://www.esocial.gov.br/ws">
       <xs:element name="consultaRequest">
         <xs:complexType>
           <xs:sequence>
@@ -16,116 +16,97 @@
       <xs:element name="consultaResponse">
         <xs:complexType>
           <xs:sequence>
-            <xs:element minOccurs="0" ref="tns:consultaProtocolo" />
-          </xs:sequence>
-        </xs:complexType>
-      </xs:element>
-      <xs:element name="consultaProtocolo">
-        <xs:complexType>
-          <xs:sequence>
-            <xs:element ref="tns:identificador" />
-            <xs:element ref="tns:status" />
-            <xs:element ref="tns:retornoEventos" />
-          </xs:sequence>
-        </xs:complexType>
-      </xs:element>
-      <xs:element name="identificador">
-        <xs:complexType>
-          <xs:sequence>
-            <xs:element name="lote" type="xs:long" />
-            <xs:element name="protocolo" type="xs:long" />
-            <xs:element name="dtHr" type="xs:dateTime" />
-            <xs:element name="tpinscricao" type="xs:string" />
-            <xs:element name="nrinscricao" type="xs:string" />
-          </xs:sequence>
-        </xs:complexType>
-      </xs:element>
-      <xs:element name="status">
-        <xs:complexType>
-          <xs:sequence>
-            <xs:element name="cdResposta" type="xs:long" />
-            <xs:element name="descResposta" type="xs:string" />
-            <xs:element name="msg" type="xs:string" />
-            <xs:element minOccurs="0" maxOccurs="1" ref="tns:ocorrencias" />
-          </xs:sequence>
-        </xs:complexType>
-      </xs:element>
-      <xs:element name="ocorrencias">
-        <xs:complexType>
-          <xs:sequence>
-            <xs:element minOccurs="0" maxOccurs="unbounded" ref="tns:ocorrencia" />
-          </xs:sequence>
-        </xs:complexType>
-      </xs:element>
-      <xs:element name="ocorrencia">
-        <xs:complexType>
-          <xs:sequence>
-            <xs:element minOccurs="0" name="lote" type="xs:long" />
-            <xs:element name="seq" type="xs:int" />
-            <xs:element name="dados" type="xs:string" />
-            <xs:element name="idIves" type="xs:long" />
-            <xs:element minOccurs="0" name="idIvesPai" type="xs:long" />
-            <xs:element name="mensagem" type="xs:string" />
-            <xs:element minOccurs="0" name="reg" type="xs:string" />
-            <xs:element ref="tns:estrutura" />
-            <xs:element ref="tns:divergencia" />
-          </xs:sequence>
-        </xs:complexType>
-      </xs:element>
-      <xs:element name="estrutura">
-        <xs:complexType>
-          <xs:sequence>
-            <xs:element maxOccurs="unbounded" name="msg" type="xs:string" />
-          </xs:sequence>
-        </xs:complexType>
-      </xs:element>
-      <xs:element name="divergencia">
-        <xs:complexType>
-          <xs:sequence>
-            <xs:element maxOccurs="unbounded" name="msg" type="xs:string" />
-          </xs:sequence>
-        </xs:complexType>
-      </xs:element>
-      <xs:element name="retornoEventos">
-        <xs:complexType>
-          <xs:sequence>
-            <xs:element minOccurs="0" maxOccurs="unbounded" ref="tns:evento" />
-          </xs:sequence>
-        </xs:complexType>
-      </xs:element>
-      <xs:element name="evento">
-        <xs:complexType>
-          <xs:sequence>
-            <xs:element name="cdEvento" type="xs:string" />
-            <xs:element name="idErp" type="xs:long" />
-            <xs:element name="nroProtocolo" type="xs:string" />
-            <xs:element name="nroRecibo" type="xs:string" />
-            <xs:element name="situacao" type="xs:string" />
-            <xs:element name="loteIntegra" type="xs:string" />
-            <xs:element name="nroProtocoloIntegra" type="xs:string" />
-            <xs:element name="dtHrIntegra" type="xs:string" />
-            <xs:element name="tpinsc" type="xs:string" />
-            <xs:element name="nrinsc" type="xs:string" />
-            <xs:element name="dtHrProtocolo" type="xs:string" />
-            <xs:element name="dtHrRecibo" type="xs:string" />
-            <xs:element minOccurs="0" maxOccurs="1" ref="tns:erros" />
-          </xs:sequence>
-        </xs:complexType>
-      </xs:element>
-      <xs:element name="erros">
-        <xs:complexType>
-          <xs:sequence>
-            <xs:element minOccurs="0" maxOccurs="unbounded" ref="tns:erro" />
-          </xs:sequence>
-        </xs:complexType>
-      </xs:element>
-      <xs:element name="erro">
-        <xs:complexType>
-          <xs:sequence>
-            <xs:element minOccurs="0" name="cdErro" type="xs:int" />
-            <xs:element name="descErro" type="xs:string" />
-            <xs:element name="tpErro" type="xs:string" />
-            <xs:element name="localizacao" type="xs:string" />
+            <xs:element name="consultaProtocolo">
+              <xs:complexType>
+                <xs:sequence>
+                  <xs:element name="identificador">
+                    <xs:complexType>
+                      <xs:sequence>
+                        <xs:element name="lote" type="xs:short" />
+                        <xs:element name="protocolo" type="xs:short" />
+                        <xs:element name="dtHr" type="xs:dateTime" />
+                        <xs:element name="tpinscr" type="xs:byte" />
+                        <xs:element name="nrinscr" type="xs:int" />
+                      </xs:sequence>
+                    </xs:complexType>
+                  </xs:element>
+                  <xs:element name="status">
+                    <xs:complexType>
+                      <xs:sequence>
+                        <xs:element name="cdResposta" type="xs:byte" />
+                        <xs:element name="descResposta" type="xs:string" />
+                      </xs:sequence>
+                    </xs:complexType>
+                  </xs:element>
+                  <xs:element name="retornoEventos">
+                    <xs:complexType>
+                      <xs:sequence>
+                        <xs:element minOccurs="0" maxOccurs="unbounded" name="evento">
+                          <xs:complexType>
+                            <xs:sequence>
+                              <xs:element name="cdEvento" type="xs:string" />
+                              <xs:element name="idErp" type="xs:string" />
+                              <xs:element minOccurs="0" name="nroProtocolo" type="xs:string" />
+                              <xs:element minOccurs="0" name="nroRecibo" type="xs:string" />
+                              <xs:element name="situacao" type="xs:string" />
+                              <xs:element name="acao" type="xs:string" />
+                              <xs:element name="idIves" type="xs:short" />
+                              <xs:element name="dtHrIntegra" type="xs:dateTime" />
+                              <xs:element minOccurs="0" name="dtHrProtocolo" type="xs:dateTime" />
+                              <xs:element minOccurs="0" name="dtHrRecibo" type="xs:dateTime" />
+                              <xs:element name="divergente" type="xs:string" />
+                              <xs:element minOccurs="0" name="ocorrencias">
+                                <xs:complexType>
+                                  <xs:sequence>
+                                    <xs:element name="ocorrencia">
+                                      <xs:complexType>
+                                        <xs:sequence>
+                                          <xs:element name="estrutura">
+                                            <xs:complexType mixed="true">
+                                              <xs:sequence>
+                                                <xs:element minOccurs="0" name="msg" type="xs:string" />
+                                              </xs:sequence>
+                                            </xs:complexType>
+                                          </xs:element>
+                                          <xs:element name="divergencia">
+                                            <xs:complexType>
+                                              <xs:sequence>
+                                                <xs:element minOccurs="0" maxOccurs="unbounded" name="msg" type="xs:string" />
+                                              </xs:sequence>
+                                            </xs:complexType>
+                                          </xs:element>
+                                        </xs:sequence>
+                                      </xs:complexType>
+                                    </xs:element>
+                                  </xs:sequence>
+                                </xs:complexType>
+                              </xs:element>
+                              <xs:element minOccurs="0" name="erros">
+                                <xs:complexType>
+                                  <xs:sequence>
+                                    <xs:element minOccurs="0" maxOccurs="unbounded" name="erro">
+                                      <xs:complexType>
+                                        <xs:sequence>
+                                          <xs:element name="cdErro" type="xs:short" />
+                                          <xs:element name="descErro" type="xs:string" />
+                                          <xs:element name="tpErro" type="xs:byte" />
+                                          <xs:element minOccurs="0" name="localizacao" type="xs:string" />
+                                        </xs:sequence>
+                                      </xs:complexType>
+                                    </xs:element>
+                                  </xs:sequence>
+                                </xs:complexType>
+                              </xs:element>
+                            </xs:sequence>
+                            <xs:attribute name="id" type="xs:string" use="optional" />
+                          </xs:complexType>
+                        </xs:element>
+                      </xs:sequence>
+                    </xs:complexType>
+                  </xs:element>
+                </xs:sequence>
+              </xs:complexType>
+            </xs:element>
           </xs:sequence>
         </xs:complexType>
       </xs:element>

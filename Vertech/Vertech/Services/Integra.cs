@@ -65,6 +65,8 @@ namespace Vertech.Services
                         processo.GeraLogIntegra(arq_name, "É invalido", w);
                         w.Close();
                     }
+
+                    Thread.Sleep(1000);
                 }
             }
 
