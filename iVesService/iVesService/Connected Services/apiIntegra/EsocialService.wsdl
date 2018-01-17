@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<wsdl:definitions xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:tns="http://www.esocial.gov.br/ws" xmlns:xs="http://www.w3.org/2001/XMLSchema" name="EsocialService" targetNamespace="http://www.esocial.gov.br/ws" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">
+  <wsdl:types>
+    <xs:schema elementFormDefault="qualified" targetNamespace="http://www.esocial.gov.br/ws">
+      <xs:element name="integraRequest">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element minOccurs="1" ref="tns:esocial" />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="integraResponse">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element minOccurs="0" name="protocolo" type="xs:long" />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="esocial">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element minOccurs="1" ref="tns:identificador" />
+            <xs:element minOccurs="1" ref="tns:registro" />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="identificador">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element name="grupo" type="xs:long" />
+            <xs:element name="token" type="xs:string" />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="registro">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element minOccurs="0" maxOccurs="unbounded" name="item" type="xs:string" />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+    </xs:schema>
+  </wsdl:types>
+  <wsdl:message name="integraRequest">
+    <wsdl:part name="integraRequest" element="tns:integraRequest" />
+  </wsdl:message>
+  <wsdl:message name="integraResponse">
+    <wsdl:part name="integraResponse" element="tns:integraResponse" />
+  </wsdl:message>
+  <wsdl:portType name="EsocialService">
+    <wsdl:operation name="integraRequest">
+      <wsdl:input name="integraRequest" message="tns:integraRequest" />
+      <wsdl:output name="integraResponse" message="tns:integraResponse" />
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="EsocialBinding" type="tns:EsocialService">
+    <soap:binding transport="http://schemas.xmlsoap.org/soap/http" />
+    <wsdl:operation name="integraRequest">
+      <soap:operation soapAction="" />
+      <wsdl:input name="integraRequest">
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output name="integraResponse">
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="EsocialService">
+    <wsdl:port name="EsocialBinding" binding="tns:EsocialBinding">
+      <soap:address location="https://apiesocial.vertech-it.com.br/vch-esocial/enviaintegra?wsdl" />
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>

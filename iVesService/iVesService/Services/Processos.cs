@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using System.IO;
 using System.Windows;
 
-namespace Vertech.Services
+namespace iVesService.Services
 {
     public class Processos
     {
@@ -38,7 +38,10 @@ namespace Vertech.Services
             }
             catch (Exception e)
             {
-                MessageBox.Show("Erro na leitura do arquivo");
+                StreamWriter vWriter = new StreamWriter(@"c:\logServico.txt", true);
+                vWriter.WriteLine("Erro na leitura do arquivo");
+                vWriter.Flush();
+                vWriter.Close();
             }
 
             return lines;
@@ -125,7 +128,10 @@ namespace Vertech.Services
             }
             catch (Exception e)
             {
-                MessageBox.Show("Erro ao buscar arquivos na pasta indicada");
+                StreamWriter vWriter = new StreamWriter(@"c:\logServico.txt", true);
+                vWriter.WriteLine("Erro ao buscar arquivos na pasta indicada");
+                vWriter.Flush();
+                vWriter.Close();
             }
 
             return File_Names;
@@ -177,7 +183,7 @@ namespace Vertech.Services
             int m = name.Length;
             name = name.Remove(m - m, 5);
             name = string.Concat(name, "txt");
-            
+
 
             try
             {
@@ -191,11 +197,11 @@ namespace Vertech.Services
 
                         if (item.idErp != null)
                         {
-                            nome = string.Concat("log_",item.idErp, ".txt");
+                            nome = string.Concat("log_", item.idErp, ".txt");
                         }
                         else
                         {
-                            nome = string.Concat("log_",item.id, ".txt");
+                            nome = string.Concat("log_", item.id, ".txt");
                         }
 
                         string s = MontaCaminhoDir(Parametros.GetDirArq(), nome);
@@ -212,7 +218,7 @@ namespace Vertech.Services
                         {
                             w.WriteLine("ID: " + item.id.ToString());
                         }
-                        if(item.cdEvento != null)
+                        if (item.cdEvento != null)
                         {
                             w.WriteLine("Codigo do evento: " + item.cdEvento.ToString());
                         }
@@ -220,43 +226,43 @@ namespace Vertech.Services
                         {
                             w.WriteLine("ID ERP: " + item.idErp.ToString());
                         }
-                        if(item.idIves != null)
+                        if (item.idIves != null)
                         {
                             w.WriteLine("ID iVES: " + item.idIves.ToString());
                         }
-                        if(item.nroProtocolo != null)
+                        if (item.nroProtocolo != null)
                         {
                             w.WriteLine("Nr Protocolo: " + item.nroProtocolo.ToString());
                         }
-                        if(item.nroRecibo != null)
+                        if (item.nroRecibo != null)
                         {
                             w.WriteLine("Nr Recibo: " + item.nroRecibo.ToString());
                         }
-                        if(item.acao != null)
+                        if (item.acao != null)
                         {
                             w.WriteLine("Ação: " + item.acao.ToString());
                         }
-                        if(item.divergente != null)
+                        if (item.divergente != null)
                         {
                             w.WriteLine("Divergencia: " + item.divergente.ToString());
                         }
-                        if(item.situacao != null)
+                        if (item.situacao != null)
                         {
                             w.WriteLine("Situação: " + item.situacao.ToString());
                         }
-                        if(item.dtHrIntegra != null)
+                        if (item.dtHrIntegra != null)
                         {
                             w.WriteLine("DtHrIntegra: " + item.dtHrIntegra.ToString());
                         }
-                        if(item.dtHrProtocolo != null)
+                        if (item.dtHrProtocolo != null)
                         {
                             w.WriteLine("DtHrProtocolo: " + item.dtHrProtocolo.ToString());
                         }
-                        if(item.dtHrRecibo != null)
+                        if (item.dtHrRecibo != null)
                         {
                             w.WriteLine("DtHrRecibo: " + item.dtHrRecibo.ToString());
                         }
-                        if(item.ocorrencias != null)
+                        if (item.ocorrencias != null)
                         {
                             w.WriteLine("");
                             w.WriteLine("Divergencias:");
@@ -266,23 +272,23 @@ namespace Vertech.Services
                                 w.WriteLine(diverg);
                             }
 
-                            
-                            if(item.ocorrencias.ocorrencia.estrutura.msg != null)
+
+                            if (item.ocorrencias.ocorrencia.estrutura.msg != null)
                             {
                                 w.WriteLine("");
                                 w.WriteLine("Estrutura:");
                                 w.WriteLine("");
                                 w.WriteLine(item.ocorrencias.ocorrencia.estrutura.msg);
-                                if(item.ocorrencias.ocorrencia.estrutura.Text != null)
+                                if (item.ocorrencias.ocorrencia.estrutura.Text != null)
                                 {
                                     w.WriteLine("");
                                     w.WriteLine("Texto: " + item.ocorrencias.ocorrencia.estrutura.Text);
                                 }
                             }
-                               
+
                         }
 
-                        if(item.erros != null)
+                        if (item.erros != null)
                         {
                             w.WriteLine("");
                             w.WriteLine("\nErros");
@@ -294,9 +300,9 @@ namespace Vertech.Services
                                     if (erro.cdErro != null)
                                     {
                                         w.WriteLine("Codigo do Erro: " + erro.cdErro.ToString());
-                                        
+
                                     }
-                                    if(erro.descErro != null)
+                                    if (erro.descErro != null)
                                     {
                                         w.WriteLine("Descrição do Erro: " + erro.descErro.ToString());
                                         w.WriteLine("");
@@ -314,12 +320,12 @@ namespace Vertech.Services
                     i++;
                 }
             }
-            catch(Exception e)
+            catch (Exception e)
             {
 
             }
 
-            
+
         }
 
         public void GeraLogIntegra(string filename, string str, TextWriter w)
