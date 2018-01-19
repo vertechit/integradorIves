@@ -58,13 +58,13 @@
         "Entry"
         {
         "MsmKey" = "8:_UNDEFINED"
-        "OwnerKey" = "8:_49562D2AD75FF5F5C73D93DF03564B02"
+        "OwnerKey" = "8:_E1BBD1F0CE8B41B8ABA160FB6DE00C47"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
         {
         "MsmKey" = "8:_UNDEFINED"
-        "OwnerKey" = "8:_E1BBD1F0CE8B41B8ABA160FB6DE00C47"
+        "OwnerKey" = "8:_49562D2AD75FF5F5C73D93DF03564B02"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
@@ -363,7 +363,7 @@
         "Name" = "8:Microsoft Visual Studio"
         "ProductName" = "8:Integrador Service"
         "ProductCode" = "8:{456B09F7-897A-461B-B98F-3857FD224B34}"
-        "PackageCode" = "8:{EEF80CA8-A27C-4B98-B879-FB71AB4B06AC}"
+        "PackageCode" = "8:{6B6D2A19-1B81-4597-BC45-87167E934848}"
         "UpgradeCode" = "8:{CB00914A-54FC-4D14-97AC-FA0A0C276ABA}"
         "AspNetVersion" = "8:4.0.30319.0"
         "RestartWWWService" = "11:FALSE"
@@ -493,6 +493,20 @@
             "Transitive" = "11:FALSE"
             "Target" = "8:_E1BBD1F0CE8B41B8ABA160FB6DE00C47"
             "Folder" = "8:_98799182AFA2403C8D3EBBA51EA096A0"
+            "WorkingFolder" = "8:_CCC7D1ED8BE44572AB01824AE66778C4"
+            "Icon" = "8:_185FA696568C40F7A4F2229F4277AF05"
+            "Feature" = "8:"
+            }
+            "{970C0BB2-C7D0-45D7-ABFA-7EC378858BC0}:_E0DEA89CA22A4DC0856ACFEA0BE286B6"
+            {
+            "Name" = "8:Integrador"
+            "Arguments" = "8:"
+            "Description" = "8:"
+            "ShowCmd" = "3:1"
+            "IconIndex" = "3:0"
+            "Transitive" = "11:FALSE"
+            "Target" = "8:_E1BBD1F0CE8B41B8ABA160FB6DE00C47"
+            "Folder" = "8:_58D79A300DB94F47948F48A24F8DADA2"
             "WorkingFolder" = "8:_CCC7D1ED8BE44572AB01824AE66778C4"
             "Icon" = "8:_185FA696568C40F7A4F2229F4277AF05"
             "Feature" = "8:"

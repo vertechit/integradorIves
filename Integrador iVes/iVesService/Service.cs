@@ -119,7 +119,6 @@ namespace iVesService
                 return false;
             }
 
-
         }
 
         private void Log(string msg)
