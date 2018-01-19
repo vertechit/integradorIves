@@ -15,8 +15,26 @@
     {
         "Entry"
         {
+        "MsmKey" = "8:_185FA696568C40F7A4F2229F4277AF05"
+        "OwnerKey" = "8:_UNDEFINED"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_49562D2AD75FF5F5C73D93DF03564B02"
+        "OwnerKey" = "8:_A6B55F2DE0B0469D87925C1F7F3D5808"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
         "MsmKey" = "8:_7ECDD7A6413D609FF133A25ADE75515A"
         "OwnerKey" = "8:_A6B55F2DE0B0469D87925C1F7F3D5808"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_7ECDD7A6413D609FF133A25ADE75515A"
+        "OwnerKey" = "8:_E1BBD1F0CE8B41B8ABA160FB6DE00C47"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
@@ -27,8 +45,8 @@
         }
         "Entry"
         {
-        "MsmKey" = "8:_F1505EE7CA695342D2FAD501A294A867"
-        "OwnerKey" = "8:_A6B55F2DE0B0469D87925C1F7F3D5808"
+        "MsmKey" = "8:_E1BBD1F0CE8B41B8ABA160FB6DE00C47"
+        "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
@@ -40,7 +58,13 @@
         "Entry"
         {
         "MsmKey" = "8:_UNDEFINED"
-        "OwnerKey" = "8:_F1505EE7CA695342D2FAD501A294A867"
+        "OwnerKey" = "8:_49562D2AD75FF5F5C73D93DF03564B02"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_UNDEFINED"
+        "OwnerKey" = "8:_E1BBD1F0CE8B41B8ABA160FB6DE00C47"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
@@ -200,20 +224,40 @@
         }
         "File"
         {
-            "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_7ECDD7A6413D609FF133A25ADE75515A"
+            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_185FA696568C40F7A4F2229F4277AF05"
+            {
+            "SourcePath" = "8:..\\Vertech\\Imagens\\Vertechs-20180109_143803.ico"
+            "TargetName" = "8:Vertechs-20180109_143803.ico"
+            "Tag" = "8:"
+            "Folder" = "8:_CCC7D1ED8BE44572AB01824AE66778C4"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:FALSE"
+            "IsolateTo" = "8:"
+            }
+            "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_49562D2AD75FF5F5C73D93DF03564B02"
             {
             "AssemblyRegister" = "3:1"
             "AssemblyIsInGAC" = "11:FALSE"
-            "AssemblyAsmDisplayName" = "8:System.Net.Http, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a"
+            "AssemblyAsmDisplayName" = "8:Integrador, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL"
                 "ScatterAssemblies"
                 {
-                    "_7ECDD7A6413D609FF133A25ADE75515A"
+                    "_49562D2AD75FF5F5C73D93DF03564B02"
                     {
-                    "Name" = "8:System.Net.Http.dll"
+                    "Name" = "8:Integrador.exe"
                     "Attributes" = "3:512"
                     }
                 }
-            "SourcePath" = "8:System.Net.Http.dll"
+            "SourcePath" = "8:Integrador.exe"
             "TargetName" = "8:"
             "Tag" = "8:"
             "Folder" = "8:_CCC7D1ED8BE44572AB01824AE66778C4"
@@ -231,20 +275,20 @@
             "IsDependency" = "11:TRUE"
             "IsolateTo" = "8:"
             }
-            "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_F1505EE7CA695342D2FAD501A294A867"
+            "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_7ECDD7A6413D609FF133A25ADE75515A"
             {
             "AssemblyRegister" = "3:1"
             "AssemblyIsInGAC" = "11:FALSE"
-            "AssemblyAsmDisplayName" = "8:Integrador, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL"
+            "AssemblyAsmDisplayName" = "8:System.Net.Http, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a"
                 "ScatterAssemblies"
                 {
-                    "_F1505EE7CA695342D2FAD501A294A867"
+                    "_7ECDD7A6413D609FF133A25ADE75515A"
                     {
-                    "Name" = "8:Integrador.exe"
+                    "Name" = "8:System.Net.Http.dll"
                     "Attributes" = "3:512"
                     }
                 }
-            "SourcePath" = "8:Integrador.exe"
+            "SourcePath" = "8:System.Net.Http.dll"
             "TargetName" = "8:"
             "Tag" = "8:"
             "Folder" = "8:_CCC7D1ED8BE44572AB01824AE66778C4"
@@ -319,7 +363,7 @@
         "Name" = "8:Microsoft Visual Studio"
         "ProductName" = "8:Integrador Service"
         "ProductCode" = "8:{456B09F7-897A-461B-B98F-3857FD224B34}"
-        "PackageCode" = "8:{BA0FDEB8-67C0-4E26-B9E4-9CBF08785F52}"
+        "PackageCode" = "8:{EEF80CA8-A27C-4B98-B879-FB71AB4B06AC}"
         "UpgradeCode" = "8:{CB00914A-54FC-4D14-97AC-FA0A0C276ABA}"
         "AspNetVersion" = "8:4.0.30319.0"
         "RestartWWWService" = "11:FALSE"
@@ -439,6 +483,20 @@
         }
         "Shortcut"
         {
+            "{970C0BB2-C7D0-45D7-ABFA-7EC378858BC0}:_A9C50E364E7540C097171D65F9842421"
+            {
+            "Name" = "8:Integrador"
+            "Arguments" = "8:"
+            "Description" = "8:"
+            "ShowCmd" = "3:1"
+            "IconIndex" = "3:0"
+            "Transitive" = "11:FALSE"
+            "Target" = "8:_E1BBD1F0CE8B41B8ABA160FB6DE00C47"
+            "Folder" = "8:_98799182AFA2403C8D3EBBA51EA096A0"
+            "WorkingFolder" = "8:_CCC7D1ED8BE44572AB01824AE66778C4"
+            "Icon" = "8:_185FA696568C40F7A4F2229F4277AF05"
+            "Feature" = "8:"
+            }
         }
         "UserInterface"
         {
@@ -861,6 +919,34 @@
             "OutputConfiguration" = "8:"
             "OutputGroupCanonicalName" = "8:Built"
             "OutputProjectGuid" = "8:{6149ABAA-F033-4966-A40B-5CEA5B06AAF3}"
+            "ShowKeyOutput" = "11:TRUE"
+                "ExcludeFilters"
+                {
+                }
+            }
+            "{5259A561-127C-4D43-A0A1-72F10C7B3BF8}:_E1BBD1F0CE8B41B8ABA160FB6DE00C47"
+            {
+            "SourcePath" = "8:..\\Vertech\\obj\\Debug\\Integrador.exe"
+            "TargetName" = "8:"
+            "Tag" = "8:"
+            "Folder" = "8:_CCC7D1ED8BE44572AB01824AE66778C4"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:FALSE"
+            "IsolateTo" = "8:"
+            "ProjectOutputGroupRegister" = "3:1"
+            "OutputConfiguration" = "8:"
+            "OutputGroupCanonicalName" = "8:Built"
+            "OutputProjectGuid" = "8:{DF19BA97-1C06-4040-90C2-72B5912283B5}"
             "ShowKeyOutput" = "11:TRUE"
                 "ExcludeFilters"
                 {

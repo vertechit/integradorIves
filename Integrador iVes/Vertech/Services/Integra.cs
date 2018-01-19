@@ -87,7 +87,7 @@ namespace Vertech.Services
                 Id.grupo = Parametros.GetGrupo();
                 Id.token = Parametros.GetToken();
             }
-            catch (Exception e)
+            catch (Exception)
             {
                 ex.ImprimeException(1, "Erro ao atribuir identificador");
             }
@@ -108,7 +108,7 @@ namespace Vertech.Services
 
                 eso.registro = process.LerArquivo(dir, arq);
             }
-            catch (Exception e)
+            catch (Exception)
             {
                 ex.ImprimeException(1, "Erro no retorno do arquivo");
             }

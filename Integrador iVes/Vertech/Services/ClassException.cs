@@ -105,9 +105,21 @@ namespace Vertech.Services
 
         public void ExProcessos(int codErro, string msg)
         {
-            if(Parametros.GetTipoApp() == "Service")
-            {
+            Processos processo = new Processos();
 
+            if (Parametros.GetTipoApp() == "Service")
+            {
+                var s = processo.MontaCaminhoDir(Parametros.GetDirArq(), "logException.txt");
+                StreamWriter vWriter = new StreamWriter(@s, true);
+
+                vWriter.WriteLine("");
+                vWriter.WriteLine("Ocorrencia");
+                vWriter.WriteLine("Data/Hora: " + DateTime.Now.ToString());
+                vWriter.WriteLine("Codigo do erro: " + codErro.ToString());
+                vWriter.WriteLine("Descrição: "+ msg);
+                vWriter.WriteLine("");
+                vWriter.Flush();
+                vWriter.Close();
             }
             else
             {

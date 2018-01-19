@@ -39,7 +39,7 @@
             // 
             // serviceInstaller1
             // 
-            this.serviceInstaller1.Description = "Integrador iVes";
+            this.serviceInstaller1.Description = "Serviço Integrador iVes";
             this.serviceInstaller1.DisplayName = "Integrador Service";
             this.serviceInstaller1.ServiceName = "Integrador Service";
             // 

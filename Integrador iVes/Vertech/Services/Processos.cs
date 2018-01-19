@@ -31,13 +31,18 @@ namespace Vertech.Services
         {
             string[] lines = null;
 
-            string s = MontaCaminhoDir(dir, arq);
+            string s = dir;
+
+            if (arq != "")
+            {
+                s = MontaCaminhoDir(dir, arq);
+            }
 
             try
             {
                 lines = System.IO.File.ReadAllLines(@s);
             }
-            catch (Exception e)
+            catch (Exception)
             {
                 ClassException ex = new ClassException();
                 ex.ExProcessos(1,"Erro na leitura do arquivo");
@@ -134,7 +139,7 @@ namespace Vertech.Services
                     BuscaArquivos(subDir);
                 }*/
             }
-            catch (Exception e)
+            catch (Exception)
             {
                 ClassException ex = new ClassException();
                 ex.ExProcessos(3,"Erro ao buscar arquivos na pasta indicada");
@@ -242,7 +247,7 @@ namespace Vertech.Services
                         {
                             w.WriteLine("ID ERP: " + item.idErp.ToString());
                         }
-                        if(item.idIves != null)
+                        if(item.idIves != 0)
                         {
                             w.WriteLine("ID iVES: " + item.idIves.ToString());
                         }
@@ -313,7 +318,7 @@ namespace Vertech.Services
                             {
                                 foreach (var erro in item.erros)
                                 {
-                                    if (erro.cdErro != null)
+                                    if (erro.cdErro != 0)
                                     {
                                         w.WriteLine("Codigo do Erro: " + erro.cdErro.ToString());
                                         

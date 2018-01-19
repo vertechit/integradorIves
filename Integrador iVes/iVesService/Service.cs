@@ -17,7 +17,7 @@ namespace iVesService
     public partial class Service : ServiceBase
     {
 
-        Timer timer;
+        Timer Timer;
         Consulta consulta = new Consulta();
         Integra integra = new Integra();
 
@@ -30,6 +30,8 @@ namespace iVesService
         public void Parametro()
         {
             Processos process = new Processos();
+            Parametros.SetTipoApp("Service");
+
             try
             {
                 var s = process.LerArquivo("c:\\vch", "Parametros.dat");
@@ -38,12 +40,10 @@ namespace iVesService
                 Parametros.SetDirArq(s[1]);
                 Parametros.SetDirFim(s[2]);
 
-                var t = process.LerArquivo(Parametros.GetDirToke(), "");
-
-                Parametros.SetGrupo(Convert.ToUInt32(t[0]));
-                Parametros.SetToken(t[1]);
-
-                Parametros.SetTipoApp("Service");
+                if(DefineToken(Parametros.GetDirToke()) == false)
+                {
+                    this.Stop();
+                }
             }
             catch
             {
@@ -53,13 +53,13 @@ namespace iVesService
                 vWriter.Flush();
                 vWriter.Close();
 
-                //OnStop();
+                this.Stop();
             }
         }
 
         protected override void OnStart(string[] args)
         {
-            System.Diagnostics.Debugger.Launch();
+            //System.Diagnostics.Debugger.Launch();
             StreamWriter vWriter = new StreamWriter(@"c:\logServico.txt", true);
             vWriter.WriteLine("--------------------------------------------------");
             vWriter.WriteLine("Serviço iniciado: " + DateTime.Now.ToString());
@@ -69,7 +69,7 @@ namespace iVesService
 
             Parametro();
 
-            timer = new Timer(new TimerCallback(timer_Tick), null, 10000, 600000);
+            Timer = new Timer(new TimerCallback(Timer_Tick), null, 10000, 600000);
 
         }
 
@@ -83,18 +83,46 @@ namespace iVesService
             vWriter.Close();
         }
 
-        private void timer_Tick(object sender)
+        private void Timer_Tick(object sender)
         {
-            log("Job Iniciado: ");
+            Log("Job Iniciado: ");
 
             integra.Job();
             Thread.Sleep(30000);
             consulta.Job();
 
-            log("Job finalizado: ");
+            Log("Job finalizado: ");
         }
 
-        private void log(string msg)
+        public bool DefineToken(string dir)
+        {
+            string[] lines = System.IO.File.ReadAllLines(@dir);
+
+            try
+            {
+                if (lines.Length == 2)
+                {
+                    Parametros.SetGrupo(Convert.ToInt32(lines[0]));
+                    Parametros.SetToken(lines[1]);
+
+                    return true;
+                }
+                else
+                {
+                   Log("Arquivo não suportado");
+                    return false;
+                }
+            }
+            catch
+            {
+                Log("Infomações inválidas");
+                return false;
+            }
+
+
+        }
+
+        private void Log(string msg)
         {
             StreamWriter vWriter = new StreamWriter(@"c:\logServico.txt", true);
             vWriter.WriteLine(msg + DateTime.Now.ToString());

@@ -47,9 +47,17 @@ namespace Vertech
 
             DirectoryInfo dir = new DirectoryInfo(@"C:\\vch");
             int i = 0;
-            foreach (var item in dir.GetFiles())
+
+            try
             {
-                i++;
+                foreach (var item in dir.GetFiles())
+                {
+                    i++;
+                }
+            }
+            catch(Exception)
+            {
+
             }
 
             if(i > 0)
@@ -71,6 +79,7 @@ namespace Vertech
                         txtFolderFim.Text = s[2];
                         Parametros.SetDirArq(s[1]);
                         Parametros.SetDirFim(s[2]);
+                        Job();
                     }
 
                 }
@@ -97,7 +106,7 @@ namespace Vertech
         {
             if(Parametros.GetDirToke() != null)
             {
-                if ((Parametros.GetDirArq()) != null && Parametros.GetGrupo() != null && Parametros.GetToken() != null)
+                if ((Parametros.GetDirArq()) != null && Parametros.GetGrupo() != 0 && Parametros.GetToken() != null)
                 {
                     this.Cursor = System.Windows.Input.Cursors.Wait;
 
@@ -125,7 +134,7 @@ namespace Vertech
         {
             if(Parametros.GetDirToke() != null)
             {
-                if ((Parametros.GetDirArq()) != null && (Parametros.GetDirFim()) != null && Parametros.GetGrupo() != null && Parametros.GetToken() != null)
+                if ((Parametros.GetDirArq()) != null && (Parametros.GetDirFim()) != null && Parametros.GetGrupo() != 0 && Parametros.GetToken() != null)
                 {
                     if ((Parametros.GetDirArq()) != (Parametros.GetDirFim()))
                     {
@@ -134,7 +143,7 @@ namespace Vertech
                         Thread t = new Thread(Consulta_Retorno);
                         t.Start();
                         t.Join();
-
+                        //Consulta_Retorno();
                         this.Cursor = System.Windows.Input.Cursors.Arrow;
 
                         Job();
@@ -281,7 +290,7 @@ namespace Vertech
                 }
 
             }
-            catch (Exception e)
+            catch (Exception)
             {
                 System.Windows.Forms.MessageBox.Show("Erro ao buscar arquivos na pasta selecionada");
             }
@@ -348,7 +357,7 @@ namespace Vertech
         {
             if (Parametros.GetDirToke() != null)
             {
-                if ((Parametros.GetDirArq()) != null && (Parametros.GetDirFim()) != null && Parametros.GetGrupo() != null && Parametros.GetToken() != null)
+                if ((Parametros.GetDirArq()) != null && (Parametros.GetDirFim()) != null && Parametros.GetGrupo() != 0 && Parametros.GetToken() != null)
                 {
                     if ((Parametros.GetDirArq()) != (Parametros.GetDirFim()))
                     {
@@ -385,6 +394,7 @@ namespace Vertech
                             var s = string.Concat(folderInfo, '\\', "vch", '\\', "Parametros.dat");
 
                             System.IO.File.WriteAllLines(@s, lines);
+                            Job();
                         }
                         catch(Exception ex)
                         {

@@ -11,7 +11,7 @@ namespace Vertech.Services
         private static string DirArq = null; //Diretorio de arquivos que serão integrados/Consultados
         private static string DirFim = null;
         private static string DirToke = null;
-        private static long Grupo;
+        private static long Grupo = 0;
         private static string Token = null;
         private static string TipoApp = null;
 
