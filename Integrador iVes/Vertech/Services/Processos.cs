@@ -5,6 +5,8 @@ using System.Text;
 using System.Threading.Tasks;
 using System.IO;
 using System.Windows;
+using Vertech.DAO;
+using Vertech.Modelos;
 
 namespace Vertech.Services
 {
@@ -55,7 +57,8 @@ namespace Vertech.Services
         {
             try
             {
-                string dir = Parametros.GetDirArq();
+                Helper.AddProtocolo(new Protocolo { Id = 0, NomeArquivo = arq, NroProtocolo = Convert.ToString(Response.protocolo) });
+                /*string dir = Parametros.GetDirArq();
                 int n = arq.Length;
                 string name = arq.Remove(n - 3, 3);
 
@@ -65,9 +68,9 @@ namespace Vertech.Services
 
                 string[] lines = { Convert.ToString(Response.protocolo), Convert.ToString(Response.protocoloSpecified) };
 
-                System.IO.File.WriteAllLines(@s, lines);
+                System.IO.File.WriteAllLines(@s, lines);*/
             }
-            catch(Exception e)
+            catch (Exception e)
             {
                 ClassException ex = new ClassException();
                 ex.ExProcessos(2,e.Message.ToString());
@@ -80,18 +83,9 @@ namespace Vertech.Services
             string dir = Parametros.GetDirArq();
             DirectoryInfo diretorio = new DirectoryInfo(dir);
 
-            int n = arq.Length;
-            string name = arq.Remove(n - 3, 3);
-
-            name = string.Concat("prot_", name, "dat");
-
-            foreach (var item in diretorio.GetFiles())
+            if (Helper.ExistsProtocolo(arq) == true)
             {
-                if (item.Extension == ".dat")
-                {
-                    if (item.Name == name)
-                        return 1;
-                }
+                 return 1;
             }
 
             int tam = 0;
@@ -158,11 +152,14 @@ namespace Vertech.Services
             string o = MontaCaminhoDir(origem, filename);
             string d = MontaCaminhoDir(destino, filename);
 
-            System.IO.File.Move(o, d);
+            
 
             try
             {
-                int n = filename.Length;
+
+                System.IO.File.Move(o, d);
+
+                /*int n = filename.Length;
                 string name = filename.Remove(n - 3, 3);
 
                 int j = name.Length;
@@ -172,7 +169,7 @@ namespace Vertech.Services
                 o = MontaCaminhoDir(origem, name);
                 d = MontaCaminhoDir(destino, name);
 
-                System.IO.File.Move(o, d);
+                System.IO.File.Move(o, d);*/
             }
             catch(Exception e)
             {
@@ -197,21 +194,14 @@ namespace Vertech.Services
         }
 
         public void GeraLogDetalhado(string filename, apiConsulta.consultaResponse retorno)
-        {
-            int n = filename.Length;
-            string name = filename.Remove(n - 3, 3);
-
-            int m = name.Length;
-            name = name.Remove(m - m, 5);
-            name = string.Concat(name, "txt");
-            
+        {   
 
             try
             {
                 int i = 0;
                 foreach (var item in retorno.consultaProtocolo.retornoEventos)
                 {
-
+                  
                     if (item.erros != null || item.ocorrencias != null)
                     {
                         string nome = "";
@@ -230,7 +220,7 @@ namespace Vertech.Services
                         StreamWriter w = File.AppendText(@s);
 
                         w.WriteLine("");
-                        w.WriteLine("Arquivo: " + name);
+                        w.WriteLine("Arquivo: " + filename);
                         w.WriteLine("");
                         w.WriteLine("Data: {0} {1}", DateTime.Now.ToLongTimeString(), DateTime.Now.ToLongDateString());
                         w.WriteLine("");

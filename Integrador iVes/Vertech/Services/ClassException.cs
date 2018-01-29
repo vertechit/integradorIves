@@ -126,5 +126,29 @@ namespace Vertech.Services
                 MessageBox.Show("Codigo do erro: " + codErro.ToString() + "\n" + msg);
             }
         }
+
+        public void ExSQLite(int codErro, string msg)
+        {
+            Processos processo = new Processos();
+
+            if (Parametros.GetTipoApp() == "Service")
+            {
+                var s = processo.MontaCaminhoDir(Parametros.GetDirArq(), "logException.txt");
+                StreamWriter vWriter = new StreamWriter(@s, true);
+
+                vWriter.WriteLine("");
+                vWriter.WriteLine("Ocorrencia");
+                vWriter.WriteLine("Data/Hora: " + DateTime.Now.ToString());
+                vWriter.WriteLine("Codigo do erro: " + codErro.ToString());
+                vWriter.WriteLine("Descrição: " + msg);
+                vWriter.WriteLine("");
+                vWriter.Flush();
+                vWriter.Close();
+            }
+            else
+            {
+                MessageBox.Show("Codigo do erro: " + codErro.ToString() + "\n" + msg);
+            }
+        }
     }
 }

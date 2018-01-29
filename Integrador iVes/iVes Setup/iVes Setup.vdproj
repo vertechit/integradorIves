@@ -21,6 +21,12 @@
         }
         "Entry"
         {
+        "MsmKey" = "8:_1E523396D4CA4B9295D86F3791080A28"
+        "OwnerKey" = "8:_UNDEFINED"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
         "MsmKey" = "8:_49562D2AD75FF5F5C73D93DF03564B02"
         "OwnerKey" = "8:_A6B55F2DE0B0469D87925C1F7F3D5808"
         "MsmSig" = "8:_UNDEFINED"
@@ -34,7 +40,13 @@
         "Entry"
         {
         "MsmKey" = "8:_7ECDD7A6413D609FF133A25ADE75515A"
-        "OwnerKey" = "8:_E1BBD1F0CE8B41B8ABA160FB6DE00C47"
+        "OwnerKey" = "8:_E773C6652F2347EDBDEB9C2D88F3E0C0"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_8211266199331755F087F85D77D2F4A6"
+        "OwnerKey" = "8:_E773C6652F2347EDBDEB9C2D88F3E0C0"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
@@ -45,8 +57,74 @@
         }
         "Entry"
         {
-        "MsmKey" = "8:_E1BBD1F0CE8B41B8ABA160FB6DE00C47"
+        "MsmKey" = "8:_AF9A1A6398886A0831B9373ED8F8EA6E"
+        "OwnerKey" = "8:_E773C6652F2347EDBDEB9C2D88F3E0C0"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_AF9A1A6398886A0831B9373ED8F8EA6E"
+        "OwnerKey" = "8:_FEAEAFE7BE7492819333AB02F2260BC0"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_AF9A1A6398886A0831B9373ED8F8EA6E"
+        "OwnerKey" = "8:_E42ECADCC3A786442E9993A45E6C2463"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_DCF765A8132F4CD1801BE1C902B2A891"
         "OwnerKey" = "8:_UNDEFINED"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_E2250E0C426EA3129C8F0D102835A7CF"
+        "OwnerKey" = "8:_49562D2AD75FF5F5C73D93DF03564B02"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_E2250E0C426EA3129C8F0D102835A7CF"
+        "OwnerKey" = "8:_8211266199331755F087F85D77D2F4A6"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_E2250E0C426EA3129C8F0D102835A7CF"
+        "OwnerKey" = "8:_FEAEAFE7BE7492819333AB02F2260BC0"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_E2250E0C426EA3129C8F0D102835A7CF"
+        "OwnerKey" = "8:_E773C6652F2347EDBDEB9C2D88F3E0C0"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_E2250E0C426EA3129C8F0D102835A7CF"
+        "OwnerKey" = "8:_A6B55F2DE0B0469D87925C1F7F3D5808"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_E42ECADCC3A786442E9993A45E6C2463"
+        "OwnerKey" = "8:_E773C6652F2347EDBDEB9C2D88F3E0C0"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_E773C6652F2347EDBDEB9C2D88F3E0C0"
+        "OwnerKey" = "8:_UNDEFINED"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_FEAEAFE7BE7492819333AB02F2260BC0"
+        "OwnerKey" = "8:_E773C6652F2347EDBDEB9C2D88F3E0C0"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
@@ -58,13 +136,43 @@
         "Entry"
         {
         "MsmKey" = "8:_UNDEFINED"
-        "OwnerKey" = "8:_E1BBD1F0CE8B41B8ABA160FB6DE00C47"
+        "OwnerKey" = "8:_E773C6652F2347EDBDEB9C2D88F3E0C0"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_UNDEFINED"
+        "OwnerKey" = "8:_8211266199331755F087F85D77D2F4A6"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_UNDEFINED"
+        "OwnerKey" = "8:_FEAEAFE7BE7492819333AB02F2260BC0"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_UNDEFINED"
+        "OwnerKey" = "8:_E42ECADCC3A786442E9993A45E6C2463"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_UNDEFINED"
+        "OwnerKey" = "8:_AF9A1A6398886A0831B9373ED8F8EA6E"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
         {
         "MsmKey" = "8:_UNDEFINED"
         "OwnerKey" = "8:_49562D2AD75FF5F5C73D93DF03564B02"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_UNDEFINED"
+        "OwnerKey" = "8:_E2250E0C426EA3129C8F0D102835A7CF"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
@@ -244,6 +352,26 @@
             "IsDependency" = "11:FALSE"
             "IsolateTo" = "8:"
             }
+            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_1E523396D4CA4B9295D86F3791080A28"
+            {
+            "SourcePath" = "8:..\\Vertech\\bin\\Debug\\x86\\SQLite.Interop.dll"
+            "TargetName" = "8:SQLite.Interop.dll"
+            "Tag" = "8:"
+            "Folder" = "8:_535F71BD4A2144139B1B41900AA807B9"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:FALSE"
+            "IsolateTo" = "8:"
+            }
             "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_49562D2AD75FF5F5C73D93DF03564B02"
             {
             "AssemblyRegister" = "3:1"
@@ -306,6 +434,181 @@
             "IsDependency" = "11:TRUE"
             "IsolateTo" = "8:"
             }
+            "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_8211266199331755F087F85D77D2F4A6"
+            {
+            "AssemblyRegister" = "3:1"
+            "AssemblyIsInGAC" = "11:FALSE"
+            "AssemblyAsmDisplayName" = "8:System.Data.SQLite.Linq, Version=1.0.106.0, Culture=neutral, PublicKeyToken=db937bc2d44ff139, processorArchitecture=MSIL"
+                "ScatterAssemblies"
+                {
+                    "_8211266199331755F087F85D77D2F4A6"
+                    {
+                    "Name" = "8:System.Data.SQLite.Linq.dll"
+                    "Attributes" = "3:512"
+                    }
+                }
+            "SourcePath" = "8:System.Data.SQLite.Linq.dll"
+            "TargetName" = "8:"
+            "Tag" = "8:"
+            "Folder" = "8:_CCC7D1ED8BE44572AB01824AE66778C4"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:TRUE"
+            "IsolateTo" = "8:"
+            }
+            "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_AF9A1A6398886A0831B9373ED8F8EA6E"
+            {
+            "AssemblyRegister" = "3:1"
+            "AssemblyIsInGAC" = "11:FALSE"
+            "AssemblyAsmDisplayName" = "8:EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL"
+                "ScatterAssemblies"
+                {
+                    "_AF9A1A6398886A0831B9373ED8F8EA6E"
+                    {
+                    "Name" = "8:EntityFramework.dll"
+                    "Attributes" = "3:512"
+                    }
+                }
+            "SourcePath" = "8:EntityFramework.dll"
+            "TargetName" = "8:"
+            "Tag" = "8:"
+            "Folder" = "8:_CCC7D1ED8BE44572AB01824AE66778C4"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:TRUE"
+            "IsolateTo" = "8:"
+            }
+            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_DCF765A8132F4CD1801BE1C902B2A891"
+            {
+            "SourcePath" = "8:..\\Vertech\\bin\\Debug\\x64\\SQLite.Interop.dll"
+            "TargetName" = "8:SQLite.Interop.dll"
+            "Tag" = "8:"
+            "Folder" = "8:_FC90CA2E14B843F3A0EDD502361F7DE7"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:FALSE"
+            "IsolateTo" = "8:"
+            }
+            "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_E2250E0C426EA3129C8F0D102835A7CF"
+            {
+            "AssemblyRegister" = "3:1"
+            "AssemblyIsInGAC" = "11:FALSE"
+            "AssemblyAsmDisplayName" = "8:System.Data.SQLite, Version=1.0.106.0, Culture=neutral, PublicKeyToken=db937bc2d44ff139, processorArchitecture=MSIL"
+                "ScatterAssemblies"
+                {
+                    "_E2250E0C426EA3129C8F0D102835A7CF"
+                    {
+                    "Name" = "8:System.Data.SQLite.dll"
+                    "Attributes" = "3:512"
+                    }
+                }
+            "SourcePath" = "8:System.Data.SQLite.dll"
+            "TargetName" = "8:"
+            "Tag" = "8:"
+            "Folder" = "8:_CCC7D1ED8BE44572AB01824AE66778C4"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:TRUE"
+            "IsolateTo" = "8:"
+            }
+            "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_E42ECADCC3A786442E9993A45E6C2463"
+            {
+            "AssemblyRegister" = "3:1"
+            "AssemblyIsInGAC" = "11:FALSE"
+            "AssemblyAsmDisplayName" = "8:EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL"
+                "ScatterAssemblies"
+                {
+                    "_E42ECADCC3A786442E9993A45E6C2463"
+                    {
+                    "Name" = "8:EntityFramework.SqlServer.dll"
+                    "Attributes" = "3:512"
+                    }
+                }
+            "SourcePath" = "8:EntityFramework.SqlServer.dll"
+            "TargetName" = "8:"
+            "Tag" = "8:"
+            "Folder" = "8:_CCC7D1ED8BE44572AB01824AE66778C4"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:TRUE"
+            "IsolateTo" = "8:"
+            }
+            "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_FEAEAFE7BE7492819333AB02F2260BC0"
+            {
+            "AssemblyRegister" = "3:1"
+            "AssemblyIsInGAC" = "11:FALSE"
+            "AssemblyAsmDisplayName" = "8:System.Data.SQLite.EF6, Version=1.0.106.0, Culture=neutral, PublicKeyToken=db937bc2d44ff139, processorArchitecture=MSIL"
+                "ScatterAssemblies"
+                {
+                    "_FEAEAFE7BE7492819333AB02F2260BC0"
+                    {
+                    "Name" = "8:System.Data.SQLite.EF6.dll"
+                    "Attributes" = "3:512"
+                    }
+                }
+            "SourcePath" = "8:System.Data.SQLite.EF6.dll"
+            "TargetName" = "8:"
+            "Tag" = "8:"
+            "Folder" = "8:_CCC7D1ED8BE44572AB01824AE66778C4"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:TRUE"
+            "IsolateTo" = "8:"
+            }
         }
         "FileType"
         {
@@ -344,6 +647,28 @@
             "Property" = "8:TARGETDIR"
                 "Folders"
                 {
+                    "{9EF0B969-E518-4E46-987F-47570745A589}:_535F71BD4A2144139B1B41900AA807B9"
+                    {
+                    "Name" = "8:x86"
+                    "AlwaysCreate" = "11:FALSE"
+                    "Condition" = "8:"
+                    "Transitive" = "11:FALSE"
+                    "Property" = "8:_4D6A49E7472B4BA3AFD78282EFF9E41F"
+                        "Folders"
+                        {
+                        }
+                    }
+                    "{9EF0B969-E518-4E46-987F-47570745A589}:_FC90CA2E14B843F3A0EDD502361F7DE7"
+                    {
+                    "Name" = "8:x64"
+                    "AlwaysCreate" = "11:FALSE"
+                    "Condition" = "8:"
+                    "Transitive" = "11:FALSE"
+                    "Property" = "8:_DC506587B3504E118F3EA2C45FD27479"
+                        "Folders"
+                        {
+                        }
+                    }
                 }
             }
         }
@@ -363,7 +688,7 @@
         "Name" = "8:Microsoft Visual Studio"
         "ProductName" = "8:Integrador Service"
         "ProductCode" = "8:{456B09F7-897A-461B-B98F-3857FD224B34}"
-        "PackageCode" = "8:{6B6D2A19-1B81-4597-BC45-87167E934848}"
+        "PackageCode" = "8:{2E09A859-4F27-4843-A491-12BFF0F62D3F}"
         "UpgradeCode" = "8:{CB00914A-54FC-4D14-97AC-FA0A0C276ABA}"
         "AspNetVersion" = "8:4.0.30319.0"
         "RestartWWWService" = "11:FALSE"
@@ -483,7 +808,7 @@
         }
         "Shortcut"
         {
-            "{970C0BB2-C7D0-45D7-ABFA-7EC378858BC0}:_A9C50E364E7540C097171D65F9842421"
+            "{970C0BB2-C7D0-45D7-ABFA-7EC378858BC0}:_84648CEC8D864BF19ABCEA04BFA02B51"
             {
             "Name" = "8:Integrador"
             "Arguments" = "8:"
@@ -491,13 +816,13 @@
             "ShowCmd" = "3:1"
             "IconIndex" = "3:0"
             "Transitive" = "11:FALSE"
-            "Target" = "8:_E1BBD1F0CE8B41B8ABA160FB6DE00C47"
-            "Folder" = "8:_98799182AFA2403C8D3EBBA51EA096A0"
+            "Target" = "8:_E773C6652F2347EDBDEB9C2D88F3E0C0"
+            "Folder" = "8:_58D79A300DB94F47948F48A24F8DADA2"
             "WorkingFolder" = "8:_CCC7D1ED8BE44572AB01824AE66778C4"
             "Icon" = "8:_185FA696568C40F7A4F2229F4277AF05"
             "Feature" = "8:"
             }
-            "{970C0BB2-C7D0-45D7-ABFA-7EC378858BC0}:_E0DEA89CA22A4DC0856ACFEA0BE286B6"
+            "{970C0BB2-C7D0-45D7-ABFA-7EC378858BC0}:_E8AA4D14388545139187A9BFAF63180C"
             {
             "Name" = "8:Integrador"
             "Arguments" = "8:"
@@ -505,8 +830,8 @@
             "ShowCmd" = "3:1"
             "IconIndex" = "3:0"
             "Transitive" = "11:FALSE"
-            "Target" = "8:_E1BBD1F0CE8B41B8ABA160FB6DE00C47"
-            "Folder" = "8:_58D79A300DB94F47948F48A24F8DADA2"
+            "Target" = "8:_E773C6652F2347EDBDEB9C2D88F3E0C0"
+            "Folder" = "8:_98799182AFA2403C8D3EBBA51EA096A0"
             "WorkingFolder" = "8:_CCC7D1ED8BE44572AB01824AE66778C4"
             "Icon" = "8:_185FA696568C40F7A4F2229F4277AF05"
             "Feature" = "8:"
@@ -938,7 +1263,7 @@
                 {
                 }
             }
-            "{5259A561-127C-4D43-A0A1-72F10C7B3BF8}:_E1BBD1F0CE8B41B8ABA160FB6DE00C47"
+            "{5259A561-127C-4D43-A0A1-72F10C7B3BF8}:_E773C6652F2347EDBDEB9C2D88F3E0C0"
             {
             "SourcePath" = "8:..\\Vertech\\obj\\Debug\\Integrador.exe"
             "TargetName" = "8:"

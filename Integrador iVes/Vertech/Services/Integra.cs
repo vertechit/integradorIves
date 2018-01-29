@@ -11,6 +11,7 @@ using System.Net.Sockets;
 using System.Xml;
 using System.Windows;
 using Vertech.Services;
+using Vertech.DAO;
 
 namespace Vertech.Services
 {

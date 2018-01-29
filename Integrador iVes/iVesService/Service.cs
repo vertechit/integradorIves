@@ -11,6 +11,8 @@ using System.Threading;
 using System.IO;
 using Vertech.Services;
 using Vertech;
+using Vertech.DAO;
+using Vertech.Modelos;
 
 namespace iVesService
 {
@@ -34,11 +36,11 @@ namespace iVesService
 
             try
             {
-                var s = process.LerArquivo("c:\\vch", "Parametros.dat");
+                var s = Helper.GetParametros();
 
-                Parametros.SetDirToke(s[0]);
-                Parametros.SetDirArq(s[1]);
-                Parametros.SetDirFim(s[2]);
+                Parametros.SetDirToke(s.CaminhoToke);
+                Parametros.SetDirArq(s.CaminhoDir);
+                Parametros.SetDirFim(s.CaminhoFim);
 
                 if(DefineToken(Parametros.GetDirToke()) == false)
                 {

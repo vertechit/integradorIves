@@ -10,6 +10,9 @@ using System.Threading;
 using System.IO;
 using System.Net.Sockets;
 using System.Windows;
+using Vertech.DAO;
+using Vertech.Modelos;
+
 
 namespace Vertech.Services
 {
@@ -22,13 +25,19 @@ namespace Vertech.Services
             //Consulta consulta = new Consulta();
             Processos processo = new Processos();
 
-            List<string> lista = processo.Listar_arquivos(".dat");
+            List<string> lista = processo.Listar_arquivos(".txt");
 
             if (lista.Count > 0)
             {
                 foreach (var arq_name in lista)
                 {
-                    ConsultaProtocolo(Set_Protocolo(arq_name), arq_name);
+                    bool valida = Helper.ExistsProtocolo(arq_name);
+                    if(valida == true)
+                    {
+                        var p = Helper.GetProtocolo(arq_name);
+                        ConsultaProtocolo(Set_Protocolo(p), p.NomeArquivo);
+                    }
+                    
                     //Thread.Sleep(1000);
                 }
             }
@@ -88,15 +97,15 @@ namespace Vertech.Services
 
         }
 
-        private apiIntegra.integraResponse Set_Protocolo(string arq_name)
+        private apiIntegra.integraResponse Set_Protocolo(Protocolo p)
         {
             Processos processo = new Processos();
             apiIntegra.integraResponse response = new apiIntegra.integraResponse();
 
-            var retorno = processo.LerArquivo(Parametros.GetDirArq(), arq_name);
+            //var retorno = processo.LerArquivo(Parametros.GetDirArq(), arq_name);
 
-            response.protocolo = Convert.ToUInt32(retorno[0]);
-            response.protocoloSpecified = Convert.ToBoolean(retorno[1]);
+            response.protocolo = Convert.ToUInt32(p.NroProtocolo);
+            response.protocoloSpecified = true; 
 
             return response;
         }

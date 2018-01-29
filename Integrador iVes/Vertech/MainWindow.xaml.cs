@@ -21,6 +21,8 @@ using Vertech.Services;
 using System.Xml;
 using System.Security.Permissions;
 using System.Security.AccessControl;
+using Vertech.DAO;
+using Vertech.Modelos;
 
 namespace Vertech
 {
@@ -62,27 +64,41 @@ namespace Vertech
 
             if(i > 0)
             {
-                var s = process.LerArquivo("C:\\vch", "Parametros.dat");
+                var param = Helper.GetParametros();
 
-                if (s.Length == 3)
+                if (param != null)
                 {
-                    if (s[0].Contains(".file") && s[0] != "")
+                    if (param.CaminhoToke.Contains(".file") && param.CaminhoToke != "")
                     {
-                        Parametros.SetDirToke(s[0]);
-                        txtFolderToken.Text = s[0];
-                        DefineToken(s[0]);
+                        Parametros.SetDirToke(param.CaminhoToke);
+                        txtFolderToken.Text = param.CaminhoToke;
+                        DefineToken(param.CaminhoToke);
                     }
 
-                    if (s[1] != "" && s[2] != "" && s[1] != s[2])
+                    if (param.CaminhoDir != "" && param.CaminhoFim != "" && param.CaminhoDir != param.CaminhoFim)
                     {
-                        txtFolderIni.Text = s[1];
-                        txtFolderFim.Text = s[2];
-                        Parametros.SetDirArq(s[1]);
-                        Parametros.SetDirFim(s[2]);
+                        txtFolderIni.Text = param.CaminhoDir;
+                        txtFolderFim.Text = param.CaminhoFim;
+                        Parametros.SetDirArq(param.CaminhoDir);
+                        Parametros.SetDirFim(param.CaminhoFim);
                         Job();
                     }
 
                 }
+            }
+            else
+            {
+                string user = System.Windows.Forms.SystemInformation.UserName;
+                System.IO.DirectoryInfo folderInfo = new System.IO.DirectoryInfo("C:\\");
+
+                DirectorySecurity ds = new DirectorySecurity();
+                ds.AddAccessRule(new FileSystemAccessRule(user, FileSystemRights.Modify, AccessControlType.Allow));
+                ds.SetAccessRuleProtection(false, false);
+                folderInfo.Create(ds);
+                folderInfo.CreateSubdirectory("vch");
+
+                Helper.CriarBancoSQLite();
+                Helper.CriarTabelaSQlite();
             }
 
 
@@ -143,7 +159,6 @@ namespace Vertech
                         Thread t = new Thread(Consulta_Retorno);
                         t.Start();
                         t.Join();
-                        //Consulta_Retorno();
                         this.Cursor = System.Windows.Input.Cursors.Arrow;
 
                         Job();
@@ -248,10 +263,10 @@ namespace Vertech
 
         public void Contagem(DirectoryInfo dir)
         {
-            int i = 0;
-            int j = 0;
-            List<string> ldat = new List<string>();
             List<string> ltxt = new List<string>();
+            int i = 0; 
+            int j = 0;
+
             try
             {
                 foreach (FileInfo file in dir.GetFiles())
@@ -260,35 +275,24 @@ namespace Vertech
                     {
                         if (file.Name != "logEnvio.txt" && file.Name != "logConsulta.txt" && file.Name.Contains("log_") == false)
                         {
-                            i++;
                             ltxt.Add(file.Name);
                         }
                     }
-                    if(file.Extension == ".dat")
+                }
+
+                foreach (var item in ltxt)
+                {
+                    var ret = Helper.ExistsProtocolo(item);
+
+                    if(ret == false)
+                    {
+                        i++;
+                    }
+                    if(ret == true)
                     {
                         j++;
-                        ldat.Add(file.Name);
                     }
                 }
-
-                foreach (var item in ldat)
-                {
-                    int n = item.Length;
-                    string name = item.Remove(n - 3, 3);
-
-                    int m = name.Length;
-                    name = name.Remove(j - j, 5);
-                    name = string.Concat(name, "txt");
-
-                    foreach (var txt in ltxt)
-                    {
-                        if(name == txt)
-                        {
-                            i--;
-                        }
-                    }
-                }
-
             }
             catch (Exception)
             {
@@ -379,7 +383,7 @@ namespace Vertech
 
                         try
                         {
-                            string user = System.Windows.Forms.SystemInformation.UserName;
+                            /*string user = System.Windows.Forms.SystemInformation.UserName;
 
                             string[] lines = { Parametros.GetDirToke(), Parametros.GetDirArq(), Parametros.GetDirFim() };
 
@@ -393,7 +397,10 @@ namespace Vertech
 
                             var s = string.Concat(folderInfo, '\\', "vch", '\\', "Parametros.dat");
 
-                            System.IO.File.WriteAllLines(@s, lines);
+                            System.IO.File.WriteAllLines(@s, lines);*/
+
+                            Helper.AddParametros(new Parametro { Id = 1, CaminhoDir = Parametros.GetDirArq(), CaminhoFim = Parametros.GetDirFim(), CaminhoToke = Parametros.GetDirToke() });
+
                             Job();
                         }
                         catch(Exception ex)
