@@ -24,7 +24,7 @@ namespace Vertech.Services
             ClassException ex = new ClassException();
             //Consulta consulta = new Consulta();
             Processos processo = new Processos();
-
+            int i = 0;
             List<string> lista = processo.Listar_arquivos(".txt");
 
             if (lista.Count > 0)
@@ -36,9 +36,14 @@ namespace Vertech.Services
                     {
                         var p = Helper.GetProtocolo(arq_name);
                         ConsultaProtocolo(Set_Protocolo(p), p.NomeArquivo);
+                        i++;
                     }
                     
                     //Thread.Sleep(1000);
+                }
+                if (i == 0)
+                {
+                    ex.ImprimeMsgDeErro_NoFilesFound(2);
                 }
             }
 
@@ -46,7 +51,7 @@ namespace Vertech.Services
             {
                 ex.ImprimeMsgDeErro_NoFilesFound(2);
             }
-                
+            
         }
 
         public void ConsultaProtocolo(apiIntegra.integraResponse Prot, string filename)

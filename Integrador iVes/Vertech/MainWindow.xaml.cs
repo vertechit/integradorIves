@@ -263,7 +263,7 @@ namespace Vertech
 
         public void Contagem(DirectoryInfo dir)
         {
-            List<string> ltxt = new List<string>();
+            var ltxt = new List<string>();
             int i = 0; 
             int j = 0;
 
