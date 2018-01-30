@@ -105,7 +105,7 @@ namespace Vertech.Services
         private apiIntegra.integraResponse Set_Protocolo(Protocolo p)
         {
             Processos processo = new Processos();
-            apiIntegra.integraResponse response = new apiIntegra.integraResponse();
+            var response = new apiIntegra.integraResponse();
 
             //var retorno = processo.LerArquivo(Parametros.GetDirArq(), arq_name);
 
