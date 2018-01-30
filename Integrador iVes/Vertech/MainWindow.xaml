@@ -45,7 +45,8 @@
                 Height="30" 
                 Width="150" 
                 FontFamily="Century Gothic" 
-                FontSize="15" Click="BtnConsultar_Click"/>
+                FontSize="15" 
+                Click="BtnConsultar_Click"/>
 
             <Image
                 Name="_Vertech_component_logo_png" 
@@ -63,6 +64,7 @@
                        Height="23" 
                        Margin="213,91,0,0" 
                        Grid.Row="1" 
+                       FontFamily="Century Gothic" 
                        TextWrapping="Wrap" 
                        VerticalAlignment="Top" 
                        Width="365" 
@@ -73,6 +75,7 @@
                    HorizontalAlignment="Left" 
                    Margin="161,86,0,0" 
                    Grid.Row="1" 
+                   FontFamily="Century Gothic" 
                    VerticalAlignment="Top"/>
             
             <Button Name="BtnProcurarIni" 
@@ -93,6 +96,7 @@
                        TextWrapping="Wrap" 
                        VerticalAlignment="Top" 
                        Width="365" 
+                       FontFamily="Century Gothic" 
                        Grid.ColumnSpan="3"/>
             
             <Label x:Name="LblCaminhoFim" 
@@ -100,6 +104,7 @@
                    HorizontalAlignment="Left" 
                    Margin="160,146,0,0" 
                    Grid.Row="1" 
+                   FontFamily="Century Gothic" 
                    VerticalAlignment="Top"/>
             
             <Button x:Name="BtnProcurarFim" 
@@ -118,6 +123,7 @@
                    HorizontalAlignment="Left" 
                    Margin="50,61,0,0" 
                    Grid.Row="2" 
+                   FontFamily="Century Gothic" 
                    VerticalAlignment="Top"/>
             
             <Label x:Name="LbltmCons" 
@@ -126,6 +132,7 @@
                    HorizontalAlignment="Left" 
                    Margin="50,103,0,0" 
                    Grid.Row="2" 
+                   FontFamily="Century Gothic" 
                    VerticalAlignment="Top" 
                    RenderTransformOrigin="0.534,0.562"/>
             
@@ -135,6 +142,7 @@
                    HorizontalAlignment="Left" 
                    Margin="203,61,0,0" 
                    Grid.Row="2" 
+                   FontFamily="Century Gothic" 
                    VerticalAlignment="Top" 
                    MouseMove="LblqtdEnv_MouseMove"/>
             
@@ -144,6 +152,7 @@
                    HorizontalAlignment="Left" 
                    Margin="203,103,0,0" 
                    Grid.Row="2" 
+                   FontFamily="Century Gothic" 
                    VerticalAlignment="Top" 
                    MouseMove="LblqtdCons_MouseMove"/>
 
@@ -155,6 +164,7 @@
                        TextWrapping="Wrap" 
                        VerticalAlignment="Top" 
                        Width="365" 
+                       FontFamily="Century Gothic" 
                        Grid.ColumnSpan="3"/>
             
             <Label x:Name="LblToken" 
@@ -162,6 +172,7 @@
                    HorizontalAlignment="Left" 
                    Margin="169,25,0,0" 
                    Grid.Row="1" 
+                   FontFamily="Century Gothic" 
                    VerticalAlignment="Top"/>
             
             <Button x:Name="BtnProcurarToken" 
@@ -191,7 +202,7 @@
                    VerticalAlignment="Top" 
                    RenderTransformOrigin="9.429,6.547" 
                    Margin="68,162,0,0" 
-                   Width="133"
+                   Width="151"
                    FontFamily="Century Gothic" 
                    FontSize="25" Grid.Column="1"/>
             
@@ -205,6 +216,8 @@
                     Grid.Row="2" 
                     Height="32" 
                     RenderTransformOrigin="0.505,0.36" 
+                    FontFamily="Century Gothic" 
+                    FontSize="12"
                     Click="BtnParam_Click"/>
 
         </Grid>

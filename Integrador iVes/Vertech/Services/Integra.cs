@@ -17,7 +17,6 @@ namespace Vertech.Services
 {
     public class Integra
     {
-        ClassException ex = new ClassException();
 
         public void Job()
         {
@@ -74,6 +73,7 @@ namespace Vertech.Services
 
             else
             {
+                ClassException ex = new ClassException();
                 ex.ImprimeMsgDeErro_NoFilesFound(1);
             }
 
@@ -90,6 +90,7 @@ namespace Vertech.Services
             }
             catch (Exception)
             {
+                ClassException ex = new ClassException();
                 ex.ImprimeException(1, "Erro ao atribuir identificador");
             }
 
@@ -111,6 +112,7 @@ namespace Vertech.Services
             }
             catch (Exception)
             {
+                ClassException ex = new ClassException();
                 ex.ImprimeException(1, "Erro no retorno do arquivo");
             }
 
@@ -133,6 +135,7 @@ namespace Vertech.Services
             }
             catch(Exception e)
             {
+                ClassException ex = new ClassException();
                 ex.ImprimeException(1, e.Message.ToString());
             }
 

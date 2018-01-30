@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using System;
 using System.Data;
 using System.Data.SQLite;
 using Vertech.Modelos;
@@ -286,22 +285,5 @@ namespace Vertech.DAO
                 excep.ExSQLite(8, ex.Message);
             }
         }
-
-        /*public static void Delete(int Id)
-        {
-            try
-            {
-                using (var cmd = new SQLiteCommand(DbConnection()))
-                {
-                    cmd.CommandText = "DELETE FROM Clientes Where Id=@Id";
-                    cmd.Parameters.AddWithValue("@Id", Id);
-                    cmd.ExecuteNonQuery();
-                }
-            }
-            catch (Exception ex)
-            {
-                throw ex;
-            }
-        }*/
     }
 }
