@@ -37,13 +37,13 @@ namespace Vertech
         public MainWindow()
         {
             InitializeComponent();
-            init();
+            Init();
             Parametros.SetTipoApp("Client");
         }
 
 
 
-        private void init()
+        private void Init()
         {
             Processos process = new Processos();
 
@@ -434,7 +434,7 @@ namespace Vertech
 
         private void BtnParam_Click(object sender, RoutedEventArgs e)
         {
-            init();
+            Init();
         }
     }
 }

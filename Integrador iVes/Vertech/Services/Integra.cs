@@ -121,8 +121,8 @@ namespace Vertech.Services
 
         public integraResponse Enviar(integraRequest Request)
         {
-            EsocialServiceClient req = new EsocialServiceClient();
-            integraResponse Response = new integraResponse();
+            var req = new EsocialServiceClient();
+            var Response = new integraResponse();
 
             try
             {

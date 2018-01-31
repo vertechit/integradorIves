@@ -58,17 +58,6 @@ namespace Vertech.Services
             try
             {
                 Helper.AddProtocolo(new Protocolo { Id = 0, NomeArquivo = arq, NroProtocolo = Convert.ToString(Response.protocolo) });
-                /*string dir = Parametros.GetDirArq();
-                int n = arq.Length;
-                string name = arq.Remove(n - 3, 3);
-
-                name = string.Concat("prot_", name, "dat");
-
-                string s = MontaCaminhoDir(dir, name);
-
-                string[] lines = { Convert.ToString(Response.protocolo), Convert.ToString(Response.protocoloSpecified) };
-
-                System.IO.File.WriteAllLines(@s, lines);*/
             }
             catch (Exception e)
             {
@@ -126,12 +115,6 @@ namespace Vertech.Services
                             File_Names.Add(file.Name);
                     }
                 }
-
-                /*// busca arquivos do proximo sub-diretorio
-                foreach (DirectoryInfo subDir in dir.GetDirectories())
-                {
-                    BuscaArquivos(subDir);
-                }*/
             }
             catch (Exception)
             {
@@ -152,34 +135,15 @@ namespace Vertech.Services
             string o = MontaCaminhoDir(origem, filename);
             string d = MontaCaminhoDir(destino, filename);
 
-            
-
             try
             {
-
                 System.IO.File.Move(o, d);
-
-                /*int n = filename.Length;
-                string name = filename.Remove(n - 3, 3);
-
-                int j = name.Length;
-                name = name.Remove(j - j, 5);
-                name = string.Concat(name, "txt");
-
-                o = MontaCaminhoDir(origem, name);
-                d = MontaCaminhoDir(destino, name);
-
-                System.IO.File.Move(o, d);*/
             }
             catch(Exception e)
             {
                 ClassException ex = new ClassException();
                 ex.ExProcessos(4,e.Message.ToString());
             }
-
-            // To move an entire directory. To programmatically modify or combine
-            // path strings, use the System.IO.Path class.
-            //System.IO.Directory.Move(@"C:\Users\Public\public\test\", @"C:\Users\Public\private");
         }
 
         public void GeraLogConsulta(string filename, string nroprt, string desc, TextWriter w)
