@@ -254,9 +254,6 @@ namespace Vertech
                 if (DefineToken(Parametros.GetDirToke()) == true)
                 {
                     txtFolderToken.Text = dlg.FileName;
-                    //SecureFile sec = new SecureFile();
-                    //sec.Encrypt(dlg.FileName, string.Concat(Parametros.GetDirArq(),'\\', "token.cpt"));
-                    //sec.Descrypt(string.Concat(Parametros.GetDirArq(), '\\', "token.cpt"), string.Concat(Parametros.GetDirArq(), '\\', "token.file"));
                 }
             }
             else if (dlg.FileName != "" && b == false)

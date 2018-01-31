@@ -13,9 +13,19 @@ namespace Vertech.Services
 {
     public class SecureFile
     {
+        public void Hidden(string path)
+        {
+            FileInfo arquivo = new FileInfo(@path);
+            arquivo.Attributes = FileAttributes.Hidden;
+        }
+
         public void Encrypt(string input, string output)
         {
             this.EncryptFile(input, output);
+            //SecureFile sec = new SecureFile();
+            //sec.Hidden(string.Concat(Parametros.GetDirArq(), '\\', "token.cpt"));
+            //sec.Encrypt(dlg.FileName, string.Concat(Parametros.GetDirArq(),'\\', "token.cpt"));
+            //sec.Descrypt(string.Concat(Parametros.GetDirArq(), '\\', "token.cpt"), string.Concat(Parametros.GetDirArq(), '\\', "token.file"));
 
             /*// CRIANDO DIRETORIO HIDDEN
             DirectoryInfo diretorio = Directory.CreateDirectory(@"C:\Diretorio");
@@ -66,8 +76,8 @@ namespace Vertech.Services
                 cs.Close();
                 fsCrypt.Close();
 
-                //System.IO.FileInfo fi = new System.IO.FileInfo(inputFile);
-
+                System.IO.FileInfo fi = new System.IO.FileInfo(inputFile);
+                fi.Attributes = FileAttributes.Hidden;
                 //fi.Delete();
 
             }
