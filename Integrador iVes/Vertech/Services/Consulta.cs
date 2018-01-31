@@ -80,6 +80,7 @@ namespace Vertech.Services
                 processo.GeraLogConsulta(filename
                     , Response.consultaProtocolo.identificador.protocolo.ToString()
                     , Convert.ToString(Response.consultaProtocolo.status.descResposta)
+                    , Convert.ToInt32(Response.consultaProtocolo.status.cdResposta)
                     , w);
 
                 processo.GeraLogDetalhado(filename, Response);
@@ -95,7 +96,11 @@ namespace Vertech.Services
             {
                 StreamWriter arq = File.AppendText(@s);
 
-                processo.GeraLogConsulta(filename, Request.protocolo.ToString(), e.Message.ToString(), arq);
+                processo.GeraLogConsulta(filename
+                    , Request.protocolo.ToString()
+                    , e.Message.ToString()
+                    , 0
+                    , arq);
 
                 arq.Close();
             }

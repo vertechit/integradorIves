@@ -143,6 +143,7 @@
     <Compile Include="Services\Integra.cs" />
     <Compile Include="Services\Parametros.cs" />
     <Compile Include="Services\Processos.cs" />
+    <Compile Include="Services\SecureFile.cs" />
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>

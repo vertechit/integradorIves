@@ -68,7 +68,7 @@ namespace Vertech
 
                 if (param != null)
                 {
-                    if (param.CaminhoToke.Contains(".file") && param.CaminhoToke != "")
+                    if (param.CaminhoToke.Contains(".file") && param.CaminhoToke != "" && File.Exists(param.CaminhoToke))
                     {
                         Parametros.SetDirToke(param.CaminhoToke);
                         txtFolderToken.Text = param.CaminhoToke;
@@ -77,11 +77,27 @@ namespace Vertech
 
                     if (param.CaminhoDir != "" && param.CaminhoFim != "" && param.CaminhoDir != param.CaminhoFim)
                     {
-                        txtFolderIni.Text = param.CaminhoDir;
-                        txtFolderFim.Text = param.CaminhoFim;
-                        Parametros.SetDirArq(param.CaminhoDir);
-                        Parametros.SetDirFim(param.CaminhoFim);
-                        Job();
+                        int ctrl = 0;
+
+                        if( Directory.Exists(param.CaminhoDir) )
+                        {
+                            txtFolderIni.Text = param.CaminhoDir;
+                            Parametros.SetDirArq(param.CaminhoDir);
+                            ctrl++;
+                        }
+
+                        if ( Directory.Exists(param.CaminhoFim) )
+                        {
+                            txtFolderFim.Text = param.CaminhoFim;
+                            Parametros.SetDirFim(param.CaminhoFim);
+                            ctrl++;
+                        }
+
+                        if(ctrl == 2)
+                        {
+                            Job();
+                        }
+                        
                     }
 
                 }
@@ -223,7 +239,9 @@ namespace Vertech
         {
             OpenFileDialog dlg = new OpenFileDialog();
             dlg.Title = "Arquivo de token";
+            dlg.Filter = "Token|*.file;...";
             dlg.ShowDialog();
+            
 
             var s = dlg.SafeFileName;
 
@@ -236,6 +254,9 @@ namespace Vertech
                 if (DefineToken(Parametros.GetDirToke()) == true)
                 {
                     txtFolderToken.Text = dlg.FileName;
+                    //SecureFile sec = new SecureFile();
+                    //sec.Encrypt(dlg.FileName, string.Concat(Parametros.GetDirArq(),'\\', "token.cpt"));
+                    //sec.Descrypt(string.Concat(Parametros.GetDirArq(), '\\', "token.cpt"), string.Concat(Parametros.GetDirArq(), '\\', "token.file"));
                 }
             }
             else if (dlg.FileName != "" && b == false)
@@ -305,10 +326,11 @@ namespace Vertech
 
         public bool DefineToken(string dir)
         {
-            string [] lines = System.IO.File.ReadAllLines(@dir);
 
             try
             {
+                string[] lines = System.IO.File.ReadAllLines(@dir);
+
                 if (lines.Length == 2)
                 {
                     Parametros.SetGrupo(Convert.ToInt32(lines[0]));
@@ -327,7 +349,7 @@ namespace Vertech
             }
             catch
             {
-                System.Windows.Forms.MessageBox.Show("Infomações inválidas");
+                System.Windows.Forms.MessageBox.Show("Arquivo de token não pode ser importado");
                 Parametros.SetDirToke(null);
                 txtFolderToken.Text = "";
                 return false;

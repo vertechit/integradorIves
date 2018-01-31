@@ -7,6 +7,7 @@ using System.IO;
 using System.Windows;
 using Vertech.DAO;
 using Vertech.Modelos;
+using System.Security.AccessControl;
 
 namespace Vertech.Services
 {
@@ -146,15 +147,31 @@ namespace Vertech.Services
             }
         }
 
-        public void GeraLogConsulta(string filename, string nroprt, string desc, TextWriter w)
+        public void GeraLogConsulta(string filename, string nroprt, string desc, int cd, TextWriter w)
         {
-            w.Write("\r\nLog consulta: ");
-            w.WriteLine("{0} {1}", DateTime.Now.ToLongTimeString(),
-                DateTime.Now.ToLongDateString());
-            w.WriteLine("Arquivo: {0}", filename);
-            w.WriteLine("Número protocolo: {0}", nroprt);
-            w.WriteLine("Descrição: {0}", desc);
-            w.WriteLine("-------------------------------");
+            if(cd != 3)
+            {
+                w.Write("\r\nLog consulta: ");
+                w.WriteLine("{0} {1}", DateTime.Now.ToLongTimeString(),
+                    DateTime.Now.ToLongDateString());
+                w.WriteLine("Arquivo: {0}", filename);
+                w.WriteLine("Número protocolo: {0}", nroprt);
+                w.WriteLine("Descrição: {0}", desc);
+                w.WriteLine("Tente fazer a consulta do protocolo novamente dentro de alguns minutos");
+                w.WriteLine("-------------------------------");
+            }
+            else
+            {
+                w.Write("\r\nLog consulta: ");
+                w.WriteLine("{0} {1}", DateTime.Now.ToLongTimeString(),
+                    DateTime.Now.ToLongDateString());
+                w.WriteLine("Arquivo: {0}", filename);
+                w.WriteLine("Número protocolo: {0}", nroprt);
+                w.WriteLine("Descrição: {0}", desc);
+                w.WriteLine("-------------------------------");
+            }
+
+            
         }
 
         public void GeraLogDetalhado(string filename, apiConsulta.consultaResponse retorno)
@@ -312,5 +329,6 @@ namespace Vertech.Services
             w.WriteLine(str);
             w.WriteLine("-------------------------------");
         }
+
     }
 }

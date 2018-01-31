@@ -38,12 +38,20 @@ namespace iVesService
             {
                 var s = Helper.GetParametros();
 
-                Parametros.SetDirToke(s.CaminhoToke);
-                Parametros.SetDirArq(s.CaminhoDir);
-                Parametros.SetDirFim(s.CaminhoFim);
-
-                if(DefineToken(Parametros.GetDirToke()) == false)
+                if(Directory.Exists(s.CaminhoDir) && Directory.Exists(s.CaminhoFim) && File.Exists(s.CaminhoToke))
                 {
+                    Parametros.SetDirToke(s.CaminhoToke);
+                    Parametros.SetDirArq(s.CaminhoDir);
+                    Parametros.SetDirFim(s.CaminhoFim);
+
+                    if (DefineToken(Parametros.GetDirToke()) == false)
+                    {
+                        this.Stop();
+                    }
+                }
+                else
+                {
+                    Log("Não foi possivel localizar as informações, por favor, abra o integrador e defina os parametros novamente.", 2);
                     this.Stop();
                 }
             }
@@ -87,21 +95,22 @@ namespace iVesService
 
         private void Timer_Tick(object sender)
         {
-            Log("Job Iniciado: ");
+            Log("Job Iniciado: ", 1);
 
             integra.Job();
             Thread.Sleep(30000);
             consulta.Job();
 
-            Log("Job finalizado: ");
+            Log("Job finalizado: ", 1);
         }
 
         public bool DefineToken(string dir)
         {
-            string[] lines = System.IO.File.ReadAllLines(@dir);
 
             try
             {
+                string[] lines = System.IO.File.ReadAllLines(@dir);
+
                 if (lines.Length == 2)
                 {
                     Parametros.SetGrupo(Convert.ToInt32(lines[0]));
@@ -111,25 +120,37 @@ namespace iVesService
                 }
                 else
                 {
-                   Log("Arquivo não suportado");
+                   Log("Arquivo não suportado.", 2);
                     return false;
                 }
             }
             catch
             {
-                Log("Infomações inválidas");
+                Log("Arquivo de token não pode ser importado.", 2);
                 return false;
             }
 
         }
 
-        private void Log(string msg)
+        private void Log(string msg, int tp)
         {
-            StreamWriter vWriter = new StreamWriter(@"c:\logServico.txt", true);
-            vWriter.WriteLine(msg + DateTime.Now.ToString());
-            vWriter.WriteLine("");
-            vWriter.Flush();
-            vWriter.Close();
+            if (tp == 1)
+            {
+                StreamWriter vWriter = new StreamWriter(@"c:\logServico.txt", true);
+                vWriter.WriteLine(msg + DateTime.Now.ToString());
+                vWriter.WriteLine("");
+                vWriter.Flush();
+                vWriter.Close();
+            }
+            else
+            {
+                StreamWriter vWriter = new StreamWriter(@"c:\logServico.txt", true);
+                vWriter.WriteLine(msg);
+                vWriter.WriteLine("");
+                vWriter.Flush();
+                vWriter.Close();
+            }
+            
         }
     }
 }
