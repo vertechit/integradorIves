@@ -23,6 +23,9 @@ using System.Security.Permissions;
 using System.Security.AccessControl;
 using Vertech.DAO;
 using Vertech.Modelos;
+using System.Security.Cryptography;
+using System.Runtime.InteropServices;
+using System.Diagnostics;
 
 namespace Vertech
 {
