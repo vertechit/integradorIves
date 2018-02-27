@@ -173,6 +173,23 @@ namespace Vertech.DAO
             return false;
         }
 
+        public static void DeleteProtocolo(string arqname)
+        {
+            try
+            {
+                using (var cmd = DbConnection().CreateCommand())
+                {
+                    cmd.CommandText = "DELETE from protocolo where nome_arq = @arq";
+                    cmd.Parameters.AddWithValue("@arq", arqname);
+                    cmd.ExecuteNonQuery();
+                }
+            }
+            catch (Exception ex)
+            {
+                ClassException excep = new ClassException();
+                excep.ExSQLite(5, ex.Message);
+            }
+        }
 
         public static Parametro GetParametros()
         {
@@ -208,7 +225,7 @@ namespace Vertech.DAO
             catch (Exception ex)
             {
                 ClassException excep = new ClassException();
-                excep.ExSQLite(5, ex.Message);
+                excep.ExSQLite(6, ex.Message);
             }
 
             return null;
@@ -229,7 +246,7 @@ namespace Vertech.DAO
             catch (Exception ex)
             {
                 ClassException excep = new ClassException();
-                excep.ExSQLite(6, ex.Message);
+                excep.ExSQLite(7, ex.Message);
             }
         }
 
@@ -258,7 +275,7 @@ namespace Vertech.DAO
             catch (Exception ex)
             {
                 ClassException excep = new ClassException();
-                excep.ExSQLite(7, ex.Message);
+                excep.ExSQLite(8, ex.Message);
             }
         }
 
@@ -282,7 +299,7 @@ namespace Vertech.DAO
             catch (Exception ex)
             {
                 ClassException excep = new ClassException();
-                excep.ExSQLite(8, ex.Message);
+                excep.ExSQLite(9, ex.Message);
             }
         }
     }

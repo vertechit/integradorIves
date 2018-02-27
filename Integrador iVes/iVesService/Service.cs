@@ -79,7 +79,7 @@ namespace iVesService
 
             Parametro();
 
-            Timer = new Timer(new TimerCallback(Timer_Tick), null, 10000, 600000);
+            Timer = new Timer(new TimerCallback(Timer_Tick), null, 10000, 900000);
 
         }
 

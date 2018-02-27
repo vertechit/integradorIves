@@ -90,6 +90,7 @@ namespace Vertech.Services
                 if(Response.consultaProtocolo.status.cdResposta == 3)
                 {
                     processo.Mover_Consultado(filename);
+                    Helper.DeleteProtocolo(filename);
                 }
             }
             catch(Exception e)

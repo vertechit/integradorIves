@@ -30,7 +30,7 @@ namespace Vertech.Services
          * SecureFile.ZeroMemory(gch.AddrOfPinnedObject(), password.Length * 2);
          * 
          * gch.Free();
-        */
+         */
         public void Hidden(string path)
         {
             FileInfo arquivo = new FileInfo(@path);
