@@ -21,12 +21,6 @@
         }
         "Entry"
         {
-        "MsmKey" = "8:_185FA696568C40F7A4F2229F4277AF05"
-        "OwnerKey" = "8:_UNDEFINED"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
         "MsmKey" = "8:_393BC74AD77C4058BC9F5A4B179B4CA7"
         "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
@@ -118,6 +112,12 @@
         "Entry"
         {
         "MsmKey" = "8:_E773C6652F2347EDBDEB9C2D88F3E0C0"
+        "OwnerKey" = "8:_UNDEFINED"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_E8930019E2694C7BB205F57B090A6C69"
         "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
         }
@@ -352,26 +352,6 @@
             "IsDependency" = "11:FALSE"
             "IsolateTo" = "8:"
             }
-            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_185FA696568C40F7A4F2229F4277AF05"
-            {
-            "SourcePath" = "8:..\\Vertech\\Imagens\\Vertechs-20180109_143803.ico"
-            "TargetName" = "8:Vertechs-20180109_143803.ico"
-            "Tag" = "8:"
-            "Folder" = "8:_CCC7D1ED8BE44572AB01824AE66778C4"
-            "Condition" = "8:"
-            "Transitive" = "11:FALSE"
-            "Vital" = "11:TRUE"
-            "ReadOnly" = "11:FALSE"
-            "Hidden" = "11:FALSE"
-            "System" = "11:FALSE"
-            "Permanent" = "11:FALSE"
-            "SharedLegacy" = "11:FALSE"
-            "PackageAs" = "3:1"
-            "Register" = "3:1"
-            "Exclude" = "11:FALSE"
-            "IsDependency" = "11:FALSE"
-            "IsolateTo" = "8:"
-            }
             "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_393BC74AD77C4058BC9F5A4B179B4CA7"
             {
             "SourcePath" = "8:..\\Vertech\\Dependencias\\64\\SQLite.Interop.dll"
@@ -578,6 +558,26 @@
             "IsDependency" = "11:TRUE"
             "IsolateTo" = "8:"
             }
+            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_E8930019E2694C7BB205F57B090A6C69"
+            {
+            "SourcePath" = "8:..\\Vertech\\Imagens\\logo1.ico"
+            "TargetName" = "8:logo1.ico"
+            "Tag" = "8:"
+            "Folder" = "8:_CCC7D1ED8BE44572AB01824AE66778C4"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:FALSE"
+            "IsolateTo" = "8:"
+            }
             "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_FEAEAFE7BE7492819333AB02F2260BC0"
             {
             "AssemblyRegister" = "3:1"
@@ -688,7 +688,7 @@
         "Name" = "8:Microsoft Visual Studio"
         "ProductName" = "8:Integrador Service"
         "ProductCode" = "8:{456B09F7-897A-461B-B98F-3857FD224B34}"
-        "PackageCode" = "8:{54FF8AED-5D17-459A-8771-03CF2256095A}"
+        "PackageCode" = "8:{924D7685-AFB6-4611-8638-A5BCEED01DCC}"
         "UpgradeCode" = "8:{CB00914A-54FC-4D14-97AC-FA0A0C276ABA}"
         "AspNetVersion" = "8:4.0.30319.0"
         "RestartWWWService" = "11:FALSE"
@@ -819,7 +819,7 @@
             "Target" = "8:_E773C6652F2347EDBDEB9C2D88F3E0C0"
             "Folder" = "8:_58D79A300DB94F47948F48A24F8DADA2"
             "WorkingFolder" = "8:_CCC7D1ED8BE44572AB01824AE66778C4"
-            "Icon" = "8:_185FA696568C40F7A4F2229F4277AF05"
+            "Icon" = "8:_E8930019E2694C7BB205F57B090A6C69"
             "Feature" = "8:"
             }
             "{970C0BB2-C7D0-45D7-ABFA-7EC378858BC0}:_E8AA4D14388545139187A9BFAF63180C"
@@ -833,7 +833,7 @@
             "Target" = "8:_E773C6652F2347EDBDEB9C2D88F3E0C0"
             "Folder" = "8:_98799182AFA2403C8D3EBBA51EA096A0"
             "WorkingFolder" = "8:_CCC7D1ED8BE44572AB01824AE66778C4"
-            "Icon" = "8:_185FA696568C40F7A4F2229F4277AF05"
+            "Icon" = "8:_E8930019E2694C7BB205F57B090A6C69"
             "Feature" = "8:"
             }
         }

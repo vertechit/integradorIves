@@ -71,7 +71,7 @@ namespace Vertech
 
                 if (param != null)
                 {
-                    if (param.CaminhoToke.Contains(".file") && param.CaminhoToke != "" && File.Exists(param.CaminhoToke))
+                    if (param.CaminhoToke.Contains(".ives") && param.CaminhoToke != "" && File.Exists(param.CaminhoToke))
                     {
                         Parametros.SetDirToke(param.CaminhoToke);
                         txtFolderToken.Text = param.CaminhoToke;
@@ -242,13 +242,13 @@ namespace Vertech
         {
             OpenFileDialog dlg = new OpenFileDialog();
             dlg.Title = "Arquivo de token";
-            dlg.Filter = "Token|*.file;...";
+            dlg.Filter = "Token|*.ives;...";
             dlg.ShowDialog();
             
 
             var s = dlg.SafeFileName;
 
-            var b = s.Contains(".file");
+            var b = s.Contains(".ives");
 
             if (b == true)
             {

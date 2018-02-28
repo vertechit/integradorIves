@@ -98,7 +98,7 @@ namespace iVesService
             Log("Job Iniciado: ", 1);
 
             integra.Job();
-            Thread.Sleep(30000);
+            Thread.Sleep(60000);
             consulta.Job();
 
             Log("Job finalizado: ", 1);
