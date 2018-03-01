@@ -70,6 +70,7 @@ namespace iVesService
         protected override void OnStart(string[] args)
         {
             //System.Diagnostics.Debugger.Launch();
+
             StreamWriter vWriter = new StreamWriter(@"c:\logServico.txt", true);
             vWriter.WriteLine("--------------------------------------------------");
             vWriter.WriteLine("Serviço iniciado: " + DateTime.Now.ToString());
@@ -79,7 +80,7 @@ namespace iVesService
 
             Parametro();
 
-            Timer = new Timer(new TimerCallback(Timer_Tick), null, 10000, 900000);
+            Timer = new Timer(new TimerCallback(Timer_Tick), null, 10000, 1200000);
 
         }
 

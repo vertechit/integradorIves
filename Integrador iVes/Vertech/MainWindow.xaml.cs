@@ -443,10 +443,12 @@ namespace Vertech
                     System.Windows.Forms.MessageBox.Show("Você precisa selecionar um pasta de origem dos arquivos");
 
                 }
-                else
+                else if ((Parametros.GetDirFim()) == null)
                 {
                     System.Windows.Forms.MessageBox.Show("Você precisa selecionar um pasta de destino para os arquivos");
                 }
+                else
+                    System.Windows.Forms.MessageBox.Show("Token anexado inválido!");
             }
             else
                 System.Windows.Forms.MessageBox.Show("Para integrar e consultar você precisa anexar um token valido");

@@ -8,11 +8,22 @@ using System.Windows;
 using Vertech.DAO;
 using Vertech.Modelos;
 using System.Security.AccessControl;
+using System.Runtime.InteropServices;
 
 namespace Vertech.Services
 {
     public class Processos
     {
+
+        [DllImport("wininet.dll")]
+        private extern static Boolean InternetGetConnectedState(out int Description, int ReservedValue);
+
+        public static Boolean IsConnected()
+        {
+            int Description;
+
+            return InternetGetConnectedState(out Description, 0);
+        }
 
         public string MontaCaminhoDir(string dir, string name)
         {
@@ -149,7 +160,25 @@ namespace Vertech.Services
 
         public void GeraLogConsulta(string filename, string nroprt, string desc, int cd, TextWriter w)
         {
-            if(cd != 3)
+            if (cd == 0)
+            {
+                w.Write("\r\nLog consulta: ");
+                w.WriteLine("{0} {1}", DateTime.Now.ToLongTimeString(),
+                    DateTime.Now.ToLongDateString());
+                w.WriteLine("Arquivo: {0}", filename);
+                w.WriteLine("Número protocolo: {0}", nroprt);
+                if(IsConnected())
+                {
+                    w.WriteLine("Descrição: Erro!");
+                    w.WriteLine("Consulte o ambiente iVes na pagina de importação para ter o detalhe completo");
+                }
+                else
+                    w.WriteLine("Descrição: Erro, sem conexão com a internet!");
+                
+                w.WriteLine("-------------------------------");
+            }
+
+            else if(cd != 3)
             {
                 w.Write("\r\nLog consulta: ");
                 w.WriteLine("{0} {1}", DateTime.Now.ToLongTimeString(),

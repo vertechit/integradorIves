@@ -99,7 +99,7 @@ namespace Vertech.Services
 
                 processo.GeraLogConsulta(filename
                     , Request.protocolo.ToString()
-                    , e.Message.ToString()
+                    , e.InnerException.Message.ToString()
                     , 0
                     , arq);
 

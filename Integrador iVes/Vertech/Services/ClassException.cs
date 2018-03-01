@@ -66,15 +66,23 @@ namespace Vertech.Services
                 case 1:
                     if(Parametros.GetTipoApp() == "Service")
                     {
-                        var s = processo.MontaCaminhoDir(Parametros.GetDirArq(), "logEnvio.txt");
-                        StreamWriter vWriter = new StreamWriter(@s, true);
-                        vWriter.WriteLine("");
-                        vWriter.WriteLine("Ocorrencia Integra");
-                        vWriter.WriteLine("Data/Hora: " + DateTime.Now.ToString());
-                        vWriter.WriteLine("Descrição: A pasta selecionada não contem os arquivos necessários para o envio");
-                        vWriter.WriteLine("");
-                        vWriter.Flush();
-                        vWriter.Close();
+                        try
+                        {
+                            var s = processo.MontaCaminhoDir(Parametros.GetDirArq(), "logEnvio.txt");
+                            StreamWriter vWriter = new StreamWriter(@s, true);
+                            vWriter.WriteLine("");
+                            vWriter.WriteLine("Ocorrencia Integra");
+                            vWriter.WriteLine("Data/Hora: " + DateTime.Now.ToString());
+                            vWriter.WriteLine("Descrição: A pasta selecionada não contem os arquivos necessários para o envio");
+                            vWriter.WriteLine("");
+                            vWriter.Flush();
+                            vWriter.Close();
+                        }
+                        catch(Exception ex)
+                        {
+                            Exception_Open_Files(999, ex.Message);
+                        }
+                        
                     }
                     else
                     {
@@ -84,16 +92,23 @@ namespace Vertech.Services
                 case 2:
                     if(Parametros.GetTipoApp() == "Service")
                     {
-                        var s = processo.MontaCaminhoDir(Parametros.GetDirArq(), "logConsulta.txt");
-                        StreamWriter vWriter = new StreamWriter(@s, true);
+                        try
+                        {
+                            var s = processo.MontaCaminhoDir(Parametros.GetDirArq(), "logConsulta.txt");
+                            StreamWriter vWriter = new StreamWriter(@s, true);
 
-                        vWriter.WriteLine("");
-                        vWriter.WriteLine("Ocorrencia Consulta");
-                        vWriter.WriteLine("Data/Hora: " + DateTime.Now.ToString());
-                        vWriter.WriteLine("Descrição: A pasta selecionada não contem os arquivos necessários para a consulta");
-                        vWriter.WriteLine("");
-                        vWriter.Flush();
-                        vWriter.Close();
+                            vWriter.WriteLine("");
+                            vWriter.WriteLine("Ocorrencia Consulta");
+                            vWriter.WriteLine("Data/Hora: " + DateTime.Now.ToString());
+                            vWriter.WriteLine("Descrição: A pasta selecionada não contem os arquivos necessários para a consulta");
+                            vWriter.WriteLine("");
+                            vWriter.Flush();
+                            vWriter.Close();
+                        }
+                        catch (Exception ex)
+                        {
+                            Exception_Open_Files(999, ex.Message);
+                        }
                     }
                     else
                     {
@@ -109,17 +124,25 @@ namespace Vertech.Services
 
             if (Parametros.GetTipoApp() == "Service")
             {
-                var s = processo.MontaCaminhoDir(Parametros.GetDirArq(), "logException.txt");
-                StreamWriter vWriter = new StreamWriter(@s, true);
+                try
+                {
+                    var s = processo.MontaCaminhoDir(Parametros.GetDirArq(), "logException.txt");
+                    StreamWriter vWriter = new StreamWriter(@s, true);
 
-                vWriter.WriteLine("");
-                vWriter.WriteLine("Ocorrencia");
-                vWriter.WriteLine("Data/Hora: " + DateTime.Now.ToString());
-                vWriter.WriteLine("Codigo do erro: " + codErro.ToString());
-                vWriter.WriteLine("Descrição: "+ msg);
-                vWriter.WriteLine("");
-                vWriter.Flush();
-                vWriter.Close();
+                    vWriter.WriteLine("");
+                    vWriter.WriteLine("Ocorrencia");
+                    vWriter.WriteLine("Data/Hora: " + DateTime.Now.ToString());
+                    vWriter.WriteLine("Codigo do erro: " + codErro.ToString());
+                    vWriter.WriteLine("Descrição: " + msg);
+                    vWriter.WriteLine("");
+                    vWriter.Flush();
+                    vWriter.Close();
+                }
+                
+                catch (Exception ex)
+                {
+                    Exception_Open_Files(999, ex.Message);
+                }
             }
             else
             {
@@ -133,17 +156,25 @@ namespace Vertech.Services
 
             if (Parametros.GetTipoApp() == "Service")
             {
-                var s = processo.MontaCaminhoDir(Parametros.GetDirArq(), "logException.txt");
-                StreamWriter vWriter = new StreamWriter(@s, true);
+                try
+                {
+                    var s = processo.MontaCaminhoDir(Parametros.GetDirArq(), "logException.txt");
+                    StreamWriter vWriter = new StreamWriter(@s, true);
 
-                vWriter.WriteLine("");
-                vWriter.WriteLine("Ocorrencia");
-                vWriter.WriteLine("Data/Hora: " + DateTime.Now.ToString());
-                vWriter.WriteLine("Codigo do erro: " + codErro.ToString());
-                vWriter.WriteLine("Descrição: " + msg);
-                vWriter.WriteLine("");
-                vWriter.Flush();
-                vWriter.Close();
+                    vWriter.WriteLine("");
+                    vWriter.WriteLine("Ocorrencia");
+                    vWriter.WriteLine("Data/Hora: " + DateTime.Now.ToString());
+                    vWriter.WriteLine("Codigo do erro: " + codErro.ToString());
+                    vWriter.WriteLine("Descrição: " + msg);
+                    vWriter.WriteLine("");
+                    vWriter.Flush();
+                    vWriter.Close();
+                }
+                catch (Exception ex)
+                {
+                    Exception_Open_Files(999, ex.Message);
+                }
+
             }
             else
             {
@@ -173,6 +204,23 @@ namespace Vertech.Services
             {
                 MessageBox.Show("Codigo do erro: " + codErro.ToString() + "\n" + msg);
             }
+        }
+
+        public void Exception_Open_Files(int tipo, string msg)
+        {
+            var p = new Processos();
+
+            var s = p.MontaCaminhoDir(Parametros.GetDirArq(), "logException.log");
+            StreamWriter vWriter = new StreamWriter(@s, true);
+
+            vWriter.WriteLine("");
+            vWriter.WriteLine("Ocorrencia");
+            vWriter.WriteLine("Data/Hora: " + DateTime.Now.ToString());
+            vWriter.WriteLine("Codigo do erro: " + tipo.ToString());
+            vWriter.WriteLine("Descrição: " + msg);
+            vWriter.WriteLine("");
+            vWriter.Flush();
+            vWriter.Close();
         }
     }
 }
