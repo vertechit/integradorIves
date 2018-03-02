@@ -123,7 +123,7 @@ namespace Vertech.Services
                 {
                     if (file.Extension == ext)
                     {
-                        if (file.Name != "logEnvio.txt" && file.Name != "logConsulta.txt" && file.Name.Contains("log_") == false)
+                        if (file.Name != "logEnvio.log" && file.Name != "logConsulta.log" && file.Name.Contains("log_") == false)
                             File_Names.Add(file.Name);
                     }
                 }
@@ -178,6 +178,18 @@ namespace Vertech.Services
                 w.WriteLine("-------------------------------");
             }
 
+            else if(cd == 2)
+            {
+                w.Write("\r\nLog consulta: ");
+                w.WriteLine("{0} {1}", DateTime.Now.ToLongTimeString(),
+                    DateTime.Now.ToLongDateString());
+                w.WriteLine("Arquivo: {0}", filename);
+                w.WriteLine("Número protocolo: {0}", nroprt);
+                w.WriteLine("Descrição: {0}", desc);
+                w.WriteLine("Consulte o ambiente iVes na pagina de importação para ter o detalhe completo");
+                w.WriteLine("-------------------------------");
+            }
+
             else if(cd != 3)
             {
                 w.Write("\r\nLog consulta: ");
@@ -218,14 +230,14 @@ namespace Vertech.Services
 
                         if (item.idErp != null)
                         {
-                            nome = string.Concat("log_",item.idErp, ".txt");
+                            nome = string.Concat("log_",item.idErp, ".log");
                         }
                         else
                         {
-                            nome = string.Concat("log_",item.id, ".txt");
+                            nome = string.Concat("log_",item.id, ".log");
                         }
 
-                        string s = MontaCaminhoDir(Parametros.GetDirArq(), nome);
+                        string s = MontaCaminhoDir(string.Concat(Parametros.GetDirArq(), "\\logs"), nome);
 
                         StreamWriter w = File.AppendText(@s);
 

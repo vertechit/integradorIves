@@ -26,7 +26,6 @@ namespace iVesService
         public Service()
         {
             InitializeComponent();
-            
         }
 
         public void Parametro()
@@ -57,7 +56,7 @@ namespace iVesService
             }
             catch
             {
-                StreamWriter vWriter = new StreamWriter(@"c:\logServico.txt", true);
+                StreamWriter vWriter = new StreamWriter(@"c:\vch\log\logServico.log", true);
                 vWriter.WriteLine("--------------------------------------------------");
                 vWriter.WriteLine("Erro " + DateTime.Now.ToString());
                 vWriter.Flush();
@@ -71,7 +70,12 @@ namespace iVesService
         {
             //System.Diagnostics.Debugger.Launch();
 
-            StreamWriter vWriter = new StreamWriter(@"c:\logServico.txt", true);
+            DirectoryInfo di = new DirectoryInfo("c:\\vch\\log");
+
+            if (di.Exists == false)
+                di.Create();
+
+            StreamWriter vWriter = new StreamWriter(@"c:\vch\log\logServico.log", true);
             vWriter.WriteLine("--------------------------------------------------");
             vWriter.WriteLine("Serviço iniciado: " + DateTime.Now.ToString());
             vWriter.WriteLine("");
@@ -86,7 +90,7 @@ namespace iVesService
 
         protected override void OnStop()
         {
-            StreamWriter vWriter = new StreamWriter(@"c:\logServico.txt", true);
+            StreamWriter vWriter = new StreamWriter(@"c:\vch\log\logServico.log", true);
 
             vWriter.WriteLine("Servico Pausado: " + DateTime.Now.ToString());
             vWriter.WriteLine("--------------------------------------------------");
@@ -137,7 +141,7 @@ namespace iVesService
         {
             if (tp == 1)
             {
-                StreamWriter vWriter = new StreamWriter(@"c:\logServico.txt", true);
+                StreamWriter vWriter = new StreamWriter(@"c:\vch\log\logServico.log", true);
                 vWriter.WriteLine(msg + DateTime.Now.ToString());
                 vWriter.WriteLine("");
                 vWriter.Flush();
@@ -145,7 +149,7 @@ namespace iVesService
             }
             else
             {
-                StreamWriter vWriter = new StreamWriter(@"c:\logServico.txt", true);
+                StreamWriter vWriter = new StreamWriter(@"c:\vch\log\logServico.log", true);
                 vWriter.WriteLine(msg);
                 vWriter.WriteLine("");
                 vWriter.Flush();

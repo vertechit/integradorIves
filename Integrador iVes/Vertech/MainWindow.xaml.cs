@@ -294,7 +294,7 @@ namespace Vertech
                 {
                     if (file.Extension == ".txt")
                     {
-                        if (file.Name != "logEnvio.txt" && file.Name != "logConsulta.txt" && file.Name.Contains("log_") == false)
+                        if (file.Name != "logEnvio.log" && file.Name != "logConsulta.log" && file.Name.Contains("log_") == false)
                         {
                             ltxt.Add(file.Name);
                         }

@@ -20,7 +20,7 @@ namespace Vertech.Services
                 case 1:
                     if (Parametros.GetTipoApp() == "Service")
                     {
-                        var s = processo.MontaCaminhoDir(Parametros.GetDirArq(), "logEnvio.txt");
+                        var s = processo.MontaCaminhoDir(Parametros.GetDirArq(), "\\logs\\logEnvio.log");
                         StreamWriter vWriter = new StreamWriter(@s, true);
                         vWriter.WriteLine("");
                         vWriter.WriteLine("Ocorrencia Integra");
@@ -39,7 +39,7 @@ namespace Vertech.Services
                 case 2:
                     if (Parametros.GetTipoApp() == "Service")
                     {
-                        var s = processo.MontaCaminhoDir(Parametros.GetDirArq(), "logConsulta.txt");
+                        var s = processo.MontaCaminhoDir(Parametros.GetDirArq(), "\\logs\\logConsulta.log");
                         StreamWriter vWriter = new StreamWriter(@s, true);
 
                         vWriter.WriteLine("");
@@ -68,7 +68,7 @@ namespace Vertech.Services
                     {
                         try
                         {
-                            var s = processo.MontaCaminhoDir(Parametros.GetDirArq(), "logEnvio.txt");
+                            var s = processo.MontaCaminhoDir(Parametros.GetDirArq(), "\\logs\\logEnvio.log");
                             StreamWriter vWriter = new StreamWriter(@s, true);
                             vWriter.WriteLine("");
                             vWriter.WriteLine("Ocorrencia Integra");
@@ -94,7 +94,7 @@ namespace Vertech.Services
                     {
                         try
                         {
-                            var s = processo.MontaCaminhoDir(Parametros.GetDirArq(), "logConsulta.txt");
+                            var s = processo.MontaCaminhoDir(Parametros.GetDirArq(), "\\logs\\logConsulta.log");
                             StreamWriter vWriter = new StreamWriter(@s, true);
 
                             vWriter.WriteLine("");
@@ -126,11 +126,11 @@ namespace Vertech.Services
             {
                 try
                 {
-                    var s = processo.MontaCaminhoDir(Parametros.GetDirArq(), "logException.txt");
+                    var s = processo.MontaCaminhoDir(Parametros.GetDirArq(), "\\logs\\logException.log");
                     StreamWriter vWriter = new StreamWriter(@s, true);
 
                     vWriter.WriteLine("");
-                    vWriter.WriteLine("Ocorrencia");
+                    vWriter.WriteLine("Ocorrencia: Processos");
                     vWriter.WriteLine("Data/Hora: " + DateTime.Now.ToString());
                     vWriter.WriteLine("Codigo do erro: " + codErro.ToString());
                     vWriter.WriteLine("Descrição: " + msg);
@@ -158,11 +158,11 @@ namespace Vertech.Services
             {
                 try
                 {
-                    var s = processo.MontaCaminhoDir(Parametros.GetDirArq(), "logException.txt");
+                    var s = processo.MontaCaminhoDir(Parametros.GetDirArq(), "\\logs\\logSQL.log");
                     StreamWriter vWriter = new StreamWriter(@s, true);
 
                     vWriter.WriteLine("");
-                    vWriter.WriteLine("Ocorrencia");
+                    vWriter.WriteLine("Ocorrencia: SQLite");
                     vWriter.WriteLine("Data/Hora: " + DateTime.Now.ToString());
                     vWriter.WriteLine("Codigo do erro: " + codErro.ToString());
                     vWriter.WriteLine("Descrição: " + msg);
@@ -188,11 +188,11 @@ namespace Vertech.Services
 
             if(Parametros.GetTipoApp() == "Service")
             {
-                var s = p.MontaCaminhoDir(Parametros.GetDirArq(), "logException.txt");
+                var s = p.MontaCaminhoDir(Parametros.GetDirArq(), "\\logs\\logException.log");
                 StreamWriter vWriter = new StreamWriter(@s, true);
 
                 vWriter.WriteLine("");
-                vWriter.WriteLine("Ocorrencia");
+                vWriter.WriteLine("Ocorrencia: Secure File");
                 vWriter.WriteLine("Data/Hora: " + DateTime.Now.ToString());
                 vWriter.WriteLine("Codigo do erro: " + codErro.ToString());
                 vWriter.WriteLine("Descrição: " + msg);
@@ -210,11 +210,11 @@ namespace Vertech.Services
         {
             var p = new Processos();
 
-            var s = p.MontaCaminhoDir(Parametros.GetDirArq(), "logException.log");
+            var s = p.MontaCaminhoDir(Parametros.GetDirArq(), "\\logs\\logException.log");
             StreamWriter vWriter = new StreamWriter(@s, true);
 
             vWriter.WriteLine("");
-            vWriter.WriteLine("Ocorrencia");
+            vWriter.WriteLine("Ocorrencia: Open Files");
             vWriter.WriteLine("Data/Hora: " + DateTime.Now.ToString());
             vWriter.WriteLine("Codigo do erro: " + tipo.ToString());
             vWriter.WriteLine("Descrição: " + msg);

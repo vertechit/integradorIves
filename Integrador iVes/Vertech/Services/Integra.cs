@@ -20,9 +20,14 @@ namespace Vertech.Services
 
         public void Job()
         {
+            DirectoryInfo di = new DirectoryInfo(string.Concat(Parametros.GetDirArq(),"\\logs"));
+
+            if (di.Exists == false)
+                di.Create();
+
             Processos processo = new Processos();
 
-            var s = processo.MontaCaminhoDir(Parametros.GetDirArq(),"logEnvio.txt");
+            var s = processo.MontaCaminhoDir(Parametros.GetDirArq(),"\\logs\\logEnvio.log");
 
             var lista = processo.Listar_arquivos(".txt");
 

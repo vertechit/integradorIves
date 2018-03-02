@@ -21,6 +21,11 @@ namespace Vertech.Services
         
         public void Job()
         {
+            DirectoryInfo di = new DirectoryInfo(string.Concat(Parametros.GetDirArq(), "\\logs"));
+
+            if (di.Exists == false)
+                di.Create();
+
             ClassException ex = new ClassException();
             //Consulta consulta = new Consulta();
             Processos processo = new Processos();
@@ -60,7 +65,7 @@ namespace Vertech.Services
             consultaResponse Response = new consultaResponse();
             Processos processo = new Processos();
 
-            var s = processo.MontaCaminhoDir(Parametros.GetDirArq(), "logConsulta.txt");
+            var s = processo.MontaCaminhoDir(Parametros.GetDirArq(), "\\logs\\logConsulta.log");
 
             Request.protocolo = Prot.protocolo;
             Request.protocoloSpecified = Prot.protocoloSpecified;
