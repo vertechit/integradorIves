@@ -13,6 +13,7 @@ using Vertech.Services;
 using Vertech;
 using Vertech.DAO;
 using Vertech.Modelos;
+using System.Collections;
 
 namespace iVesService
 {
@@ -20,6 +21,9 @@ namespace iVesService
     {
 
         Timer Timer;
+        int Controle = 0;
+        //int Quantidade = 0;
+        //int Executada = 0;
         Consulta consulta = new Consulta();
         Integra integra = new Integra();
 
@@ -84,7 +88,7 @@ namespace iVesService
 
             Parametro();
 
-            Timer = new Timer(new TimerCallback(Timer_Tick), null, 10000, 1200000);
+            Timer = new Timer(new TimerCallback(Timer_Tick), null, 10000, 1200000); //3600000 = 60min | 1200000 = 20min
 
         }
 
@@ -100,13 +104,28 @@ namespace iVesService
 
         private void Timer_Tick(object sender)
         {
+            if(Controle == 0)
+            {
+                Job();
+            } 
+        }
+
+        private void Job()
+        {
+            Controle = 1;
+            //Log("----------------------------------", 2);
             Log("Job Iniciado: ", 1);
-
+            Log("Integração iniciada: ", 1);
             integra.Job();
-            Thread.Sleep(60000);
+            Log("Integração finalizado: ", 1);
+            Thread.Sleep(300000); //300000 = 5min
+            Log("Consulta iniciada: ", 1);
             consulta.Job();
-
+            Log("Consulta finalizada: ", 1);
             Log("Job finalizado: ", 1);
+            Log("----------------------------------", 2);
+            Controle = 0;
+
         }
 
         public bool DefineToken(string dir)
