@@ -123,7 +123,7 @@ namespace iVesService
             consulta.Job();
             Log("Consulta finalizada: ", 1);
             Log("Job finalizado: ", 1);
-            Log("----------------------------------", 2);
+            Log("--", 2);
             Controle = 0;
 
         }
