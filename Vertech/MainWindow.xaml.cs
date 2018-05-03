@@ -270,8 +270,9 @@ namespace Vertech
 
         private void Integra_Esocial()
         {
-            Integra.Job();
-
+            //Integra.Job();
+            EnviaLote env = new EnviaLote();
+            env.Job();
             System.Windows.Forms.MessageBox.Show("Finalizado o processo de integração, acesse a pasta de origem para verificar o log");
         }
 

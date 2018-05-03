@@ -134,12 +134,20 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Connected Services\apiEnviaXML\Reference.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </Compile>
     <Compile Include="DAO\Helper.cs" />
     <Compile Include="Modelos\Parametro.cs" />
     <Compile Include="Modelos\Protocolo.cs" />
     <Compile Include="Services\ClassException.cs" />
     <Compile Include="Services\Consulta.cs" />
+    <Compile Include="Services\CustomEndpointCallBehavior.cs" />
+    <Compile Include="Services\EnviaLote.cs" />
     <Compile Include="Services\Integra.cs" />
+    <Compile Include="Services\MessageHttpHeaderInspector.cs" />
     <Compile Include="Services\Parametros.cs" />
     <Compile Include="Services\Processos.cs" />
     <Compile Include="Services\SecureFile.cs" />
@@ -191,6 +199,10 @@
     <None Include="Connected Services\apiConsulta\Vertech.apiConsulta.consultaResponse1.datasource">
       <DependentUpon>Reference.svcmap</DependentUpon>
     </None>
+    <None Include="Connected Services\apiEnviaXML\ServicoEnviarLoteEventos.wsdl" />
+    <None Include="Connected Services\apiEnviaXML\Vertech.apiEnviaXML.EnviarLoteEventosResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
     <None Include="Connected Services\apiIntegra\EsocialService.wsdl" />
     <None Include="Connected Services\apiIntegra\Vertech.apiIntegra.integraResponse.datasource">
       <DependentUpon>Reference.svcmap</DependentUpon>
@@ -204,6 +216,7 @@
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
     </None>
+    <None Include="System.Xml.Linq.XElement.datasource" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
@@ -228,6 +241,7 @@
   </ItemGroup>
   <ItemGroup>
     <WCFMetadataStorage Include="Connected Services\apiConsulta\" />
+    <WCFMetadataStorage Include="Connected Services\apiEnviaXML\" />
     <WCFMetadataStorage Include="Connected Services\apiIntegra\" />
   </ItemGroup>
   <ItemGroup>
@@ -258,6 +272,12 @@
     <Resource Include="Imagens\Vertechs-20180109_143803.ico" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="Connected Services\apiEnviaXML\configuration91.svcinfo" />
+    <None Include="Connected Services\apiEnviaXML\configuration.svcinfo" />
+    <None Include="Connected Services\apiEnviaXML\Reference.svcmap">
+      <Generator>WCF Proxy Generator</Generator>
+      <LastGenOutput>Reference.cs</LastGenOutput>
+    </None>
     <Content Include="Dependencias\64\SQLite.Interop.dll" />
     <Content Include="Dependencias\86\SQLite.Interop.dll" />
     <Resource Include="Imagens\logo1.ico" />
