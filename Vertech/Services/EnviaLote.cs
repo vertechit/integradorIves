@@ -21,13 +21,33 @@ namespace Vertech.Services
 
         public void Job()
         {
-            Processos p = new Processos();
-            var xmlString = p.MontaXML("exemplo.xml");
-            //var text = p.LerArquivo(Parametros.GetDirArq(), "exemplo.xml");
-            Envia(xmlString);
+            Processos processo = new Processos();
+
+            var s = processo.MontaCaminhoDir(Parametros.GetDirArq(),"\\logs\\logEnvio.log");
+
+            var lista = processo.Listar_arquivos(".xml");
+
+            if(lista.Count > 0)
+            {
+                foreach (var arq_name in lista)
+                {
+                    if(VerificacaoEnviaLote(arq_name) == true)
+                    {
+                        var xmlString = processo.MontaXML(arq_name);
+                        Enviar(xmlString);
+                    }
+                    else
+                    {
+                        StreamWriter w = File.AppendText(@s);
+                        processo.GeraLogEnviaXML(arq_name, "Já foi enviado!", w);
+                        w.Close();
+                    }
+                }
+            }
+
         }
 
-        public void Envia(string xmlString)
+        public string Enviar(string xmlString)
         {
 
             var wsClient = new ServicoEnviarLoteEventosClient();
@@ -42,7 +62,7 @@ namespace Vertech.Services
 
                 wsClient.Open();
 
-                var retornoEnvioXElement = wsClient.EnviarLoteEventos(request.loteEventos);
+                var response = wsClient.EnviarLoteEventos(request.loteEventos);
 
                 wsClient.Close();
             }
@@ -50,6 +70,8 @@ namespace Vertech.Services
             {
 
             }
+
+            
 
         }
     }

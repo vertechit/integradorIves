@@ -99,6 +99,28 @@ namespace Vertech.Services
             }
         }
 
+        public void SalvaProtocoloXML(apiEnviaXML.Response Response)
+        {
+            var s = MontaCaminhoDir(Parametros.GetDirArq(),"\\logs\\Response.xml");
+            var response  = Convert.ToString(Response);
+            StreamWriter w = File.AppendText(@s);
+            w.Write(reponse);
+            w.Close();
+        }
+
+        public Boolean VerificacaoEnviaLote(string arq)
+        {
+            string dir = Parametros.GetDirArq();
+            DirectoryInfo diretorio = new DirectoryInfo(dir);
+
+            if (Helper.ExistsProtocolo(arq) == true)
+            {
+                 return false;
+            }
+
+            return true;
+        }
+
         public int VerificacaoIntegra(string arq)
         {
 
@@ -398,6 +420,16 @@ namespace Vertech.Services
         public void GeraLogIntegra(string filename, string str, TextWriter w)
         {
             w.Write("\r\nLog integra: ");
+            w.WriteLine("{0} {1}", DateTime.Now.ToLongTimeString(),
+                DateTime.Now.ToLongDateString());
+            w.WriteLine("Arquivo: {0}", filename);
+            w.WriteLine(str);
+            w.WriteLine("-------------------------------");
+        }
+
+        public void GeraLogEnviaXML(string filename, string str, TextWriter w)
+        {
+            w.Write("\r\nLog Envio XML: ");
             w.WriteLine("{0} {1}", DateTime.Now.ToLongTimeString(),
                 DateTime.Now.ToLongDateString());
             w.WriteLine("Arquivo: {0}", filename);
