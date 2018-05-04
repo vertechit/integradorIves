@@ -47,6 +47,12 @@ namespace Vertech.Services
                             processo.GeraLogIntegra(arq_name, "Foi enviado com sucesso!", w);
                             w.Close();
                         }
+                        else
+                        {
+                            StreamWriter w = File.AppendText(@s);
+                            processo.GeraLogIntegra(arq_name, "Não foi enviado", w);
+                            w.Close();
+                        }
                     }
                     else
                     {
