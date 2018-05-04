@@ -31,10 +31,17 @@ namespace Vertech.Services
             {
                 foreach (var arq_name in lista)
                 {
-                    if(VerificacaoEnviaLote(arq_name) == true)
+                    if(processo.VerificacaoEnviaLote(arq_name) == true)
                     {
                         var xmlString = processo.MontaXML(arq_name);
-                        Enviar(xmlString);
+                        var response = Enviar(xmlString);
+                        if(processo.VerificaResponseXML(response) == true)
+                        {
+                            StreamWriter w = File.AppendText(@s);
+                            processo.SalvaProtocoloXML(arq_name, response);
+                            processo.GeraLogIntegra(arq_name, "Foi enviado com sucesso!", w);
+                            w.Close();
+                        }
                     }
                     else
                     {
@@ -54,6 +61,8 @@ namespace Vertech.Services
 
             var request = new EnviarLoteEventosRequestBody();
 
+            var responseString = "";
+
             try
             {
                 wsClient.Endpoint.Behaviors.Add(new CustomEndpointCallBehavior(Convert.ToString(Parametros.GetGrupo()), Parametros.GetToken()));
@@ -64,14 +73,17 @@ namespace Vertech.Services
 
                 var response = wsClient.EnviarLoteEventos(request.loteEventos);
 
+                responseString = Convert.ToString(response);
+
                 wsClient.Close();
+
             }
             catch(Exception ex)
             {
 
             }
 
-            
+            return responseString;
 
         }
     }

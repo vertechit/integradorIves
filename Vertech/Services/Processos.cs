@@ -86,6 +86,24 @@ namespace Vertech.Services
             return lines;
         }
 
+        public Boolean VerificaResponseXML(string response)
+        {
+            var tagIni = "<cdResposta>";
+            var tagFim = "</cdResposta>";
+
+            int sti = response.IndexOf(tagIni) + 12;
+            int stf = response.IndexOf(tagFim) - 13;
+
+            var codigo = response.Substring(sti, stf + tagFim.Length - sti);
+
+            if(codigo == "201")
+            {
+                return true;
+            }
+
+            return false;
+        }
+
         public void SalvaProtocolo(apiIntegra.integraResponse Response, string arq)
         {
             try
@@ -99,13 +117,25 @@ namespace Vertech.Services
             }
         }
 
-        public void SalvaProtocoloXML(apiEnviaXML.Response Response)
+        public void SalvaProtocoloXML(string arq, string Response)
         {
-            var s = MontaCaminhoDir(Parametros.GetDirArq(),"\\logs\\Response.xml");
-            var response  = Convert.ToString(Response);
-            StreamWriter w = File.AppendText(@s);
-            w.Write(reponse);
-            w.Close();
+            var tagIni = "<protocoloEnvio>";
+            var tagFim = "</protocoloEnvio>";
+
+            int sti = Response.IndexOf(tagIni) + 16;
+            int stf = Response.IndexOf(tagFim) - 17;
+
+            var protocolo = Response.Substring(sti, stf + tagFim.Length - sti);
+
+            try
+            {
+                Helper.AddProtocolo(new Protocolo { Id = 0, NomeArquivo = arq, NroProtocolo = protocolo });
+            }
+            catch (Exception e)
+            {
+                ClassException ex = new ClassException();
+                ex.ExProcessos(2, e.Message.ToString());
+            }
         }
 
         public Boolean VerificacaoEnviaLote(string arq)
