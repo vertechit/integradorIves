@@ -21,6 +21,11 @@ namespace Vertech.Services
 
         public void Job()
         {
+            DirectoryInfo di = new DirectoryInfo(string.Concat(Parametros.GetDirArq(), "\\logs"));
+
+            if (di.Exists == false)
+                di.Create();
+
             Processos processo = new Processos();
 
             var s = processo.MontaCaminhoDir(Parametros.GetDirArq(),"\\logs\\logEnvio.log");
@@ -51,6 +56,11 @@ namespace Vertech.Services
                     }
                 }
             }
+            else
+            {
+                ClassException ex = new ClassException();
+                ex.ImprimeMsgDeErro_NoFilesFound(1);
+            }
 
         }
 
@@ -78,9 +88,10 @@ namespace Vertech.Services
                 wsClient.Close();
 
             }
-            catch(Exception ex)
+            catch(Exception e)
             {
-
+                ClassException ex = new ClassException();
+                ex.ImprimeException(1, e.Message.ToString());
             }
 
             return responseString;
