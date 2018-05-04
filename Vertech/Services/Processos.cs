@@ -34,11 +34,22 @@ namespace Vertech.Services
 
         public string MontaXML(string arqname)
         {
-            string xmlString = LerArquivo(Parametros.GetDirArq(), arqname);
-            string xsdInicio = "<eSocial><envioLoteEventos grupo="1"><eventos><evento id="123">";
-            xsd.replace("id="123"", "id="arqname"");
+            string[] xmlLinhas = LerArquivo(Parametros.GetDirArq(), arqname);
+            var xmlString = "";
+
+            foreach (var item in xmlLinhas)
+            {
+                xmlString = String.Concat(xmlString, item);
+            }
+
+            string xsdInicio = "<eSocial><envioLoteEventos grupo=\"1\"><eventos><evento id=\"123\">";
+
+            xsdInicio = xsdInicio.Replace("123", arqname);
+
             string xsdFim = " </evento></eventos></envioLoteEventos></eSocial>";
+
             var xml = String.Concat(xsdInicio,xmlString,xsdFim);
+
             return xml;
         }
 

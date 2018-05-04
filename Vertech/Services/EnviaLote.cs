@@ -22,25 +22,34 @@ namespace Vertech.Services
         public void Job()
         {
             Processos p = new Processos();
-            var text = p.LerArquivo(Parametros.GetDirArq(), "exemplo.xml");
-            Envia(text);
+            var xmlString = p.MontaXML("exemplo.xml");
+            //var text = p.LerArquivo(Parametros.GetDirArq(), "exemplo.xml");
+            Envia(xmlString);
         }
 
-        public void Envia(string [] text)
+        public void Envia(string xmlString)
         {
-            var wsClient = new apiEnviaXML.ServicoEnviarLoteEventosClient();
 
-            wsClient.Endpoint.Behaviors.Add(new CustomEndpointCallBehavior(Parametros.GetGrupo(), Parametros.GetToken());
+            var wsClient = new ServicoEnviarLoteEventosClient();
 
-            apiEnviaXML.EnviarLoteEventosRequestBody r = new EnviarLoteEventosRequestBody();
+            var request = new EnviarLoteEventosRequestBody();
 
-            var caminho = string.Concat(Parametros.GetDirArq(), "\\exemplo.xml");
+            try
+            {
+                wsClient.Endpoint.Behaviors.Add(new CustomEndpointCallBehavior(Convert.ToString(Parametros.GetGrupo()), Parametros.GetToken()));
 
-            r.loteEventos = System.Xml.Linq.XElement.Load(caminho);
-            
-            wsClient.Open();
-            var retornoEnvioXElement = wsClient.EnviarLoteEventos(r.loteEventos); 
-            wsClient.Close();
+                request.loteEventos = System.Xml.Linq.XElement.Parse(xmlString);
+
+                wsClient.Open();
+
+                var retornoEnvioXElement = wsClient.EnviarLoteEventos(request.loteEventos);
+
+                wsClient.Close();
+            }
+            catch(Exception ex)
+            {
+
+            }
 
         }
     }
