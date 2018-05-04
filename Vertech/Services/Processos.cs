@@ -32,6 +32,16 @@ namespace Vertech.Services
             return s;
         }
 
+        public string MontaXML(string arqname)
+        {
+            string xmlString = LerArquivo(Parametros.GetDirArq(), arqname);
+            string xsdInicio = "<eSocial><envioLoteEventos grupo="1"><eventos><evento id="123">";
+            xsd.replace("id="123"", "id="arqname"");
+            string xsdFim = " </evento></eventos></envioLoteEventos></eSocial>";
+            var xml = String.Concat(xsdInicio,xmlString,xsdFim);
+            return xml;
+        }
+
         public List<string> Listar_arquivos(string ext)
         {
             string dir = Parametros.GetDirArq();
