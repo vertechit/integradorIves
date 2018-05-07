@@ -66,7 +66,7 @@ namespace Vertech.Services
             var wsClient = new ServicoConsultarLoteEventosClient();
             var request = new ConsultarLoteEventosRequestBody();
             
-            request.consulta = System.Xml.Linq.XElement.Parse(prot);
+            request.consulta = System.Xml.Linq.XElement.Parse(MontaRequest(prot));
 
             try
             {
@@ -85,24 +85,13 @@ namespace Vertech.Services
             return "teste";
         }
         
-        public string MontaRequest(string prot){
+        public string MontaRequest(string prot)
+        {
 
             prot = string.Concat("<protocoloEnvio>", prot, "</protocoloEnvio>");
-            string ini = 
-            "<Envelope xmlns=\"http://schemas.xmlsoap.org/soap/envelope/\">
-                <Body>
-                    <ConsultarLoteEventos xmlns=\"http://www.esocial.gov.br/servicos/empregador/lote/eventos/envio/consulta/retornoProcessamento/v1_1_0\">
-                        <consulta>
-                            <eSocial xmlns=\"http://www.esocial.gov.br/schema/lote/eventos/envio/consulta/retornoProcessamento/v1_0_0\">
-                                <consultaLoteEventos>"
-            string fim = "
-                  </consultaLoteEventos>
-                </eSocial>
-                
-            </consulta>
-        </ConsultarLoteEventos>
-    </Body>
-</Envelope>"
+            string ini = "<eSocial xmlns=\"http://www.esocial.gov.br/schema/lote/eventos/envio/consulta/retornoProcessamento/v1_0_0\"><consultaLoteEventos>";
+            string fim = "</consultaLoteEventos></eSocial>";
+            return String.Concat(ini, prot, fim);
         }
     }
 }
