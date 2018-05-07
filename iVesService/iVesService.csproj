@@ -48,7 +48,17 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Connected Services\apiConsultaXML\Reference.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </Compile>
     <Compile Include="Connected Services\apiConsulta\Reference.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </Compile>
+    <Compile Include="Connected Services\apiEnviaXML\Reference.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>Reference.svcmap</DependentUpon>
@@ -75,6 +85,10 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
+    <None Include="Connected Services\apiConsultaXML\iVesService.apiConsultaXML.ConsultarLoteEventosResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Connected Services\apiConsultaXML\ServicoConsultarLoteEventos.wsdl" />
     <None Include="Connected Services\apiConsulta\EsocialService.wsdl" />
     <None Include="Connected Services\apiConsulta\iVesService.apiConsulta.consultaResponse.datasource">
       <DependentUpon>Reference.svcmap</DependentUpon>
@@ -82,6 +96,10 @@
     <None Include="Connected Services\apiConsulta\iVesService.apiConsulta.consultaResponse1.datasource">
       <DependentUpon>Reference.svcmap</DependentUpon>
     </None>
+    <None Include="Connected Services\apiEnviaXML\iVesService.apiEnviaXML.EnviarLoteEventosResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Connected Services\apiEnviaXML\ServicoEnviarLoteEventos.wsdl" />
     <None Include="Connected Services\apiIntegra\EsocialService.wsdl" />
     <None Include="Connected Services\apiIntegra\iVesService.apiIntegra.integraResponse.datasource">
       <DependentUpon>Reference.svcmap</DependentUpon>
@@ -89,6 +107,7 @@
     <None Include="Connected Services\apiIntegra\iVesService.apiIntegra.integraResponse1.datasource">
       <DependentUpon>Reference.svcmap</DependentUpon>
     </None>
+    <None Include="System.Xml.Linq.XElement.datasource" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="ProjectInstaller.resx">
@@ -105,7 +124,9 @@
     <WCFMetadata Include="Connected Services\" />
   </ItemGroup>
   <ItemGroup>
+    <WCFMetadataStorage Include="Connected Services\apiConsultaXML\" />
     <WCFMetadataStorage Include="Connected Services\apiConsulta\" />
+    <WCFMetadataStorage Include="Connected Services\apiEnviaXML\" />
     <WCFMetadataStorage Include="Connected Services\apiIntegra\" />
   </ItemGroup>
   <ItemGroup>
@@ -128,6 +149,30 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Connected Services\apiConsulta\Reference.svcmap">
+      <Generator>WCF Proxy Generator</Generator>
+      <LastGenOutput>Reference.cs</LastGenOutput>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Connected Services\apiConsultaXML\configuration91.svcinfo" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Connected Services\apiConsultaXML\configuration.svcinfo" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Connected Services\apiConsultaXML\Reference.svcmap">
+      <Generator>WCF Proxy Generator</Generator>
+      <LastGenOutput>Reference.cs</LastGenOutput>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Connected Services\apiEnviaXML\configuration91.svcinfo" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Connected Services\apiEnviaXML\configuration.svcinfo" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Connected Services\apiEnviaXML\Reference.svcmap">
       <Generator>WCF Proxy Generator</Generator>
       <LastGenOutput>Reference.cs</LastGenOutput>
     </None>
