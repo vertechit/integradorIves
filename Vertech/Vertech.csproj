@@ -139,11 +139,17 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Reference.svcmap</DependentUpon>
     </Compile>
+    <Compile Include="Connected Services\apiConsultaXML\Reference.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </Compile>
     <Compile Include="DAO\Helper.cs" />
     <Compile Include="Modelos\Parametro.cs" />
     <Compile Include="Modelos\Protocolo.cs" />
     <Compile Include="Services\ClassException.cs" />
     <Compile Include="Services\Consulta.cs" />
+    <Compile Include="Services\ConsultaLote.cs" />
     <Compile Include="Services\CustomEndpointCallBehavior.cs" />
     <Compile Include="Services\EnviaLote.cs" />
     <Compile Include="Services\Integra.cs" />
@@ -192,6 +198,9 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
+    <None Include="Connected Services\apiConsultaXML\Vertech.apiConsultaXML.ConsultarLoteEventosResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
     <None Include="Connected Services\apiConsulta\EsocialService.wsdl" />
     <None Include="Connected Services\apiConsulta\Vertech.apiConsulta.consultaResponse.datasource">
       <DependentUpon>Reference.svcmap</DependentUpon>
@@ -210,6 +219,7 @@
     <None Include="Connected Services\apiIntegra\Vertech.apiIntegra.integraResponse1.datasource">
       <DependentUpon>Reference.svcmap</DependentUpon>
     </None>
+    <None Include="Connected Services\apiConsultaXML\ServicoConsultarLoteEventos.wsdl" />
     <None Include="packages.config" />
     <None Include="Properties\app.manifest" />
     <None Include="Properties\Settings.settings">
@@ -243,6 +253,7 @@
     <WCFMetadataStorage Include="Connected Services\apiConsulta\" />
     <WCFMetadataStorage Include="Connected Services\apiEnviaXML\" />
     <WCFMetadataStorage Include="Connected Services\apiIntegra\" />
+    <WCFMetadataStorage Include="Connected Services\apiConsultaXML\" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Connected Services\apiIntegra\configuration91.svcinfo" />
@@ -275,6 +286,12 @@
     <None Include="Connected Services\apiEnviaXML\configuration91.svcinfo" />
     <None Include="Connected Services\apiEnviaXML\configuration.svcinfo" />
     <None Include="Connected Services\apiEnviaXML\Reference.svcmap">
+      <Generator>WCF Proxy Generator</Generator>
+      <LastGenOutput>Reference.cs</LastGenOutput>
+    </None>
+    <None Include="Connected Services\apiConsultaXML\configuration91.svcinfo" />
+    <None Include="Connected Services\apiConsultaXML\configuration.svcinfo" />
+    <None Include="Connected Services\apiConsultaXML\Reference.svcmap">
       <Generator>WCF Proxy Generator</Generator>
       <LastGenOutput>Reference.cs</LastGenOutput>
     </None>

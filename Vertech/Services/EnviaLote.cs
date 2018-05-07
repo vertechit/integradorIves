@@ -44,13 +44,13 @@ namespace Vertech.Services
                         {
                             StreamWriter w = File.AppendText(@s);
                             processo.SalvaProtocoloXML(arq_name, response);
-                            processo.GeraLogIntegra(arq_name, "Foi enviado com sucesso!", w);
+                            processo.GeraLogEnviaXML(arq_name, "Foi enviado com sucesso!", w);
                             w.Close();
                         }
                         else
                         {
                             StreamWriter w = File.AppendText(@s);
-                            processo.GeraLogIntegra(arq_name, "Não foi enviado", w);
+                            processo.GeraLogEnviaXML(arq_name, "Não foi enviado", w);
                             w.Close();
                         }
                     }

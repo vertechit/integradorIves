@@ -88,6 +88,10 @@ namespace Vertech.Services
 
         public Boolean VerificaResponseXML(string response)
         {
+            if(response == "")
+            {
+                return false;
+            }
             var tagIni = "<cdResposta>";
             var tagFim = "</cdResposta>";
 

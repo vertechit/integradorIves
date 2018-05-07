@@ -270,15 +270,17 @@ namespace Vertech
 
         private void Integra_Esocial()
         {
-            //Integra.Job();
             EnviaLote env = new EnviaLote();
+            Integra.Job();
             env.Job();
             System.Windows.Forms.MessageBox.Show("Finalizado o processo de integração, acesse a pasta de origem para verificar o log");
         }
 
         private void Consulta_Retorno()
         {
+            ConsultaLote consult = new ConsultaLote();
             Consulta.Job();
+            consult.Job();
 
             System.Windows.Forms.MessageBox.Show("Finalizado o processo de consulta, acesse a pasta de origem para verificar o log");
         }
@@ -286,8 +288,10 @@ namespace Vertech
         public void Contagem(DirectoryInfo dir)
         {
             var ltxt = new List<string>();
+            var lxml = new List<string>();
             int i = 0; 
             int j = 0;
+            int x = 0, y = 0;
 
             try
             {
@@ -298,6 +302,13 @@ namespace Vertech
                         if (file.Name != "logEnvio.log" && file.Name != "logConsulta.log" && file.Name.Contains("log_") == false)
                         {
                             ltxt.Add(file.Name);
+                        }
+                    }
+                    if(file.Extension == ".xml")
+                    {
+                        if (file.Name != "logEnvio.log" && file.Name != "logConsulta.log" && file.Name.Contains("log_") == false)
+                        {
+                            lxml.Add(file.Name);
                         }
                     }
                 }
@@ -315,14 +326,28 @@ namespace Vertech
                         j++;
                     }
                 }
+
+                foreach (var item in lxml)
+                {
+                    var ret = Helper.ExistsProtocolo(item);
+
+                    if (ret == false)
+                    {
+                        x++;
+                    }
+                    if (ret == true)
+                    {
+                        y++;
+                    }
+                }
             }
             catch (Exception)
             {
                 System.Windows.Forms.MessageBox.Show("Erro ao buscar arquivos na pasta selecionada");
             }
 
-            LblqtdEnv.Content = i;
-            LblqtdCons.Content = j;
+            LblqtdEnv.Content = i+x;
+            LblqtdCons.Content = j+y;
         }
 
         public bool DefineToken(string dir)
