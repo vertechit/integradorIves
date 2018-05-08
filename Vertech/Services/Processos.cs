@@ -53,6 +53,37 @@ namespace Vertech.Services
             return xml;
         }
 
+        public Boolean VerificaConsultaXML(string response)
+        {
+            int sti = 0;
+            int stf = 0;
+
+            if (response == "")
+            {
+                return false;
+            }
+            var tagIniStatus = "<status>";
+            var tagFimStatus = "</status>";
+
+            var tagIniCdResp = "<cdResposta>";
+            var tagFimCdResp = "</cdResposta>";
+
+            sti = response.IndexOf(tagIniStatus) + tagIniStatus.Length;
+            stf = response.IndexOf(tagFimStatus) - tagFimStatus.Length;
+            var retorno = response.Substring(sti, stf + tagFimStatus.Length - sti);
+
+            sti = retorno.IndexOf(tagIniCdResp) + tagIniCdResp.Length;
+            stf = retorno.IndexOf(tagFimCdResp) - tagFimCdResp.Length;
+            var codigo = retorno.Substring(sti, stf + tagFimCdResp.Length - sti);
+
+            if (codigo == "201")
+            {
+                return true;
+            }
+
+            return false;
+        }
+
         public List<string> Listar_arquivos(string ext)
         {
             string dir = Parametros.GetDirArq();
@@ -217,7 +248,6 @@ namespace Vertech.Services
 
         public void Mover_Consultado(string filename)
         {
-            
             string origem = Parametros.GetDirArq();
             string destino = Parametros.GetDirFim();
 
@@ -233,6 +263,32 @@ namespace Vertech.Services
                 ClassException ex = new ClassException();
                 ex.ExProcessos(4,e.Message.ToString());
             }
+        }
+
+        public void GeraLogConsultaXML(string filename, string response)
+        {
+            DirectoryInfo di = new DirectoryInfo(string.Concat(Parametros.GetDirArq(), "\\logs\\retornoXML"));
+
+            if (di.Exists == false)
+                di.Create();
+            var nome = string.Concat("log_", filename);
+
+            string s = MontaCaminhoDir(string.Concat(Parametros.GetDirArq(), "\\logs\\retornoXML"), nome);
+
+            int sti = 0;
+            int stf = 0;
+
+            string tagIni = "<retornoEvento>";
+            string tagFim = "</retornoEvento>";
+
+            sti = response.IndexOf(tagIni) + tagIni.Length;
+            stf = response.IndexOf(tagFim) - tagFim.Length;
+
+            var protocolo = response.Substring(sti, stf + tagFim.Length - sti);
+
+            StreamWriter w = File.AppendText(@s);
+            w.Write(protocolo);
+            w.Close();
         }
 
         public void GeraLogConsulta(string filename, string nroprt, string desc, int cd, TextWriter w)

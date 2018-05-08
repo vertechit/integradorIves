@@ -54,7 +54,11 @@ namespace Vertech.Services
 
             else
             {
-                ex.ImprimeMsgDeErro_NoFilesFound(2);
+                var l = processo.Listar_arquivos(".xml");
+                if (l.Count <= 0)
+                {
+                    ex.ImprimeMsgDeErro_NoFilesFound(2);
+                }
             }
             
         }

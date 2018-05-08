@@ -79,7 +79,11 @@ namespace Vertech.Services
             else
             {
                 ClassException ex = new ClassException();
-                ex.ImprimeMsgDeErro_NoFilesFound(1);
+                var l = processo.Listar_arquivos(".xml");
+                if (l.Count <= 0)
+                {
+                    ex.ImprimeMsgDeErro_NoFilesFound(1);
+                }
             }
 
         }

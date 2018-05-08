@@ -28,6 +28,7 @@ namespace Vertech.Services
 
         public void AfterReceiveReply(ref Message reply, object correlationState)
         {
+            //var ret = System.Xml.Linq.XElement.Parse(Convert.ToString(reply));
             //throw new NotImplementedException();
         }
 
