@@ -278,11 +278,11 @@ namespace Vertech.Services
             int sti = 0;
             int stf = 0;
 
-            string tagIni = "<retornoEvento>";
-            string tagFim = "</retornoEvento>";
+            string tagIni = "<retornoEventos>";
+            string tagFim = "</retornoEventos>";
 
-            sti = response.IndexOf(tagIni) + tagIni.Length;
-            stf = response.IndexOf(tagFim) - tagFim.Length;
+            sti = response.IndexOf(tagIni);
+            stf = response.IndexOf(tagFim);
 
             var protocolo = response.Substring(sti, stf + tagFim.Length - sti);
 
