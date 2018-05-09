@@ -61,7 +61,7 @@
     <ApplicationIcon>logo1.ico</ApplicationIcon>
   </PropertyGroup>
   <PropertyGroup>
-    <ManifestCertificateThumbprint>0BBAF4214311C98C283860A7104CBEDA515E8037</ManifestCertificateThumbprint>
+    <ManifestCertificateThumbprint>E37B3668BB53BE256662092F0C910E8CA1CBA704</ManifestCertificateThumbprint>
   </PropertyGroup>
   <PropertyGroup>
     <ManifestKeyFile>Vertech_TemporaryKey.pfx</ManifestKeyFile>
@@ -70,14 +70,13 @@
     <GenerateManifests>true</GenerateManifests>
   </PropertyGroup>
   <PropertyGroup>
-    <SignManifests>false</SignManifests>
+    <SignManifests>true</SignManifests>
   </PropertyGroup>
   <PropertyGroup>
-    <SignAssembly>false</SignAssembly>
+    <SignAssembly>true</SignAssembly>
   </PropertyGroup>
   <PropertyGroup>
-    <AssemblyOriginatorKeyFile>
-    </AssemblyOriginatorKeyFile>
+    <AssemblyOriginatorKeyFile>Vertech_TemporaryKey.pfx</AssemblyOriginatorKeyFile>
   </PropertyGroup>
   <PropertyGroup>
     <TargetZone>LocalIntranet</TargetZone>
@@ -227,6 +226,7 @@
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
     </None>
     <None Include="System.Xml.Linq.XElement.datasource" />
+    <None Include="Vertech_TemporaryKey.pfx" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

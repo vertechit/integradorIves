@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Vertech"
         mc:Ignorable="d"
-        Title="Integrador iVes" Height="600" Width="800" WindowStartupLocation="CenterScreen" ResizeMode="NoResize" >
+        Title="Vertech Integrador Ives" Height="600" Width="800" WindowStartupLocation="CenterScreen" ResizeMode="NoResize" >
 
     <Viewbox>
         <Grid  x:Name="Main_Page" Height="600" Width="800">
