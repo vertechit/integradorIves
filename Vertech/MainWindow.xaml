@@ -56,7 +56,7 @@
                 VerticalAlignment="Top" 
                 Width="335" 
                 Grid.ColumnSpan="3" 
-                Source="/Integrador;component/Imagens/logo.png"
+                Source="/Integrador;component/Imagens/logofinal.png"
                 Stretch="Fill"/>
 
             <TextBlock Name ="txtFolderIni" 
@@ -140,7 +140,7 @@
                    Content="0" 
                    Grid.Column="1" 
                    HorizontalAlignment="Left" 
-                   Margin="203,61,0,0" 
+                   Margin="215,61,0,0" 
                    Grid.Row="2" 
                    FontFamily="Century Gothic" 
                    VerticalAlignment="Top" 
@@ -150,7 +150,7 @@
                    Content="0" 
                    Grid.Column="1" 
                    HorizontalAlignment="Left" 
-                   Margin="203,103,0,0" 
+                   Margin="215,103,0,0" 
                    Grid.Row="2" 
                    FontFamily="Century Gothic" 
                    VerticalAlignment="Top" 

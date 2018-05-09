@@ -98,6 +98,21 @@ namespace Vertech
 
                         if(ctrl == 2)
                         {
+                            BtnSalvar.Visibility = Visibility.Hidden;
+                            LblSalvar.Visibility = Visibility.Hidden;
+
+                            BtnProcurarIni.Visibility = Visibility.Hidden;
+                            BtnProcurarFim.Visibility = Visibility.Hidden;
+                            BtnProcurarToken.Visibility = Visibility.Hidden;
+
+                            BtnConsultar.Visibility = Visibility.Visible;
+                            BtnEnviar.Visibility = Visibility.Visible;
+                            LblqtdCons.Visibility = Visibility.Visible;
+                            LblqtdEnv.Visibility = Visibility.Visible;
+                            LbltmEnv.Visibility = Visibility.Visible;
+                            LbltmCons.Visibility = Visibility.Visible;
+                            BtnParam.Visibility = Visibility.Visible;
+
                             Job();
                         }
                         
@@ -118,23 +133,23 @@ namespace Vertech
 
                 Helper.CriarBancoSQLite();
                 Helper.CriarTabelaSQlite();
+
+                BtnSalvar.Visibility = Visibility.Visible;
+                LblSalvar.Visibility = Visibility.Visible;
+
+                BtnProcurarIni.Visibility = Visibility.Visible;
+                BtnProcurarFim.Visibility = Visibility.Visible;
+                BtnProcurarToken.Visibility = Visibility.Visible;
+
+                BtnConsultar.Visibility = Visibility.Hidden;
+                BtnEnviar.Visibility = Visibility.Hidden;
+                LblqtdCons.Visibility = Visibility.Hidden;
+                LblqtdEnv.Visibility = Visibility.Hidden;
+                LbltmEnv.Visibility = Visibility.Hidden;
+                LbltmCons.Visibility = Visibility.Hidden;
+                BtnParam.Visibility = Visibility.Hidden;
             }
-
-
-            BtnSalvar.Visibility = Visibility.Visible;
-            LblSalvar.Visibility = Visibility.Visible;
-
-            BtnProcurarIni.Visibility = Visibility.Visible;
-            BtnProcurarFim.Visibility = Visibility.Visible;
-            BtnProcurarToken.Visibility = Visibility.Visible;
-
-            BtnConsultar.Visibility = Visibility.Hidden;
-            BtnEnviar.Visibility = Visibility.Hidden;
-            LblqtdCons.Visibility = Visibility.Hidden;
-            LblqtdEnv.Visibility = Visibility.Hidden;
-            LbltmEnv.Visibility = Visibility.Hidden;
-            LbltmCons.Visibility = Visibility.Hidden;
-            BtnParam.Visibility = Visibility.Hidden;
+            
         }
 
         private void BtnEnviar_Click(object sender, RoutedEventArgs e)
@@ -273,6 +288,7 @@ namespace Vertech
             EnviaLote env = new EnviaLote();
             Integra.Job();
             env.Job();
+
             System.Windows.Forms.MessageBox.Show("Finalizado o processo de integração, acesse a pasta de origem para verificar o log");
         }
 
@@ -484,7 +500,20 @@ namespace Vertech
 
         private void BtnParam_Click(object sender, RoutedEventArgs e)
         {
-            Init();
+            BtnSalvar.Visibility = Visibility.Visible;
+            LblSalvar.Visibility = Visibility.Visible;
+
+            BtnProcurarIni.Visibility = Visibility.Visible;
+            BtnProcurarFim.Visibility = Visibility.Visible;
+            BtnProcurarToken.Visibility = Visibility.Visible;
+
+            BtnConsultar.Visibility = Visibility.Hidden;
+            BtnEnviar.Visibility = Visibility.Hidden;
+            LblqtdCons.Visibility = Visibility.Hidden;
+            LblqtdEnv.Visibility = Visibility.Hidden;
+            LbltmEnv.Visibility = Visibility.Hidden;
+            LbltmCons.Visibility = Visibility.Hidden;
+            BtnParam.Visibility = Visibility.Hidden;
         }
     }
 }
