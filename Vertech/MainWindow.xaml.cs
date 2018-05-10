@@ -37,6 +37,8 @@ namespace Vertech
         public Integra Integra = new Integra();
         public Consulta Consulta = new Consulta();
 
+        int Controle = 0;
+
         public MainWindow()
         {
             InitializeComponent();
@@ -98,7 +100,7 @@ namespace Vertech
 
                         if(ctrl == 2)
                         {
-                            BtnSalvar.Visibility = Visibility.Hidden;
+                            /*BtnSalvar.Visibility = Visibility.Hidden;
                             LblSalvar.Visibility = Visibility.Hidden;
 
                             BtnProcurarIni.Visibility = Visibility.Hidden;
@@ -111,8 +113,8 @@ namespace Vertech
                             LblqtdEnv.Visibility = Visibility.Visible;
                             LbltmEnv.Visibility = Visibility.Visible;
                             LbltmCons.Visibility = Visibility.Visible;
-                            BtnParam.Visibility = Visibility.Visible;
-
+                            BtnParam.Visibility = Visibility.Visible;*/
+                            OrganizaTelaEvent(2);
                             Job();
                         }
                         
@@ -134,7 +136,8 @@ namespace Vertech
                 Helper.CriarBancoSQLite();
                 Helper.CriarTabelaSQlite();
 
-                BtnSalvar.Visibility = Visibility.Visible;
+                OrganizaTelaEvent(1);
+                /*BtnSalvar.Visibility = Visibility.Visible;
                 LblSalvar.Visibility = Visibility.Visible;
 
                 BtnProcurarIni.Visibility = Visibility.Visible;
@@ -147,7 +150,7 @@ namespace Vertech
                 LblqtdEnv.Visibility = Visibility.Hidden;
                 LbltmEnv.Visibility = Visibility.Hidden;
                 LbltmCons.Visibility = Visibility.Hidden;
-                BtnParam.Visibility = Visibility.Hidden;
+                BtnParam.Visibility = Visibility.Hidden;*/
             }
             
         }
@@ -402,23 +405,32 @@ namespace Vertech
 
         private void Job()
         {
+            Controle = 1;
             if(Parametros.GetDirArq() != null)
             {
                 DirectoryInfo dir = new DirectoryInfo(Parametros.GetDirArq());
 
                 Contagem(dir);
             }
-                        
+            Thread.Sleep(100);
+            Controle = 0;   
         }
 
         private void LblqtdEnv_MouseMove(object sender, System.Windows.Input.MouseEventArgs e)
         {
-            Job();
+            if (Controle == 0)
+            {
+                Job();
+            }
+
         }
 
         private void LblqtdCons_MouseMove(object sender, System.Windows.Input.MouseEventArgs e)
         {
-            Job();
+            if (Controle == 0)
+            {
+                Job();
+            }
         }
 
         private void BtnSalvar_Click(object sender, RoutedEventArgs e)
@@ -430,21 +442,8 @@ namespace Vertech
                     if ((Parametros.GetDirArq()) != (Parametros.GetDirFim()))
                     {
                         Processos process = new Processos();
-
-                        BtnConsultar.Visibility = Visibility.Visible;
-                        BtnEnviar.Visibility = Visibility.Visible;
-                        LblqtdCons.Visibility = Visibility.Visible;
-                        LblqtdEnv.Visibility = Visibility.Visible;
-                        LbltmEnv.Visibility = Visibility.Visible;
-                        LbltmCons.Visibility = Visibility.Visible;
-                        BtnParam.Visibility = Visibility.Visible;
-
-                        BtnSalvar.Visibility = Visibility.Hidden;
-                        LblSalvar.Visibility = Visibility.Hidden;
-                        BtnProcurarIni.Visibility = Visibility.Hidden;
-                        BtnProcurarFim.Visibility = Visibility.Hidden;
-                        BtnProcurarToken.Visibility = Visibility.Hidden;
-
+                        OrganizaTelaEvent(2);
+                        
                         try
                         {
                             /*string user = System.Windows.Forms.SystemInformation.UserName;
@@ -500,20 +499,45 @@ namespace Vertech
 
         private void BtnParam_Click(object sender, RoutedEventArgs e)
         {
-            BtnSalvar.Visibility = Visibility.Visible;
-            LblSalvar.Visibility = Visibility.Visible;
+            OrganizaTelaEvent(1);
+        }
 
-            BtnProcurarIni.Visibility = Visibility.Visible;
-            BtnProcurarFim.Visibility = Visibility.Visible;
-            BtnProcurarToken.Visibility = Visibility.Visible;
+        private void OrganizaTelaEvent(int tipo)
+        {
+            if(tipo == 1)
+            {
+                BtnSalvar.Visibility = Visibility.Visible;
+                LblSalvar.Visibility = Visibility.Visible;
 
-            BtnConsultar.Visibility = Visibility.Hidden;
-            BtnEnviar.Visibility = Visibility.Hidden;
-            LblqtdCons.Visibility = Visibility.Hidden;
-            LblqtdEnv.Visibility = Visibility.Hidden;
-            LbltmEnv.Visibility = Visibility.Hidden;
-            LbltmCons.Visibility = Visibility.Hidden;
-            BtnParam.Visibility = Visibility.Hidden;
+                BtnProcurarIni.Visibility = Visibility.Visible;
+                BtnProcurarFim.Visibility = Visibility.Visible;
+                BtnProcurarToken.Visibility = Visibility.Visible;
+
+                BtnConsultar.Visibility = Visibility.Hidden;
+                BtnEnviar.Visibility = Visibility.Hidden;
+                LblqtdCons.Visibility = Visibility.Hidden;
+                LblqtdEnv.Visibility = Visibility.Hidden;
+                LbltmEnv.Visibility = Visibility.Hidden;
+                LbltmCons.Visibility = Visibility.Hidden;
+                BtnParam.Visibility = Visibility.Hidden;
+            }
+            else if(tipo == 2)
+            {
+                BtnConsultar.Visibility = Visibility.Visible;
+                BtnEnviar.Visibility = Visibility.Visible;
+                LblqtdCons.Visibility = Visibility.Visible;
+                LblqtdEnv.Visibility = Visibility.Visible;
+                LbltmEnv.Visibility = Visibility.Visible;
+                LbltmCons.Visibility = Visibility.Visible;
+                BtnParam.Visibility = Visibility.Visible;
+
+                BtnSalvar.Visibility = Visibility.Hidden;
+                LblSalvar.Visibility = Visibility.Hidden;
+                BtnProcurarIni.Visibility = Visibility.Hidden;
+                BtnProcurarFim.Visibility = Visibility.Hidden;
+                BtnProcurarToken.Visibility = Visibility.Hidden;
+
+            }
         }
     }
 }

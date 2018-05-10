@@ -70,13 +70,13 @@
         "Entry"
         {
         "MsmKey" = "8:_CA847F8CCCEC38C44427E694ADE4BC38"
-        "OwnerKey" = "8:_8A73935232845FF08CD7A56776AB009A"
+        "OwnerKey" = "8:_2F98F6007174884CF8210581AEA8EBAD"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
         {
         "MsmKey" = "8:_CA847F8CCCEC38C44427E694ADE4BC38"
-        "OwnerKey" = "8:_2F98F6007174884CF8210581AEA8EBAD"
+        "OwnerKey" = "8:_8A73935232845FF08CD7A56776AB009A"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
@@ -100,13 +100,7 @@
         "Entry"
         {
         "MsmKey" = "8:_E7C60862566FE8E8A1F193DBAEE4DC50"
-        "OwnerKey" = "8:_D55FF3D1BC0D2723A62F43788471C05A"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_E7C60862566FE8E8A1F193DBAEE4DC50"
-        "OwnerKey" = "8:_8A73935232845FF08CD7A56776AB009A"
+        "OwnerKey" = "8:_A6B55F2DE0B0469D87925C1F7F3D5808"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
@@ -118,7 +112,13 @@
         "Entry"
         {
         "MsmKey" = "8:_E7C60862566FE8E8A1F193DBAEE4DC50"
-        "OwnerKey" = "8:_A6B55F2DE0B0469D87925C1F7F3D5808"
+        "OwnerKey" = "8:_8A73935232845FF08CD7A56776AB009A"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_E7C60862566FE8E8A1F193DBAEE4DC50"
+        "OwnerKey" = "8:_D55FF3D1BC0D2723A62F43788471C05A"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
@@ -136,37 +136,7 @@
         "Entry"
         {
         "MsmKey" = "8:_UNDEFINED"
-        "OwnerKey" = "8:_E773C6652F2347EDBDEB9C2D88F3E0C0"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_UNDEFINED"
-        "OwnerKey" = "8:_D55FF3D1BC0D2723A62F43788471C05A"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_UNDEFINED"
-        "OwnerKey" = "8:_8A73935232845FF08CD7A56776AB009A"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_UNDEFINED"
-        "OwnerKey" = "8:_2F98F6007174884CF8210581AEA8EBAD"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_UNDEFINED"
-        "OwnerKey" = "8:_CA847F8CCCEC38C44427E694ADE4BC38"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_UNDEFINED"
-        "OwnerKey" = "8:_1B67E155E2AFB5D163EBF1062D73543C"
+        "OwnerKey" = "8:_7ECDD7A6413D609FF133A25ADE75515A"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
@@ -178,7 +148,37 @@
         "Entry"
         {
         "MsmKey" = "8:_UNDEFINED"
-        "OwnerKey" = "8:_7ECDD7A6413D609FF133A25ADE75515A"
+        "OwnerKey" = "8:_1B67E155E2AFB5D163EBF1062D73543C"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_UNDEFINED"
+        "OwnerKey" = "8:_CA847F8CCCEC38C44427E694ADE4BC38"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_UNDEFINED"
+        "OwnerKey" = "8:_2F98F6007174884CF8210581AEA8EBAD"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_UNDEFINED"
+        "OwnerKey" = "8:_8A73935232845FF08CD7A56776AB009A"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_UNDEFINED"
+        "OwnerKey" = "8:_D55FF3D1BC0D2723A62F43788471C05A"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_UNDEFINED"
+        "OwnerKey" = "8:_E773C6652F2347EDBDEB9C2D88F3E0C0"
         "MsmSig" = "8:_UNDEFINED"
         }
     }
@@ -359,11 +359,6 @@
             "AssemblyAsmDisplayName" = "8:Integrador, Version=1.0.0.25998, Culture=neutral, PublicKeyToken=83394f1f2a344af8, processorArchitecture=MSIL"
                 "ScatterAssemblies"
                 {
-                    "_1B67E155E2AFB5D163EBF1062D73543C"
-                    {
-                    "Name" = "8:Integrador.exe"
-                    "Attributes" = "3:512"
-                    }
                 }
             "SourcePath" = "8:Integrador.exe"
             "TargetName" = "8:"
@@ -390,11 +385,6 @@
             "AssemblyAsmDisplayName" = "8:EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL"
                 "ScatterAssemblies"
                 {
-                    "_2F98F6007174884CF8210581AEA8EBAD"
-                    {
-                    "Name" = "8:EntityFramework.SqlServer.dll"
-                    "Attributes" = "3:512"
-                    }
                 }
             "SourcePath" = "8:EntityFramework.SqlServer.dll"
             "TargetName" = "8:"
@@ -441,11 +431,6 @@
             "AssemblyAsmDisplayName" = "8:System.Net.Http, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a"
                 "ScatterAssemblies"
                 {
-                    "_7ECDD7A6413D609FF133A25ADE75515A"
-                    {
-                    "Name" = "8:System.Net.Http.dll"
-                    "Attributes" = "3:512"
-                    }
                 }
             "SourcePath" = "8:System.Net.Http.dll"
             "TargetName" = "8:"
@@ -472,11 +457,6 @@
             "AssemblyAsmDisplayName" = "8:System.Data.SQLite.EF6, Version=1.0.106.0, Culture=neutral, PublicKeyToken=db937bc2d44ff139, processorArchitecture=MSIL"
                 "ScatterAssemblies"
                 {
-                    "_8A73935232845FF08CD7A56776AB009A"
-                    {
-                    "Name" = "8:System.Data.SQLite.EF6.dll"
-                    "Attributes" = "3:512"
-                    }
                 }
             "SourcePath" = "8:System.Data.SQLite.EF6.dll"
             "TargetName" = "8:"
@@ -503,11 +483,6 @@
             "AssemblyAsmDisplayName" = "8:EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL"
                 "ScatterAssemblies"
                 {
-                    "_CA847F8CCCEC38C44427E694ADE4BC38"
-                    {
-                    "Name" = "8:EntityFramework.dll"
-                    "Attributes" = "3:512"
-                    }
                 }
             "SourcePath" = "8:EntityFramework.dll"
             "TargetName" = "8:"
@@ -534,11 +509,6 @@
             "AssemblyAsmDisplayName" = "8:System.Data.SQLite.Linq, Version=1.0.106.0, Culture=neutral, PublicKeyToken=db937bc2d44ff139, processorArchitecture=MSIL"
                 "ScatterAssemblies"
                 {
-                    "_D55FF3D1BC0D2723A62F43788471C05A"
-                    {
-                    "Name" = "8:System.Data.SQLite.Linq.dll"
-                    "Attributes" = "3:512"
-                    }
                 }
             "SourcePath" = "8:System.Data.SQLite.Linq.dll"
             "TargetName" = "8:"
@@ -565,11 +535,6 @@
             "AssemblyAsmDisplayName" = "8:System.Data.SQLite, Version=1.0.106.0, Culture=neutral, PublicKeyToken=db937bc2d44ff139, processorArchitecture=MSIL"
                 "ScatterAssemblies"
                 {
-                    "_E7C60862566FE8E8A1F193DBAEE4DC50"
-                    {
-                    "Name" = "8:System.Data.SQLite.dll"
-                    "Attributes" = "3:512"
-                    }
                 }
             "SourcePath" = "8:System.Data.SQLite.dll"
             "TargetName" = "8:"
@@ -687,15 +652,15 @@
         {
         "Name" = "8:Microsoft Visual Studio"
         "ProductName" = "8:Vertech Integrador Ives"
-        "ProductCode" = "8:{8A4444B2-73C2-4C65-90E0-F7BBD99033BD}"
-        "PackageCode" = "8:{4E847C5E-C2E9-4E4E-863A-B65B472F0B94}"
+        "ProductCode" = "8:{29BC8A51-1444-43DE-ADA7-E28D2169F965}"
+        "PackageCode" = "8:{2536508B-C274-407E-B72A-F3AE418869F7}"
         "UpgradeCode" = "8:{CB00914A-54FC-4D14-97AC-FA0A0C276ABA}"
         "AspNetVersion" = "8:4.0.30319.0"
         "RestartWWWService" = "11:FALSE"
         "RemovePreviousVersions" = "11:TRUE"
         "DetectNewerInstalledVersion" = "11:TRUE"
         "InstallAllUsers" = "11:TRUE"
-        "ProductVersion" = "8:1.0.1"
+        "ProductVersion" = "8:1.0.2"
         "Manufacturer" = "8:Vertech IT"
         "ARPHELPTELEPHONE" = "8:"
         "ARPHELPLINK" = "8:"
