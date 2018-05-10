@@ -39,8 +39,8 @@
             // 
             // serviceInstaller1
             // 
-            this.serviceInstaller1.Description = "Serviço Integrador iVes";
-            this.serviceInstaller1.DisplayName = "Vertech Integrador Ives";
+            this.serviceInstaller1.Description = "Serviço Integrador iVes da Vertech";
+            this.serviceInstaller1.DisplayName = "Integrador Vertech Ives";
             this.serviceInstaller1.ServiceName = "Vertech Integrador Service";
             // 
             // ProjectInstaller

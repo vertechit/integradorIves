@@ -121,7 +121,13 @@ namespace Vertech
                     }
 
                 }
+
+                else if (param == null)
+                {
+                    OrganizaTelaEvent(1);
+                }
             }
+            
             else
             {
                 string user = System.Windows.Forms.SystemInformation.UserName;
