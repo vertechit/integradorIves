@@ -32,6 +32,58 @@ namespace Vertech.Services
             return s;
         }
 
+        public string MontaXML(string arqname)
+        {
+            string[] xmlLinhas = LerArquivo(Parametros.GetDirArq(), arqname);
+            var xmlString = "";
+
+            foreach (var item in xmlLinhas)
+            {
+                xmlString = String.Concat(xmlString, item);
+            }
+
+            string xsdInicio = "<eSocial><envioLoteEventos grupo=\"1\"><eventos><evento id=\"123\">";
+
+            xsdInicio = xsdInicio.Replace("123", arqname);
+
+            string xsdFim = " </evento></eventos></envioLoteEventos></eSocial>";
+
+            var xml = String.Concat(xsdInicio,xmlString,xsdFim);
+
+            return xml;
+        }
+
+        public Boolean VerificaConsultaXML(string response)
+        {
+            int sti = 0;
+            int stf = 0;
+
+            if (response == "")
+            {
+                return false;
+            }
+            var tagIniStatus = "<status>";
+            var tagFimStatus = "</status>";
+
+            var tagIniCdResp = "<cdResposta>";
+            var tagFimCdResp = "</cdResposta>";
+
+            sti = response.IndexOf(tagIniStatus) + tagIniStatus.Length;
+            stf = response.IndexOf(tagFimStatus) - tagFimStatus.Length;
+            var retorno = response.Substring(sti, stf + tagFimStatus.Length - sti);
+
+            sti = retorno.IndexOf(tagIniCdResp) + tagIniCdResp.Length;
+            stf = retorno.IndexOf(tagFimCdResp) - tagFimCdResp.Length;
+            var codigo = retorno.Substring(sti, stf + tagFimCdResp.Length - sti);
+
+            if (codigo == "201")
+            {
+                return true;
+            }
+
+            return false;
+        }
+
         public List<string> Listar_arquivos(string ext)
         {
             string dir = Parametros.GetDirArq();
@@ -65,6 +117,28 @@ namespace Vertech.Services
             return lines;
         }
 
+        public Boolean VerificaResponseXML(string response)
+        {
+            if(response == "")
+            {
+                return false;
+            }
+            var tagIni = "<cdResposta>";
+            var tagFim = "</cdResposta>";
+
+            int sti = response.IndexOf(tagIni) + 12;
+            int stf = response.IndexOf(tagFim) - 13;
+
+            var codigo = response.Substring(sti, stf + tagFim.Length - sti);
+
+            if(codigo == "201")
+            {
+                return true;
+            }
+
+            return false;
+        }
+
         public void SalvaProtocolo(apiIntegra.integraResponse Response, string arq)
         {
             try
@@ -76,6 +150,40 @@ namespace Vertech.Services
                 ClassException ex = new ClassException();
                 ex.ExProcessos(2,e.Message.ToString());
             }
+        }
+
+        public void SalvaProtocoloXML(string arq, string Response)
+        {
+            var tagIni = "<protocoloEnvio>";
+            var tagFim = "</protocoloEnvio>";
+
+            int sti = Response.IndexOf(tagIni) + 16;
+            int stf = Response.IndexOf(tagFim) - 17;
+
+            var protocolo = Response.Substring(sti, stf + tagFim.Length - sti);
+
+            try
+            {
+                Helper.AddProtocolo(new Protocolo { Id = 0, NomeArquivo = arq, NroProtocolo = protocolo });
+            }
+            catch (Exception e)
+            {
+                ClassException ex = new ClassException();
+                ex.ExProcessos(2, e.Message.ToString());
+            }
+        }
+
+        public Boolean VerificacaoEnviaLote(string arq)
+        {
+            string dir = Parametros.GetDirArq();
+            DirectoryInfo diretorio = new DirectoryInfo(dir);
+
+            if (Helper.ExistsProtocolo(arq) == true)
+            {
+                 return false;
+            }
+
+            return true;
         }
 
         public int VerificacaoIntegra(string arq)
@@ -140,7 +248,6 @@ namespace Vertech.Services
 
         public void Mover_Consultado(string filename)
         {
-            
             string origem = Parametros.GetDirArq();
             string destino = Parametros.GetDirFim();
 
@@ -156,6 +263,32 @@ namespace Vertech.Services
                 ClassException ex = new ClassException();
                 ex.ExProcessos(4,e.Message.ToString());
             }
+        }
+
+        public void GeraLogConsultaXML(string filename, string response)
+        {
+            DirectoryInfo di = new DirectoryInfo(string.Concat(Parametros.GetDirArq(), "\\logs\\retornoXML"));
+
+            if (di.Exists == false)
+                di.Create();
+            var nome = string.Concat("log_", filename);
+
+            string s = MontaCaminhoDir(string.Concat(Parametros.GetDirArq(), "\\logs\\retornoXML"), nome);
+
+            int sti = 0;
+            int stf = 0;
+
+            string tagIni = "<retornoEventos>";
+            string tagFim = "</retornoEventos>";
+
+            sti = response.IndexOf(tagIni);
+            stf = response.IndexOf(tagFim);
+
+            var protocolo = response.Substring(sti, stf + tagFim.Length - sti);
+
+            StreamWriter w = File.AppendText(@s);
+            w.Write(protocolo);
+            w.Close();
         }
 
         public void GeraLogConsulta(string filename, string nroprt, string desc, int cd, TextWriter w)
@@ -377,6 +510,16 @@ namespace Vertech.Services
         public void GeraLogIntegra(string filename, string str, TextWriter w)
         {
             w.Write("\r\nLog integra: ");
+            w.WriteLine("{0} {1}", DateTime.Now.ToLongTimeString(),
+                DateTime.Now.ToLongDateString());
+            w.WriteLine("Arquivo: {0}", filename);
+            w.WriteLine(str);
+            w.WriteLine("-------------------------------");
+        }
+
+        public void GeraLogEnviaXML(string filename, string str, TextWriter w)
+        {
+            w.Write("\r\nLog Envio XML: ");
             w.WriteLine("{0} {1}", DateTime.Now.ToLongTimeString(),
                 DateTime.Now.ToLongDateString());
             w.WriteLine("Arquivo: {0}", filename);

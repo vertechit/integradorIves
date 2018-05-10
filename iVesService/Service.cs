@@ -26,6 +26,8 @@ namespace iVesService
         //int Executada = 0;
         Consulta consulta = new Consulta();
         Integra integra = new Integra();
+        ConsultaLote ConsultaLote = new ConsultaLote();
+        EnviaLote EnviaLote = new EnviaLote();
 
         public Service()
         {
@@ -115,13 +117,19 @@ namespace iVesService
             Controle = 1;
             //Log("----------------------------------", 2);
             Log("Job Iniciado: ", 1);
-            Log("Integração iniciada: ", 1);
+            Log("Integração TXT iniciada: ", 1);
             integra.Job();
-            Log("Integração finalizado: ", 1);
+            Log("Integração TXT finalizado: ", 1);
+            Log("Integração XML iniciada: ", 1);
+            EnviaLote.Job();
+            Log("Integração XML finalizado: ", 1);
             Thread.Sleep(300000); //300000 = 5min
-            Log("Consulta iniciada: ", 1);
+            Log("Consulta TXT iniciada: ", 1);
             consulta.Job();
-            Log("Consulta finalizada: ", 1);
+            Log("Consulta TXT finalizada: ", 1);
+            Log("Consulta XML iniciada: ", 1);
+            ConsultaLote.Job();
+            Log("Consulta XML finalizada: ", 1);
             Log("Job finalizado: ", 1);
             Log("--", 2);
             Controle = 0;

@@ -37,6 +37,8 @@ namespace Vertech
         public Integra Integra = new Integra();
         public Consulta Consulta = new Consulta();
 
+        int Controle = 0;
+
         public MainWindow()
         {
             InitializeComponent();
@@ -98,13 +100,34 @@ namespace Vertech
 
                         if(ctrl == 2)
                         {
+                            /*BtnSalvar.Visibility = Visibility.Hidden;
+                            LblSalvar.Visibility = Visibility.Hidden;
+
+                            BtnProcurarIni.Visibility = Visibility.Hidden;
+                            BtnProcurarFim.Visibility = Visibility.Hidden;
+                            BtnProcurarToken.Visibility = Visibility.Hidden;
+
+                            BtnConsultar.Visibility = Visibility.Visible;
+                            BtnEnviar.Visibility = Visibility.Visible;
+                            LblqtdCons.Visibility = Visibility.Visible;
+                            LblqtdEnv.Visibility = Visibility.Visible;
+                            LbltmEnv.Visibility = Visibility.Visible;
+                            LbltmCons.Visibility = Visibility.Visible;
+                            BtnParam.Visibility = Visibility.Visible;*/
+                            OrganizaTelaEvent(2);
                             Job();
                         }
                         
                     }
 
                 }
+
+                else if (param == null)
+                {
+                    OrganizaTelaEvent(1);
+                }
             }
+            
             else
             {
                 string user = System.Windows.Forms.SystemInformation.UserName;
@@ -118,23 +141,24 @@ namespace Vertech
 
                 Helper.CriarBancoSQLite();
                 Helper.CriarTabelaSQlite();
+
+                OrganizaTelaEvent(1);
+                /*BtnSalvar.Visibility = Visibility.Visible;
+                LblSalvar.Visibility = Visibility.Visible;
+
+                BtnProcurarIni.Visibility = Visibility.Visible;
+                BtnProcurarFim.Visibility = Visibility.Visible;
+                BtnProcurarToken.Visibility = Visibility.Visible;
+
+                BtnConsultar.Visibility = Visibility.Hidden;
+                BtnEnviar.Visibility = Visibility.Hidden;
+                LblqtdCons.Visibility = Visibility.Hidden;
+                LblqtdEnv.Visibility = Visibility.Hidden;
+                LbltmEnv.Visibility = Visibility.Hidden;
+                LbltmCons.Visibility = Visibility.Hidden;
+                BtnParam.Visibility = Visibility.Hidden;*/
             }
-
-
-            BtnSalvar.Visibility = Visibility.Visible;
-            LblSalvar.Visibility = Visibility.Visible;
-
-            BtnProcurarIni.Visibility = Visibility.Visible;
-            BtnProcurarFim.Visibility = Visibility.Visible;
-            BtnProcurarToken.Visibility = Visibility.Visible;
-
-            BtnConsultar.Visibility = Visibility.Hidden;
-            BtnEnviar.Visibility = Visibility.Hidden;
-            LblqtdCons.Visibility = Visibility.Hidden;
-            LblqtdEnv.Visibility = Visibility.Hidden;
-            LbltmEnv.Visibility = Visibility.Hidden;
-            LbltmCons.Visibility = Visibility.Hidden;
-            BtnParam.Visibility = Visibility.Hidden;
+            
         }
 
         private void BtnEnviar_Click(object sender, RoutedEventArgs e)
@@ -270,14 +294,18 @@ namespace Vertech
 
         private void Integra_Esocial()
         {
+            EnviaLote env = new EnviaLote();
             Integra.Job();
+            env.Job();
 
             System.Windows.Forms.MessageBox.Show("Finalizado o processo de integração, acesse a pasta de origem para verificar o log");
         }
 
         private void Consulta_Retorno()
         {
+            ConsultaLote consult = new ConsultaLote();
             Consulta.Job();
+            consult.Job();
 
             System.Windows.Forms.MessageBox.Show("Finalizado o processo de consulta, acesse a pasta de origem para verificar o log");
         }
@@ -285,8 +313,10 @@ namespace Vertech
         public void Contagem(DirectoryInfo dir)
         {
             var ltxt = new List<string>();
+            var lxml = new List<string>();
             int i = 0; 
             int j = 0;
+            int x = 0, y = 0;
 
             try
             {
@@ -297,6 +327,13 @@ namespace Vertech
                         if (file.Name != "logEnvio.log" && file.Name != "logConsulta.log" && file.Name.Contains("log_") == false)
                         {
                             ltxt.Add(file.Name);
+                        }
+                    }
+                    if(file.Extension == ".xml")
+                    {
+                        if (file.Name != "logEnvio.log" && file.Name != "logConsulta.log" && file.Name.Contains("log_") == false)
+                        {
+                            lxml.Add(file.Name);
                         }
                     }
                 }
@@ -314,14 +351,28 @@ namespace Vertech
                         j++;
                     }
                 }
+
+                foreach (var item in lxml)
+                {
+                    var ret = Helper.ExistsProtocolo(item);
+
+                    if (ret == false)
+                    {
+                        x++;
+                    }
+                    if (ret == true)
+                    {
+                        y++;
+                    }
+                }
             }
             catch (Exception)
             {
                 System.Windows.Forms.MessageBox.Show("Erro ao buscar arquivos na pasta selecionada");
             }
 
-            LblqtdEnv.Content = i;
-            LblqtdCons.Content = j;
+            LblqtdEnv.Content = i+x;
+            LblqtdCons.Content = j+y;
         }
 
         public bool DefineToken(string dir)
@@ -360,23 +411,32 @@ namespace Vertech
 
         private void Job()
         {
+            Controle = 1;
             if(Parametros.GetDirArq() != null)
             {
                 DirectoryInfo dir = new DirectoryInfo(Parametros.GetDirArq());
 
                 Contagem(dir);
             }
-                        
+            Thread.Sleep(100);
+            Controle = 0;   
         }
 
         private void LblqtdEnv_MouseMove(object sender, System.Windows.Input.MouseEventArgs e)
         {
-            Job();
+            if (Controle == 0)
+            {
+                Job();
+            }
+
         }
 
         private void LblqtdCons_MouseMove(object sender, System.Windows.Input.MouseEventArgs e)
         {
-            Job();
+            if (Controle == 0)
+            {
+                Job();
+            }
         }
 
         private void BtnSalvar_Click(object sender, RoutedEventArgs e)
@@ -388,21 +448,8 @@ namespace Vertech
                     if ((Parametros.GetDirArq()) != (Parametros.GetDirFim()))
                     {
                         Processos process = new Processos();
-
-                        BtnConsultar.Visibility = Visibility.Visible;
-                        BtnEnviar.Visibility = Visibility.Visible;
-                        LblqtdCons.Visibility = Visibility.Visible;
-                        LblqtdEnv.Visibility = Visibility.Visible;
-                        LbltmEnv.Visibility = Visibility.Visible;
-                        LbltmCons.Visibility = Visibility.Visible;
-                        BtnParam.Visibility = Visibility.Visible;
-
-                        BtnSalvar.Visibility = Visibility.Hidden;
-                        LblSalvar.Visibility = Visibility.Hidden;
-                        BtnProcurarIni.Visibility = Visibility.Hidden;
-                        BtnProcurarFim.Visibility = Visibility.Hidden;
-                        BtnProcurarToken.Visibility = Visibility.Hidden;
-
+                        OrganizaTelaEvent(2);
+                        
                         try
                         {
                             /*string user = System.Windows.Forms.SystemInformation.UserName;
@@ -458,7 +505,45 @@ namespace Vertech
 
         private void BtnParam_Click(object sender, RoutedEventArgs e)
         {
-            Init();
+            OrganizaTelaEvent(1);
+        }
+
+        private void OrganizaTelaEvent(int tipo)
+        {
+            if(tipo == 1)
+            {
+                BtnSalvar.Visibility = Visibility.Visible;
+                LblSalvar.Visibility = Visibility.Visible;
+
+                BtnProcurarIni.Visibility = Visibility.Visible;
+                BtnProcurarFim.Visibility = Visibility.Visible;
+                BtnProcurarToken.Visibility = Visibility.Visible;
+
+                BtnConsultar.Visibility = Visibility.Hidden;
+                BtnEnviar.Visibility = Visibility.Hidden;
+                LblqtdCons.Visibility = Visibility.Hidden;
+                LblqtdEnv.Visibility = Visibility.Hidden;
+                LbltmEnv.Visibility = Visibility.Hidden;
+                LbltmCons.Visibility = Visibility.Hidden;
+                BtnParam.Visibility = Visibility.Hidden;
+            }
+            else if(tipo == 2)
+            {
+                BtnConsultar.Visibility = Visibility.Visible;
+                BtnEnviar.Visibility = Visibility.Visible;
+                LblqtdCons.Visibility = Visibility.Visible;
+                LblqtdEnv.Visibility = Visibility.Visible;
+                LbltmEnv.Visibility = Visibility.Visible;
+                LbltmCons.Visibility = Visibility.Visible;
+                BtnParam.Visibility = Visibility.Visible;
+
+                BtnSalvar.Visibility = Visibility.Hidden;
+                LblSalvar.Visibility = Visibility.Hidden;
+                BtnProcurarIni.Visibility = Visibility.Hidden;
+                BtnProcurarFim.Visibility = Visibility.Hidden;
+                BtnProcurarToken.Visibility = Visibility.Hidden;
+
+            }
         }
     }
 }

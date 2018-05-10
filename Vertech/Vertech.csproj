@@ -14,6 +14,8 @@
     <WarningLevel>4</WarningLevel>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
     <IsWebBootstrapper>false</IsWebBootstrapper>
+    <NuGetPackageImportStamp>
+    </NuGetPackageImportStamp>
     <PublishUrl>publish\</PublishUrl>
     <Install>true</Install>
     <InstallFrom>Disk</InstallFrom>
@@ -28,14 +30,12 @@
     <ProductName>Integrador iVes</ProductName>
     <PublisherName>Vertech-IT</PublisherName>
     <SuiteName>iVes</SuiteName>
-    <ApplicationRevision>4</ApplicationRevision>
-    <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
+    <ApplicationRevision>0</ApplicationRevision>
+    <ApplicationVersion>1.0.1.%2a</ApplicationVersion>
     <UseApplicationTrust>true</UseApplicationTrust>
     <CreateDesktopShortcut>true</CreateDesktopShortcut>
     <PublishWizardCompleted>true</PublishWizardCompleted>
     <BootstrapperEnabled>true</BootstrapperEnabled>
-    <NuGetPackageImportStamp>
-    </NuGetPackageImportStamp>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -61,7 +61,7 @@
     <ApplicationIcon>logo1.ico</ApplicationIcon>
   </PropertyGroup>
   <PropertyGroup>
-    <ManifestCertificateThumbprint>0BBAF4214311C98C283860A7104CBEDA515E8037</ManifestCertificateThumbprint>
+    <ManifestCertificateThumbprint>E37B3668BB53BE256662092F0C910E8CA1CBA704</ManifestCertificateThumbprint>
   </PropertyGroup>
   <PropertyGroup>
     <ManifestKeyFile>Vertech_TemporaryKey.pfx</ManifestKeyFile>
@@ -73,11 +73,10 @@
     <SignManifests>false</SignManifests>
   </PropertyGroup>
   <PropertyGroup>
-    <SignAssembly>false</SignAssembly>
+    <SignAssembly>true</SignAssembly>
   </PropertyGroup>
   <PropertyGroup>
-    <AssemblyOriginatorKeyFile>
-    </AssemblyOriginatorKeyFile>
+    <AssemblyOriginatorKeyFile>Vertech_TemporaryKey.pfx</AssemblyOriginatorKeyFile>
   </PropertyGroup>
   <PropertyGroup>
     <TargetZone>LocalIntranet</TargetZone>
@@ -134,12 +133,26 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Connected Services\apiEnviaXML\Reference.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </Compile>
+    <Compile Include="Connected Services\apiConsultaXML\Reference.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </Compile>
     <Compile Include="DAO\Helper.cs" />
     <Compile Include="Modelos\Parametro.cs" />
     <Compile Include="Modelos\Protocolo.cs" />
     <Compile Include="Services\ClassException.cs" />
     <Compile Include="Services\Consulta.cs" />
+    <Compile Include="Services\ConsultaLote.cs" />
+    <Compile Include="Services\CustomEndpointCallBehavior.cs" />
+    <Compile Include="Services\EnviaLote.cs" />
     <Compile Include="Services\Integra.cs" />
+    <Compile Include="Services\MessageHttpHeaderInspector.cs" />
     <Compile Include="Services\Parametros.cs" />
     <Compile Include="Services\Processos.cs" />
     <Compile Include="Services\SecureFile.cs" />
@@ -184,11 +197,18 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
+    <None Include="Connected Services\apiConsultaXML\Vertech.apiConsultaXML.ConsultarLoteEventosResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
     <None Include="Connected Services\apiConsulta\EsocialService.wsdl" />
     <None Include="Connected Services\apiConsulta\Vertech.apiConsulta.consultaResponse.datasource">
       <DependentUpon>Reference.svcmap</DependentUpon>
     </None>
     <None Include="Connected Services\apiConsulta\Vertech.apiConsulta.consultaResponse1.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Connected Services\apiEnviaXML\ServicoEnviarLoteEventos.wsdl" />
+    <None Include="Connected Services\apiEnviaXML\Vertech.apiEnviaXML.EnviarLoteEventosResponse.datasource">
       <DependentUpon>Reference.svcmap</DependentUpon>
     </None>
     <None Include="Connected Services\apiIntegra\EsocialService.wsdl" />
@@ -198,12 +218,15 @@
     <None Include="Connected Services\apiIntegra\Vertech.apiIntegra.integraResponse1.datasource">
       <DependentUpon>Reference.svcmap</DependentUpon>
     </None>
+    <None Include="Connected Services\apiConsultaXML\ServicoConsultarLoteEventos.wsdl" />
     <None Include="packages.config" />
     <None Include="Properties\app.manifest" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
     </None>
+    <None Include="System.Xml.Linq.XElement.datasource" />
+    <None Include="Vertech_TemporaryKey.pfx" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
@@ -228,7 +251,9 @@
   </ItemGroup>
   <ItemGroup>
     <WCFMetadataStorage Include="Connected Services\apiConsulta\" />
+    <WCFMetadataStorage Include="Connected Services\apiEnviaXML\" />
     <WCFMetadataStorage Include="Connected Services\apiIntegra\" />
+    <WCFMetadataStorage Include="Connected Services\apiConsultaXML\" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Connected Services\apiIntegra\configuration91.svcinfo" />
@@ -258,6 +283,19 @@
     <Resource Include="Imagens\Vertechs-20180109_143803.ico" />
   </ItemGroup>
   <ItemGroup>
+    <Resource Include="Imagens\logofinal.png" />
+    <None Include="Connected Services\apiEnviaXML\configuration91.svcinfo" />
+    <None Include="Connected Services\apiEnviaXML\configuration.svcinfo" />
+    <None Include="Connected Services\apiEnviaXML\Reference.svcmap">
+      <Generator>WCF Proxy Generator</Generator>
+      <LastGenOutput>Reference.cs</LastGenOutput>
+    </None>
+    <None Include="Connected Services\apiConsultaXML\configuration91.svcinfo" />
+    <None Include="Connected Services\apiConsultaXML\configuration.svcinfo" />
+    <None Include="Connected Services\apiConsultaXML\Reference.svcmap">
+      <Generator>WCF Proxy Generator</Generator>
+      <LastGenOutput>Reference.cs</LastGenOutput>
+    </None>
     <Content Include="Dependencias\64\SQLite.Interop.dll" />
     <Content Include="Dependencias\86\SQLite.Interop.dll" />
     <Resource Include="Imagens\logo1.ico" />

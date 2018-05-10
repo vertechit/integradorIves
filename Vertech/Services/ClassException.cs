@@ -86,7 +86,14 @@ namespace Vertech.Services
                     }
                     else
                     {
-                        MessageBox.Show("A pasta selecionada não contem os arquivos necessários para o envio");
+                        var s = processo.MontaCaminhoDir(Parametros.GetDirArq(), "\\logs\\logEnvio.log");
+                        StreamWriter vWriter = new StreamWriter(@s, true);
+                        vWriter.WriteLine("");
+                        vWriter.WriteLine("A pasta selecionada não contem os arquivos necessários para o envio");
+                        vWriter.WriteLine("");
+                        vWriter.Flush();
+                        vWriter.Close();
+                        //MessageBox.Show("A pasta selecionada não contem os arquivos necessários para o envio");
                     }
                         break;
                 case 2:
@@ -112,7 +119,14 @@ namespace Vertech.Services
                     }
                     else
                     {
-                        MessageBox.Show("A pasta selecionada não contem os arquivos necessários para a consulta");
+                        var s = processo.MontaCaminhoDir(Parametros.GetDirArq(), "\\logs\\logConsulta.log");
+                        StreamWriter w = File.AppendText(@s);
+                        w.WriteLine("");
+                        w.WriteLine("A pasta selecionada não contem os arquivos necessários para a consulta");
+                        w.WriteLine("");
+                        w.Flush();
+                        w.Close();
+                        //MessageBox.Show("A pasta selecionada não contem os arquivos necessários para a consulta");
                     }
                     break;
             }
