@@ -144,6 +144,9 @@
       <DependentUpon>Reference.svcmap</DependentUpon>
     </Compile>
     <Compile Include="DAO\Helper.cs" />
+    <Compile Include="Modelos\LogConsulta.cs" />
+    <Compile Include="Modelos\LogEnvia.cs" />
+    <Compile Include="Modelos\LogErros.cs" />
     <Compile Include="Modelos\Parametro.cs" />
     <Compile Include="Modelos\Protocolo.cs" />
     <Compile Include="Services\ClassException.cs" />
