@@ -6,7 +6,11 @@ using System.Threading.Tasks;
 
 namespace Vertech.Modelos
 {
-    class LogErros
+    public class LogErros
     {
+        public long? Id { get; set; }
+        public string CodErro { get; set; }
+        public string Msg { get; set; }
+        public DateTime Data { get; set; }
     }
 }

@@ -6,7 +6,11 @@ using System.Threading.Tasks;
 
 namespace Vertech.Modelos
 {
-    class LogConsulta
+    public class LogConsulta
     {
+        public long? Id { get; set; }
+        public string NomeArquivo { get; set; }
+        public string Msg { get; set; }
+        public DateTime Data { get; set; }
     }
 }

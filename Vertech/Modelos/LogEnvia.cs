@@ -6,7 +6,11 @@ using System.Threading.Tasks;
 
 namespace Vertech.Modelos
 {
-    class LogEnvia
+    public class LogEnvia
     {
+        public long? Id { get; set; }
+        public string NomeArquivo { get; set; }
+        public string Msg { get; set; }
+        public DateTime Data { get; set; }
     }
 }
