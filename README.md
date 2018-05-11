@@ -1,6 +1,6 @@
-# integradorIves
+# IntegradorIves
 
-Links uteis:
+<b>Links uteis:</b>
 
 - http://www.linhadecodigo.com.br/artigo/3080/criando-um-windows-service.aspx
 
@@ -10,7 +10,7 @@ Links uteis:
 
 - http://www.macoratti.net/17/04/cshp_sqlite1.htm
 
-Dependencias:
+<b>Dependencias:</b>
 - Microsoft Visual Studio 2017 Installer Projects
-https://marketplace.visualstudio.com/items?itemName=VisualStudioProductTeam.MicrosoftVisualStudio2017InstallerProjects
+- https://marketplace.visualstudio.com/items?itemName=VisualStudioProductTeam.MicrosoftVisualStudio2017InstallerProjects
 - dotNet Framework 4.6.1
