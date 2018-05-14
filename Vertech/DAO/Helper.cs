@@ -75,6 +75,47 @@ namespace Vertech.DAO
                     cmd.ExecuteNonQuery();
                 }
 
+                using (var cmd = DbConnection().CreateCommand())
+                {
+                    cmd.CommandText = "CREATE TABLE IF NOT EXISTS logconsulta(" +
+                                                                            "id integer primary key autoincrement," +
+                                                                            "nome_arq varchar2(100) not null," +
+                                                                            "msg varchar2(500) not null," +
+                                                                            "data varchar2(10) not null," +
+                                                                            "hora varchar2(8) not null" +
+                                                                            ") ";
+
+                    cmd.ExecuteNonQuery();
+                }
+
+
+                using (var cmd = DbConnection().CreateCommand())
+                {
+                    cmd.CommandText = "CREATE TABLE IF NOT EXISTS logenvia(" +
+                                                                            "id integer primary key autoincrement," +
+                                                                            "nome_arq varchar2(100) not null," +
+                                                                            "msg varchar2(500) not null," +
+                                                                            "data varchar2(10) not null," +
+                                                                            "hora varchar2(8) not null" +
+                                                                            ") ";
+
+                    cmd.ExecuteNonQuery();
+                }
+
+                using (var cmd = DbConnection().CreateCommand())
+                {
+                    cmd.CommandText = "CREATE TABLE IF NOT EXISTS logerro(" +
+                                                                            "id integer primary key autoincrement," +
+                                                                            "cdErro varchar2(10) not null," +
+                                                                            "msg varchar2(500) not null," +
+                                                                            "data varchar2(10) not null," +
+                                                                            "hora varchar2(8) not null" +
+                                                                            ") ";
+
+                    cmd.ExecuteNonQuery();
+                }
+
+
             }
             catch (Exception ex)
             {
@@ -301,6 +342,138 @@ namespace Vertech.DAO
                 ClassException excep = new ClassException();
                 excep.ExSQLite(9, ex.Message);
             }
+        }
+
+        public static void AddLogConsulta(LogConsulta log)
+        {
+            try
+            {
+                using (var cmd = DbConnection().CreateCommand())
+                {
+                    cmd.CommandText = "INSERT INTO logconsulta(nome_arq, msg, data, hora) values (@arq, @msg, @data, @hora)";
+                    cmd.Parameters.AddWithValue("@arq", log.NomeArquivo);
+                    cmd.Parameters.AddWithValue("@msg", log.Msg);
+                    cmd.Parameters.AddWithValue("@data", log.Data);
+                    cmd.Parameters.AddWithValue("@hora", log.Hora);
+                    cmd.ExecuteNonQuery();
+                }
+            }
+            catch (Exception ex)
+            {
+                ClassException excep = new ClassException();
+                excep.ExSQLite(7, ex.Message);
+            }
+        }
+
+        public static void AddLogEnvia(LogEnvia log)
+        {
+            try
+            {
+                using (var cmd = DbConnection().CreateCommand())
+                {
+                    cmd.CommandText = "INSERT INTO logenvia(nome_arq, msg, data, hora) values (@arq, @msg, @data, @hora)";
+                    cmd.Parameters.AddWithValue("@arq", log.NomeArquivo);
+                    cmd.Parameters.AddWithValue("@msg", log.Msg);
+                    cmd.Parameters.AddWithValue("@data", log.Data);
+                    cmd.Parameters.AddWithValue("@hora", log.Hora);
+                    cmd.ExecuteNonQuery();
+                }
+            }
+            catch (Exception ex)
+            {
+                ClassException excep = new ClassException();
+                excep.ExSQLite(7, ex.Message);
+            }
+        }
+
+        public static void AddLogErro(LogErro log)
+        {
+            try
+            {
+                using (var cmd = DbConnection().CreateCommand())
+                {
+                    cmd.CommandText = "INSERT INTO logerro(cdErro, msg, data, hora) values (@cderr, @msg, @data, @hora)";
+                    cmd.Parameters.AddWithValue("@cderr", log.CodErro);
+                    cmd.Parameters.AddWithValue("@msg", log.Msg);
+                    cmd.Parameters.AddWithValue("@data", log.Data);
+                    cmd.Parameters.AddWithValue("@hora", log.Hora);
+                    cmd.ExecuteNonQuery();
+                }
+            }
+            catch (Exception ex)
+            {
+                ClassException excep = new ClassException();
+                excep.ExSQLite(7, ex.Message);
+            }
+        }
+
+        public static DataTable GetLogsConsulta()
+        {
+            SQLiteDataAdapter da = null;
+            DataTable dt = new DataTable();
+            try
+            {
+                using (var cmd = DbConnection().CreateCommand())
+                {
+                    cmd.CommandText = "SELECT * FROM logconsulta";
+                    da = new SQLiteDataAdapter(cmd.CommandText, DbConnection());
+                    da.Fill(dt);
+                    return dt;
+                }
+            }
+            catch (Exception ex)
+            {
+                ClassException excep = new ClassException();
+                excep.ExSQLite(2, ex.Message);
+            }
+
+            return null;
+        }
+
+        public static DataTable GetLogsEnvia()
+        {
+            SQLiteDataAdapter da = null;
+            DataTable dt = new DataTable();
+            try
+            {
+                using (var cmd = DbConnection().CreateCommand())
+                {
+                    cmd.CommandText = "SELECT * FROM logenvia";
+                    da = new SQLiteDataAdapter(cmd.CommandText, DbConnection());
+                    da.Fill(dt);
+                    return dt;
+                }
+            }
+            catch (Exception ex)
+            {
+                ClassException excep = new ClassException();
+                excep.ExSQLite(2, ex.Message);
+            }
+
+            return null;
+        }
+
+        public static DataTable GetLogsErros()
+        {
+            SQLiteDataAdapter da = null;
+            DataTable dt = new DataTable();
+            try
+            {
+                using (var cmd = DbConnection().CreateCommand())
+                {
+                    cmd.CommandText = "SELECT * FROM logerro";
+                    da = new SQLiteDataAdapter(cmd.CommandText, DbConnection());
+                    da.Fill(dt);
+                    return dt;
+                }
+            }
+            catch (Exception ex)
+            {
+                ClassException excep = new ClassException();
+                excep.ExSQLite(2, ex.Message);
+            }
+
+            return null;
         }
     }
 }
