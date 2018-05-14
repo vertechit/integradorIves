@@ -5,13 +5,16 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Vertech.Telas"
         mc:Ignorable="d"
-        Title="Logs" Height="450" Width="800" WindowStartupLocation="CenterScreen" ResizeMode="NoResize">
+        Title="Logs" Height="600" Width="800" WindowStartupLocation="CenterScreen" ResizeMode="NoResize" Closing="Window_Closing">
     <Grid>
 
-        <DataGrid x:Name="DtData" HorizontalAlignment="Left" Height="293" Margin="84,97,0,0" VerticalAlignment="Top" Width="625"/>
-        <ComboBox x:Name="CboTipo" HorizontalAlignment="Left" Margin="278,20,0,0" VerticalAlignment="Top" Width="281"/>
-        <Button x:Name="BtnBuscar" Content="Buscar" HorizontalAlignment="Left" Margin="632,21,0,0" VerticalAlignment="Top" Width="75" Click="BtnBuscar_Click"/>
-        <Label x:Name="LblLog" Content="Escolha qual log deseja visualizar: " HorizontalAlignment="Left" Margin="81,18,0,0" VerticalAlignment="Top"/>
+        <DataGrid x:Name="DtData" HorizontalAlignment="Left" Height="293" Margin="84,172,0,0" VerticalAlignment="Top" Width="625"/>
+        <ComboBox x:Name="CboTipo" HorizontalAlignment="Left" Margin="245,61,0,0" VerticalAlignment="Top" Width="281" SelectionChanged="CboTipo_SelectionChanged"/>
+        <Button x:Name="BtnBuscar" Content="Buscar" HorizontalAlignment="Left" Margin="588,61,0,0" VerticalAlignment="Top" Width="75" Click="BtnBuscar_Click"/>
+        <Label x:Name="LblLog" Content="Escolha qual log deseja visualizar: " HorizontalAlignment="Left" Margin="294,23,0,0" VerticalAlignment="Top"/>
+        <ComboBox x:Name="CboCampos" HorizontalAlignment="Left" Margin="332,101,0,0" VerticalAlignment="Top" Width="120"/>
+        <TextBox x:Name="TxbValor" HorizontalAlignment="Left" Height="23" Margin="332,128,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="226"/>
+        <Label x:Name="LblCampo" Content="Filtro por campo" HorizontalAlignment="Left" Margin="230,99,0,0" VerticalAlignment="Top"/>
 
     </Grid>
 </Window>

@@ -235,5 +235,108 @@ namespace Vertech.DAO
 
             return null;
         }
+
+
+        public static DataTable GetLogsWithParam(int Tipo, string Param, string Tabela)
+        {
+            SQLiteDataAdapter da = null;
+            DataTable dt = new DataTable();
+            const string quote = "\"";
+            string param = quote + Param + quote;
+
+            try
+            {
+                if(Tabela == "Erro")
+                {
+                    if(Tipo == 1)
+                    {
+                        using (var cmd = DbConnection().CreateCommand())
+                        {
+                            cmd.CommandText = "SELECT * FROM logerro where servico = "+ param;
+                            cmd.Parameters.AddWithValue("@serv", Param);
+                            da = new SQLiteDataAdapter(cmd.CommandText, DbConnection());
+                            da.Fill(dt);
+                            return dt;
+                        }
+                    }
+                    else
+                    {
+                        using (var cmd = DbConnection().CreateCommand())
+                        {
+                            cmd.CommandText = "SELECT * FROM logerro where data = " + param;
+                            cmd.Parameters.AddWithValue("@data", Param);
+                            da = new SQLiteDataAdapter(cmd.CommandText, DbConnection());
+                            da.Fill(dt);
+                            return dt;
+                        }
+
+
+                    }
+                    
+                }
+                else if(Tabela == "Consulta")
+                {
+                    if (Tipo == 1)
+                    {
+                        using (var cmd = DbConnection().CreateCommand())
+                        {
+                            cmd.CommandText = "SELECT * FROM logconsulta where nome_arq = " + param;
+                            cmd.Parameters.AddWithValue("@arq", Param);
+                            da = new SQLiteDataAdapter(cmd.CommandText, DbConnection());
+                            da.Fill(dt);
+                            return dt;
+                        }
+                    }
+                    else
+                    {
+                        using (var cmd = DbConnection().CreateCommand())
+                        {
+                            cmd.CommandText = "SELECT * FROM logconsulta where data = " + param;
+                            cmd.Parameters.AddWithValue("@data", Param);
+                            da = new SQLiteDataAdapter(cmd.CommandText, DbConnection());
+                            da.Fill(dt);
+                            return dt;
+                        }
+
+
+                    }
+                }
+                else
+                {
+                    if (Tipo == 1)
+                    {
+                        using (var cmd = DbConnection().CreateCommand())
+                        {
+                            cmd.CommandText = "SELECT id, nome_arq, msg, data, hora FROM logenvia where nome_arq = " + param;//\"@arq\"";
+                            //cmd.Parameters.AddWithValue("@arq", Param);
+                            da = new SQLiteDataAdapter(cmd.CommandText, DbConnection());
+                            da.Fill(dt);
+                            return dt;
+                        }
+                    }
+                    else
+                    {
+                        using (var cmd = DbConnection().CreateCommand())
+                        {
+                            cmd.CommandText = "SELECT id, nome_arq, msg, data, hora FROM logenvia where data = " + param;//\"@data\"";
+                            //cmd.Parameters.AddWithValue("@data", Param);
+                            da = new SQLiteDataAdapter(cmd.CommandText, DbConnection());
+                            da.Fill(dt);
+                            return dt;
+                        }
+
+
+                    }
+                }
+                
+            }
+            catch (Exception ex)
+            {
+                ClassException excep = new ClassException();
+                excep.ExSQLite(2, ex.Message);
+            }
+
+            return null;
+        }
     }
 }

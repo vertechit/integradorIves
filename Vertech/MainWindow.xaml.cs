@@ -36,7 +36,6 @@ namespace Vertech
     {
         public Integra Integra = new Integra();
         public Consulta Consulta = new Consulta();
-
         int Controle = 0;
 
         public MainWindow()
@@ -545,6 +544,7 @@ namespace Vertech
                 LbltmEnv.Visibility = Visibility.Hidden;
                 LbltmCons.Visibility = Visibility.Hidden;
                 BtnParam.Visibility = Visibility.Hidden;
+                BtnLog.Visibility = Visibility.Hidden;
             }
             else if(tipo == 2)
             {
@@ -555,6 +555,7 @@ namespace Vertech
                 LbltmEnv.Visibility = Visibility.Visible;
                 LbltmCons.Visibility = Visibility.Visible;
                 BtnParam.Visibility = Visibility.Visible;
+                BtnLog.Visibility = Visibility.Visible;
 
                 BtnSalvar.Visibility = Visibility.Hidden;
                 LblSalvar.Visibility = Visibility.Hidden;
@@ -567,8 +568,9 @@ namespace Vertech
 
         private void BtnLog_Click(object sender, RoutedEventArgs e)
         {
-            var tela = new Telas.SistemaLog();
-            tela.Show();
+            var Tela = new Telas.SistemaLog(this);
+            Tela.Show();
+            this.Hide();
         }
     }
 }
