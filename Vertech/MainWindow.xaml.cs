@@ -564,5 +564,11 @@ namespace Vertech
 
             }
         }
+
+        private void BtnLog_Click(object sender, RoutedEventArgs e)
+        {
+            var tela = new Telas.SistemaLog();
+            tela.Show();
+        }
     }
 }

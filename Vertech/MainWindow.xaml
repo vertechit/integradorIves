@@ -209,7 +209,7 @@
             <Button x:Name="BtnParam" 
                     Content="Parâmetros" 
                     HorizontalAlignment="Left" 
-                    Margin="95,158,0,0" 
+                    Margin="50,158,0,0" 
                     VerticalAlignment="Top" 
                     Width="76" 
                     Grid.Column="1" 
@@ -219,6 +219,18 @@
                     FontFamily="Century Gothic" 
                     FontSize="12"
                     Click="BtnParam_Click"/>
+            <Button x:Name="BtnLog" 
+                Content="Logs" 
+                HorizontalAlignment="Left" 
+                Margin="143,158,0,0" 
+                VerticalAlignment="Top" 
+                Width="76" 
+                Grid.Column="1" 
+                Grid.Row="2" 
+                Height="32" 
+                RenderTransformOrigin="0.505,0.36" 
+                FontFamily="Century Gothic" 
+                FontSize="12" Click="BtnLog_Click"/>
 
         </Grid>
     </Viewbox>
