@@ -6,6 +6,8 @@ using System.Threading.Tasks;
 using Vertech.Services;
 using System.IO;
 using System.Windows;
+using Vertech.DAO;
+using Vertech.Modelos;
 
 namespace Vertech.Services
 {
@@ -15,12 +17,24 @@ namespace Vertech.Services
         public void ImprimeException(int tipo, string msg)
         {
             Processos processo = new Processos();
+            string stri = Convert.ToString(DateTime.Now);
+            string[] strArr = null;
+            char[] splitchar = { ' ' };
+
+            strArr = stri.Split(splitchar);
+
+            string hora = strArr[1];
+            string data = strArr[0];
             switch (tipo)
             {
+
                 case 1:
                     if (Parametros.GetTipoApp() == "Service")
                     {
-                        var s = processo.MontaCaminhoDir(Parametros.GetDirArq(), "\\logs\\logEnvio.log");
+                        
+
+                        Log.AddLogEnvia(new LogEnvia { Id = 0, Msg = msg, NomeArquivo = "Integra", Data = data, Hora = hora });
+                        /*var s = processo.MontaCaminhoDir(Parametros.GetDirArq(), "\\logs\\logEnvio.log");
                         StreamWriter vWriter = new StreamWriter(@s, true);
                         vWriter.WriteLine("");
                         vWriter.WriteLine("Ocorrencia Integra");
@@ -28,7 +42,7 @@ namespace Vertech.Services
                         vWriter.WriteLine("Descrição: " + msg);
                         vWriter.WriteLine("");
                         vWriter.Flush();
-                        vWriter.Close();
+                        vWriter.Close();*/
                     }
                     else
                     {
@@ -39,7 +53,21 @@ namespace Vertech.Services
                 case 2:
                     if (Parametros.GetTipoApp() == "Service")
                     {
-                        var s = processo.MontaCaminhoDir(Parametros.GetDirArq(), "\\logs\\logConsulta.log");
+                        Log.AddLogConsulta(new LogConsulta
+                        {
+                            Id = 0
+                                                       ,
+                            NomeArquivo = "Consulta"
+                                                       ,
+                            Protocolo = "0"
+                                                       ,
+                            Msg = msg
+                                                       ,
+                            Data = data
+                                                       ,
+                            Hora = hora
+                        });
+                        /*var s = processo.MontaCaminhoDir(Parametros.GetDirArq(), "\\logs\\logConsulta.log");
                         StreamWriter vWriter = new StreamWriter(@s, true);
 
                         vWriter.WriteLine("");
@@ -48,7 +76,7 @@ namespace Vertech.Services
                         vWriter.WriteLine("Descrição: " + msg);
                         vWriter.WriteLine("");
                         vWriter.Flush();
-                        vWriter.Close();
+                        vWriter.Close();*/
                     }
                     else
                     {
@@ -61,6 +89,16 @@ namespace Vertech.Services
         public void ImprimeMsgDeErro_NoFilesFound(int tp)
         {
             Processos processo = new Processos();
+
+            string stri = Convert.ToString(DateTime.Now);
+            string[] strArr = null;
+            char[] splitchar = { ' ' };
+
+            strArr = stri.Split(splitchar);
+
+            string hora = strArr[1];
+            string data = strArr[0];
+
             switch (tp)
             {
                 case 1:
@@ -68,7 +106,8 @@ namespace Vertech.Services
                     {
                         try
                         {
-                            var s = processo.MontaCaminhoDir(Parametros.GetDirArq(), "\\logs\\logEnvio.log");
+                            Log.AddLogEnvia(new LogEnvia { Id = 0, Msg = "A pasta selecionada não contem os arquivos necessários para o envio", NomeArquivo = "Integra", Data = data, Hora = hora });
+                            /*var s = processo.MontaCaminhoDir(Parametros.GetDirArq(), "\\logs\\logEnvio.log");
                             StreamWriter vWriter = new StreamWriter(@s, true);
                             vWriter.WriteLine("");
                             vWriter.WriteLine("Ocorrencia Integra");
@@ -76,7 +115,7 @@ namespace Vertech.Services
                             vWriter.WriteLine("Descrição: A pasta selecionada não contem os arquivos necessários para o envio");
                             vWriter.WriteLine("");
                             vWriter.Flush();
-                            vWriter.Close();
+                            vWriter.Close();*/
                         }
                         catch(Exception ex)
                         {
@@ -86,14 +125,23 @@ namespace Vertech.Services
                     }
                     else
                     {
-                        var s = processo.MontaCaminhoDir(Parametros.GetDirArq(), "\\logs\\logEnvio.log");
+                        try
+                        {
+                            Log.AddLogEnvia(new LogEnvia { Id = 0, Msg = "A pasta selecionada não contem os arquivos necessários para o envio", NomeArquivo = "Integra", Data = data, Hora = hora });
+                        }
+                        catch (Exception ex)
+                        {
+
+                        }
+                        
+                        /*var s = processo.MontaCaminhoDir(Parametros.GetDirArq(), "\\logs\\logEnvio.log");
                         StreamWriter vWriter = new StreamWriter(@s, true);
                         vWriter.WriteLine("");
                         vWriter.WriteLine("A pasta selecionada não contem os arquivos necessários para o envio");
                         vWriter.WriteLine("");
                         vWriter.Flush();
                         vWriter.Close();
-                        //MessageBox.Show("A pasta selecionada não contem os arquivos necessários para o envio");
+                        //MessageBox.Show("A pasta selecionada não contem os arquivos necessários para o envio");*/
                     }
                         break;
                 case 2:
@@ -101,7 +149,21 @@ namespace Vertech.Services
                     {
                         try
                         {
-                            var s = processo.MontaCaminhoDir(Parametros.GetDirArq(), "\\logs\\logConsulta.log");
+                            Log.AddLogConsulta(new LogConsulta
+                            {
+                                Id = 0
+                                                       ,
+                                NomeArquivo = "Consulta"
+                                                       ,
+                                Protocolo = "0"
+                                                       ,
+                                Msg = "A pasta selecionada não contem os arquivos necessários para a consulta"
+                                                       ,
+                                Data = data
+                                                       ,
+                                Hora = hora
+                            });
+                            /*var s = processo.MontaCaminhoDir(Parametros.GetDirArq(), "\\logs\\logConsulta.log");
                             StreamWriter vWriter = new StreamWriter(@s, true);
 
                             vWriter.WriteLine("");
@@ -110,7 +172,7 @@ namespace Vertech.Services
                             vWriter.WriteLine("Descrição: A pasta selecionada não contem os arquivos necessários para a consulta");
                             vWriter.WriteLine("");
                             vWriter.Flush();
-                            vWriter.Close();
+                            vWriter.Close();*/
                         }
                         catch (Exception ex)
                         {
@@ -119,14 +181,36 @@ namespace Vertech.Services
                     }
                     else
                     {
-                        var s = processo.MontaCaminhoDir(Parametros.GetDirArq(), "\\logs\\logConsulta.log");
+                        try
+                        {
+                            Log.AddLogConsulta(new LogConsulta
+                            {
+                                Id = 0
+                                                       ,
+                                NomeArquivo = "Consulta"
+                                                       ,
+                                Protocolo = "0"
+                                                       ,
+                                Msg = "A pasta selecionada não contem os arquivos necessários para a consulta"
+                                                       ,
+                                Data = data
+                                                       ,
+                                Hora = hora
+                            });
+                        }
+                        catch (Exception ex)
+                        {
+
+                        }
+                        
+                        /*var s = processo.MontaCaminhoDir(Parametros.GetDirArq(), "\\logs\\logConsulta.log");
                         StreamWriter w = File.AppendText(@s);
                         w.WriteLine("");
                         w.WriteLine("A pasta selecionada não contem os arquivos necessários para a consulta");
                         w.WriteLine("");
                         w.Flush();
                         w.Close();
-                        //MessageBox.Show("A pasta selecionada não contem os arquivos necessários para a consulta");
+                        //MessageBox.Show("A pasta selecionada não contem os arquivos necessários para a consulta");*/
                     }
                     break;
             }
@@ -136,11 +220,21 @@ namespace Vertech.Services
         {
             Processos processo = new Processos();
 
+            string stri = Convert.ToString(DateTime.Now);
+            string[] strArr = null;
+            char[] splitchar = { ' ' };
+
+            strArr = stri.Split(splitchar);
+
+            string hora = strArr[1];
+            string data = strArr[0];
+
             if (Parametros.GetTipoApp() == "Service")
             {
                 try
                 {
-                    var s = processo.MontaCaminhoDir(Parametros.GetDirArq(), "\\logs\\logException.log");
+                    Log.AddLogErro(new LogErros { Id = 0, Servico = "Processos", CodErro = codErro.ToString(), Msg = msg, Data = data, Hora = hora });
+                    /*var s = processo.MontaCaminhoDir(Parametros.GetDirArq(), "\\logs\\logException.log");
                     StreamWriter vWriter = new StreamWriter(@s, true);
 
                     vWriter.WriteLine("");
@@ -150,7 +244,7 @@ namespace Vertech.Services
                     vWriter.WriteLine("Descrição: " + msg);
                     vWriter.WriteLine("");
                     vWriter.Flush();
-                    vWriter.Close();
+                    vWriter.Close();*/
                 }
                 
                 catch (Exception ex)
@@ -168,11 +262,21 @@ namespace Vertech.Services
         {
             Processos processo = new Processos();
 
+            string stri = Convert.ToString(DateTime.Now);
+            string[] strArr = null;
+            char[] splitchar = { ' ' };
+
+            strArr = stri.Split(splitchar);
+
+            string hora = strArr[1];
+            string data = strArr[0];
+
             if (Parametros.GetTipoApp() == "Service")
             {
                 try
                 {
-                    var s = processo.MontaCaminhoDir(Parametros.GetDirArq(), "\\logs\\logSQL.log");
+                    Log.AddLogErro(new LogErros { Id = 0, Servico = "SQLite", CodErro = codErro.ToString(), Msg = msg, Data = data, Hora = hora });
+                    /*var s = processo.MontaCaminhoDir(Parametros.GetDirArq(), "\\logs\\logSQL.log");
                     StreamWriter vWriter = new StreamWriter(@s, true);
 
                     vWriter.WriteLine("");
@@ -182,7 +286,7 @@ namespace Vertech.Services
                     vWriter.WriteLine("Descrição: " + msg);
                     vWriter.WriteLine("");
                     vWriter.Flush();
-                    vWriter.Close();
+                    vWriter.Close();*/
                 }
                 catch (Exception ex)
                 {
@@ -200,9 +304,19 @@ namespace Vertech.Services
         {
             var p = new Processos();
 
-            if(Parametros.GetTipoApp() == "Service")
+            string stri = Convert.ToString(DateTime.Now);
+            string[] strArr = null;
+            char[] splitchar = { ' ' };
+
+            strArr = stri.Split(splitchar);
+
+            string hora = strArr[1];
+            string data = strArr[0];
+
+            if (Parametros.GetTipoApp() == "Service")
             {
-                var s = p.MontaCaminhoDir(Parametros.GetDirArq(), "\\logs\\logException.log");
+                Log.AddLogErro(new LogErros { Id = 0, Servico = "SecureFile", CodErro = codErro.ToString(), Msg = msg, Data = data, Hora = hora });
+                /*var s = p.MontaCaminhoDir(Parametros.GetDirArq(), "\\logs\\logException.log");
                 StreamWriter vWriter = new StreamWriter(@s, true);
 
                 vWriter.WriteLine("");
@@ -212,7 +326,7 @@ namespace Vertech.Services
                 vWriter.WriteLine("Descrição: " + msg);
                 vWriter.WriteLine("");
                 vWriter.Flush();
-                vWriter.Close();
+                vWriter.Close();*/
             }
             else
             {
@@ -224,7 +338,17 @@ namespace Vertech.Services
         {
             var p = new Processos();
 
-            var s = p.MontaCaminhoDir(Parametros.GetDirArq(), "\\logs\\logException.log");
+            string stri = Convert.ToString(DateTime.Now);
+            string[] strArr = null;
+            char[] splitchar = { ' ' };
+
+            strArr = stri.Split(splitchar);
+
+            string hora = strArr[1];
+            string data = strArr[0];
+
+            Log.AddLogErro(new LogErros { Id = 0, Servico = "SQLite", CodErro = "999", Msg = msg, Data = data, Hora = hora });
+            /*var s = p.MontaCaminhoDir(Parametros.GetDirArq(), "\\logs\\logException.log");
             StreamWriter vWriter = new StreamWriter(@s, true);
 
             vWriter.WriteLine("");
@@ -234,7 +358,7 @@ namespace Vertech.Services
             vWriter.WriteLine("Descrição: " + msg);
             vWriter.WriteLine("");
             vWriter.Flush();
-            vWriter.Close();
+            vWriter.Close();*/
         }
     }
 }

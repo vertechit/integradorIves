@@ -60,7 +60,8 @@ namespace Vertech.Services
                         }
                         catch (Exception e)
                         {
-                            StreamWriter vWriter = new StreamWriter(@s, true);
+                            ex.ImprimeException(2, "Tente consultar novamente em alguns minutos");
+                            /*StreamWriter vWriter = new StreamWriter(@s, true);
 
                             vWriter.WriteLine("");
                             vWriter.WriteLine("Ocorrencia ConsultaXML");
@@ -69,7 +70,7 @@ namespace Vertech.Services
                             vWriter.WriteLine("Descrição: Tente consultar novamente em alguns minutos.");
                             vWriter.WriteLine("");
                             vWriter.Flush();
-                            vWriter.Close();
+                            vWriter.Close();*/
                         }
                         i++;
                     }

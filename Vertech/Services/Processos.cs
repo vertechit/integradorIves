@@ -293,9 +293,59 @@ namespace Vertech.Services
 
         public void GeraLogConsulta(string filename, string nroprt, string desc, int cd, TextWriter w)
         {
+            string stri = Convert.ToString(DateTime.Now);
+            string[] strArr = null;
+            char[] splitchar = { ' ' };
+
+            strArr = stri.Split(splitchar);
+
+            string hora = strArr[1];
+            string data = strArr[0];
+
             if (desc == "Pendente")
             {
-                w.Write("\r\nLog consulta: ");
+                try
+                {
+                    if (IsConnected())
+                    {
+                        Log.AddLogConsulta(new LogConsulta
+                        {
+                            Id = 0
+                                                       ,
+                            NomeArquivo = filename
+                                                       ,
+                            Protocolo = nroprt
+                                                       ,
+                            Msg = desc + "|" + "Tente fazer a consulta do protocolo novamente dentro de alguns minutos"
+                                                       ,
+                            Data = data
+                                                       ,
+                            Hora = hora
+                        });
+                    }
+                    else
+                    {
+                        Log.AddLogConsulta(new LogConsulta
+                        {
+                            Id = 0
+                                                       ,
+                            NomeArquivo = filename
+                                                       ,
+                            Protocolo = nroprt
+                                                       ,
+                            Msg = "Erro, sem conexão com a internet!"
+                                                       ,
+                            Data = data
+                                                       ,
+                            Hora = hora
+                        });
+                    }
+                }
+                catch (Exception ex)
+                {
+
+                }
+                /*w.Write("\r\nLog consulta: ");
                 w.WriteLine("{0} {1}", DateTime.Now.ToLongTimeString(),
                     DateTime.Now.ToLongDateString());
                 w.WriteLine("Arquivo: {0}", filename);
@@ -308,54 +358,138 @@ namespace Vertech.Services
                 else
                     w.WriteLine("Descrição: Erro, sem conexão com a internet!");
                 
-                w.WriteLine("-------------------------------");
+                w.WriteLine("-------------------------------");*/
             }
 
             else if(cd == 2)
             {
-                w.Write("\r\nLog consulta: ");
+                try
+                {
+                    Log.AddLogConsulta(new LogConsulta
+                    {
+                        Id = 0
+                                                       ,
+                        NomeArquivo = filename
+                                                       ,
+                        Protocolo = nroprt
+                                                       ,
+                        Msg = desc + "|" + "Consulte o ambiente iVes na pagina de importação para ter o detalhe completo"
+                                                       ,
+                        Data = data
+                                                       ,
+                        Hora = hora
+                    });
+                }
+                catch (Exception ex)
+                {
+
+                }
+                /*w.Write("\r\nLog consulta: ");
                 w.WriteLine("{0} {1}", DateTime.Now.ToLongTimeString(),
                     DateTime.Now.ToLongDateString());
                 w.WriteLine("Arquivo: {0}", filename);
                 w.WriteLine("Número protocolo: {0}", nroprt);
                 w.WriteLine("Descrição: {0}", desc);
                 w.WriteLine("Consulte o ambiente iVes na pagina de importação para ter o detalhe completo");
-                w.WriteLine("-------------------------------");
+                w.WriteLine("-------------------------------");*/
             }
 
             else if (cd == 99)
             {
-                w.Write("\r\nLog consulta: ");
+                try
+                {
+                    Log.AddLogConsulta(new LogConsulta
+                    {
+                        Id = 0
+                                                       ,
+                        NomeArquivo = filename
+                                                       ,
+                        Protocolo = nroprt
+                                                       ,
+                        Msg = desc + "|" + "Falha ao consultar o protocolo, por favor, consulte manualmente atraves do portal iVes."
+                                                       ,
+                        Data = data
+                                                       ,
+                        Hora = hora
+                    });
+                }
+                catch (Exception ex)
+                {
+
+                }
+                /*w.Write("\r\nLog consulta: ");
                 w.WriteLine("{0} {1}", DateTime.Now.ToLongTimeString(),
                     DateTime.Now.ToLongDateString());
                 w.WriteLine("Arquivo: {0}", filename);
                 w.WriteLine("Número protocolo: {0}", nroprt);
                 w.WriteLine("Descrição: {0}", desc);
                 w.WriteLine("Falha ao consultar o protocolo, por favor, consulte manualmente atraves do portal iVes.");
-                w.WriteLine("-------------------------------");
+                w.WriteLine("-------------------------------");*/
             }
 
             else if(cd != 3)
             {
-                w.Write("\r\nLog consulta: ");
+                try
+                {
+                    Log.AddLogConsulta(new LogConsulta
+                    {
+                        Id = 0
+                                                       ,
+                        NomeArquivo = filename
+                                                       ,
+                        Protocolo = nroprt
+                                                       ,
+                        Msg = desc + "|" + "Tente fazer a consulta do protocolo novamente dentro de alguns minutos."
+                                                       ,
+                        Data = data
+                                                       ,
+                        Hora = hora
+                    });
+                }
+                catch (Exception ex)
+                {
+
+                }
+                /*w.Write("\r\nLog consulta: ");
                 w.WriteLine("{0} {1}", DateTime.Now.ToLongTimeString(),
                     DateTime.Now.ToLongDateString());
                 w.WriteLine("Arquivo: {0}", filename);
                 w.WriteLine("Número protocolo: {0}", nroprt);
                 w.WriteLine("Descrição: {0}", desc);
                 w.WriteLine("Tente fazer a consulta do protocolo novamente dentro de alguns minutos");
-                w.WriteLine("-------------------------------");
+                w.WriteLine("-------------------------------");*/
             }
 
             else
             {
-                w.Write("\r\nLog consulta: ");
+                try
+                {
+                    Log.AddLogConsulta(new LogConsulta
+                    {
+                        Id = 0
+                                                       ,
+                        NomeArquivo = filename
+                                                       ,
+                        Protocolo = nroprt
+                                                       ,
+                        Msg = desc
+                                                       ,
+                        Data = data
+                                                       ,
+                        Hora = hora
+                    });
+                }
+                catch (Exception ex)
+                {
+
+                }
+                /*w.Write("\r\nLog consulta: ");
                 w.WriteLine("{0} {1}", DateTime.Now.ToLongTimeString(),
                     DateTime.Now.ToLongDateString());
                 w.WriteLine("Arquivo: {0}", filename);
                 w.WriteLine("Número protocolo: {0}", nroprt);
                 w.WriteLine("Descrição: {0}", desc);
-                w.WriteLine("-------------------------------");
+                w.WriteLine("-------------------------------");*/
             }
 
             
@@ -509,22 +643,57 @@ namespace Vertech.Services
 
         public void GeraLogIntegra(string filename, string str, TextWriter w)
         {
-            w.Write("\r\nLog integra: ");
+            string stri = Convert.ToString(DateTime.Now);
+            string[] strArr = null;
+            char[] splitchar = { ' ' };
+
+            strArr = stri.Split(splitchar);
+
+            string hora = strArr[1];
+            string data = strArr[0];
+
+            try
+            {
+                Log.AddLogEnvia(new LogEnvia { Id = 0, Msg = str, NomeArquivo = filename, Data = data, Hora = hora });
+            }
+            catch (Exception ex)
+            {
+
+            }
+            /*w.Write("\r\nLog integra: ");
             w.WriteLine("{0} {1}", DateTime.Now.ToLongTimeString(),
                 DateTime.Now.ToLongDateString());
             w.WriteLine("Arquivo: {0}", filename);
             w.WriteLine(str);
-            w.WriteLine("-------------------------------");
+            w.WriteLine("-------------------------------");*/
         }
 
         public void GeraLogEnviaXML(string filename, string str, TextWriter w)
         {
-            w.Write("\r\nLog Envio XML: ");
+            string stri = Convert.ToString(DateTime.Now);
+            string[] strArr = null;
+            char[] splitchar = { ' ' };
+
+            strArr = stri.Split(splitchar);
+
+            string hora = strArr[1];
+            string data = strArr[0];
+
+            try
+            {
+                Log.AddLogEnvia(new LogEnvia { Id = 0, Msg = str, NomeArquivo = filename, Data = data, Hora = hora });
+            }
+            catch(Exception ex)
+            {
+                
+            }
+            
+            /*w.Write("\r\nLog Envio XML: ");
             w.WriteLine("{0} {1}", DateTime.Now.ToLongTimeString(),
                 DateTime.Now.ToLongDateString());
             w.WriteLine("Arquivo: {0}", filename);
             w.WriteLine(str);
-            w.WriteLine("-------------------------------");
+            w.WriteLine("-------------------------------");*/
         }
 
     }

@@ -69,6 +69,23 @@ namespace Vertech
 
             if(i > 0)
             {
+                if(i == 1)
+                {
+                    foreach (var item in dir.GetFiles())
+                    {
+                        if(item.Name == "dados.sqlite")
+                        {
+                            Log.CriarBancoSQLite();
+                            Log.CriarTabelaSQlite();
+                        }
+                        else
+                        {
+                            Helper.CriarBancoSQLite();
+                            Helper.CriarTabelaSQlite();
+                        }
+                    }
+                }
+
                 var param = Helper.GetParametros();
 
                 if (param != null)
@@ -141,6 +158,8 @@ namespace Vertech
 
                 Helper.CriarBancoSQLite();
                 Helper.CriarTabelaSQlite();
+                Log.CriarBancoSQLite();
+                Log.CriarTabelaSQlite();
 
                 OrganizaTelaEvent(1);
                 /*BtnSalvar.Visibility = Visibility.Visible;
