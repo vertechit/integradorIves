@@ -96,6 +96,7 @@ namespace Vertech.Services
             {
                 Id.grupo = Parametros.GetGrupo();
                 Id.token = Parametros.GetToken();
+                //Id.tpamb = 2;
             }
             catch (Exception)
             {

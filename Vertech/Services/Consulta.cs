@@ -80,6 +80,7 @@ namespace Vertech.Services
             try
             {
                 EsocialServiceClient req = new EsocialServiceClient();
+                //req.Endpoint.Behaviors.Add(new CustomEndpointCallBehavior(Convert.ToString(Parametros.GetGrupo()), Parametros.GetToken()));
                 req.Open();
                 Response = req.consultaRequest(Request);
                 req.Close();
@@ -104,7 +105,10 @@ namespace Vertech.Services
             }
             catch(Exception e)
             {
-                StreamWriter arq = File.AppendText(@s);
+                ClassException ex = new ClassException();
+
+                ex.Exception(e.Message, filename, "Consulta");
+                /*StreamWriter arq = File.AppendText(@s);
 
                 processo.GeraLogConsulta(filename
                     , Request.protocolo.ToString()
@@ -112,7 +116,7 @@ namespace Vertech.Services
                     , 99
                     , arq);
 
-                arq.Close();
+                arq.Close();*/
             }
 
         }

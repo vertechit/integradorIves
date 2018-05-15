@@ -22,8 +22,8 @@
                   <xs:element name="identificador">
                     <xs:complexType>
                       <xs:sequence>
-                        <xs:element name="lote" type="xs:short" />
-                        <xs:element name="protocolo" type="xs:short" />
+                        <xs:element name="lote" type="xs:int" />
+                        <xs:element name="protocolo" type="xs:int" />
                         <xs:element name="dtHr" type="xs:dateTime" />
                         <xs:element name="tpinscr" type="xs:byte" />
                         <xs:element name="nrinscr" type="xs:int" />
@@ -50,7 +50,7 @@
                               <xs:element minOccurs="0" name="nroRecibo" type="xs:string" />
                               <xs:element name="situacao" type="xs:string" />
                               <xs:element name="acao" type="xs:string" />
-                              <xs:element name="idIves" type="xs:short" />
+                              <xs:element name="idIves" type="xs:int" />
                               <xs:element name="dtHrIntegra" type="xs:dateTime" />
                               <xs:element minOccurs="0" name="dtHrProtocolo" type="xs:dateTime" />
                               <xs:element minOccurs="0" name="dtHrRecibo" type="xs:dateTime" />
@@ -87,7 +87,7 @@
                                     <xs:element minOccurs="0" maxOccurs="unbounded" name="erro">
                                       <xs:complexType>
                                         <xs:sequence>
-                                          <xs:element name="cdErro" type="xs:short" />
+                                          <xs:element name="cdErro" type="xs:int" />
                                           <xs:element name="descErro" type="xs:string" />
                                           <xs:element name="tpErro" type="xs:byte" />
                                           <xs:element minOccurs="0" name="localizacao" type="xs:string" />

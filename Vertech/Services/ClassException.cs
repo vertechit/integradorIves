@@ -13,7 +13,70 @@ namespace Vertech.Services
 {
     public class ClassException
     {
-        
+        public void Exception(string msg, string arquivo, string servico)
+        {
+            string stri = Convert.ToString(DateTime.Now);
+            string[] strArr = null;
+            char[] splitchar = { ' ' };
+
+            strArr = stri.Split(splitchar);
+
+            string hora = strArr[1];
+            string data = strArr[0];
+
+            if (Parametros.GetTipoApp() == "Service")
+            {
+                if(servico == "Consulta")
+                {
+                    Log.AddLogConsulta(new LogConsulta
+                    {
+                        Id = 0
+                                                       ,
+                        NomeArquivo = arquivo
+                                                       ,
+                        Protocolo = "null"
+                                                       ,
+                        Msg = msg
+                                                       ,
+                        Data = data
+                                                       ,
+                        Hora = hora
+                    });
+                    //
+                }
+                else
+                {
+                    Log.AddLogEnvia(new LogEnvia { Id = 0, Msg = msg, NomeArquivo = arquivo, Data = data, Hora = hora });
+                }
+            }
+            else
+            {
+                if (servico == "Consulta")
+                {
+                    Log.AddLogConsulta(new LogConsulta
+                    {
+                        Id = 0
+                                                       ,
+                        NomeArquivo = arquivo
+                                                       ,
+                        Protocolo = "null"
+                                                       ,
+                        Msg = msg
+                                                       ,
+                        Data = data
+                                                       ,
+                        Hora = hora
+                    });
+                    //
+                }
+                else
+                {
+                    Log.AddLogEnvia(new LogEnvia { Id = 0, Msg = msg, NomeArquivo = arquivo, Data = data, Hora = hora });
+                }
+
+            }
+        }
+
         public void ImprimeException(int tipo, string msg)
         {
             Processos processo = new Processos();
@@ -121,7 +184,8 @@ namespace Vertech.Services
                     {
                         try
                         {
-                            Log.AddLogEnvia(new LogEnvia { Id = 0, Msg = "A pasta selecionada não contem os arquivos necessários para o envio", NomeArquivo = "Integra", Data = data, Hora = hora });
+                            Log.AddLogErro(new LogErros { Id = 0, Servico = "Integra", CodErro = "21", Msg = "A pasta selecionada não contem os arquivos necessários para o envio", Data = data, Hora = hora });
+                            //Log.AddLogEnvia(new LogEnvia { Id = 0, Msg = "A pasta selecionada não contem os arquivos necessários para o envio", NomeArquivo = "Integra", Data = data, Hora = hora });
                             /*var s = processo.MontaCaminhoDir(Parametros.GetDirArq(), "\\logs\\logEnvio.log");
                             StreamWriter vWriter = new StreamWriter(@s, true);
                             vWriter.WriteLine("");
@@ -142,7 +206,8 @@ namespace Vertech.Services
                     {
                         try
                         {
-                            Log.AddLogEnvia(new LogEnvia { Id = 0, Msg = "A pasta selecionada não contem os arquivos necessários para o envio", NomeArquivo = "Integra", Data = data, Hora = hora });
+                            Log.AddLogErro(new LogErros { Id = 0, Servico = "Integra", CodErro = "21", Msg = "A pasta selecionada não contem os arquivos necessários para o envio", Data = data, Hora = hora });
+                            //Log.AddLogEnvia(new LogEnvia { Id = 0, Msg = "A pasta selecionada não contem os arquivos necessários para o envio", NomeArquivo = "Integra", Data = data, Hora = hora });
                         }
                         catch (Exception ex)
                         {
@@ -164,7 +229,8 @@ namespace Vertech.Services
                     {
                         try
                         {
-                            Log.AddLogConsulta(new LogConsulta
+                            Log.AddLogErro(new LogErros { Id = 0, Servico = "Consulta", CodErro = "21", Msg = "A pasta selecionada não contem os arquivos necessários para a consulta", Data = data, Hora = hora });
+                            /*Log.AddLogConsulta(new LogConsulta
                             {
                                 Id = 0
                                                        ,
@@ -177,7 +243,7 @@ namespace Vertech.Services
                                 Data = data
                                                        ,
                                 Hora = hora
-                            });
+                            });*/
                             /*var s = processo.MontaCaminhoDir(Parametros.GetDirArq(), "\\logs\\logConsulta.log");
                             StreamWriter vWriter = new StreamWriter(@s, true);
 
@@ -198,7 +264,8 @@ namespace Vertech.Services
                     {
                         try
                         {
-                            Log.AddLogConsulta(new LogConsulta
+                            Log.AddLogErro(new LogErros { Id = 0, Servico = "Consulta", CodErro = "21", Msg = "A pasta selecionada não contem os arquivos necessários para a consulta", Data = data, Hora = hora });
+                            /*Log.AddLogConsulta(new LogConsulta
                             {
                                 Id = 0
                                                        ,
@@ -211,7 +278,7 @@ namespace Vertech.Services
                                 Data = data
                                                        ,
                                 Hora = hora
-                            });
+                            });*/
                         }
                         catch (Exception ex)
                         {
