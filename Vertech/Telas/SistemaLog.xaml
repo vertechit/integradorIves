@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Vertech.Telas"
         mc:Ignorable="d"
-        Title="Logs" Height="600" Width="800" WindowStartupLocation="CenterScreen" ResizeMode="NoResize" Closing="Window_Closing">
+        Title="Logs" Height="600" Width="800" WindowStartupLocation="CenterScreen" ResizeMode="CanMinimize" Closing="Window_Closing" IsManipulationEnabled="True">
     <Grid>
 
         <DataGrid x:Name="DtData" Margin="84,172,85,55"/>
