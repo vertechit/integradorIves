@@ -46,7 +46,8 @@ namespace Vertech.Services
                     }
                     else
                     {
-                        MessageBox.Show(msg);
+                        Log.AddLogEnvia(new LogEnvia { Id = 0, Msg = msg, NomeArquivo = "Integra", Data = data, Hora = hora });
+                        //MessageBox.Show(msg);
                     }
                     break;
 
@@ -80,7 +81,21 @@ namespace Vertech.Services
                     }
                     else
                     {
-                        MessageBox.Show(msg);
+                        Log.AddLogConsulta(new LogConsulta
+                        {
+                            Id = 0
+                                                       ,
+                            NomeArquivo = "Consulta"
+                                                       ,
+                            Protocolo = "0"
+                                                       ,
+                            Msg = msg
+                                                       ,
+                            Data = data
+                                                       ,
+                            Hora = hora
+                        });
+                        //MessageBox.Show(msg);
                     }
                     break;
             }
@@ -296,7 +311,8 @@ namespace Vertech.Services
             }
             else
             {
-                MessageBox.Show("Codigo do erro: " + codErro.ToString() + "\n" + msg);
+                Log.AddLogErro(new LogErros { Id = 0, Servico = "SQLite", CodErro = codErro.ToString(), Msg = msg, Data = data, Hora = hora });
+                //MessageBox.Show("Codigo do erro: " + codErro.ToString() + "\n" + msg);
             }
         }
 
@@ -330,7 +346,8 @@ namespace Vertech.Services
             }
             else
             {
-                MessageBox.Show("Codigo do erro: " + codErro.ToString() + "\n" + msg);
+                Log.AddLogErro(new LogErros { Id = 0, Servico = "SecureFile", CodErro = codErro.ToString(), Msg = msg, Data = data, Hora = hora });
+                //MessageBox.Show("Codigo do erro: " + codErro.ToString() + "\n" + msg);
             }
         }
 

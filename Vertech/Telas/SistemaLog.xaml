@@ -8,13 +8,14 @@
         Title="Logs" Height="600" Width="800" WindowStartupLocation="CenterScreen" ResizeMode="NoResize" Closing="Window_Closing">
     <Grid>
 
-        <DataGrid x:Name="DtData" HorizontalAlignment="Left" Height="293" Margin="84,172,0,0" VerticalAlignment="Top" Width="625"/>
-        <ComboBox x:Name="CboTipo" HorizontalAlignment="Left" Margin="245,61,0,0" VerticalAlignment="Top" Width="281" SelectionChanged="CboTipo_SelectionChanged"/>
-        <Button x:Name="BtnBuscar" Content="Buscar" HorizontalAlignment="Left" Margin="588,61,0,0" VerticalAlignment="Top" Width="75" Click="BtnBuscar_Click"/>
-        <Label x:Name="LblLog" Content="Escolha qual log deseja visualizar: " HorizontalAlignment="Left" Margin="294,23,0,0" VerticalAlignment="Top"/>
-        <ComboBox x:Name="CboCampos" HorizontalAlignment="Left" Margin="332,101,0,0" VerticalAlignment="Top" Width="120"/>
-        <TextBox x:Name="TxbValor" HorizontalAlignment="Left" Height="23" Margin="332,128,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="226"/>
-        <Label x:Name="LblCampo" Content="Filtro por campo" HorizontalAlignment="Left" Margin="230,99,0,0" VerticalAlignment="Top"/>
+        <DataGrid x:Name="DtData" Margin="84,172,85,55"/>
+        <ComboBox x:Name="CboTipo" Margin="256,61,257,0" VerticalAlignment="Top" SelectionChanged="CboTipo_SelectionChanged"/>
+        <Button x:Name="BtnBuscar" Content="Buscar" HorizontalAlignment="Left" Margin="572,130,0,0" VerticalAlignment="Top" Width="75" Click="BtnBuscar_Click"/>
+        <Label x:Name="LblLog" Content="Tipo de log" Margin="176,61,538,0" VerticalAlignment="Top"/>
+        <ComboBox x:Name="CboCampos" Margin="256,95,418,0" VerticalAlignment="Top"/>
+        <TextBox x:Name="TxbValor" Height="23" Margin="256,128,257,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top"/>
+        <Label x:Name="LblCampo" Content="Filtro por campo" Margin="148,93,538,0" VerticalAlignment="Top"/>
+        <Label x:Name="LblValor" Content="Valor" Margin="209,125,538,0" VerticalAlignment="Top"/>
 
     </Grid>
 </Window>

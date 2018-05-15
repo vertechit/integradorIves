@@ -340,14 +340,14 @@ namespace Vertech
             {
                 foreach (FileInfo file in dir.GetFiles())
                 {
-                    if (file.Extension == ".txt")
+                    if (file.Extension == ".txt" || file.Extension == ".TXT")
                     {
                         if (file.Name != "logEnvio.log" && file.Name != "logConsulta.log" && file.Name.Contains("log_") == false)
                         {
                             ltxt.Add(file.Name);
                         }
                     }
-                    if(file.Extension == ".xml")
+                    if(file.Extension == ".xml" || file.Extension == ".XML")
                     {
                         if (file.Name != "logEnvio.log" && file.Name != "logConsulta.log" && file.Name.Contains("log_") == false)
                         {

@@ -120,7 +120,7 @@ namespace Vertech.DAO
             catch (Exception ex)
             {
                 ClassException excep = new ClassException();
-                excep.ExSQLite(7, ex.Message);
+                excep.ExSQLite(2, ex.Message);
             }
         }
 
@@ -141,7 +141,7 @@ namespace Vertech.DAO
             catch (Exception ex)
             {
                 ClassException excep = new ClassException();
-                excep.ExSQLite(7, ex.Message);
+                excep.ExSQLite(3, ex.Message);
             }
         }
 
@@ -163,11 +163,11 @@ namespace Vertech.DAO
             catch (Exception ex)
             {
                 ClassException excep = new ClassException();
-                excep.ExSQLite(7, ex.Message);
+                excep.ExSQLite(4, ex.Message);
             }
         }
 
-        public static DataTable GetLogsConsulta()
+        public static DataTable GetLogs(string param)
         {
             SQLiteDataAdapter da = null;
             DataTable dt = new DataTable();
@@ -175,7 +175,7 @@ namespace Vertech.DAO
             {
                 using (var cmd = DbConnection().CreateCommand())
                 {
-                    cmd.CommandText = "SELECT * FROM logconsulta";
+                    cmd.CommandText = "SELECT * FROM " + param;
                     da = new SQLiteDataAdapter(cmd.CommandText, DbConnection());
                     da.Fill(dt);
                     return dt;
@@ -184,58 +184,11 @@ namespace Vertech.DAO
             catch (Exception ex)
             {
                 ClassException excep = new ClassException();
-                excep.ExSQLite(2, ex.Message);
+                excep.ExSQLite(5, ex.Message);
             }
 
             return null;
         }
-
-        public static DataTable GetLogsEnvia()
-        {
-            SQLiteDataAdapter da = null;
-            DataTable dt = new DataTable();
-            try
-            {
-                using (var cmd = DbConnection().CreateCommand())
-                {
-                    cmd.CommandText = "SELECT * FROM logenvia";
-                    da = new SQLiteDataAdapter(cmd.CommandText, DbConnection());
-                    da.Fill(dt);
-                    return dt;
-                }
-            }
-            catch (Exception ex)
-            {
-                ClassException excep = new ClassException();
-                excep.ExSQLite(2, ex.Message);
-            }
-
-            return null;
-        }
-
-        public static DataTable GetLogsErros()
-        {
-            SQLiteDataAdapter da = null;
-            DataTable dt = new DataTable();
-            try
-            {
-                using (var cmd = DbConnection().CreateCommand())
-                {
-                    cmd.CommandText = "SELECT * FROM logerro";
-                    da = new SQLiteDataAdapter(cmd.CommandText, DbConnection());
-                    da.Fill(dt);
-                    return dt;
-                }
-            }
-            catch (Exception ex)
-            {
-                ClassException excep = new ClassException();
-                excep.ExSQLite(2, ex.Message);
-            }
-
-            return null;
-        }
-
 
         public static DataTable GetLogsWithParam(int Tipo, string Param, string Tabela)
         {
@@ -246,7 +199,7 @@ namespace Vertech.DAO
 
             try
             {
-                if(Tabela == "Erro")
+                if(Tabela == "logerro")
                 {
                     if(Tipo == 1)
                     {
@@ -274,41 +227,15 @@ namespace Vertech.DAO
                     }
                     
                 }
-                else if(Tabela == "Consulta")
-                {
-                    if (Tipo == 1)
-                    {
-                        using (var cmd = DbConnection().CreateCommand())
-                        {
-                            cmd.CommandText = "SELECT * FROM logconsulta where nome_arq = " + param;
-                            cmd.Parameters.AddWithValue("@arq", Param);
-                            da = new SQLiteDataAdapter(cmd.CommandText, DbConnection());
-                            da.Fill(dt);
-                            return dt;
-                        }
-                    }
-                    else
-                    {
-                        using (var cmd = DbConnection().CreateCommand())
-                        {
-                            cmd.CommandText = "SELECT * FROM logconsulta where data = " + param;
-                            cmd.Parameters.AddWithValue("@data", Param);
-                            da = new SQLiteDataAdapter(cmd.CommandText, DbConnection());
-                            da.Fill(dt);
-                            return dt;
-                        }
 
-
-                    }
-                }
                 else
                 {
                     if (Tipo == 1)
                     {
                         using (var cmd = DbConnection().CreateCommand())
                         {
-                            cmd.CommandText = "SELECT id, nome_arq, msg, data, hora FROM logenvia where nome_arq = " + param;//\"@arq\"";
-                            //cmd.Parameters.AddWithValue("@arq", Param);
+                            cmd.CommandText = "SELECT * FROM " + Tabela + " where nome_arq = " + param;
+                            //cmd.Parameters.AddWithValue("@tabela", Tabela);
                             da = new SQLiteDataAdapter(cmd.CommandText, DbConnection());
                             da.Fill(dt);
                             return dt;
@@ -318,8 +245,8 @@ namespace Vertech.DAO
                     {
                         using (var cmd = DbConnection().CreateCommand())
                         {
-                            cmd.CommandText = "SELECT id, nome_arq, msg, data, hora FROM logenvia where data = " + param;//\"@data\"";
-                            //cmd.Parameters.AddWithValue("@data", Param);
+                            cmd.CommandText = "SELECT * FROM " + Tabela + " where data = " + param;
+                            //cmd.Parameters.AddWithValue("@tabela", Tabela);
                             da = new SQLiteDataAdapter(cmd.CommandText, DbConnection());
                             da.Fill(dt);
                             return dt;
@@ -333,7 +260,7 @@ namespace Vertech.DAO
             catch (Exception ex)
             {
                 ClassException excep = new ClassException();
-                excep.ExSQLite(2, ex.Message);
+                excep.ExSQLite(6, ex.Message);
             }
 
             return null;

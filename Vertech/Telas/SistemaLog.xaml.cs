@@ -38,12 +38,18 @@ namespace Vertech.Telas
 
             var list = new List<string>();
 
+            list.Add("");
             list.Add("Consulta");
             list.Add("Envia");
             list.Add("Exception");
-            list.Add("");
-
+            
             CboTipo.ItemsSource = list;
+
+            var list1 = new List<string>();
+
+            list1.Add("");
+
+            CboCampos.ItemsSource = list1;
         }
 
         private void BtnBuscar_Click(object sender, RoutedEventArgs e)
@@ -56,19 +62,19 @@ namespace Vertech.Telas
             {
                 if(campo == null || campo == "")
                 {
-                    DataTable dt = Log.GetLogsConsulta();
+                    DataTable dt = Log.GetLogs("logconsulta");
                     DtData.ItemsSource = dt.DefaultView;
                 }
                 else
                 {
                     if(campo == "Nome Arquivo")
                     {
-                        DataTable dt = Log.GetLogsWithParam(1, TxbValor.Text, "Consulta");
+                        DataTable dt = Log.GetLogsWithParam(1, TxbValor.Text, "logconsulta");
                         DtData.ItemsSource = dt.DefaultView;
                     }
                     else
                     {
-                        DataTable dt = Log.GetLogsWithParam(2, TxbValor.Text, "Consulta");
+                        DataTable dt = Log.GetLogsWithParam(2, TxbValor.Text, "logconsulta");
                         DtData.ItemsSource = dt.DefaultView;
                     }
                 }
@@ -77,19 +83,19 @@ namespace Vertech.Telas
             {
                 if (campo == null || campo == "")
                 {
-                    DataTable dt = Log.GetLogsEnvia();
+                    DataTable dt = Log.GetLogs("logenvia");
                     DtData.ItemsSource = dt.DefaultView;
                 }
                 else
                 {
                     if (campo == "Nome Arquivo")
                     {
-                        DataTable dt = Log.GetLogsWithParam(1, TxbValor.Text, "Envia");
+                        DataTable dt = Log.GetLogsWithParam(1, TxbValor.Text, "logenvia");
                         DtData.ItemsSource = dt.DefaultView;
                     }
                     else
                     {
-                        DataTable dt = Log.GetLogsWithParam(2, TxbValor.Text, "Envia");
+                        DataTable dt = Log.GetLogsWithParam(2, TxbValor.Text, "logenvia");
                         DtData.ItemsSource = dt.DefaultView;
                     }
                 }
@@ -99,19 +105,19 @@ namespace Vertech.Telas
             {
                 if (campo == null || campo == "")
                 {
-                    DataTable dt = Log.GetLogsErros();
+                    DataTable dt = Log.GetLogs("logerro");
                     DtData.ItemsSource = dt.DefaultView;
                 }
                 else
                 {
                     if (campo == "Serviço")
                     {
-                        DataTable dt = Log.GetLogsWithParam(1, TxbValor.Text, "Erro");
+                        DataTable dt = Log.GetLogsWithParam(1, TxbValor.Text, "logerro");
                         DtData.ItemsSource = dt.DefaultView;
                     }
                     else
                     {
-                        DataTable dt = Log.GetLogsWithParam(2, TxbValor.Text, "Erro");
+                        DataTable dt = Log.GetLogsWithParam(2, TxbValor.Text, "logerro");
                         DtData.ItemsSource = dt.DefaultView;
                     }
                 }
@@ -119,10 +125,6 @@ namespace Vertech.Telas
             else if (escolha == "")
             {
                 DtData.ItemsSource = null;
-            }
-            else
-            {
-                MessageBox.Show("Selecione uma opção para realizar a busca");
             }
         }
 
@@ -139,28 +141,36 @@ namespace Vertech.Telas
             {
                 var list = new List<string>();
 
+                list.Add("");
                 list.Add("Nome Arquivo");
                 list.Add("Data");
-                list.Add("");
-
+                
                 CboCampos.ItemsSource = list;
             }
             else if (escolha == "Envia")
             {
                 var list = new List<string>();
 
+                list.Add("");
                 list.Add("Nome Arquivo");
                 list.Add("Data");
-                list.Add("");
-
+                
                 CboCampos.ItemsSource = list;
             }
             else if (escolha == "Exception")
             {
                 var list = new List<string>();
 
+                list.Add("");
                 list.Add("Serviço");
                 list.Add("Data");
+                
+                CboCampos.ItemsSource = list;
+            }
+            else
+            {
+                var list = new List<string>();
+
                 list.Add("");
 
                 CboCampos.ItemsSource = list;

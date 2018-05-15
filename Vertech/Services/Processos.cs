@@ -229,7 +229,7 @@ namespace Vertech.Services
             {
                 foreach (FileInfo file in dir.GetFiles())
                 {
-                    if (file.Extension == ext)
+                    if (file.Extension == ext || file.Extension == ext.ToUpper())
                     {
                         if (file.Name != "logEnvio.log" && file.Name != "logConsulta.log" && file.Name.Contains("log_") == false)
                             File_Names.Add(file.Name);
