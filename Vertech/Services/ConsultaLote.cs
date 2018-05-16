@@ -60,24 +60,14 @@ namespace Vertech.Services
                         }
                         catch (Exception e)
                         {
-                            ex.ImprimeException(2, "Tente consultar novamente em alguns minutos");
-                            /*StreamWriter vWriter = new StreamWriter(@s, true);
-
-                            vWriter.WriteLine("");
-                            vWriter.WriteLine("Ocorrencia ConsultaXML");
-                            vWriter.WriteLine("Data/Hora: " + DateTime.Now.ToString());
-                            vWriter.WriteLine("Codigo Erro: " + 1);
-                            vWriter.WriteLine("Descrição: Tente consultar novamente em alguns minutos.");
-                            vWriter.WriteLine("");
-                            vWriter.Flush();
-                            vWriter.Close();*/
+                            ex.Exception(e.Message, arq_name, "Consulta", "Tente consultar novamente em alguns minutos");
                         }
                         i++;
                     }
                 }
                 if (i == 0)
                 {
-                    ex.ImprimeMsgDeErro_NoFilesFound(2);
+                    ex.ExNoFilesFound(2);
                 }
             }
 
@@ -86,7 +76,7 @@ namespace Vertech.Services
                 var l = processo.Listar_arquivos(".txt");
                 if (l.Count <= 0)
                 {
-                    ex.ImprimeMsgDeErro_NoFilesFound(2);
+                    ex.ExNoFilesFound(2);
                 }
             }
         }
@@ -110,7 +100,7 @@ namespace Vertech.Services
             catch(Exception e)
             {
                 ClassException ex = new ClassException();
-                ex.ImprimeException(2, "Erro no Consulta XML! Tente novamente mais tarde.");
+                ex.ImprimeException(2, e.Message);
             }
 
             return strResponse;

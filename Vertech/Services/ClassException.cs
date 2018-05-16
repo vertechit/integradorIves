@@ -13,169 +13,211 @@ namespace Vertech.Services
 {
     public class ClassException
     {
-        public void Exception(string msg, string arquivo, string servico)
-        {
+        public string[] RetornaData(){
+
             string stri = Convert.ToString(DateTime.Now);
             string[] strArr = null;
             char[] splitchar = { ' ' };
 
-            strArr = stri.Split(splitchar);
+            return strArr = stri.Split(splitchar);
+        }
+
+        public void InsereException(int tipo, string msg, string arquivo, string servico, string acao, string protocolo, string coderro)
+        {
+            var strArr = RetornaData();
 
             string hora = strArr[1];
             string data = strArr[0];
+
+            if(tipo == 1)
+            {
+                Log.AddLogEnvia(
+                        new LogEnvia { 
+                            Id = 0, 
+                            Msg = msg, 
+                            Acao = acao,
+                            NomeArquivo = arquivo, 
+                            Data = data, 
+                            Hora = hora });
+            }
+            else if(tipo == 2)
+            {
+                Log.AddLogConsulta(
+                        new LogConsulta{
+                            Id = 0,
+                            NomeArquivo = arquivo,
+                            Protocolo = protocolo,
+                            Msg = msg,
+                            Acao = acao,
+                            Data = data,
+                            Hora = hora });
+            }
+            else
+            {
+                Log.AddLogErro(new LogErros { 
+                                Id = 0, 
+                                Servico = servico, 
+                                CodErro = coderro, 
+                                Msg = msg, 
+                                Acao = acao, 
+                                Data = data, 
+                                Hora = hora 
+                                });
+            }
+        }
+        public void Exception(string msg, string arquivo, string servico, string acao)
+        {
+
+            /*var strArr = RetornaData();
+
+            string hora = strArr[1];
+            string data = strArr[0];*/
 
             if (Parametros.GetTipoApp() == "Service")
             {
                 if(servico == "Consulta")
                 {
-                    Log.AddLogConsulta(new LogConsulta
-                    {
-                        Id = 0
-                                                       ,
-                        NomeArquivo = arquivo
-                                                       ,
-                        Protocolo = "null"
-                                                       ,
-                        Msg = msg
-                                                       ,
-                        Data = data
-                                                       ,
-                        Hora = hora
-                    });
-                    //
+                    InsereException(2, msg, arquivo, "Consulta", " ", " ", " ");
+                    /*Log.AddLogConsulta(
+                        new LogConsulta{
+                            Id = 0,
+                            NomeArquivo = arquivo,
+                            Protocolo = "null",
+                            Msg = msg,
+                            Acao = acao,
+                            Data = data,
+                            Hora = hora });*/
                 }
                 else
                 {
-                    Log.AddLogEnvia(new LogEnvia { Id = 0, Msg = msg, NomeArquivo = arquivo, Data = data, Hora = hora });
+                    InsereException(1, msg, arquivo, "Integra", " ", " ", " ");
+                    /*Log.AddLogEnvia(
+                        new LogEnvia { 
+                            Id = 0, 
+                            Msg = msg, 
+                            Acao = acao,
+                            NomeArquivo = arquivo, 
+                            Data = data, 
+                            Hora = hora });*/
                 }
             }
             else
             {
                 if (servico == "Consulta")
                 {
-                    Log.AddLogConsulta(new LogConsulta
-                    {
-                        Id = 0
-                                                       ,
-                        NomeArquivo = arquivo
-                                                       ,
-                        Protocolo = "null"
-                                                       ,
-                        Msg = msg
-                                                       ,
-                        Data = data
-                                                       ,
-                        Hora = hora
-                    });
-                    //
+                    InsereException(2, msg, arquivo, "Consulta", " ", " ", " ");
+                    /*Log.AddLogConsulta(
+                        new LogConsulta{
+                            Id = 0,
+                            NomeArquivo = arquivo,
+                            Protocolo = "null",
+                            Msg = msg,
+                            Acao = acao,
+                            Data = data,
+                            Hora = hora });*/
                 }
                 else
                 {
-                    Log.AddLogEnvia(new LogEnvia { Id = 0, Msg = msg, NomeArquivo = arquivo, Data = data, Hora = hora });
+                    InsereException(1, msg, arquivo, "Integra", " ", " ", " ");
+                    /*Log.AddLogEnvia(
+                        new LogEnvia { 
+                            Id = 0, 
+                            Msg = msg, 
+                            Acao = acao,
+                            NomeArquivo = arquivo, 
+                            Data = data, 
+                            Hora = hora });*/
                 }
-
             }
         }
 
         public void ImprimeException(int tipo, string msg)
         {
             Processos processo = new Processos();
-            string stri = Convert.ToString(DateTime.Now);
-            string[] strArr = null;
-            char[] splitchar = { ' ' };
 
-            strArr = stri.Split(splitchar);
+            /*var strArr = RetornaData();
 
             string hora = strArr[1];
-            string data = strArr[0];
+            string data = strArr[0];*/
             switch (tipo)
             {
 
                 case 1:
                     if (Parametros.GetTipoApp() == "Service")
                     {
-                        
+                        InsereException(3, msg, " ", "Integra", " ", " ", " ");
+                        /*Log.AddLogErro(new LogErros { 
+                                Id = 0, 
+                                Servico = "Integra", 
+                                CodErro = "21", 
+                                Msg = msg, 
+                                Acao = "", 
+                                Data = data, 
+                                Hora = hora 
+                                });*/
+                        /*Log.AddLogEnvia(
+                            new LogEnvia { 
+                                Id = 0, 
+                                Msg = msg, 
+                                Acao = "",
+                                NomeArquivo = "Integra", 
+                                Data = data, 
+                                Hora = hora });*/
 
-                        Log.AddLogEnvia(new LogEnvia { Id = 0, Msg = msg, NomeArquivo = "Integra", Data = data, Hora = hora });
-                        /*var s = processo.MontaCaminhoDir(Parametros.GetDirArq(), "\\logs\\logEnvio.log");
-                        StreamWriter vWriter = new StreamWriter(@s, true);
-                        vWriter.WriteLine("");
-                        vWriter.WriteLine("Ocorrencia Integra");
-                        vWriter.WriteLine("Data/Hora: " + DateTime.Now.ToString());
-                        vWriter.WriteLine("Descrição: " + msg);
-                        vWriter.WriteLine("");
-                        vWriter.Flush();
-                        vWriter.Close();*/
                     }
                     else
                     {
-                        Log.AddLogEnvia(new LogEnvia { Id = 0, Msg = msg, NomeArquivo = "Integra", Data = data, Hora = hora });
-                        //MessageBox.Show(msg);
+                        InsereException(3, msg, " ", "Integra", " ", " ", " ");
+                        /*Log.AddLogEnvia(
+                            new LogEnvia { 
+                                Id = 0, 
+                                Msg = msg, 
+                                Acao = "",
+                                NomeArquivo = "Integra", 
+                                Data = data, 
+                                Hora = hora });*/
                     }
                     break;
 
                 case 2:
                     if (Parametros.GetTipoApp() == "Service")
                     {
-                        Log.AddLogConsulta(new LogConsulta
-                        {
-                            Id = 0
-                                                       ,
-                            NomeArquivo = "Consulta"
-                                                       ,
-                            Protocolo = "0"
-                                                       ,
-                            Msg = msg
-                                                       ,
-                            Data = data
-                                                       ,
-                            Hora = hora
-                        });
-                        /*var s = processo.MontaCaminhoDir(Parametros.GetDirArq(), "\\logs\\logConsulta.log");
-                        StreamWriter vWriter = new StreamWriter(@s, true);
-
-                        vWriter.WriteLine("");
-                        vWriter.WriteLine("Ocorrencia Consulta");
-                        vWriter.WriteLine("Data/Hora: " + DateTime.Now.ToString());
-                        vWriter.WriteLine("Descrição: " + msg);
-                        vWriter.WriteLine("");
-                        vWriter.Flush();
-                        vWriter.Close();*/
+                        InsereException(3, msg, " ", "Consulta", " ", " ", " ");
+                        /*Log.AddLogConsulta(
+                            new LogConsulta{
+                            Id = 0,
+                            NomeArquivo = "Consulta",
+                            Protocolo = "0",
+                            Msg = msg,
+                            Acao = "",
+                            Data = data,
+                            Hora = hora });*/
                     }
                     else
                     {
-                        Log.AddLogConsulta(new LogConsulta
-                        {
-                            Id = 0
-                                                       ,
-                            NomeArquivo = "Consulta"
-                                                       ,
-                            Protocolo = "0"
-                                                       ,
-                            Msg = msg
-                                                       ,
-                            Data = data
-                                                       ,
-                            Hora = hora
-                        });
-                        //MessageBox.Show(msg);
+                        InsereException(3, msg, " ", "Consulta", " ", " ", " ");
+                        /*Log.AddLogConsulta(
+                            new LogConsulta{
+                            Id = 0,
+                            NomeArquivo = "Consulta",
+                            Protocolo = "0",
+                            Msg = msg,
+                            Acao = "",
+                            Data = data,
+                            Hora = hora });*/
                     }
                     break;
             }
             
         }
-        public void ImprimeMsgDeErro_NoFilesFound(int tp)
+        public void ExNoFilesFound(int tp)
         {
             Processos processo = new Processos();
 
-            string stri = Convert.ToString(DateTime.Now);
-            string[] strArr = null;
-            char[] splitchar = { ' ' };
-
-            strArr = stri.Split(splitchar);
+            /*var strArr = RetornaData();
 
             string hora = strArr[1];
-            string data = strArr[0];
+            string data = strArr[0];*/
 
             switch (tp)
             {
@@ -184,21 +226,20 @@ namespace Vertech.Services
                     {
                         try
                         {
-                            Log.AddLogErro(new LogErros { Id = 0, Servico = "Integra", CodErro = "21", Msg = "A pasta selecionada não contem os arquivos necessários para o envio", Data = data, Hora = hora });
-                            //Log.AddLogEnvia(new LogEnvia { Id = 0, Msg = "A pasta selecionada não contem os arquivos necessários para o envio", NomeArquivo = "Integra", Data = data, Hora = hora });
-                            /*var s = processo.MontaCaminhoDir(Parametros.GetDirArq(), "\\logs\\logEnvio.log");
-                            StreamWriter vWriter = new StreamWriter(@s, true);
-                            vWriter.WriteLine("");
-                            vWriter.WriteLine("Ocorrencia Integra");
-                            vWriter.WriteLine("Data/Hora: " + DateTime.Now.ToString());
-                            vWriter.WriteLine("Descrição: A pasta selecionada não contem os arquivos necessários para o envio");
-                            vWriter.WriteLine("");
-                            vWriter.Flush();
-                            vWriter.Close();*/
+                            InsereException(3, "A pasta selecionada não contem os arquivos necessários para o envio", " ", "Integra", " ", " ", "21");
+                            /*Log.AddLogErro(new LogErros { 
+                                Id = 0, 
+                                Servico = "Integra", 
+                                CodErro = "21", 
+                                Msg = "A pasta selecionada não contem os arquivos necessários para o envio", 
+                                Acao = "Insira arquivos na pasta.", 
+                                Data = data, 
+                                Hora = hora 
+                                });*/
                         }
                         catch(Exception ex)
                         {
-                            Exception_Open_Files(999, ex.Message);
+                            ExOpenFile(999, ex.Message);
                         }
                         
                     }
@@ -206,22 +247,22 @@ namespace Vertech.Services
                     {
                         try
                         {
-                            Log.AddLogErro(new LogErros { Id = 0, Servico = "Integra", CodErro = "21", Msg = "A pasta selecionada não contem os arquivos necessários para o envio", Data = data, Hora = hora });
-                            //Log.AddLogEnvia(new LogEnvia { Id = 0, Msg = "A pasta selecionada não contem os arquivos necessários para o envio", NomeArquivo = "Integra", Data = data, Hora = hora });
+                            InsereException(3, "A pasta selecionada não contem os arquivos necessários para o envio", " ", "Integra", " ", " ", "21");
+                            /*Log.AddLogErro(
+                                new LogErros { 
+                                    Id = 0, 
+                                    Servico = "Integra", 
+                                    CodErro = "21", 
+                                    Msg = "A pasta selecionada não contem os arquivos necessários para o envio", 
+                                    Acao = "Insira arquivos na pasta.", 
+                                    Data = data, 
+                                    Hora = hora });*/
                         }
                         catch (Exception ex)
                         {
-
+                            ExOpenFile(999, ex.Message);
                         }
                         
-                        /*var s = processo.MontaCaminhoDir(Parametros.GetDirArq(), "\\logs\\logEnvio.log");
-                        StreamWriter vWriter = new StreamWriter(@s, true);
-                        vWriter.WriteLine("");
-                        vWriter.WriteLine("A pasta selecionada não contem os arquivos necessários para o envio");
-                        vWriter.WriteLine("");
-                        vWriter.Flush();
-                        vWriter.Close();
-                        //MessageBox.Show("A pasta selecionada não contem os arquivos necessários para o envio");*/
                     }
                         break;
                 case 2:
@@ -229,70 +270,44 @@ namespace Vertech.Services
                     {
                         try
                         {
-                            Log.AddLogErro(new LogErros { Id = 0, Servico = "Consulta", CodErro = "21", Msg = "A pasta selecionada não contem os arquivos necessários para a consulta", Data = data, Hora = hora });
-                            /*Log.AddLogConsulta(new LogConsulta
-                            {
-                                Id = 0
-                                                       ,
-                                NomeArquivo = "Consulta"
-                                                       ,
-                                Protocolo = "0"
-                                                       ,
-                                Msg = "A pasta selecionada não contem os arquivos necessários para a consulta"
-                                                       ,
-                                Data = data
-                                                       ,
-                                Hora = hora
-                            });*/
-                            /*var s = processo.MontaCaminhoDir(Parametros.GetDirArq(), "\\logs\\logConsulta.log");
-                            StreamWriter vWriter = new StreamWriter(@s, true);
+                            InsereException(3, "A pasta selecionada não contem os arquivos necessários para a consulta", " ", "Consulta", " ", " ", "21");
+                            /*Log.AddLogErro(
+                                new LogErros { 
+                                    Id = 0, 
+                                    Servico = "Consulta", 
+                                    CodErro = "21",
+                                    Msg = "A pasta selecionada não contem os arquivos necessários para a consulta", 
+                                    Acao = "",
+                                    Data = data, 
+                                    Hora = hora });*/
 
-                            vWriter.WriteLine("");
-                            vWriter.WriteLine("Ocorrencia Consulta");
-                            vWriter.WriteLine("Data/Hora: " + DateTime.Now.ToString());
-                            vWriter.WriteLine("Descrição: A pasta selecionada não contem os arquivos necessários para a consulta");
-                            vWriter.WriteLine("");
-                            vWriter.Flush();
-                            vWriter.Close();*/
                         }
                         catch (Exception ex)
                         {
-                            Exception_Open_Files(999, ex.Message);
+                            ExOpenFile(999, ex.Message);
                         }
                     }
                     else
                     {
                         try
                         {
-                            Log.AddLogErro(new LogErros { Id = 0, Servico = "Consulta", CodErro = "21", Msg = "A pasta selecionada não contem os arquivos necessários para a consulta", Data = data, Hora = hora });
-                            /*Log.AddLogConsulta(new LogConsulta
-                            {
-                                Id = 0
-                                                       ,
-                                NomeArquivo = "Consulta"
-                                                       ,
-                                Protocolo = "0"
-                                                       ,
-                                Msg = "A pasta selecionada não contem os arquivos necessários para a consulta"
-                                                       ,
-                                Data = data
-                                                       ,
-                                Hora = hora
-                            });*/
+                            InsereException(3, "A pasta selecionada não contem os arquivos necessários para a consulta", " ", "Consulta", " ", " ", "21");
+                            /*Log.AddLogErro(
+                                new LogErros { 
+                                    Id = 0, 
+                                    Servico = "Consulta", 
+                                    CodErro = "21", 
+                                    Msg = "A pasta selecionada não contem os arquivos necessários para a consulta", 
+                                    Acao = "",
+                                    Data = data, 
+                                    Hora = hora });*/
+
                         }
                         catch (Exception ex)
                         {
-
+                            ExOpenFile(999, ex.Message);
                         }
                         
-                        /*var s = processo.MontaCaminhoDir(Parametros.GetDirArq(), "\\logs\\logConsulta.log");
-                        StreamWriter w = File.AppendText(@s);
-                        w.WriteLine("");
-                        w.WriteLine("A pasta selecionada não contem os arquivos necessários para a consulta");
-                        w.WriteLine("");
-                        w.Flush();
-                        w.Close();
-                        //MessageBox.Show("A pasta selecionada não contem os arquivos necessários para a consulta");*/
                     }
                     break;
             }
@@ -302,41 +317,53 @@ namespace Vertech.Services
         {
             Processos processo = new Processos();
 
-            string stri = Convert.ToString(DateTime.Now);
-            string[] strArr = null;
-            char[] splitchar = { ' ' };
-
-            strArr = stri.Split(splitchar);
+            /*var strArr = RetornaData();
 
             string hora = strArr[1];
-            string data = strArr[0];
+            string data = strArr[0];*/
 
             if (Parametros.GetTipoApp() == "Service")
             {
                 try
                 {
-                    Log.AddLogErro(new LogErros { Id = 0, Servico = "Processos", CodErro = codErro.ToString(), Msg = msg, Data = data, Hora = hora });
-                    /*var s = processo.MontaCaminhoDir(Parametros.GetDirArq(), "\\logs\\logException.log");
-                    StreamWriter vWriter = new StreamWriter(@s, true);
+                    InsereException(3, msg, " ", "Processos", " ", " ", codErro.ToString());
+                    /*Log.AddLogErro(
+                        new LogErros { 
+                            Id = 0, 
+                            Servico = "Processos", 
+                            CodErro = codErro.ToString(), 
+                            Msg = msg, 
+                            Acao = "",
+                            Data = data, 
+                            Hora = hora });*/
 
-                    vWriter.WriteLine("");
-                    vWriter.WriteLine("Ocorrencia: Processos");
-                    vWriter.WriteLine("Data/Hora: " + DateTime.Now.ToString());
-                    vWriter.WriteLine("Codigo do erro: " + codErro.ToString());
-                    vWriter.WriteLine("Descrição: " + msg);
-                    vWriter.WriteLine("");
-                    vWriter.Flush();
-                    vWriter.Close();*/
                 }
                 
                 catch (Exception ex)
                 {
-                    Exception_Open_Files(999, ex.Message);
+                    ExOpenFile(999, ex.Message);
                 }
             }
             else
             {
-                MessageBox.Show("Codigo do erro: " + codErro.ToString() + "\n" + msg);
+                try
+                {
+                    InsereException(3, msg, " ", "Processos", " ", " ", codErro.ToString());
+                    /*Log.AddLogErro(
+                        new LogErros { 
+                            Id = 0, 
+                            Servico = "Processos", 
+                            CodErro = codErro.ToString(), 
+                            Msg = msg, 
+                            Acao = "",
+                            Data = data, 
+                            Hora = hora });*/
+                }
+                catch(Exception ex)
+                {
+                    ExOpenFile(999, ex.Message);
+                }
+                
             }
         }
 
@@ -344,42 +371,44 @@ namespace Vertech.Services
         {
             Processos processo = new Processos();
 
-            string stri = Convert.ToString(DateTime.Now);
-            string[] strArr = null;
-            char[] splitchar = { ' ' };
-
-            strArr = stri.Split(splitchar);
+            /*var strArr = RetornaData();
 
             string hora = strArr[1];
-            string data = strArr[0];
+            string data = strArr[0];*/
 
             if (Parametros.GetTipoApp() == "Service")
             {
                 try
                 {
-                    Log.AddLogErro(new LogErros { Id = 0, Servico = "SQLite", CodErro = codErro.ToString(), Msg = msg, Data = data, Hora = hora });
-                    /*var s = processo.MontaCaminhoDir(Parametros.GetDirArq(), "\\logs\\logSQL.log");
-                    StreamWriter vWriter = new StreamWriter(@s, true);
-
-                    vWriter.WriteLine("");
-                    vWriter.WriteLine("Ocorrencia: SQLite");
-                    vWriter.WriteLine("Data/Hora: " + DateTime.Now.ToString());
-                    vWriter.WriteLine("Codigo do erro: " + codErro.ToString());
-                    vWriter.WriteLine("Descrição: " + msg);
-                    vWriter.WriteLine("");
-                    vWriter.Flush();
-                    vWriter.Close();*/
+                    InsereException(3, msg, " ", "SQLite", " ", " ", codErro.ToString());
+                    /*Log.AddLogErro(
+                        new LogErros { 
+                            Id = 0, 
+                            Servico = "SQLite", 
+                            CodErro = codErro.ToString(), 
+                            Msg = msg, 
+                            Acao = "",
+                            Data = data, 
+                            Hora = hora });*/
                 }
                 catch (Exception ex)
                 {
-                    Exception_Open_Files(999, ex.Message);
+                    ExOpenFile(999, ex.Message);
                 }
 
             }
             else
             {
-                Log.AddLogErro(new LogErros { Id = 0, Servico = "SQLite", CodErro = codErro.ToString(), Msg = msg, Data = data, Hora = hora });
-                //MessageBox.Show("Codigo do erro: " + codErro.ToString() + "\n" + msg);
+                InsereException(3, msg, " ", "SQLite", " ", " ", codErro.ToString());
+                /*Log.AddLogErro(
+                    new LogErros { 
+                    Id = 0, 
+                    Servico = "SQLite", 
+                    CodErro = codErro.ToString(),
+                    Msg = msg, 
+                    Acao = "",
+                    Data = data, 
+                    Hora = hora });*/
             }
         }
 
@@ -387,62 +416,58 @@ namespace Vertech.Services
         {
             var p = new Processos();
 
-            string stri = Convert.ToString(DateTime.Now);
-            string[] strArr = null;
-            char[] splitchar = { ' ' };
-
-            strArr = stri.Split(splitchar);
+            /*var strArr = RetornaData();
 
             string hora = strArr[1];
-            string data = strArr[0];
+            string data = strArr[0];*/
 
             if (Parametros.GetTipoApp() == "Service")
             {
-                Log.AddLogErro(new LogErros { Id = 0, Servico = "SecureFile", CodErro = codErro.ToString(), Msg = msg, Data = data, Hora = hora });
-                /*var s = p.MontaCaminhoDir(Parametros.GetDirArq(), "\\logs\\logException.log");
-                StreamWriter vWriter = new StreamWriter(@s, true);
+                InsereException(3, msg, " ", "SecureFile", " ", " ", codErro.ToString());
+                /*Log.AddLogErro(
+                    new LogErros { 
+                    Id = 0, 
+                    Servico = "SecureFile", 
+                    CodErro = codErro.ToString(), 
+                    Msg = msg, 
+                    Acao = "",
+                    Data = data, 
+                    Hora = hora });*/
 
-                vWriter.WriteLine("");
-                vWriter.WriteLine("Ocorrencia: Secure File");
-                vWriter.WriteLine("Data/Hora: " + DateTime.Now.ToString());
-                vWriter.WriteLine("Codigo do erro: " + codErro.ToString());
-                vWriter.WriteLine("Descrição: " + msg);
-                vWriter.WriteLine("");
-                vWriter.Flush();
-                vWriter.Close();*/
             }
             else
             {
-                Log.AddLogErro(new LogErros { Id = 0, Servico = "SecureFile", CodErro = codErro.ToString(), Msg = msg, Data = data, Hora = hora });
-                //MessageBox.Show("Codigo do erro: " + codErro.ToString() + "\n" + msg);
+                InsereException(3, msg, " ", "SecureFile", " ", " ", codErro.ToString());
+                /*Log.AddLogErro(
+                    new LogErros { 
+                    Id = 0, 
+                    Servico = "SecureFile", 
+                    CodErro = codErro.ToString(), 
+                    Msg = msg, 
+                    Acao = "",
+                    Data = data, 
+                    Hora = hora });*/
             }
         }
 
-        public void Exception_Open_Files(int tipo, string msg)
+        public void ExOpenFile(int tipo, string msg)
         {
             var p = new Processos();
 
-            string stri = Convert.ToString(DateTime.Now);
-            string[] strArr = null;
-            char[] splitchar = { ' ' };
-
-            strArr = stri.Split(splitchar);
+            /*var strArr = RetornaData();
 
             string hora = strArr[1];
-            string data = strArr[0];
-
-            Log.AddLogErro(new LogErros { Id = 0, Servico = "SQLite", CodErro = "999", Msg = msg, Data = data, Hora = hora });
-            /*var s = p.MontaCaminhoDir(Parametros.GetDirArq(), "\\logs\\logException.log");
-            StreamWriter vWriter = new StreamWriter(@s, true);
-
-            vWriter.WriteLine("");
-            vWriter.WriteLine("Ocorrencia: Open Files");
-            vWriter.WriteLine("Data/Hora: " + DateTime.Now.ToString());
-            vWriter.WriteLine("Codigo do erro: " + tipo.ToString());
-            vWriter.WriteLine("Descrição: " + msg);
-            vWriter.WriteLine("");
-            vWriter.Flush();
-            vWriter.Close();*/
+            string data = strArr[0];*/
+            InsereException(3, msg, " ", "SQLite", "Encerre um dos processos (Serviço/Integrador(Tela))", " ", "999");
+            /*Log.AddLogErro(
+                new LogErros { 
+                Id = 0, 
+                Servico = "SQLite", 
+                CodErro = "999", 
+                Msg = msg, 
+                Acao = "Encerre um dos processos (Serviço/Integrador(Tela))",
+                Data = data, 
+                Hora = hora });*/
         }
     }
 }

@@ -58,6 +58,7 @@ namespace Vertech.DAO
                                                                             "nome_arq varchar2(100) not null," +
                                                                             "protocolo varchar2(100) not null," +
                                                                             "msg varchar2(500) not null," +
+                                                                            "acao varchar2(500) not null," +
                                                                             "data varchar2(10) not null," +
                                                                             "hora varchar2(8) not null" +
                                                                             ") ";
@@ -72,6 +73,7 @@ namespace Vertech.DAO
                                                                             "id integer primary key autoincrement," +
                                                                             "nome_arq varchar2(100) not null," +
                                                                             "msg varchar2(500) not null," +
+                                                                            "acao varchar2(500) not null," +
                                                                             "data varchar2(10) not null," +
                                                                             "hora varchar2(8) not null" +
                                                                             ") ";
@@ -86,6 +88,7 @@ namespace Vertech.DAO
                                                                             "servico varchar2(30) not null," +
                                                                             "cdErro varchar2(10) not null," +
                                                                             "msg varchar2(500) not null," +
+                                                                            "acao varchar2(500) not null," +
                                                                             "data varchar2(10) not null," +
                                                                             "hora varchar2(8) not null" +
                                                                             ") ";
@@ -108,10 +111,11 @@ namespace Vertech.DAO
             {
                 using (var cmd = DbConnection().CreateCommand())
                 {
-                    cmd.CommandText = "INSERT INTO logconsulta(nome_arq, protocolo, msg, data, hora) values (@arq, @prot, @msg, @data, @hora)";
+                    cmd.CommandText = "INSERT INTO logconsulta(nome_arq, protocolo, msg, acao, data, hora) values (@arq, @prot, @msg, @acao, @data, @hora)";
                     cmd.Parameters.AddWithValue("@arq", log.NomeArquivo);
                     cmd.Parameters.AddWithValue("@prot", log.Protocolo);
                     cmd.Parameters.AddWithValue("@msg", log.Msg);
+                    cmd.Parameters.AddWithValue("@acao", log.Acao);
                     cmd.Parameters.AddWithValue("@data", log.Data);
                     cmd.Parameters.AddWithValue("@hora", log.Hora);
                     cmd.ExecuteNonQuery();
@@ -130,9 +134,10 @@ namespace Vertech.DAO
             {
                 using (var cmd = DbConnection().CreateCommand())
                 {
-                    cmd.CommandText = "INSERT INTO logenvia(nome_arq, msg, data, hora) values (@arq, @msg, @data, @hora)";
+                    cmd.CommandText = "INSERT INTO logenvia(nome_arq, msg, acao, data, hora) values (@arq, @msg, @acao, @data, @hora)";
                     cmd.Parameters.AddWithValue("@arq", log.NomeArquivo);
                     cmd.Parameters.AddWithValue("@msg", log.Msg);
+                    cmd.Parameters.AddWithValue("@acao", log.Acao);
                     cmd.Parameters.AddWithValue("@data", log.Data);
                     cmd.Parameters.AddWithValue("@hora", log.Hora);
                     cmd.ExecuteNonQuery();
@@ -151,10 +156,11 @@ namespace Vertech.DAO
             {
                 using (var cmd = DbConnection().CreateCommand())
                 {
-                    cmd.CommandText = "INSERT INTO logerro(servico, cdErro, msg, data, hora) values (@serv, @cderr, @msg, @data, @hora)";
+                    cmd.CommandText = "INSERT INTO logerro(servico, cdErro, msg, acao, data, hora) values (@serv, @cderr, @msg, @acao, @data, @hora)";
                     cmd.Parameters.AddWithValue("@serv", log.Servico);
                     cmd.Parameters.AddWithValue("@cderr", log.CodErro);
                     cmd.Parameters.AddWithValue("@msg", log.Msg);
+                    cmd.Parameters.AddWithValue("@acao", log.Acao);
                     cmd.Parameters.AddWithValue("@data", log.Data);
                     cmd.Parameters.AddWithValue("@hora", log.Hora);
                     cmd.ExecuteNonQuery();

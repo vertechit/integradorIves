@@ -48,7 +48,7 @@ namespace Vertech.Services
                 }
                 if (i == 0)
                 {
-                    ex.ImprimeMsgDeErro_NoFilesFound(2);
+                    ex.ExNoFilesFound(2);
                 }
             }
 
@@ -57,7 +57,7 @@ namespace Vertech.Services
                 var l = processo.Listar_arquivos(".xml");
                 if (l.Count <= 0)
                 {
-                    ex.ImprimeMsgDeErro_NoFilesFound(2);
+                    ex.ExNoFilesFound(2);
                 }
             }
             
@@ -107,16 +107,7 @@ namespace Vertech.Services
             {
                 ClassException ex = new ClassException();
 
-                ex.Exception(e.Message, filename, "Consulta");
-                /*StreamWriter arq = File.AppendText(@s);
-
-                processo.GeraLogConsulta(filename
-                    , Request.protocolo.ToString()
-                    , e.InnerException.Message.ToString()
-                    , 99
-                    , arq);
-
-                arq.Close();*/
+                ex.Exception(e.Message, filename, "Consulta", " ");
             }
 
         }

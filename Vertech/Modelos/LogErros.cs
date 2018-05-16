@@ -12,6 +12,7 @@ namespace Vertech.Modelos
         public string Servico { get; set; }
         public string CodErro { get; set; }
         public string Msg { get; set; }
+        public string Acao { get; set; }
         public string Data { get; set; }
         public string Hora { get; set; }
     }
