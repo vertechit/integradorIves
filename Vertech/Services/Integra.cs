@@ -29,7 +29,7 @@ namespace Vertech.Services
 
             var s = processo.MontaCaminhoDir(Parametros.GetDirArq(),"\\logs\\logEnvio.log");
 
-            var lista = processo.Listar_arquivos(".txt");
+            var lista = processo.ListarArquivos(".txt");
 
             if(lista.Count > 0)
             {
@@ -70,7 +70,7 @@ namespace Vertech.Services
             else
             {
                 ClassException ex = new ClassException();
-                var l = processo.Listar_arquivos(".xml");
+                var l = processo.ListarArquivos(".xml");
                 if (l.Count <= 0)
                 {
                     ex.ExNoFilesFound(1);

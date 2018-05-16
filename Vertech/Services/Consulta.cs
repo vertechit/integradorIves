@@ -30,7 +30,7 @@ namespace Vertech.Services
             Processos processo = new Processos();
 
             int i = 0;
-            List<string> lista = processo.Listar_arquivos(".txt");
+            List<string> lista = processo.ListarArquivos(".txt");
 
             if (lista.Count > 0)
             {
@@ -52,7 +52,7 @@ namespace Vertech.Services
 
             else
             {
-                var l = processo.Listar_arquivos(".xml");
+                var l = processo.ListarArquivos(".xml");
                 if (l.Count <= 0)
                 {
                     ex.ExNoFilesFound(2);
@@ -92,7 +92,7 @@ namespace Vertech.Services
 
                 if(Response.consultaProtocolo.status.cdResposta == 3 || Response.consultaProtocolo.status.descResposta == "Processado com Erro")
                 {
-                    processo.Mover_Consultado(filename);
+                    processo.MoverConsultado(filename);
                     Helper.DeleteProtocolo(filename);
                 }
             }

@@ -34,7 +34,7 @@ namespace Vertech.Services
             var s = processo.MontaCaminhoDir(Parametros.GetDirArq(), "\\logs\\logConsulta.log");
             int i = 0;
 
-            List<string> lista = processo.Listar_arquivos(".xml");
+            List<string> lista = processo.ListarArquivos(".xml");
 
             if (lista.Count > 0)
             {
@@ -54,7 +54,7 @@ namespace Vertech.Services
                             if (processo.VerificaConsultaXML(retorno) == true)
                             {
                                 //processo.GeraLogConsultaDetalhadaXML(arq_name, protocolo.NroProtocolo, retorno, w);
-                                processo.Mover_Consultado(arq_name);
+                                processo.MoverConsultado(arq_name);
                                 Helper.DeleteProtocolo(arq_name);
                             }
                         }
@@ -73,7 +73,7 @@ namespace Vertech.Services
 
             else
             {
-                var l = processo.Listar_arquivos(".txt");
+                var l = processo.ListarArquivos(".txt");
                 if (l.Count <= 0)
                 {
                     ex.ExNoFilesFound(2);

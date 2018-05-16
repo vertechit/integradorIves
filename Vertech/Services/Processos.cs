@@ -93,7 +93,7 @@ namespace Vertech.Services
             return false;
         }
 
-        public List<string> Listar_arquivos(string ext)
+        public List<string> ListarArquivos(string ext)
         {
             string dir = Parametros.GetDirArq();
             DirectoryInfo dirInfo = new DirectoryInfo(@dir);
@@ -255,7 +255,7 @@ namespace Vertech.Services
         }
 
 
-        public void Mover_Consultado(string filename)
+        public void MoverConsultado(string filename)
         {
             string origem = Parametros.GetDirArq();
             string destino = Parametros.GetDirFim();
