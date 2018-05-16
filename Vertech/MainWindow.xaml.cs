@@ -50,6 +50,14 @@ namespace Vertech
         private void Init()
         {
             Processos process = new Processos();
+            //int ia = 0;
+            /*while(ia != 1000)
+            {
+                process.InsereLog(1, "Ddfdf", "", "", "", "", "");
+                ia++;
+            }*/
+            
+            process.LimpaLog();
 
             DirectoryInfo dir = new DirectoryInfo(@"C:\\vch");
             int i = 0;

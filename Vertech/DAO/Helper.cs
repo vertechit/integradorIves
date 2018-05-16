@@ -302,7 +302,5 @@ namespace Vertech.DAO
                 excep.ExSQLite(9, ex.Message);
             }
         }
-
-        
     }
 }

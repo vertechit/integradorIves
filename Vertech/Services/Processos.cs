@@ -9,6 +9,7 @@ using Vertech.DAO;
 using Vertech.Modelos;
 using System.Security.AccessControl;
 using System.Runtime.InteropServices;
+using System.Data;
 
 namespace Vertech.Services
 {
@@ -562,7 +563,91 @@ namespace Vertech.Services
                 ex.ExProcessos(5,e.Message.ToString());
             }
         }
-        
+
+        public void LimpaLog()
+        {
+            string err = "logerro";
+            string con = "logconsulta";
+            string env = "logenvia";
+
+            DataTable dtErro = Log.GetLogs(err);
+            DataTable dtConsu = Log.GetLogs(con);
+            DataTable dtEnvia = Log.GetLogs(env);
+
+            if(dtErro.Rows.Count > 0)
+            {
+                var remover = new List<string>();
+
+                foreach (DataRow row in dtErro.Rows)
+                {
+                    var dt = Convert.ToDateTime(row.ItemArray[5]);
+                    var qtd = DiferencaDataDias(dt, DateTime.Now);
+                    if(qtd > 25)
+                    {
+                        if (remover.Find(x => x.Contains(Convert.ToString(row.ItemArray[5]))) == null)
+                            remover.Add(Convert.ToString(row.ItemArray[5]));
+                        //Log.DeleteByID(err, Convert.ToInt32(row.ItemArray[0]));
+                    }
+                }
+
+                foreach (var item in remover)
+                {
+                    Log.DeleteByData(err, item);
+                }
+            }
+
+            if (dtConsu.Rows.Count > 0)
+            {
+                var remover = new List<string>();
+
+                foreach (DataRow row in dtConsu.Rows)
+                {
+                    var dt = Convert.ToDateTime(row.ItemArray[5]);
+                    var qtd = DiferencaDataDias(dt, DateTime.Now);
+                    if (qtd > 25)
+                    {
+                        if (remover.Find(x => x.Contains(Convert.ToString(row.ItemArray[5]))) == null)
+                            remover.Add(Convert.ToString(row.ItemArray[5]));
+                        //Log.DeleteByID(con, Convert.ToInt32(row.ItemArray[0]));
+                    }
+                }
+
+                foreach (var item in remover)
+                {
+                    Log.DeleteByData(con, item);
+                }
+            }
+
+            if (dtEnvia.Rows.Count > 0)
+            {
+                var remover = new List<string>();
+
+                foreach (DataRow row in dtEnvia.Rows)
+                {
+                    var dt = Convert.ToDateTime(row.ItemArray[4]);//4
+                    var qtd = DiferencaDataDias(dt, DateTime.Now);
+                    if (qtd > 25)
+                    {
+                        if (remover.Find(x => x.Contains(Convert.ToString(row.ItemArray[4]))) == null)
+                            remover.Add(Convert.ToString(row.ItemArray[4]));
+                        //Log.DeleteByID(env, Convert.ToInt32(row.ItemArray[0]));
+                    }
+                }
+
+                foreach (var item in remover)
+                {
+                    Log.DeleteByData(env, item);
+                }
+            }
+
+        }
+
+        public int DiferencaDataDias(DateTime Inicio, DateTime Fim)
+        {
+            TimeSpan ts = Fim.Subtract(Inicio);
+            return Convert.ToInt32(ts.TotalDays);
+        }
+
         public void InsereLog(int tipo, string msg, string arquivo, string servico, string acao, string protocolo, string coderro)
         {
             var strArr = RetornaData();

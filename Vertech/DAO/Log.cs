@@ -271,5 +271,44 @@ namespace Vertech.DAO
 
             return null;
         }
+
+
+        public static void DeleteByID(string tabela, int id)
+        {
+            try
+            {
+                using (var cmd = DbConnection().CreateCommand())
+                {
+                    cmd.CommandText = "DELETE from " + tabela + " where id = @id";
+                    cmd.Parameters.AddWithValue("@id", id);
+                    cmd.ExecuteNonQuery();
+                }
+            }
+            catch (Exception ex)
+            {
+                ClassException excep = new ClassException();
+                excep.ExSQLite(5, ex.Message);
+            }
+        }
+
+        public static void DeleteByData(string tabela, string data)
+        {
+            const string quote = "\"";
+            data = quote + data + quote;
+            try
+            {
+                using (var cmd = DbConnection().CreateCommand())
+                {
+                    cmd.CommandText = "DELETE from " + tabela + " where data = "+data;
+                    //cmd.Parameters.AddWithValue("@id", id);
+                    cmd.ExecuteNonQuery();
+                }
+            }
+            catch (Exception ex)
+            {
+                ClassException excep = new ClassException();
+                excep.ExSQLite(5, ex.Message);
+            }
+        }
     }
 }
