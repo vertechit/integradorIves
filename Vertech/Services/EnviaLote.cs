@@ -68,7 +68,7 @@ namespace Vertech.Services
                 var l = processo.Listar_arquivos(".txt");
                 if (l.Count <= 0)
                 {
-                    ex.ImprimeMsgDeErro_NoFilesFound(1);
+                    ex.ExNoFilesFound(1);
                 }
             }
 
