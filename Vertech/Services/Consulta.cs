@@ -43,8 +43,6 @@ namespace Vertech.Services
                         ConsultaProtocolo(Set_Protocolo(p), p.NomeArquivo);
                         i++;
                     }
-                    
-                    //Thread.Sleep(1000);
                 }
                 if (i == 0)
                 {
@@ -85,17 +83,12 @@ namespace Vertech.Services
                 Response = req.consultaRequest(Request);
                 req.Close();
 
-                StreamWriter w = File.AppendText(@s);
-
                 processo.GeraLogConsulta(filename
                     , Response.consultaProtocolo.identificador.protocolo.ToString()
                     , Convert.ToString(Response.consultaProtocolo.status.descResposta)
-                    , Convert.ToInt32(Response.consultaProtocolo.status.cdResposta)
-                    , w);
+                    , Convert.ToInt32(Response.consultaProtocolo.status.cdResposta));
 
                 processo.GeraLogDetalhado(filename, Response);
-
-                w.Close();
 
                 if(Response.consultaProtocolo.status.cdResposta == 3)
                 {

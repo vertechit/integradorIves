@@ -47,32 +47,23 @@ namespace Vertech.Services
 
                         if (Response.protocolo > 0)
                         {
-                            StreamWriter w = File.AppendText(@s);
                             processo.SalvaProtocolo(Response, arq_name);
-                            processo.GeraLogIntegra(arq_name, "Foi enviado com sucesso!", w);
-                            w.Close();
+                            processo.GeraLogIntegra(arq_name, "Foi enviado com sucesso!");
                         }
                         else
                         {
-                            StreamWriter w = File.AppendText(@s);
-                            processo.GeraLogIntegra(arq_name, "Erro no envio, retorno invalido!", w);
-                            w.Close();
+                            processo.GeraLogIntegra(arq_name, "Erro no envio, retorno invalido!");
                         }
                     }
                     else if (ctrl == 1)
                     {
-                        StreamWriter w = File.AppendText(@s);
-                        processo.GeraLogIntegra(arq_name, "Já foi enviado!", w);
-                        w.Close();
+                        processo.GeraLogIntegra(arq_name, "Já foi enviado!");
                     }
                     else
                     {
-                        StreamWriter w = File.AppendText(@s);
-                        processo.GeraLogIntegra(arq_name, "É invalido", w);
-                        w.Close();
-                    }
+                        processo.GeraLogIntegra(arq_name, "É invalido");
 
-                    //Thread.Sleep(1000);
+                    }
                 }
             }
 

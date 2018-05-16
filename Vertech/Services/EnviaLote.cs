@@ -42,23 +42,17 @@ namespace Vertech.Services
                         var response = Enviar(xmlString);
                         if(processo.VerificaResponseXML(response) == true)
                         {
-                            StreamWriter w = File.AppendText(@s);
                             processo.SalvaProtocoloXML(arq_name, response);
-                            processo.GeraLogEnviaXML(arq_name, "Foi enviado com sucesso!", w);
-                            w.Close();
+                            processo.GeraLogEnviaXML(arq_name, "Foi enviado com sucesso!");
                         }
                         else
                         {
-                            StreamWriter w = File.AppendText(@s);
-                            processo.GeraLogEnviaXML(arq_name, "Não foi enviado", w);
-                            w.Close();
+                            processo.GeraLogEnviaXML(arq_name, "Não foi enviado");
                         }
                     }
                     else
                     {
-                        StreamWriter w = File.AppendText(@s);
-                        processo.GeraLogEnviaXML(arq_name, "Já foi enviado!", w);
-                        w.Close();
+                        processo.GeraLogEnviaXML(arq_name, "Já foi enviado!");
                     }
                 }
             }

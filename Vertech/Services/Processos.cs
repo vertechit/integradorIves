@@ -25,6 +25,15 @@ namespace Vertech.Services
             return InternetGetConnectedState(out Description, 0);
         }
 
+        public string[] RetornaData(){
+
+            string stri = Convert.ToString(DateTime.Now);
+            string[] strArr = null;
+            char[] splitchar = { ' ' };
+
+            return strArr = stri.Split(splitchar);
+        }
+
         public string MontaCaminhoDir(string dir, string name)
         {
             var s = string.Concat(dir, '\\', name);
@@ -291,16 +300,8 @@ namespace Vertech.Services
             w.Close();
         }
 
-        public void GeraLogConsulta(string filename, string nroprt, string desc, int cd, TextWriter w)
+        public void GeraLogConsulta(string filename, string nroprt, string desc, int cd)
         {
-            string stri = Convert.ToString(DateTime.Now);
-            string[] strArr = null;
-            char[] splitchar = { ' ' };
-
-            strArr = stri.Split(splitchar);
-
-            string hora = strArr[1];
-            string data = strArr[0];
 
             if (desc == "Pendente")
             {
@@ -308,188 +309,71 @@ namespace Vertech.Services
                 {
                     if (IsConnected())
                     {
-                        Log.AddLogConsulta(new LogConsulta
-                        {
-                            Id = 0
-                                                       ,
-                            NomeArquivo = filename
-                                                       ,
-                            Protocolo = nroprt
-                                                       ,
-                            Msg = desc + "|" + "Tente fazer a consulta do protocolo novamente dentro de alguns minutos"
-                                                       ,
-                            Data = data
-                                                       ,
-                            Hora = hora
-                        });
+                        InsereLog(2,desc,filename,"Consulta","Tente fazer a consulta do protocolo novamente dentro de alguns minutos",nroprt,"");
                     }
                     else
                     {
-                        Log.AddLogConsulta(new LogConsulta
-                        {
-                            Id = 0
-                                                       ,
-                            NomeArquivo = filename
-                                                       ,
-                            Protocolo = nroprt
-                                                       ,
-                            Msg = "Erro, sem conexão com a internet!"
-                                                       ,
-                            Data = data
-                                                       ,
-                            Hora = hora
-                        });
+                        InsereLog(2,"Erro, sem conexão com a internet!",filename,"Consulta","Conecte a uma rede para a consulta",nroprt,"");
                     }
                 }
-                catch (Exception ex)
+                catch (Exception e)
                 {
+                    ClassException ex = new ClassException();
+                    ex.ExProcessos(4,e.Message.ToString());
+                }
 
-                }
-                /*w.Write("\r\nLog consulta: ");
-                w.WriteLine("{0} {1}", DateTime.Now.ToLongTimeString(),
-                    DateTime.Now.ToLongDateString());
-                w.WriteLine("Arquivo: {0}", filename);
-                w.WriteLine("Número protocolo: {0}", nroprt);
-                if(IsConnected())
-                {
-                    w.WriteLine("Descrição: {0}", desc);
-                    w.WriteLine("Tente fazer a consulta do protocolo novamente dentro de alguns minutos");
-                }
-                else
-                    w.WriteLine("Descrição: Erro, sem conexão com a internet!");
-                
-                w.WriteLine("-------------------------------");*/
             }
 
             else if(cd == 2)
             {
                 try
                 {
-                    Log.AddLogConsulta(new LogConsulta
-                    {
-                        Id = 0
-                                                       ,
-                        NomeArquivo = filename
-                                                       ,
-                        Protocolo = nroprt
-                                                       ,
-                        Msg = desc + "|" + "Consulte o ambiente iVes na pagina de importação para ter o detalhe completo"
-                                                       ,
-                        Data = data
-                                                       ,
-                        Hora = hora
-                    });
+                    InsereLog(2,desc,filename,"Consulta","Consulte o ambiente iVes na pagina de importação para ter o detalhe completo",nroprt,"");
                 }
-                catch (Exception ex)
+                catch (Exception e)
                 {
-
+                    ClassException ex = new ClassException();
+                    ex.ExProcessos(4,e.Message.ToString());
                 }
-                /*w.Write("\r\nLog consulta: ");
-                w.WriteLine("{0} {1}", DateTime.Now.ToLongTimeString(),
-                    DateTime.Now.ToLongDateString());
-                w.WriteLine("Arquivo: {0}", filename);
-                w.WriteLine("Número protocolo: {0}", nroprt);
-                w.WriteLine("Descrição: {0}", desc);
-                w.WriteLine("Consulte o ambiente iVes na pagina de importação para ter o detalhe completo");
-                w.WriteLine("-------------------------------");*/
             }
 
             else if (cd == 99)
             {
                 try
                 {
-                    Log.AddLogConsulta(new LogConsulta
-                    {
-                        Id = 0
-                                                       ,
-                        NomeArquivo = filename
-                                                       ,
-                        Protocolo = nroprt
-                                                       ,
-                        Msg = desc + "|" + "Falha ao consultar o protocolo, por favor, consulte manualmente atraves do portal iVes."
-                                                       ,
-                        Data = data
-                                                       ,
-                        Hora = hora
-                    });
+                    InsereLog(2,desc,filename,"Consulta","Falha ao consultar o protocolo, por favor, consulte manualmente atraves do portal iVes",nroprt,"");
                 }
-                catch (Exception ex)
+                catch (Exception e)
                 {
-
+                    ClassException ex = new ClassException();
+                    ex.ExProcessos(4,e.Message.ToString());
                 }
-                /*w.Write("\r\nLog consulta: ");
-                w.WriteLine("{0} {1}", DateTime.Now.ToLongTimeString(),
-                    DateTime.Now.ToLongDateString());
-                w.WriteLine("Arquivo: {0}", filename);
-                w.WriteLine("Número protocolo: {0}", nroprt);
-                w.WriteLine("Descrição: {0}", desc);
-                w.WriteLine("Falha ao consultar o protocolo, por favor, consulte manualmente atraves do portal iVes.");
-                w.WriteLine("-------------------------------");*/
             }
 
             else if(cd != 3)
             {
                 try
                 {
-                    Log.AddLogConsulta(new LogConsulta
-                    {
-                        Id = 0
-                                                       ,
-                        NomeArquivo = filename
-                                                       ,
-                        Protocolo = nroprt
-                                                       ,
-                        Msg = desc + "|" + "Tente fazer a consulta do protocolo novamente dentro de alguns minutos."
-                                                       ,
-                        Data = data
-                                                       ,
-                        Hora = hora
-                    });
+                    InsereLog(2,desc,filename,"Consulta","Tente fazer a consulta do protocolo novamente dentro de alguns minutos.",nroprt,"");
                 }
-                catch (Exception ex)
+                catch (Exception e)
                 {
-
+                    ClassException ex = new ClassException();
+                    ex.ExProcessos(4,e.Message.ToString());
                 }
-                /*w.Write("\r\nLog consulta: ");
-                w.WriteLine("{0} {1}", DateTime.Now.ToLongTimeString(),
-                    DateTime.Now.ToLongDateString());
-                w.WriteLine("Arquivo: {0}", filename);
-                w.WriteLine("Número protocolo: {0}", nroprt);
-                w.WriteLine("Descrição: {0}", desc);
-                w.WriteLine("Tente fazer a consulta do protocolo novamente dentro de alguns minutos");
-                w.WriteLine("-------------------------------");*/
             }
 
             else
             {
                 try
                 {
-                    Log.AddLogConsulta(new LogConsulta
-                    {
-                        Id = 0
-                                                       ,
-                        NomeArquivo = filename
-                                                       ,
-                        Protocolo = nroprt
-                                                       ,
-                        Msg = desc
-                                                       ,
-                        Data = data
-                                                       ,
-                        Hora = hora
-                    });
+                    InsereLog(2,desc,filename,"Consulta","",nroprt,"");
                 }
-                catch (Exception ex)
+                catch (Exception e)
                 {
-
+                    ClassException ex = new ClassException();
+                    ex.ExProcessos(5,e.Message.ToString());
                 }
-                /*w.Write("\r\nLog consulta: ");
-                w.WriteLine("{0} {1}", DateTime.Now.ToLongTimeString(),
-                    DateTime.Now.ToLongDateString());
-                w.WriteLine("Arquivo: {0}", filename);
-                w.WriteLine("Número protocolo: {0}", nroprt);
-                w.WriteLine("Descrição: {0}", desc);
-                w.WriteLine("-------------------------------");*/
             }
 
             
@@ -641,59 +525,78 @@ namespace Vertech.Services
             
         }
 
-        public void GeraLogIntegra(string filename, string str, TextWriter w)
+        public void GeraLogIntegra(string filename, string msg)
         {
-            string stri = Convert.ToString(DateTime.Now);
-            string[] strArr = null;
-            char[] splitchar = { ' ' };
-
-            strArr = stri.Split(splitchar);
-
-            string hora = strArr[1];
-            string data = strArr[0];
 
             try
             {
-                Log.AddLogEnvia(new LogEnvia { Id = 0, Msg = str, NomeArquivo = filename, Data = data, Hora = hora });
+                InsereLog(1,msg,filename,"Integra"," "," ", " ");
+                //Log.AddLogEnvia(new LogEnvia { Id = 0, Msg = str, NomeArquivo = filename, Data = data, Hora = hora });
             }
-            catch (Exception ex)
+            catch (Exception e)
             {
-
+                ClassException ex = new ClassException();
+                ex.ExProcessos(5,e.Message.ToString());
             }
-            /*w.Write("\r\nLog integra: ");
-            w.WriteLine("{0} {1}", DateTime.Now.ToLongTimeString(),
-                DateTime.Now.ToLongDateString());
-            w.WriteLine("Arquivo: {0}", filename);
-            w.WriteLine(str);
-            w.WriteLine("-------------------------------");*/
         }
 
-        public void GeraLogEnviaXML(string filename, string str, TextWriter w)
+        public void GeraLogEnviaXML(string filename, string msg)
         {
-            string stri = Convert.ToString(DateTime.Now);
-            string[] strArr = null;
-            char[] splitchar = { ' ' };
 
-            strArr = stri.Split(splitchar);
+            try
+            {
+                InsereLog(1,msg,filename,"Integra"," "," ", " ");
+                //Log.AddLogEnvia(new LogEnvia { Id = 0, Msg = str, NomeArquivo = filename, Data = data, Hora = hora });
+            }
+            catch(Exception e)
+            {
+                ClassException ex = new ClassException();
+                ex.ExProcessos(5,e.Message.ToString());
+            }
+        }
+        
+        public void InsereLog(int tipo, string msg, string arquivo, string servico, string acao, string protocolo, string coderro)
+        {
+            var strArr = RetornaData();
 
             string hora = strArr[1];
             string data = strArr[0];
 
-            try
+            if(tipo == 1)
             {
-                Log.AddLogEnvia(new LogEnvia { Id = 0, Msg = str, NomeArquivo = filename, Data = data, Hora = hora });
+                Log.AddLogEnvia(
+                        new LogEnvia { 
+                            Id = 0, 
+                            Msg = msg, 
+                            Acao = acao,
+                            NomeArquivo = arquivo, 
+                            Data = data, 
+                            Hora = hora });
             }
-            catch(Exception ex)
+            else if(tipo == 2)
             {
-                
+                Log.AddLogConsulta(
+                        new LogConsulta{
+                            Id = 0,
+                            NomeArquivo = arquivo,
+                            Protocolo = protocolo,
+                            Msg = msg,
+                            Acao = acao,
+                            Data = data,
+                            Hora = hora });
             }
-            
-            /*w.Write("\r\nLog Envio XML: ");
-            w.WriteLine("{0} {1}", DateTime.Now.ToLongTimeString(),
-                DateTime.Now.ToLongDateString());
-            w.WriteLine("Arquivo: {0}", filename);
-            w.WriteLine(str);
-            w.WriteLine("-------------------------------");*/
+            else
+            {
+                Log.AddLogErro(new LogErros { 
+                                Id = 0, 
+                                Servico = servico, 
+                                CodErro = coderro, 
+                                Msg = msg, 
+                                Acao = acao, 
+                                Data = data, 
+                                Hora = hora 
+                                });
+            }
         }
 
     }
