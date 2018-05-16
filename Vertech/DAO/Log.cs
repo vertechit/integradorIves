@@ -55,9 +55,9 @@ namespace Vertech.DAO
                 {
                     cmd.CommandText = "CREATE TABLE IF NOT EXISTS logconsulta(" +
                                                                             "id integer primary key autoincrement," +
-                                                                            "nome_arq varchar2(100) not null," +
-                                                                            "protocolo varchar2(100) not null," +
-                                                                            "msg varchar2(500) not null," +
+                                                                            "nome_arq varchar2(100)," +
+                                                                            "protocolo varchar2(100)," +
+                                                                            "msg varchar2(500)," +
                                                                             "acao varchar2(500)," +
                                                                             "data varchar2(10) not null," +
                                                                             "hora varchar2(8) not null" +

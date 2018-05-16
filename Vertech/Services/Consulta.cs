@@ -27,8 +27,8 @@ namespace Vertech.Services
                 di.Create();
 
             ClassException ex = new ClassException();
-            //Consulta consulta = new Consulta();
             Processos processo = new Processos();
+
             int i = 0;
             List<string> lista = processo.Listar_arquivos(".txt");
 
@@ -90,7 +90,7 @@ namespace Vertech.Services
 
                 processo.GeraLogDetalhado(filename, Response);
 
-                if(Response.consultaProtocolo.status.cdResposta == 3)
+                if(Response.consultaProtocolo.status.cdResposta == 3 || Response.consultaProtocolo.status.descResposta == "Processado com Erro")
                 {
                     processo.Mover_Consultado(filename);
                     Helper.DeleteProtocolo(filename);
