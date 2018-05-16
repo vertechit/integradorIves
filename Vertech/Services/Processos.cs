@@ -295,9 +295,17 @@ namespace Vertech.Services
 
             var protocolo = response.Substring(sti, stf + tagFim.Length - sti);
 
-            StreamWriter w = File.AppendText(@s);
-            w.Write(protocolo);
-            w.Close();
+            try
+            {
+                StreamWriter w = File.AppendText(@s);
+                w.Write(protocolo);
+                w.Close();
+            }
+            catch(Exception e)
+            {
+                ClassException ex = new ClassException();
+                ex.ExProcessos(30, e.Message.ToString());
+            }
         }
 
         public void GeraLogConsulta(string filename, string nroprt, string desc, int cd)
