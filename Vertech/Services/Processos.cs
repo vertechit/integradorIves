@@ -11,7 +11,9 @@ using System.Security.AccessControl;
 using System.Runtime.InteropServices;
 using System.Data;
 using System.Diagnostics;
-
+using System.Security.Principal;
+using System.Reflection;
+using ServicosWin;
 namespace Vertech.Services
 {
     public class Processos
@@ -660,20 +662,46 @@ namespace Vertech.Services
             return false;
         }
 
-        /*public void GerenciaServico(int action)
+        public void GerenciaServico(int action)
         {
+            rodarComoAdmin();
+
             switch (action)
             {
                 case 1:
                     try
                     {
-                        ServicosWin.StopService("iVesService");
+                        ServicosWin.ServicosWin.StopService("Integrador Vertech Ives");
                     }
                     catch (Exception ex)
                     {
                         MessageBox.Show("Erro : " + ex.Message + Environment.NewLine + ex.InnerException, "Parar Serviço");
                     }
                     break;
+                case 2:
+                    try
+                    {
+                        ServicosWin.ServicosWin.StartService("Integrador Vertech Ives");
+                    }
+                    catch (Exception ex)
+                    {
+                        MessageBox.Show("Erro : " + ex.Message + Environment.NewLine + ex.InnerException, "Iniciar Serviço");
+                    }
+
+                    break;
+
+                case 3:
+                    try
+                    {
+                        ServicosWin.ServicosWin.RestartService("Integrador Vertech Ives");
+                    }
+                    catch (Exception ex)
+                    {
+                        MessageBox.Show("Erro : " + ex.Message + Environment.NewLine + ex.InnerException, "Reiniciar Serviço");
+                    }
+
+                    break;
+
             }
             
 
@@ -691,14 +719,14 @@ namespace Vertech.Services
                 try
                 {
                     Process.Start(startInfo);
-                    MessageBox.Show("Você esta executando o projeto com nível de Administrador !", "Admin", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    //MessageBox.Show("Você esta executando o projeto com nível de Administrador !", "Admin");
                 }
                 catch
                 {
                     throw new Exception("Não foi possível conceder acesso como Admin" + Environment.NewLine + "As operações realizadas poderão ter Acesso Negado !");
                 }
             }
-        }*/
+        }
 
         public void InsereLog(int tipo, string msg, string arquivo, string servico, string acao, string protocolo, string coderro)
         {
