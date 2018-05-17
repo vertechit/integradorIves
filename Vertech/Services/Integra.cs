@@ -87,10 +87,7 @@ namespace Vertech.Services
             {
                 Id.grupo = Parametros.GetGrupo();
                 Id.token = Parametros.GetToken();
-                if(Parametros.GetAmbiente() != "0")
-                {
-                    Id.tpamb = Convert.ToInt32(Parametros.GetAmbiente());
-                }
+                Id.tpamb = Convert.ToInt32(Parametros.GetAmbiente());
             }
             catch (Exception)
             {

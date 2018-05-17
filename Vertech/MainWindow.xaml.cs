@@ -56,12 +56,10 @@ namespace Vertech
 
             DirectoryInfo dir = new DirectoryInfo(@"C:\\vch");
 
-            CboAmbiente.Items.Insert(0, "Automático");
-            CboAmbiente.Items.Insert(1, "Produção");
-            CboAmbiente.Items.Insert(2, "Produção Restrita - Dados Reais");
-            CboAmbiente.Items.Insert(3, "Produção Restrita - Dados Fictícios");
+            CboAmbiente.Items.Insert(0, "Produção");
+            CboAmbiente.Items.Insert(1, "Produção Restrita - Dados Reais");
 
-            CboAmbiente.SelectedIndex = 0;
+            CboAmbiente.SelectedIndex = 2;
 
             int i = 0;
 
@@ -128,7 +126,7 @@ namespace Vertech
                         if(ctrl == 2)
                         {
 
-                            CboAmbiente.SelectedIndex = Convert.ToInt32(param.Ambiente);
+                            CboAmbiente.SelectedIndex = Convert.ToInt32(param.Ambiente)-1;
                             TxtbAmbiente.Text = (string)CboAmbiente.SelectedItem;
 
                             Parametros.SetAmbiente(param.Ambiente);
@@ -478,7 +476,7 @@ namespace Vertech
                         {
                             TxtbAmbiente.Text = (string)CboAmbiente.SelectedItem;
 
-                            Parametros.SetAmbiente(Convert.ToString((int)CboAmbiente.SelectedIndex));
+                            Parametros.SetAmbiente(Convert.ToString((int)CboAmbiente.SelectedIndex+1));
                                 
                             Helper.AddParametros(new Parametro { Id = 1, CaminhoDir = Parametros.GetDirArq(), CaminhoFim = Parametros.GetDirFim(), CaminhoToke = Parametros.GetDirToke() , Ambiente = Parametros.GetAmbiente() });
 

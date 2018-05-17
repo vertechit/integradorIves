@@ -252,7 +252,7 @@
             <TextBlock x:Name ="TxtbAmbiente" 
                        HorizontalAlignment="Left" 
                        Height="23" 
-                       Margin="213,187,0,0" 
+                       Margin="217,187,0,0" 
                        Grid.Row="1" 
                        TextWrapping="Wrap" 
                        VerticalAlignment="Top" 

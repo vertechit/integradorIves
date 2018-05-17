@@ -29,7 +29,8 @@ namespace Vertech.Services
             return InternetGetConnectedState(out Description, 0);
         }
 
-        public string[] RetornaData(){
+        public string[] RetornaData()
+        {
 
             string stri = Convert.ToString(DateTime.Now);
             string[] strArr = null;
@@ -61,7 +62,7 @@ namespace Vertech.Services
 
             string xsdFim = " </evento></eventos></envioLoteEventos></eSocial>";
 
-            var xml = String.Concat(xsdInicio,xmlString,xsdFim);
+            var xml = String.Concat(xsdInicio, xmlString, xsdFim);
 
             return xml;
         }
@@ -124,7 +125,7 @@ namespace Vertech.Services
             catch (Exception)
             {
                 ClassException ex = new ClassException();
-                ex.ExProcessos(1,"Erro na leitura do arquivo");
+                ex.ExProcessos(1, "Erro na leitura do arquivo");
             }
 
             return lines;
@@ -132,7 +133,7 @@ namespace Vertech.Services
 
         public Boolean VerificaResponseXML(string response)
         {
-            if(response == "")
+            if (response == "")
             {
                 return false;
             }
@@ -144,7 +145,7 @@ namespace Vertech.Services
 
             var codigo = response.Substring(sti, stf + tagFim.Length - sti);
 
-            if(codigo == "201")
+            if (codigo == "201")
             {
                 return true;
             }
@@ -161,7 +162,7 @@ namespace Vertech.Services
             catch (Exception e)
             {
                 ClassException ex = new ClassException();
-                ex.ExProcessos(2,e.Message.ToString());
+                ex.ExProcessos(2, e.Message.ToString());
             }
         }
 
@@ -182,7 +183,7 @@ namespace Vertech.Services
             catch (Exception e)
             {
                 ClassException ex = new ClassException();
-                ex.ExProcessos(2, e.Message.ToString());
+                ex.ExProcessos(3, e.Message.ToString());
             }
         }
 
@@ -193,7 +194,7 @@ namespace Vertech.Services
 
             if (Helper.ExistsProtocolo(arq) == true)
             {
-                 return false;
+                return false;
             }
 
             return true;
@@ -207,7 +208,7 @@ namespace Vertech.Services
 
             if (Helper.ExistsProtocolo(arq) == true)
             {
-                 return 1;
+                return 1;
             }
 
             int tam = 0;
@@ -252,7 +253,7 @@ namespace Vertech.Services
             catch (Exception)
             {
                 ClassException ex = new ClassException();
-                ex.ExProcessos(3,"Erro ao buscar arquivos na pasta indicada");
+                ex.ExProcessos(4, "Erro ao buscar arquivos na pasta indicada");
             }
 
             return File_Names;
@@ -271,10 +272,10 @@ namespace Vertech.Services
             {
                 System.IO.File.Move(o, d);
             }
-            catch(Exception e)
+            catch (Exception e)
             {
                 ClassException ex = new ClassException();
-                ex.ExProcessos(4,e.Message.ToString());
+                ex.ExProcessos(5, e.Message.ToString());
             }
         }
 
@@ -305,10 +306,10 @@ namespace Vertech.Services
                 w.Write(protocolo);
                 w.Close();
             }
-            catch(Exception e)
+            catch (Exception e)
             {
                 ClassException ex = new ClassException();
-                ex.ExProcessos(30, e.Message.ToString());
+                ex.ExProcessos(5, e.Message.ToString());
             }
         }
 
@@ -321,31 +322,31 @@ namespace Vertech.Services
                 {
                     if (IsConnected())
                     {
-                        InsereLog(2,desc,filename,"Consulta","Tente fazer a consulta do protocolo novamente dentro de alguns minutos",nroprt,"");
+                        InsereLog(2, desc, filename, "Consulta", "Tente fazer a consulta do protocolo novamente dentro de alguns minutos", nroprt, "");
                     }
                     else
                     {
-                        InsereLog(2,"Erro, sem conexão com a internet!",filename,"Consulta","Conecte a uma rede para a consulta",nroprt,"");
+                        InsereLog(2, "Erro, sem conexão com a internet!", filename, "Consulta", "Conecte a uma rede para a consulta", nroprt, "");
                     }
                 }
                 catch (Exception e)
                 {
                     ClassException ex = new ClassException();
-                    ex.ExProcessos(4,e.Message.ToString());
+                    ex.ExProcessos(6, e.Message.ToString());
                 }
 
             }
 
-            else if(cd == 2)
+            else if (cd == 2)
             {
                 try
                 {
-                    InsereLog(2,desc,filename,"Consulta","Consulte o ambiente iVes na pagina de importação para ter o detalhe completo",nroprt,"");
+                    InsereLog(2, desc, filename, "Consulta", "Consulte o ambiente iVes na pagina de importação para ter o detalhe completo", nroprt, "");
                 }
                 catch (Exception e)
                 {
                     ClassException ex = new ClassException();
-                    ex.ExProcessos(4,e.Message.ToString());
+                    ex.ExProcessos(6, e.Message.ToString());
                 }
             }
 
@@ -353,25 +354,25 @@ namespace Vertech.Services
             {
                 try
                 {
-                    InsereLog(2,desc,filename,"Consulta","Falha ao consultar o protocolo, por favor, consulte manualmente atraves do portal iVes",nroprt,"");
+                    InsereLog(2, desc, filename, "Consulta", "Falha ao consultar o protocolo, por favor, consulte manualmente atraves do portal iVes", nroprt, "");
                 }
                 catch (Exception e)
                 {
                     ClassException ex = new ClassException();
-                    ex.ExProcessos(4,e.Message.ToString());
+                    ex.ExProcessos(6, e.Message.ToString());
                 }
             }
 
-            else if(cd != 3)
+            else if (cd != 3)
             {
                 try
                 {
-                    InsereLog(2,desc,filename,"Consulta","Tente fazer a consulta do protocolo novamente dentro de alguns minutos.",nroprt,"");
+                    InsereLog(2, desc, filename, "Consulta", "Tente fazer a consulta do protocolo novamente dentro de alguns minutos.", nroprt, "");
                 }
                 catch (Exception e)
                 {
                     ClassException ex = new ClassException();
-                    ex.ExProcessos(4,e.Message.ToString());
+                    ex.ExProcessos(6, e.Message.ToString());
                 }
             }
 
@@ -379,38 +380,38 @@ namespace Vertech.Services
             {
                 try
                 {
-                    InsereLog(2,desc,filename,"Consulta","",nroprt,"");
+                    InsereLog(2, desc, filename, "Consulta", "", nroprt, "");
                 }
                 catch (Exception e)
                 {
                     ClassException ex = new ClassException();
-                    ex.ExProcessos(5,e.Message.ToString());
+                    ex.ExProcessos(6, e.Message.ToString());
                 }
             }
 
-            
+
         }
 
         public void GeraLogDetalhado(string filename, apiConsulta.consultaResponse retorno)
-        {   
+        {
 
             try
             {
                 int i = 0;
                 foreach (var item in retorno.consultaProtocolo.retornoEventos)
                 {
-                  
+
                     if (item.erros != null || item.ocorrencias != null)
                     {
                         string nome = "";
 
                         if (item.idErp != null)
                         {
-                            nome = string.Concat("log_",item.idErp, ".log");
+                            nome = string.Concat("log_", item.idErp, ".log");
                         }
                         else
                         {
-                            nome = string.Concat("log_",item.id, ".log");
+                            nome = string.Concat("log_", item.id, ".log");
                         }
 
                         string s = MontaCaminhoDir(string.Concat(Parametros.GetDirArq(), "\\logs"), nome);
@@ -427,7 +428,7 @@ namespace Vertech.Services
                         {
                             w.WriteLine("ID: " + item.id.ToString());
                         }
-                        if(item.cdEvento != null)
+                        if (item.cdEvento != null)
                         {
                             w.WriteLine("Codigo do evento: " + item.cdEvento.ToString());
                         }
@@ -435,43 +436,43 @@ namespace Vertech.Services
                         {
                             w.WriteLine("ID ERP: " + item.idErp.ToString());
                         }
-                        if(item.idIves != 0)
+                        if (item.idIves != 0)
                         {
                             w.WriteLine("ID iVES: " + item.idIves.ToString());
                         }
-                        if(item.nroProtocolo != null)
+                        if (item.nroProtocolo != null)
                         {
                             w.WriteLine("Nr Protocolo: " + item.nroProtocolo.ToString());
                         }
-                        if(item.nroRecibo != null)
+                        if (item.nroRecibo != null)
                         {
                             w.WriteLine("Nr Recibo: " + item.nroRecibo.ToString());
                         }
-                        if(item.acao != null)
+                        if (item.acao != null)
                         {
                             w.WriteLine("Ação: " + item.acao.ToString());
                         }
-                        if(item.divergente != null)
+                        if (item.divergente != null)
                         {
                             w.WriteLine("Divergencia: " + item.divergente.ToString());
                         }
-                        if(item.situacao != null)
+                        if (item.situacao != null)
                         {
                             w.WriteLine("Situação: " + item.situacao.ToString());
                         }
-                        if(item.dtHrIntegra != null)
+                        if (item.dtHrIntegra != null)
                         {
                             w.WriteLine("DtHrIntegra: " + item.dtHrIntegra.ToString());
                         }
-                        if(item.dtHrProtocolo != null)
+                        if (item.dtHrProtocolo != null)
                         {
                             w.WriteLine("DtHrProtocolo: " + item.dtHrProtocolo.ToString());
                         }
-                        if(item.dtHrRecibo != null)
+                        if (item.dtHrRecibo != null)
                         {
                             w.WriteLine("DtHrRecibo: " + item.dtHrRecibo.ToString());
                         }
-                        if(item.ocorrencias != null)
+                        if (item.ocorrencias != null)
                         {
                             w.WriteLine("");
                             w.WriteLine("Divergencias:");
@@ -481,23 +482,23 @@ namespace Vertech.Services
                                 w.WriteLine(diverg);
                             }
 
-                            
-                            if(item.ocorrencias.ocorrencia.estrutura.msg != null)
+
+                            if (item.ocorrencias.ocorrencia.estrutura.msg != null)
                             {
                                 w.WriteLine("");
                                 w.WriteLine("Estrutura:");
                                 w.WriteLine("");
                                 w.WriteLine(item.ocorrencias.ocorrencia.estrutura.msg);
-                                if(item.ocorrencias.ocorrencia.estrutura.Text != null)
+                                if (item.ocorrencias.ocorrencia.estrutura.Text != null)
                                 {
                                     w.WriteLine("");
                                     w.WriteLine("Texto: " + item.ocorrencias.ocorrencia.estrutura.Text);
                                 }
                             }
-                               
+
                         }
 
-                        if(item.erros != null)
+                        if (item.erros != null)
                         {
                             w.WriteLine("");
                             w.WriteLine("\nErros");
@@ -509,9 +510,9 @@ namespace Vertech.Services
                                     if (erro.cdErro != 0)
                                     {
                                         w.WriteLine("Codigo do Erro: " + erro.cdErro.ToString());
-                                        
+
                                     }
-                                    if(erro.descErro != null)
+                                    if (erro.descErro != null)
                                     {
                                         w.WriteLine("Descrição do Erro: " + erro.descErro.ToString());
                                         w.WriteLine("");
@@ -529,12 +530,12 @@ namespace Vertech.Services
                     i++;
                 }
             }
-            catch(Exception e)
+            catch (Exception e)
             {
                 ClassException ex = new ClassException();
-                ex.ExProcessos(5,e.Message.ToString());
+                ex.ExProcessos(7, e.Message.ToString());
             }
-            
+
         }
 
         public void GeraLogIntegra(string filename, string msg)
@@ -542,13 +543,13 @@ namespace Vertech.Services
 
             try
             {
-                InsereLog(1,msg,filename,"Integra"," "," ", " ");
+                InsereLog(1, msg, filename, "Integra", " ", " ", " ");
                 //Log.AddLogEnvia(new LogEnvia { Id = 0, Msg = str, NomeArquivo = filename, Data = data, Hora = hora });
             }
             catch (Exception e)
             {
                 ClassException ex = new ClassException();
-                ex.ExProcessos(5,e.Message.ToString());
+                ex.ExProcessos(8, e.Message.ToString());
             }
         }
 
@@ -557,13 +558,13 @@ namespace Vertech.Services
 
             try
             {
-                InsereLog(1,msg,filename,"Integra"," "," ", " ");
+                InsereLog(1, msg, filename, "Integra", " ", " ", " ");
                 //Log.AddLogEnvia(new LogEnvia { Id = 0, Msg = str, NomeArquivo = filename, Data = data, Hora = hora });
             }
-            catch(Exception e)
+            catch (Exception e)
             {
                 ClassException ex = new ClassException();
-                ex.ExProcessos(5,e.Message.ToString());
+                ex.ExProcessos(9, e.Message.ToString());
             }
         }
 
@@ -577,7 +578,7 @@ namespace Vertech.Services
             DataTable dtConsu = Log.GetLogs(con);
             DataTable dtEnvia = Log.GetLogs(env);
 
-            if(dtErro.Rows.Count > 0)
+            if (dtErro.Rows.Count > 0)
             {
                 var remover = new List<string>();
 
@@ -585,7 +586,7 @@ namespace Vertech.Services
                 {
                     var dt = Convert.ToDateTime(row.ItemArray[5]);
                     var qtd = DiferencaDataDias(dt, DateTime.Now);
-                    if(qtd > 25)
+                    if (qtd > 25)
                     {
                         if (remover.Find(x => x.Contains(Convert.ToString(row.ItemArray[5]))) == null)
                             remover.Add(Convert.ToString(row.ItemArray[5]));
@@ -703,7 +704,7 @@ namespace Vertech.Services
                     break;
 
             }
-            
+
 
         }
 
@@ -738,37 +739,42 @@ namespace Vertech.Services
             if (tipo == 1)
             {
                 Log.AddLogEnvia(
-                        new LogEnvia { 
-                            Id = 0, 
-                            Msg = msg, 
+                        new LogEnvia
+                        {
+                            Id = 0,
+                            Msg = msg,
                             Acao = acao,
-                            NomeArquivo = arquivo, 
-                            Data = data, 
-                            Hora = hora });
+                            NomeArquivo = arquivo,
+                            Data = data,
+                            Hora = hora
+                        });
             }
-            else if(tipo == 2)
+            else if (tipo == 2)
             {
                 Log.AddLogConsulta(
-                        new LogConsulta{
+                        new LogConsulta
+                        {
                             Id = 0,
                             NomeArquivo = arquivo,
                             Protocolo = protocolo,
                             Msg = msg,
                             Acao = acao,
                             Data = data,
-                            Hora = hora });
+                            Hora = hora
+                        });
             }
             else
             {
-                Log.AddLogErro(new LogErros { 
-                                Id = 0, 
-                                Servico = servico, 
-                                CodErro = coderro, 
-                                Msg = msg, 
-                                Acao = acao, 
-                                Data = data, 
-                                Hora = hora 
-                                });
+                Log.AddLogErro(new LogErros
+                {
+                    Id = 0,
+                    Servico = servico,
+                    CodErro = coderro,
+                    Msg = msg,
+                    Acao = acao,
+                    Data = data,
+                    Hora = hora
+                });
             }
         }
 
