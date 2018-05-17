@@ -62,7 +62,7 @@
             <TextBlock Name ="txtFolderIni" 
                        HorizontalAlignment="Left" 
                        Height="23" 
-                       Margin="213,91,0,0" 
+                       Margin="213,76,0,0" 
                        Grid.Row="1" 
                        FontFamily="Century Gothic" 
                        TextWrapping="Wrap" 
@@ -73,7 +73,7 @@
             <Label Name="LblCaminho" 
                    Content="Origem" 
                    HorizontalAlignment="Left" 
-                   Margin="161,86,0,0" 
+                   Margin="161,71,0,0" 
                    Grid.Row="1" 
                    FontFamily="Century Gothic" 
                    VerticalAlignment="Top"/>
@@ -82,7 +82,7 @@
                     Content="..." 
                     Grid.Column="2" 
                     HorizontalAlignment="Left" 
-                    Margin="56,90,0,0" 
+                    Margin="56,75,0,0" 
                     Grid.Row="1" 
                     VerticalAlignment="Top" 
                     Width="36" 
@@ -91,7 +91,7 @@
             <TextBlock x:Name ="txtFolderFim" 
                        HorizontalAlignment="Left" 
                        Height="23" 
-                       Margin="213,150,0,0" 
+                       Margin="213,135,0,0" 
                        Grid.Row="1" 
                        TextWrapping="Wrap" 
                        VerticalAlignment="Top" 
@@ -102,16 +102,15 @@
             <Label x:Name="LblCaminhoFim" 
                    Content="Destino" 
                    HorizontalAlignment="Left" 
-                   Margin="160,146,0,0" 
+                   Margin="160,0,0,45" 
                    Grid.Row="1" 
-                   FontFamily="Century Gothic" 
-                   VerticalAlignment="Top"/>
+                   FontFamily="Century Gothic" Height="24" VerticalAlignment="Bottom"/>
 
             <Button x:Name="BtnProcurarFim" 
                     Content="..." 
                     Grid.Column="2" 
                     HorizontalAlignment="Left" 
-                    Margin="56,149,0,0" 
+                    Margin="56,134,0,0" 
                     Grid.Row="1" 
                     VerticalAlignment="Top" 
                     Width="36" 
@@ -159,7 +158,7 @@
             <TextBlock x:Name ="txtFolderToken" 
                        HorizontalAlignment="Left" 
                        Height="23" 
-                       Margin="213,30,0,0" 
+                       Margin="213,15,0,0" 
                        Grid.Row="1" 
                        TextWrapping="Wrap" 
                        VerticalAlignment="Top" 
@@ -170,7 +169,7 @@
             <Label x:Name="LblToken" 
                    Content="Token" 
                    HorizontalAlignment="Left" 
-                   Margin="169,25,0,0" 
+                   Margin="169,10,0,0" 
                    Grid.Row="1" 
                    FontFamily="Century Gothic" 
                    VerticalAlignment="Top"/>
@@ -179,7 +178,7 @@
                     Content="..." 
                     Grid.Column="2" 
                     HorizontalAlignment="Left" 
-                    Margin="56,29,0,0" 
+                    Margin="56,14,0,0" 
                     Grid.Row="1" 
                     VerticalAlignment="Top" 
                     Width="36" 
@@ -194,7 +193,7 @@
                 Width="150" 
                 FontFamily="Century Gothic" 
                 FontSize="15" 
-                Margin="58,26,58,144" Click="BtnSalvar_Click"/>
+                Margin="58,34,58,136" Click="BtnSalvar_Click"/>
 
             <Label x:Name="LblSalvar" 
                    Content="Parâmetros" 
@@ -219,6 +218,7 @@
                     FontFamily="Century Gothic" 
                     FontSize="12"
                     Click="BtnParam_Click"/>
+
             <Button x:Name="BtnLog" 
                 Content="Logs" 
                 HorizontalAlignment="Left" 
@@ -231,6 +231,34 @@
                 RenderTransformOrigin="0.505,0.36" 
                 FontFamily="Century Gothic" 
                 FontSize="12" Click="BtnLog_Click"/>
+
+
+            <Label Name="LblTpAmb" 
+                   Content="Ambiente" 
+                   HorizontalAlignment="Left" 
+                   Margin="150,182,0,0" 
+                   Grid.Row="1" 
+                   FontFamily="Century Gothic" 
+                   VerticalAlignment="Top" Grid.RowSpan="2"/>
+            <ComboBox Name="CboAmbiente"
+                      HorizontalAlignment="Left" 
+                      Margin="213,183,0,0" 
+                      Grid.Row="1" 
+                      VerticalAlignment="Top" 
+                      Width="235" 
+                      Grid.ColumnSpan="2" 
+                      Grid.RowSpan="2"/>
+
+            <TextBlock x:Name ="TxtbAmbiente" 
+                       HorizontalAlignment="Left" 
+                       Height="23" 
+                       Margin="213,187,0,0" 
+                       Grid.Row="1" 
+                       TextWrapping="Wrap" 
+                       VerticalAlignment="Top" 
+                       Width="365" 
+                       FontFamily="Century Gothic" 
+                       Grid.ColumnSpan="3" Grid.RowSpan="2"/>
 
         </Grid>
     </Viewbox>

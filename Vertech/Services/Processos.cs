@@ -10,6 +10,7 @@ using Vertech.Modelos;
 using System.Security.AccessControl;
 using System.Runtime.InteropServices;
 using System.Data;
+using System.Diagnostics;
 
 namespace Vertech.Services
 {
@@ -648,14 +649,65 @@ namespace Vertech.Services
             return Convert.ToInt32(ts.TotalDays);
         }
 
+        public bool VerificaProcessoRun()
+        {
+            var isOpen = Process.GetProcesses().Any(p =>
+            p.ProcessName == "iVesService");
+
+            if (isOpen)
+                return true;
+
+            return false;
+        }
+
+        /*public void GerenciaServico(int action)
+        {
+            switch (action)
+            {
+                case 1:
+                    try
+                    {
+                        ServicosWin.StopService("iVesService");
+                    }
+                    catch (Exception ex)
+                    {
+                        MessageBox.Show("Erro : " + ex.Message + Environment.NewLine + ex.InnerException, "Parar Serviço");
+                    }
+                    break;
+            }
+            
+
+        }
+
+        private void rodarComoAdmin()
+        {
+            WindowsPrincipal principal = new WindowsPrincipal(WindowsIdentity.GetCurrent());
+            bool administrativeMode = principal.IsInRole(WindowsBuiltInRole.Administrator);
+            if (!administrativeMode)
+            {
+                ProcessStartInfo startInfo = new ProcessStartInfo();
+                startInfo.Verb = "runas";
+                startInfo.FileName = Assembly.GetExecutingAssembly().CodeBase;
+                try
+                {
+                    Process.Start(startInfo);
+                    MessageBox.Show("Você esta executando o projeto com nível de Administrador !", "Admin", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                }
+                catch
+                {
+                    throw new Exception("Não foi possível conceder acesso como Admin" + Environment.NewLine + "As operações realizadas poderão ter Acesso Negado !");
+                }
+            }
+        }*/
+
         public void InsereLog(int tipo, string msg, string arquivo, string servico, string acao, string protocolo, string coderro)
         {
             var strArr = RetornaData();
 
             string hora = strArr[1];
-            string data = strArr[0];
+            string data = strArr[0]; //"01/02/2018";
 
-            if(tipo == 1)
+            if (tipo == 1)
             {
                 Log.AddLogEnvia(
                         new LogEnvia { 

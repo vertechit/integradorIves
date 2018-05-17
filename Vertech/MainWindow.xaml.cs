@@ -50,16 +50,19 @@ namespace Vertech
         private void Init()
         {
             Processos process = new Processos();
-            //int ia = 0;
-            /*while(ia != 1000)
-            {
-                process.InsereLog(1, "Ddfdf", "", "", "", "", "");
-                ia++;
-            }*/
-            
-            process.LimpaLog();
+
+            Thread Tproc = new Thread(process.LimpaLog);
+            Tproc.Start();
 
             DirectoryInfo dir = new DirectoryInfo(@"C:\\vch");
+
+            CboAmbiente.Items.Insert(0, "Automático");
+            CboAmbiente.Items.Insert(1, "Produção");
+            CboAmbiente.Items.Insert(2, "Produção Restrita - Dados Reais");
+            CboAmbiente.Items.Insert(3, "Produção Restrita - Dados Fictícios");
+
+            CboAmbiente.SelectedIndex = 0;
+
             int i = 0;
 
             try
@@ -124,20 +127,12 @@ namespace Vertech
 
                         if(ctrl == 2)
                         {
-                            /*BtnSalvar.Visibility = Visibility.Hidden;
-                            LblSalvar.Visibility = Visibility.Hidden;
 
-                            BtnProcurarIni.Visibility = Visibility.Hidden;
-                            BtnProcurarFim.Visibility = Visibility.Hidden;
-                            BtnProcurarToken.Visibility = Visibility.Hidden;
+                            CboAmbiente.SelectedIndex = Convert.ToInt32(param.Ambiente);
+                            TxtbAmbiente.Text = (string)CboAmbiente.SelectedItem;
 
-                            BtnConsultar.Visibility = Visibility.Visible;
-                            BtnEnviar.Visibility = Visibility.Visible;
-                            LblqtdCons.Visibility = Visibility.Visible;
-                            LblqtdEnv.Visibility = Visibility.Visible;
-                            LbltmEnv.Visibility = Visibility.Visible;
-                            LbltmCons.Visibility = Visibility.Visible;
-                            BtnParam.Visibility = Visibility.Visible;*/
+                            Parametros.SetAmbiente(param.Ambiente);
+
                             OrganizaTelaEvent(2);
                             Job();
                         }
@@ -169,20 +164,6 @@ namespace Vertech
                 Log.CriarTabelaSQlite();
 
                 OrganizaTelaEvent(1);
-                /*BtnSalvar.Visibility = Visibility.Visible;
-                LblSalvar.Visibility = Visibility.Visible;
-
-                BtnProcurarIni.Visibility = Visibility.Visible;
-                BtnProcurarFim.Visibility = Visibility.Visible;
-                BtnProcurarToken.Visibility = Visibility.Visible;
-
-                BtnConsultar.Visibility = Visibility.Hidden;
-                BtnEnviar.Visibility = Visibility.Hidden;
-                LblqtdCons.Visibility = Visibility.Hidden;
-                LblqtdEnv.Visibility = Visibility.Hidden;
-                LbltmEnv.Visibility = Visibility.Hidden;
-                LbltmCons.Visibility = Visibility.Hidden;
-                BtnParam.Visibility = Visibility.Hidden;*/
             }
             
         }
@@ -320,20 +301,37 @@ namespace Vertech
 
         private void Integra_Esocial()
         {
-            EnviaLote env = new EnviaLote();
-            Integra.Job();
-            env.Job();
+            var proc = new Processos();
+            if(proc.VerificaProcessoRun() == false)
+            {
+                EnviaLote env = new EnviaLote();
+                Integra.Job();
+                env.Job();
 
-            System.Windows.Forms.MessageBox.Show("Finalizado o processo de integração, acesse a pasta de origem para verificar o log");
+                System.Windows.Forms.MessageBox.Show("Finalizado o processo de integração");
+            }
+            else
+            {
+                System.Windows.MessageBox.Show("O serviço está em execução");
+            }
+            
         }
 
         private void Consulta_Retorno()
         {
-            ConsultaLote consult = new ConsultaLote();
-            Consulta.Job();
-            consult.Job();
+            var proc = new Processos();
+            if (proc.VerificaProcessoRun() == false)
+            {
+                ConsultaLote consult = new ConsultaLote();
+                Consulta.Job();
+                consult.Job();
 
-            System.Windows.Forms.MessageBox.Show("Finalizado o processo de consulta, acesse a pasta de origem para verificar o log");
+                System.Windows.Forms.MessageBox.Show("Finalizado o processo de consulta");
+            }
+            else
+            {
+                System.Windows.MessageBox.Show("O serviço está em execução");
+            }
         }
 
         public void Contagem(DirectoryInfo dir)
@@ -478,23 +476,11 @@ namespace Vertech
                         
                         try
                         {
-                            /*string user = System.Windows.Forms.SystemInformation.UserName;
+                            TxtbAmbiente.Text = (string)CboAmbiente.SelectedItem;
 
-                            string[] lines = { Parametros.GetDirToke(), Parametros.GetDirArq(), Parametros.GetDirFim() };
-
-                            System.IO.DirectoryInfo folderInfo = new System.IO.DirectoryInfo("C:\\");
-
-                            DirectorySecurity ds = new DirectorySecurity();
-                            ds.AddAccessRule(new FileSystemAccessRule(user, FileSystemRights.Modify, AccessControlType.Allow));
-                            ds.SetAccessRuleProtection(false, false);
-                            folderInfo.Create(ds);
-                            folderInfo.CreateSubdirectory("vch");
-
-                            var s = string.Concat(folderInfo, '\\', "vch", '\\', "Parametros.dat");
-
-                            System.IO.File.WriteAllLines(@s, lines);*/
-
-                            Helper.AddParametros(new Parametro { Id = 1, CaminhoDir = Parametros.GetDirArq(), CaminhoFim = Parametros.GetDirFim(), CaminhoToke = Parametros.GetDirToke() });
+                            Parametros.SetAmbiente(Convert.ToString((int)CboAmbiente.SelectedIndex));
+                                
+                            Helper.AddParametros(new Parametro { Id = 1, CaminhoDir = Parametros.GetDirArq(), CaminhoFim = Parametros.GetDirFim(), CaminhoToke = Parametros.GetDirToke() , Ambiente = Parametros.GetAmbiente() });
 
                             Job();
                         }
@@ -553,6 +539,9 @@ namespace Vertech
                 LbltmCons.Visibility = Visibility.Hidden;
                 BtnParam.Visibility = Visibility.Hidden;
                 BtnLog.Visibility = Visibility.Hidden;
+
+                CboAmbiente.Visibility = Visibility.Visible;
+                TxtbAmbiente.Visibility = Visibility.Hidden;
             }
             else if(tipo == 2)
             {
@@ -571,6 +560,8 @@ namespace Vertech
                 BtnProcurarFim.Visibility = Visibility.Hidden;
                 BtnProcurarToken.Visibility = Visibility.Hidden;
 
+                CboAmbiente.Visibility = Visibility.Hidden;
+                TxtbAmbiente.Visibility = Visibility.Visible;
             }
         }
 

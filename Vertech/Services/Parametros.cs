@@ -14,6 +14,18 @@ namespace Vertech.Services
         private static long Grupo = 0;
         private static string Token = null;
         private static string TipoApp = null;
+        private static string Ambiente = null;
+
+
+        public static string GetAmbiente()
+        {
+            return Ambiente;
+        }
+
+        public static void SetAmbiente(string ambiente)
+        {
+            Ambiente = ambiente;
+        }
 
         public static string GetTipoApp()
         {

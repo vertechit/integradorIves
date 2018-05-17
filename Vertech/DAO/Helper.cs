@@ -68,6 +68,7 @@ namespace Vertech.DAO
                                                                             "CaminhoDir varchar2(500) not null," +
                                                                             "CaminhoFim varchar2(500) not null," +
                                                                             "CaminhoToke varchar2(500) not null," +
+                                                                            "Ambiente varchar2(10) not null," +
                                                                             "constraint pk_parametros " +
                                                                             "primary key(id)" +
                                                                             ") ";
@@ -212,6 +213,7 @@ namespace Vertech.DAO
                            param.CaminhoDir = (Convert.ToString(item.ItemArray[1]));
                            param.CaminhoFim = (Convert.ToString(item.ItemArray[2]));
                            param.CaminhoToke = (Convert.ToString(item.ItemArray[3]));
+                           param.Ambiente = (Convert.ToString(item.ItemArray[4]));
                         }
                     }
                     else
@@ -260,11 +262,12 @@ namespace Vertech.DAO
                 {
                     using (var cmd = DbConnection().CreateCommand())
                     {
-                        cmd.CommandText = "INSERT INTO parametros(id, CaminhoDir, CaminhoFim, CaminhoToke) values (@id, @caminho_dir, @caminho_fim, @caminho_tok)";
+                        cmd.CommandText = "INSERT INTO parametros(id, CaminhoDir, CaminhoFim, CaminhoToke, Ambiente) values (@id, @caminho_dir, @caminho_fim, @caminho_tok, @ambiente)";
                         cmd.Parameters.AddWithValue("@id", param.Id);
                         cmd.Parameters.AddWithValue("@caminho_dir", param.CaminhoDir);
                         cmd.Parameters.AddWithValue("@caminho_fim", param.CaminhoFim);
                         cmd.Parameters.AddWithValue("@caminho_tok", param.CaminhoToke);
+                        cmd.Parameters.AddWithValue("@ambiente", param.Ambiente);
                         cmd.ExecuteNonQuery();
                     }
                 }
@@ -287,11 +290,12 @@ namespace Vertech.DAO
                 {
                     if (param.Id == 1)
                     {
-                        cmd.CommandText = "UPDATE parametros SET CaminhoDir=@caminho_dir, CaminhoFim=@caminho_fim, CaminhoToke=@caminho_tok WHERE Id=@Id";
+                        cmd.CommandText = "UPDATE parametros SET CaminhoDir=@caminho_dir, CaminhoFim=@caminho_fim, CaminhoToke=@caminho_tok, Ambiente=@ambiente WHERE Id=@Id";
                         cmd.Parameters.AddWithValue("@Id", param.Id);
                         cmd.Parameters.AddWithValue("@caminho_dir", param.CaminhoDir);
                         cmd.Parameters.AddWithValue("@caminho_fim", param.CaminhoFim);
                         cmd.Parameters.AddWithValue("@caminho_tok", param.CaminhoToke);
+                        cmd.Parameters.AddWithValue("@ambiente", param.Ambiente);
                         cmd.ExecuteNonQuery();
                     }
                 };

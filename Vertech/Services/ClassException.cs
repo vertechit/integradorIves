@@ -82,7 +82,7 @@ namespace Vertech.Services
                     {
                         try
                         {
-                            proc.InsereLog(3, "A pasta selecionada não contem os arquivos necessários para o envio", " ", "Integra", " ", " ", "21");
+                            //proc.InsereLog(3, "A pasta selecionada não contem os arquivos necessários para o envio", " ", "Integra", " ", " ", "21");
                         }
                         catch(Exception ex)
                         {
@@ -108,7 +108,7 @@ namespace Vertech.Services
                     {
                         try
                         {
-                            proc.InsereLog(3, "A pasta selecionada não contem os arquivos necessários para a consulta", " ", "Consulta", " ", " ", "21");
+                            //proc.InsereLog(3, "A pasta selecionada não contem os arquivos necessários para a consulta", " ", "Consulta", " ", " ", "21");
 
                         }
                         catch (Exception ex)
