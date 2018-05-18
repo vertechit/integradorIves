@@ -12,7 +12,7 @@ using System.Net.Sockets;
 using System.Windows;
 using Vertech.DAO;
 using Vertech.Modelos;
-
+using System.ServiceModel;
 
 namespace Vertech.Services
 {
@@ -40,7 +40,7 @@ namespace Vertech.Services
                     if(valida == true)
                     {
                         var p = Helper.GetProtocolo(arq_name);
-                        ConsultaProtocolo(Set_Protocolo(p), p.NomeArquivo);
+                        ConsultaProtocolo(Set_Protocolo(p), p.NomeArquivo, p.Base);
                         i++;
                     }
                 }
@@ -61,27 +61,22 @@ namespace Vertech.Services
             
         }
 
-        public void ConsultaProtocolo(apiIntegra.integraResponse Prot, string filename)
+        public void ConsultaProtocolo(apiIntegra.integraResponse Prot, string filename, string Base)
         {
-            consultaRequest Request = new consultaRequest();
+            var Request = RetornaRequest(Prot);
             consultaResponse Response = new consultaResponse();
             Processos processo = new Processos();
 
-            var s = processo.MontaCaminhoDir(Parametros.GetDirArq(), "\\logs\\logConsulta.log");
-
-            Request.protocolo = Prot.protocolo;
-            Request.protocoloSpecified = Prot.protocoloSpecified;
-            Request.token = Parametros.GetToken();
-            Request.grupo = Parametros.GetGrupo();
-            Request.grupoSpecified = true;
+            //var s = processo.MontaCaminhoDir(Parametros.GetDirArq(), "\\logs\\logConsulta.log");
 
             try
             {
-                EsocialServiceClient req = new EsocialServiceClient();
+                var wsClient = DefineBaseClient(Base);
                 //req.Endpoint.Behaviors.Add(new CustomEndpointCallBehavior(Convert.ToString(Parametros.GetGrupo()), Parametros.GetToken()));
-                req.Open();
-                Response = req.consultaRequest(Request);
-                req.Close();
+
+                wsClient.Open();
+                Response = wsClient.consultaRequest(Request);
+                wsClient.Close();
 
                 processo.GeraLogConsulta(filename
                     , Response.consultaProtocolo.identificador.protocolo.ToString()
@@ -105,6 +100,31 @@ namespace Vertech.Services
 
         }
 
+        private EsocialServiceClient DefineBaseClient(string Base)
+        {
+            if (Base == "Vertech Teste")
+            {
+                var urlServicoEnvio = @"https://apiesocial2.vertech-it.com.br/vch-esocial/consultaintegra?wsdl";
+
+                var address = new EndpointAddress(urlServicoEnvio);
+
+                var binding = new BasicHttpsBinding();
+
+                binding.Security.Transport.ClientCredentialType = HttpClientCredentialType.Basic;
+                
+                var wsClient = new EsocialServiceClient(binding, address);
+
+                wsClient.ClientCredentials.UserName.UserName = Convert.ToString(Parametros.GetGrupo());
+                wsClient.ClientCredentials.UserName.Password = Parametros.GetToken();
+
+                wsClient.Endpoint.Behaviors.Add(new CustomEndpointCallBehavior(Convert.ToString(Parametros.GetGrupo()), Parametros.GetToken()));
+
+                return wsClient;
+            }
+
+            return new EsocialServiceClient();
+        }
+
         private apiIntegra.integraResponse Set_Protocolo(Protocolo p)
         {
             Processos processo = new Processos();
@@ -116,6 +136,18 @@ namespace Vertech.Services
             response.protocoloSpecified = true; 
 
             return response;
+        }
+
+        private consultaRequest RetornaRequest(apiIntegra.integraResponse prot)
+        {
+            consultaRequest Request = new consultaRequest();
+            Request.protocolo = prot.protocolo;
+            Request.protocoloSpecified = prot.protocoloSpecified;
+            Request.token = Parametros.GetToken();
+            Request.grupo = Parametros.GetGrupo();
+            Request.grupoSpecified = true;
+
+            return Request;
         }
     }
 }

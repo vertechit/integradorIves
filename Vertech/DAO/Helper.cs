@@ -56,7 +56,8 @@ namespace Vertech.DAO
                     cmd.CommandText = "CREATE TABLE IF NOT EXISTS protocolo(" +
                                                                             "id integer primary key autoincrement," +
                                                                             "nome_arq varchar2(500) not null," +
-                                                                            "nro_prot varchar2(1000) not null" +
+                                                                            "nro_prot varchar2(1000) not null," +
+                                                                            "base varchar2(50) not null" +
                                                                             ")";
                     cmd.ExecuteNonQuery();
                 }
@@ -69,6 +70,7 @@ namespace Vertech.DAO
                                                                             "CaminhoFim varchar2(500) not null," +
                                                                             "CaminhoToke varchar2(500) not null," +
                                                                             "Ambiente varchar2(10) not null," +
+                                                                            "Base varchar2(50) not null," +
                                                                             "constraint pk_parametros " +
                                                                             "primary key(id)" +
                                                                             ") ";
@@ -128,7 +130,7 @@ namespace Vertech.DAO
                     {
                         foreach (DataRow item in dt.Rows)
                         {
-                            return new Protocolo { Id = Convert.ToInt64(item.ItemArray[0]), NomeArquivo = Convert.ToString(item.ItemArray[1]), NroProtocolo = Convert.ToString(item.ItemArray[2]) };
+                            return new Protocolo { Id = Convert.ToInt64(item.ItemArray[0]), NomeArquivo = Convert.ToString(item.ItemArray[1]), NroProtocolo = Convert.ToString(item.ItemArray[2]), Base = Convert.ToString(item.ItemArray[3]) };
                         }
                     }
 
@@ -214,6 +216,7 @@ namespace Vertech.DAO
                            param.CaminhoFim = (Convert.ToString(item.ItemArray[2]));
                            param.CaminhoToke = (Convert.ToString(item.ItemArray[3]));
                            param.Ambiente = (Convert.ToString(item.ItemArray[4]));
+                           param.Base = (Convert.ToString(item.ItemArray[5]));
                         }
                     }
                     else
@@ -239,9 +242,10 @@ namespace Vertech.DAO
             {
                 using (var cmd = DbConnection().CreateCommand())
                 {
-                    cmd.CommandText = "INSERT INTO protocolo(nome_arq, nro_prot ) values (@arq, @prot)";
+                    cmd.CommandText = "INSERT INTO protocolo(nome_arq, nro_prot, base ) values (@arq, @prot, @base)";
                     cmd.Parameters.AddWithValue("@arq", protocolo.NomeArquivo);
                     cmd.Parameters.AddWithValue("@prot", protocolo.NroProtocolo);
+                    cmd.Parameters.AddWithValue("@base", protocolo.Base);
                     cmd.ExecuteNonQuery();
                 }
             }
@@ -262,12 +266,13 @@ namespace Vertech.DAO
                 {
                     using (var cmd = DbConnection().CreateCommand())
                     {
-                        cmd.CommandText = "INSERT INTO parametros(id, CaminhoDir, CaminhoFim, CaminhoToke, Ambiente) values (@id, @caminho_dir, @caminho_fim, @caminho_tok, @ambiente)";
+                        cmd.CommandText = "INSERT INTO parametros(id, CaminhoDir, CaminhoFim, CaminhoToke, Ambiente, Base) values (@id, @caminho_dir, @caminho_fim, @caminho_tok, @ambiente, @base)";
                         cmd.Parameters.AddWithValue("@id", param.Id);
                         cmd.Parameters.AddWithValue("@caminho_dir", param.CaminhoDir);
                         cmd.Parameters.AddWithValue("@caminho_fim", param.CaminhoFim);
                         cmd.Parameters.AddWithValue("@caminho_tok", param.CaminhoToke);
                         cmd.Parameters.AddWithValue("@ambiente", param.Ambiente);
+                        cmd.Parameters.AddWithValue("@base", param.Base);
                         cmd.ExecuteNonQuery();
                     }
                 }
@@ -290,12 +295,13 @@ namespace Vertech.DAO
                 {
                     if (param.Id == 1)
                     {
-                        cmd.CommandText = "UPDATE parametros SET CaminhoDir=@caminho_dir, CaminhoFim=@caminho_fim, CaminhoToke=@caminho_tok, Ambiente=@ambiente WHERE Id=@Id";
+                        cmd.CommandText = "UPDATE parametros SET CaminhoDir=@caminho_dir, CaminhoFim=@caminho_fim, CaminhoToke=@caminho_tok, Ambiente=@ambiente, Base=@base WHERE Id=@Id";
                         cmd.Parameters.AddWithValue("@Id", param.Id);
                         cmd.Parameters.AddWithValue("@caminho_dir", param.CaminhoDir);
                         cmd.Parameters.AddWithValue("@caminho_fim", param.CaminhoFim);
                         cmd.Parameters.AddWithValue("@caminho_tok", param.CaminhoToke);
                         cmd.Parameters.AddWithValue("@ambiente", param.Ambiente);
+                        cmd.Parameters.AddWithValue("@base", param.Base);
                         cmd.ExecuteNonQuery();
                     }
                 };

@@ -45,7 +45,7 @@ namespace Vertech.Services
                     if (valida == true)
                     {
                         var protocolo = Helper.GetProtocolo(arq_name);
-                        var retorno = ConsultaProtocolo(protocolo.NroProtocolo);
+                        var retorno = ConsultaProtocolo(protocolo.NroProtocolo, protocolo.Base);
 
                         try
                         {
@@ -81,20 +81,22 @@ namespace Vertech.Services
             }
         }
 
-        public string ConsultaProtocolo(string prot)
+        public string ConsultaProtocolo(string prot, string Base)
         {
-            var wsClient = new ServicoConsultarLoteEventosClient();
+            var wsClient = DefineBaseClient(Base);
             var request = new ConsultarLoteEventosRequestBody();
+
             string strResponse="";
-            request.consulta = System.Xml.Linq.XElement.Parse(MontaRequest(prot));//System.Xml.Linq.XElement.Load(string.Concat(Parametros.GetDirArq(),"\\retorno.xml"));//
+            //System.Xml.Linq.XElement.Load(string.Concat(Parametros.GetDirArq(),"\\retorno.xml"));//
 
             try
             {
-                wsClient.Endpoint.Behaviors.Add(new CustomEndpointCallBehavior(Convert.ToString(Parametros.GetGrupo()), Parametros.GetToken()));
-
+                request.consulta = System.Xml.Linq.XElement.Parse(MontaRequest(prot));
+                
                 wsClient.Open();
                 var response = wsClient.ConsultarLoteEventos(request.consulta);
                 wsClient.Close();
+
                 strResponse = Convert.ToString(response);
             }
             catch(Exception e)
@@ -105,7 +107,36 @@ namespace Vertech.Services
 
             return strResponse;
         }
-        
+
+        private ServicoConsultarLoteEventosClient DefineBaseClient(string Base)
+        {
+            if (Base == "Vertech Teste")
+            {
+                var urlServicoEnvio = @"https://apiesocial2.vertech-it.com.br/vch-esocial/consultalote?wsdl";
+
+                var address = new EndpointAddress(urlServicoEnvio);
+
+                var binding = new BasicHttpsBinding();
+
+                binding.Security.Transport.ClientCredentialType = HttpClientCredentialType.Basic;
+
+                var wsClient = new ServicoConsultarLoteEventosClient(binding, address);
+
+                wsClient.ClientCredentials.UserName.UserName = Convert.ToString(Parametros.GetGrupo());
+                wsClient.ClientCredentials.UserName.Password = Parametros.GetToken();
+
+                wsClient.Endpoint.Behaviors.Add(new CustomEndpointCallBehavior(Convert.ToString(Parametros.GetGrupo()), Parametros.GetToken()));
+
+                return wsClient;
+            }
+
+            var wsClientP = new ServicoConsultarLoteEventosClient();
+
+            wsClientP.Endpoint.Behaviors.Add(new CustomEndpointCallBehavior(Convert.ToString(Parametros.GetGrupo()), Parametros.GetToken()));
+
+            return wsClientP;
+        }
+
         public string MontaRequest(string prot)
         {
             prot = string.Concat("<protocoloEnvio>", prot, "</protocoloEnvio>");

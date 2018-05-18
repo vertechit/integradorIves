@@ -71,7 +71,7 @@ namespace Vertech.Services
         public string Enviar(string xmlString)
         {
 
-            var wsClient = new ServicoEnviarLoteEventosClient();
+            var wsClient = DefineBaseClient();
 
             var request = new EnviarLoteEventosRequestBody();
 
@@ -79,8 +79,6 @@ namespace Vertech.Services
 
             try
             {
-                wsClient.Endpoint.Behaviors.Add(new CustomEndpointCallBehavior(Convert.ToString(Parametros.GetGrupo()), Parametros.GetToken()));
-
                 request.loteEventos = System.Xml.Linq.XElement.Parse(xmlString);
 
                 wsClient.Open();
@@ -101,5 +99,36 @@ namespace Vertech.Services
             return responseString;
 
         }
+
+        private ServicoEnviarLoteEventosClient DefineBaseClient()
+        {
+            if (Parametros.GetBase() == "Vertech Teste")
+            {
+                var urlServicoEnvio = @"https://apiesocial2.vertech-it.com.br/vch-esocial/envialote?wsdl";
+
+                var address = new EndpointAddress(urlServicoEnvio);
+
+                var binding = new BasicHttpsBinding();
+
+                binding.Security.Transport.ClientCredentialType = HttpClientCredentialType.Basic;
+
+                var wsClient = new ServicoEnviarLoteEventosClient(binding, address);
+
+                wsClient.ClientCredentials.UserName.UserName = Convert.ToString(Parametros.GetGrupo());
+                wsClient.ClientCredentials.UserName.Password = Parametros.GetToken();
+
+                wsClient.Endpoint.Behaviors.Add(new CustomEndpointCallBehavior(Convert.ToString(Parametros.GetGrupo()), Parametros.GetToken()));
+
+
+                return wsClient;
+            }
+
+            var wsClientP = new ServicoEnviarLoteEventosClient();
+
+            wsClientP.Endpoint.Behaviors.Add(new CustomEndpointCallBehavior(Convert.ToString(Parametros.GetGrupo()), Parametros.GetToken()));
+
+            return wsClientP;
+        }
+
     }
 }

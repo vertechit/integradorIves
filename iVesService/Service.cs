@@ -43,13 +43,15 @@ namespace iVesService
 
             try
             {
-                var s = Helper.GetParametros();
+                var ret = Helper.GetParametros();
 
-                if(Directory.Exists(s.CaminhoDir) && Directory.Exists(s.CaminhoFim) && File.Exists(s.CaminhoToke))
+                if(Directory.Exists(ret.CaminhoDir) && Directory.Exists(ret.CaminhoFim) && File.Exists(ret.CaminhoToke))
                 {
-                    Parametros.SetDirToke(s.CaminhoToke);
-                    Parametros.SetDirArq(s.CaminhoDir);
-                    Parametros.SetDirFim(s.CaminhoFim);
+                    Parametros.SetDirToke(ret.CaminhoToke);
+                    Parametros.SetDirArq(ret.CaminhoDir);
+                    Parametros.SetDirFim(ret.CaminhoFim);
+                    Parametros.SetAmbiente(ret.Ambiente);
+                    Parametros.SetBase(ret.Base);
 
                     if (DefineToken(Parametros.GetDirToke()) == false)
                     {

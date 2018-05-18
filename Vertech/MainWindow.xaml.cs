@@ -51,9 +51,6 @@ namespace Vertech
         {
             Processos process = new Processos();
 
-            Thread Tproc = new Thread(process.LimpaLog);
-            Tproc.Start();
-
             DirectoryInfo dir = new DirectoryInfo(@"C:\\vch");
 
             CboAmbiente.Items.Insert(0, "Produção");
@@ -129,10 +126,25 @@ namespace Vertech
                             CboAmbiente.SelectedIndex = Convert.ToInt32(param.Ambiente)-1;
                             TxtbAmbiente.Text = (string)CboAmbiente.SelectedItem;
 
+                            if(param.Base == "Vertech Produção")
+                            {
+                                CboBase.SelectedIndex = 0;
+                                TxbBase.Text = param.Base;
+                            }
+                            else
+                            {
+                                CboBase.SelectedIndex = 1;
+                                TxbBase.Text = param.Base;
+                            }
+
                             Parametros.SetAmbiente(param.Ambiente);
+                            Parametros.SetBase(param.Base);
 
                             OrganizaTelaEvent(2);
                             Job();
+
+                            Thread Tproc = new Thread(process.LimpaLog);
+                            Tproc.Start();
                         }
                         
                     }
@@ -302,9 +314,9 @@ namespace Vertech
             var proc = new Processos();
             if(proc.VerificaProcessoRun() == false)
             {
-                EnviaLote env = new EnviaLote();
+                EnviaLote envLote = new EnviaLote();
                 Integra.Job();
-                env.Job();
+                envLote.Job();
 
                 System.Windows.Forms.MessageBox.Show("Finalizado o processo de integração");
             }
@@ -320,9 +332,9 @@ namespace Vertech
             var proc = new Processos();
             if (proc.VerificaProcessoRun() == false)
             {
-                ConsultaLote consult = new ConsultaLote();
+                ConsultaLote consultLote = new ConsultaLote();
                 Consulta.Job();
-                consult.Job();
+                consultLote.Job();
 
                 System.Windows.Forms.MessageBox.Show("Finalizado o processo de consulta");
             }
@@ -469,22 +481,33 @@ namespace Vertech
                 {
                     if ((Parametros.GetDirArq()) != (Parametros.GetDirFim()))
                     {
-                        Processos process = new Processos();
-                        OrganizaTelaEvent(2);
-                        
-                        try
+                        if(CboAmbiente.SelectedIndex != -1)
                         {
-                            TxtbAmbiente.Text = (string)CboAmbiente.SelectedItem;
+                            Processos process = new Processos();
+                            OrganizaTelaEvent(2);
 
-                            Parametros.SetAmbiente(Convert.ToString((int)CboAmbiente.SelectedIndex+1));
-                                
-                            Helper.AddParametros(new Parametro { Id = 1, CaminhoDir = Parametros.GetDirArq(), CaminhoFim = Parametros.GetDirFim(), CaminhoToke = Parametros.GetDirToke() , Ambiente = Parametros.GetAmbiente() });
+                            try
+                            {
+                                TxbBase.Text = (string)CboBase.SelectedItem;
+                                TxtbAmbiente.Text = (string)CboAmbiente.SelectedItem;
 
-                            Job();
+                                Parametros.SetAmbiente(Convert.ToString((int)CboAmbiente.SelectedIndex + 1));
+
+                                Parametros.SetBase((string)CboBase.SelectedItem);
+
+                                Helper.AddParametros(new Parametro { Id = 1, CaminhoDir = Parametros.GetDirArq(), CaminhoFim = Parametros.GetDirFim(), CaminhoToke = Parametros.GetDirToke(), Ambiente = Parametros.GetAmbiente(), Base = Parametros.GetBase()});
+
+                                Job();
+                            }
+                            catch (Exception ex)
+                            {
+                                System.Windows.MessageBox.Show(ex.Message);
+                            }
+
                         }
-                        catch(Exception ex)
+                        else
                         {
-                            System.Windows.MessageBox.Show(ex.Message);
+                            System.Windows.Forms.MessageBox.Show("Selecione o tipo de ambiente");
                         }
                         
                     }
@@ -540,6 +563,8 @@ namespace Vertech
 
                 CboAmbiente.Visibility = Visibility.Visible;
                 TxtbAmbiente.Visibility = Visibility.Hidden;
+                CboBase.Visibility = Visibility.Visible;
+                TxbBase.Visibility = Visibility.Hidden;
             }
             else if(tipo == 2)
             {
@@ -560,6 +585,8 @@ namespace Vertech
 
                 CboAmbiente.Visibility = Visibility.Hidden;
                 TxtbAmbiente.Visibility = Visibility.Visible;
+                CboBase.Visibility = Visibility.Hidden;
+                TxbBase.Visibility = Visibility.Visible;
             }
         }
 
@@ -568,6 +595,25 @@ namespace Vertech
             var Tela = new Telas.SistemaLog(this);
             Tela.Show();
             this.Hide();
+        }
+
+        private void CboAmbiente_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            var list1 = new List<string>();
+
+            if(CboAmbiente.SelectedIndex == 0)
+            {
+                list1.Add("Vertech Produção");
+                CboBase.ItemsSource = list1;
+                CboBase.SelectedIndex = 0;
+            }
+            else
+            {
+                list1.Add("Vertech Produção");
+                list1.Add("Vertech Teste");
+                CboBase.ItemsSource = list1;
+                CboBase.SelectedIndex = 1;
+            }
         }
     }
 }

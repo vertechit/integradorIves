@@ -11,5 +11,6 @@ namespace Vertech.Modelos
         public long? Id { get; set; }
         public string NomeArquivo { get; set; }
         public string NroProtocolo { get; set; }
+        public string Base { get; set; }
     }
 }

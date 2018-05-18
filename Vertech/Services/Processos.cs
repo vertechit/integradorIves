@@ -50,10 +50,24 @@ namespace Vertech.Services
         {
             string[] xmlLinhas = LerArquivo(Parametros.GetDirArq(), arqname);
             var xmlString = "";
-
+            var tag = "<ideEvento>";
+            var tagIni = "<tpAmb>";
+            var tagFim = "</tpAmb>";
             foreach (var item in xmlLinhas)
             {
                 xmlString = String.Concat(xmlString, item);
+            }
+            if (xmlString.Contains("<ideEvento><tpAmb>1</tpAmb>"))
+            {
+                xmlString = xmlString.Replace("<ideEvento><tpAmb>1</tpAmb>", string.Concat(tag, tagIni, Parametros.GetAmbiente(), tagFim));
+            }
+            else if(xmlString.Contains("<ideEvento><tpAmb>2</tpAmb>"))
+            {
+                xmlString = xmlString.Replace("<ideEvento><tpAmb>2</tpAmb>", string.Concat(tag, tagIni, Parametros.GetAmbiente(), tagFim));
+            }
+            else if (xmlString.Contains("<ideEvento><tpAmb>3</tpAmb>"))
+            {
+                xmlString = xmlString.Replace("<ideEvento><tpAmb>3</tpAmb>", string.Concat(tag, tagIni, Parametros.GetAmbiente(), tagFim));
             }
 
             string xsdInicio = "<eSocial><envioLoteEventos grupo=\"1\"><eventos><evento id=\"123\">";
@@ -157,7 +171,7 @@ namespace Vertech.Services
         {
             try
             {
-                Helper.AddProtocolo(new Protocolo { Id = 0, NomeArquivo = arq, NroProtocolo = Convert.ToString(Response.protocolo) });
+                Helper.AddProtocolo(new Protocolo { Id = 0, NomeArquivo = arq, NroProtocolo = Convert.ToString(Response.protocolo), Base = Parametros.GetBase() });
             }
             catch (Exception e)
             {
@@ -178,7 +192,7 @@ namespace Vertech.Services
 
             try
             {
-                Helper.AddProtocolo(new Protocolo { Id = 0, NomeArquivo = arq, NroProtocolo = protocolo });
+                Helper.AddProtocolo(new Protocolo { Id = 0, NomeArquivo = arq, NroProtocolo = protocolo, Base = Parametros.GetBase() });
             }
             catch (Exception e)
             {
@@ -578,70 +592,77 @@ namespace Vertech.Services
             DataTable dtConsu = Log.GetLogs(con);
             DataTable dtEnvia = Log.GetLogs(env);
 
-            if (dtErro.Rows.Count > 0)
+            try
             {
-                var remover = new List<string>();
-
-                foreach (DataRow row in dtErro.Rows)
+                if (dtErro.Rows.Count > 0)
                 {
-                    var dt = Convert.ToDateTime(row.ItemArray[5]);
-                    var qtd = DiferencaDataDias(dt, DateTime.Now);
-                    if (qtd > 25)
+                    var remover = new List<string>();
+
+                    foreach (DataRow row in dtErro.Rows)
                     {
-                        if (remover.Find(x => x.Contains(Convert.ToString(row.ItemArray[5]))) == null)
-                            remover.Add(Convert.ToString(row.ItemArray[5]));
-                        //Log.DeleteByID(err, Convert.ToInt32(row.ItemArray[0]));
+                        var dt = Convert.ToDateTime(row.ItemArray[5]);
+                        var qtd = DiferencaDataDias(dt, DateTime.Now);
+                        if (qtd > 25)
+                        {
+                            if (remover.Find(x => x.Contains(Convert.ToString(row.ItemArray[5]))) == null)
+                                remover.Add(Convert.ToString(row.ItemArray[5]));
+                            //Log.DeleteByID(err, Convert.ToInt32(row.ItemArray[0]));
+                        }
+                    }
+
+                    foreach (var item in remover)
+                    {
+                        Log.DeleteByData(err, item);
                     }
                 }
 
-                foreach (var item in remover)
+                if (dtConsu.Rows.Count > 0)
                 {
-                    Log.DeleteByData(err, item);
+                    var remover = new List<string>();
+
+                    foreach (DataRow row in dtConsu.Rows)
+                    {
+                        var dt = Convert.ToDateTime(row.ItemArray[5]);
+                        var qtd = DiferencaDataDias(dt, DateTime.Now);
+                        if (qtd > 25)
+                        {
+                            if (remover.Find(x => x.Contains(Convert.ToString(row.ItemArray[5]))) == null)
+                                remover.Add(Convert.ToString(row.ItemArray[5]));
+                            //Log.DeleteByID(con, Convert.ToInt32(row.ItemArray[0]));
+                        }
+                    }
+
+                    foreach (var item in remover)
+                    {
+                        Log.DeleteByData(con, item);
+                    }
+                }
+
+                if (dtEnvia.Rows.Count > 0)
+                {
+                    var remover = new List<string>();
+
+                    foreach (DataRow row in dtEnvia.Rows)
+                    {
+                        var dt = Convert.ToDateTime(row.ItemArray[4]);//4
+                        var qtd = DiferencaDataDias(dt, DateTime.Now);
+                        if (qtd > 25)
+                        {
+                            if (remover.Find(x => x.Contains(Convert.ToString(row.ItemArray[4]))) == null)
+                                remover.Add(Convert.ToString(row.ItemArray[4]));
+                            //Log.DeleteByID(env, Convert.ToInt32(row.ItemArray[0]));
+                        }
+                    }
+
+                    foreach (var item in remover)
+                    {
+                        Log.DeleteByData(env, item);
+                    }
                 }
             }
-
-            if (dtConsu.Rows.Count > 0)
+            catch (Exception ex)
             {
-                var remover = new List<string>();
-
-                foreach (DataRow row in dtConsu.Rows)
-                {
-                    var dt = Convert.ToDateTime(row.ItemArray[5]);
-                    var qtd = DiferencaDataDias(dt, DateTime.Now);
-                    if (qtd > 25)
-                    {
-                        if (remover.Find(x => x.Contains(Convert.ToString(row.ItemArray[5]))) == null)
-                            remover.Add(Convert.ToString(row.ItemArray[5]));
-                        //Log.DeleteByID(con, Convert.ToInt32(row.ItemArray[0]));
-                    }
-                }
-
-                foreach (var item in remover)
-                {
-                    Log.DeleteByData(con, item);
-                }
-            }
-
-            if (dtEnvia.Rows.Count > 0)
-            {
-                var remover = new List<string>();
-
-                foreach (DataRow row in dtEnvia.Rows)
-                {
-                    var dt = Convert.ToDateTime(row.ItemArray[4]);//4
-                    var qtd = DiferencaDataDias(dt, DateTime.Now);
-                    if (qtd > 25)
-                    {
-                        if (remover.Find(x => x.Contains(Convert.ToString(row.ItemArray[4]))) == null)
-                            remover.Add(Convert.ToString(row.ItemArray[4]));
-                        //Log.DeleteByID(env, Convert.ToInt32(row.ItemArray[0]));
-                    }
-                }
-
-                foreach (var item in remover)
-                {
-                    Log.DeleteByData(env, item);
-                }
+                //noOp
             }
 
         }
@@ -702,7 +723,6 @@ namespace Vertech.Services
                     }
 
                     break;
-
             }
 
 
