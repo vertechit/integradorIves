@@ -28,7 +28,7 @@ namespace Vertech.Services
 
             Processos processo = new Processos();
 
-            var s = processo.MontaCaminhoDir(Parametros.GetDirArq(),"\\logs\\logEnvio.log");
+            //var s = processo.MontaCaminhoDir(Parametros.GetDirArq(),"\\logs\\logEnvio.log");
 
             var lista = processo.ListarArquivos(".txt");
 

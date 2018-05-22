@@ -31,7 +31,7 @@ namespace Vertech.Services
 
             ClassException ex = new ClassException();
             Processos processo = new Processos();
-            var s = processo.MontaCaminhoDir(Parametros.GetDirArq(), "\\logs\\logConsulta.log");
+            //var s = processo.MontaCaminhoDir(Parametros.GetDirArq(), "\\logs\\logConsulta.log");
             int i = 0;
 
             List<string> lista = processo.ListarArquivos(".xml");

@@ -41,6 +41,8 @@ namespace Vertech
         public MainWindow()
         {
             InitializeComponent();
+            SplashScreen spScreen = new SplashScreen("logo1.ico");
+            spScreen.Show(true);
             Init();
             Parametros.SetTipoApp("Client");
         }
@@ -324,11 +326,11 @@ namespace Vertech
             {
                 System.Windows.MessageBox.Show("O serviço está em execução");
             }
-            
         }
 
         private void Consulta_Retorno()
         {
+            
             var proc = new Processos();
             if (proc.VerificaProcessoRun() == false)
             {
@@ -342,6 +344,7 @@ namespace Vertech
             {
                 System.Windows.MessageBox.Show("O serviço está em execução");
             }
+
         }
 
         public void Contagem(DirectoryInfo dir)
@@ -538,7 +541,15 @@ namespace Vertech
 
         private void BtnParam_Click(object sender, RoutedEventArgs e)
         {
-            OrganizaTelaEvent(1);
+            var proc = new Processos();
+            if (proc.VerificaProcessoRun() == false)
+            {
+                OrganizaTelaEvent(1);
+            }
+            else
+            {
+                System.Windows.MessageBox.Show("O serviço está em execução");
+            }
         }
 
         private void OrganizaTelaEvent(int tipo)
@@ -592,9 +603,18 @@ namespace Vertech
 
         private void BtnLog_Click(object sender, RoutedEventArgs e)
         {
-            var Tela = new Telas.SistemaLog(this);
-            Tela.Show();
-            this.Hide();
+            var proc = new Processos();
+            if (proc.VerificaProcessoRun() == false)
+            {
+                var Tela = new Telas.SistemaLog(this);
+                Tela.Show();
+                this.Hide();
+            }
+            else
+            {
+                System.Windows.MessageBox.Show("O serviço está em execução");
+            }
+           
         }
 
         private void CboAmbiente_SelectionChanged(object sender, SelectionChangedEventArgs e)

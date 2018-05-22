@@ -428,7 +428,12 @@ namespace Vertech.Services
                             nome = string.Concat("log_", item.id, ".log");
                         }
 
-                        string s = MontaCaminhoDir(string.Concat(Parametros.GetDirArq(), "\\logs"), nome);
+                        DirectoryInfo di = new DirectoryInfo(string.Concat(Parametros.GetDirArq(), "\\logs\\retornoTXT"));
+
+                        if (di.Exists == false)
+                            di.Create();
+
+                        string s = MontaCaminhoDir(string.Concat(Parametros.GetDirArq(), "\\logs\\retornoTXT"), nome);
 
                         StreamWriter w = File.AppendText(@s);
 

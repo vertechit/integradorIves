@@ -84,6 +84,17 @@ namespace iVesService
 
             if (di.Exists == false)
                 di.Create();
+            else
+            {
+                foreach (var item in di.GetFiles())
+                {
+                    if(item.Name == "logServico.log")
+                    {
+                        item.Delete();
+                    }
+                }
+            }
+                
             try
             {
                 StreamWriter vWriter = new StreamWriter(@"c:\vch\log\logServico.log", true);
@@ -164,13 +175,13 @@ namespace iVesService
                 }
                 else
                 {
-                   Log("Arquivo não suportado.", 2);
+                   //Log("Arquivo não suportado.", 2);
                     return false;
                 }
             }
             catch
             {
-                Log("Arquivo de token não pode ser importado.", 2);
+                //Log("Arquivo de token não pode ser importado.", 2);
                 return false;
             }
 
@@ -189,7 +200,7 @@ namespace iVesService
                     vWriter.Close();
                 }catch(Exception ex)
                 {
-
+                    //NoOp
                 }
                 
             }
@@ -205,7 +216,7 @@ namespace iVesService
                 }
                 catch(Exception ex)
                 {
-
+                    //NoOp
                 }
             }
             
