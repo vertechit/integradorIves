@@ -41,13 +41,11 @@ namespace Vertech
         public MainWindow()
         {
             InitializeComponent();
-            SplashScreen spScreen = new SplashScreen("logo1.ico");
+            SplashScreen spScreen = new SplashScreen("Logo grande 3.png");
             spScreen.Show(true);
             Init();
             Parametros.SetTipoApp("Client");
         }
-
-
 
         private void Init()
         {

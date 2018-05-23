@@ -294,6 +294,7 @@
     <Resource Include="Imagens\Vertechs-20180109_143803.ico" />
   </ItemGroup>
   <ItemGroup>
+    <Resource Include="Logo grande 3.png" />
     <Resource Include="Imagens\logofinal.png" />
     <None Include="Connected Services\apiEnviaXML\configuration91.svcinfo" />
     <None Include="Connected Services\apiEnviaXML\configuration.svcinfo" />

@@ -39,8 +39,7 @@ namespace iVesService
             Processos process = new Processos();
             Parametros.SetTipoApp("Service");
 
-            process.LimpaLog();
-
+            //process.LimpaLog();
             try
             {
                 var ret = Helper.GetParametros();
@@ -57,6 +56,8 @@ namespace iVesService
                     {
                         this.Stop();
                     }
+                    Thread Tproc = new Thread(process.LimpaLog);
+                    Tproc.Start();
                 }
                 else
                 {
