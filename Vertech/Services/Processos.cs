@@ -759,7 +759,7 @@ namespace Vertech.Services
             var strArr = RetornaData();
 
             string hora = strArr[1];
-            string data = strArr[0]; //"01/02/2018";
+            string data = strArr[0];
 
             if (tipo == 1)
             {

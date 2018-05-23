@@ -112,7 +112,7 @@ namespace iVesService
             
             Parametro();
 
-            Timer = new Timer(new TimerCallback(Timer_Tick), null, 10000, 60000); //60000 = 1min 3600000 = 60min | 1200000 = 20min
+            Timer = new Timer(new TimerCallback(Timer_Tick), null, 60000, 60000); //60000 = 1min 3600000 = 60min | 1200000 = 20min
 
         }
 
