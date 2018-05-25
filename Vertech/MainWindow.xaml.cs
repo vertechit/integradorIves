@@ -92,6 +92,7 @@ namespace Vertech
                 }
 
                 var param = Helper.GetParametros();
+                int ctrl = 0;
 
                 if (param != null)
                 {
@@ -100,12 +101,12 @@ namespace Vertech
                         Parametros.SetDirToke(param.CaminhoToke);
                         txtFolderToken.Text = param.CaminhoToke;
                         DefineToken(param.CaminhoToke);
+                        ctrl++;
                     }
 
                     if (param.CaminhoDir != "" && param.CaminhoFim != "" && param.CaminhoDir != param.CaminhoFim)
                     {
-                        int ctrl = 0;
-
+                        
                         if( Directory.Exists(param.CaminhoDir) )
                         {
                             txtFolderIni.Text = param.CaminhoDir;
@@ -120,7 +121,7 @@ namespace Vertech
                             ctrl++;
                         }
 
-                        if(ctrl == 2)
+                        if(ctrl == 3)
                         {
 
                             CboAmbiente.SelectedIndex = Convert.ToInt32(param.Ambiente)-1;
@@ -145,6 +146,35 @@ namespace Vertech
 
                             Thread Tproc = new Thread(process.LimpaLog);
                             Tproc.Start();
+                        }
+                        else
+                        {
+                            try
+                            {
+                                CboAmbiente.SelectedIndex = Convert.ToInt32(param.Ambiente) - 1;
+                                TxtbAmbiente.Text = (string)CboAmbiente.SelectedItem;
+
+                                if (param.Base == "Vertech Produção")
+                                {
+                                    CboBase.SelectedIndex = 0;
+                                    TxbBase.Text = param.Base;
+                                }
+                                else
+                                {
+                                    CboBase.SelectedIndex = 1;
+                                    TxbBase.Text = param.Base;
+                                }
+
+                                Parametros.SetAmbiente(param.Ambiente);
+                                Parametros.SetBase(param.Base);
+                            }catch(Exception ex)
+                            {
+
+                            }
+                            Thread Tproc = new Thread(process.LimpaLog);
+                            Tproc.Start();
+
+                            OrganizaTelaEvent(1);
                         }
                         
                     }
