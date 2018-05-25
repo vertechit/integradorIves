@@ -74,21 +74,30 @@ namespace Vertech
 
             if(i > 0)
             {
-                if(i == 1)
+                int arq1 = 0;
+                int arq2 = 0;
+
+                foreach (var item in dir.GetFiles())
                 {
-                    foreach (var item in dir.GetFiles())
+                    if (item.Name == "dados.sqlite")
                     {
-                        if(item.Name == "dados.sqlite")
-                        {
-                            Log.CriarBancoSQLite();
-                            Log.CriarTabelaSQlite();
-                        }
-                        else
-                        {
-                            Helper.CriarBancoSQLite();
-                            Helper.CriarTabelaSQlite();
-                        }
+                        arq1 = 1;
                     }
+                    else if(item.Name == "logs.sqlite")
+                    {
+                        arq2 = 1;
+                    }
+                }
+
+                if (arq1 == 0)
+                {
+                    Helper.CriarBancoSQLite();
+                    Helper.CriarTabelaSQlite();
+                }
+                if (arq2 == 0)
+                {
+                    Log.CriarBancoSQLite();
+                    Log.CriarTabelaSQlite();
                 }
 
                 var param = Helper.GetParametros();
@@ -178,6 +187,7 @@ namespace Vertech
                             {
 
                             }
+
                             Thread Tproc = new Thread(process.LimpaLog);
                             Tproc.Start();
 
