@@ -79,13 +79,13 @@
                    VerticalAlignment="Top"/>
 
             <Button Name="BtnProcurarIni" 
-                    Content="..." 
+                    Content="Origem" 
                     Grid.Column="2" 
                     HorizontalAlignment="Left" 
                     Margin="56,63,0,0" 
                     Grid.Row="1" 
                     VerticalAlignment="Top" 
-                    Width="36" 
+                    Width="58" 
                     Click="BtnProcurarIni_Click"/>
 
             <TextBlock x:Name ="txtFolderFim" 
@@ -107,13 +107,13 @@
                    FontFamily="Century Gothic" Height="24" VerticalAlignment="Bottom"/>
 
             <Button x:Name="BtnProcurarFim" 
-                    Content="..." 
+                    Content="Destino" 
                     Grid.Column="2" 
                     HorizontalAlignment="Left" 
                     Margin="56,122,0,0" 
                     Grid.Row="1" 
                     VerticalAlignment="Top" 
-                    Width="36" 
+                    Width="58" 
                     Click="BtnProcurarFim_Click"/>
 
             <Label x:Name="LbltmEnv" 
@@ -174,13 +174,13 @@
                    VerticalAlignment="Top" Grid.RowSpan="2"/>
 
             <Button x:Name="BtnProcurarToken" 
-                    Content="..." 
+                    Content="Token" 
                     Grid.Column="2" 
                     HorizontalAlignment="Left" 
                     Margin="56,2,0,0" 
                     Grid.Row="1" 
                     VerticalAlignment="Top" 
-                    Width="36" 
+                    Width="58" 
                     Click="BtnProcurarToken_Click"/>
 
             <Button 
