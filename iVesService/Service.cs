@@ -22,8 +22,7 @@ namespace iVesService
 
         Timer Timer;
         int Controle = 0;
-        //int Quantidade = 0;
-        //int Executada = 0;
+
         Consulta consulta = new Consulta();
         Integra integra = new Integra();
         ConsultaLote ConsultaLote = new ConsultaLote();
@@ -39,7 +38,6 @@ namespace iVesService
             Processos process = new Processos();
             Parametros.SetTipoApp("Service");
 
-            //process.LimpaLog();
             try
             {
                 var ret = Helper.GetParametros();
@@ -112,7 +110,7 @@ namespace iVesService
             
             Parametro();
 
-            Timer = new Timer(new TimerCallback(Timer_Tick), null, 60000, 60000); //60000 = 1min 3600000 = 60min | 1200000 = 20min
+            Timer = new Timer(new TimerCallback(Timer_Tick), null, 30000, 60000);
 
         }
 
@@ -128,18 +126,14 @@ namespace iVesService
 
         private void Timer_Tick(object sender)
         {
-            //Executada++;
             if(Controle == 0)
             {
-                //Quantidade++;
                 Job();
             } 
         }
 
         private void Job()
         {
-            Controle = 1;
-            //Log("----------------------------------", 2);
             Log("Job Iniciado: ", 1);
             Log("Integração TXT iniciada: ", 1);
             integra.Job();
@@ -147,7 +141,7 @@ namespace iVesService
             Log("Integração XML iniciada: ", 1);
             EnviaLote.Job();
             Log("Integração XML finalizado: ", 1);
-            Thread.Sleep(60000); //300000 = 5min
+            Thread.Sleep(60000);
             Log("Consulta TXT iniciada: ", 1);
             consulta.Job();
             Log("Consulta TXT finalizada: ", 1);
@@ -176,13 +170,13 @@ namespace iVesService
                 }
                 else
                 {
-                   //Log("Arquivo não suportado.", 2);
+                   Log("Arquivo não suportado.", 2);
                     return false;
                 }
             }
             catch
             {
-                //Log("Arquivo de token não pode ser importado.", 2);
+                Log("Arquivo de token não pode ser importado.", 2);
                 return false;
             }
 

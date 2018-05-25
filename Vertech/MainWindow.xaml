@@ -71,7 +71,7 @@
                        Grid.ColumnSpan="3"/>
 
             <Label Name="LblCaminho" 
-                   Content="Origem" 
+                   Content="Origem:" 
                    HorizontalAlignment="Left" 
                    Margin="161,59,0,0" 
                    Grid.Row="1" 
@@ -100,7 +100,7 @@
                        Grid.ColumnSpan="3"/>
 
             <Label x:Name="LblCaminhoFim" 
-                   Content="Destino" 
+                   Content="Destino:" 
                    HorizontalAlignment="Left" 
                    Margin="160,0,0,57" 
                    Grid.Row="1" 
@@ -167,7 +167,7 @@
                        Grid.ColumnSpan="3"/>
 
             <Label x:Name="LblToken" 
-                   Content="Token" 
+                   Content="Token:" 
                    HorizontalAlignment="Left" 
                    Margin="169,198,0,0" 
                    FontFamily="Century Gothic" 
@@ -227,7 +227,7 @@
 
 
             <Label Name="LblTpAmb" 
-                   Content="Ambiente" 
+                   Content="Ambiente:" 
                    HorizontalAlignment="Left" 
                    Margin="150,170,0,0" 
                    Grid.Row="1" 
@@ -235,7 +235,7 @@
                    VerticalAlignment="Top"/>
             <ComboBox Name="CboAmbiente"
                       HorizontalAlignment="Left" 
-                      Margin="217,171,0,0" 
+                      Margin="218,171,0,0" 
                       Grid.Row="1" 
                       VerticalAlignment="Top" 
                       Width="235" 
@@ -244,7 +244,7 @@
             <TextBlock x:Name ="TxtbAmbiente" 
                        HorizontalAlignment="Left" 
                        Height="23" 
-                       Margin="215,175,0,0" 
+                       Margin="217,175,0,0" 
                        Grid.Row="1" 
                        TextWrapping="Wrap" 
                        VerticalAlignment="Top" 
@@ -252,15 +252,15 @@
                        FontFamily="Century Gothic" 
                        Grid.ColumnSpan="3"/>
             <Label x:Name="LblBase" 
-                Content="Base" 
+                Content="Base:" 
                 HorizontalAlignment="Left" 
-                Margin="173,13,0,0" 
+                Margin="176,13,0,0" 
                 Grid.Row="2" 
                 FontFamily="Century Gothic" 
                 VerticalAlignment="Top"/>
             <ComboBox x:Name="CboBase"
                 HorizontalAlignment="Left" 
-                Margin="217,14,0,0" 
+                Margin="218,14,0,0" 
                 Grid.Row="2" 
                 VerticalAlignment="Top" 
                 Width="235" 
@@ -268,7 +268,7 @@
             <TextBlock x:Name ="TxbBase" 
                 HorizontalAlignment="Left" 
                 Height="23" 
-                Margin="215,18,0,0" 
+                Margin="217,18,0,0" 
                 Grid.Row="2" 
                 TextWrapping="Wrap" 
                 VerticalAlignment="Top" 
