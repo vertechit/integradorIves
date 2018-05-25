@@ -12,5 +12,7 @@ namespace Vertech.Modelos
         public string CaminhoDir { get; set; }
         public string CaminhoFim { get; set; }
         public string CaminhoToke { get; set; }
+        public string Ambiente { get; set; }
+        public string Base { get; set; }
     }
 }

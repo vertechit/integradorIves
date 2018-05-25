@@ -12,7 +12,7 @@ using System.Net.Sockets;
 using System.Windows;
 using Vertech.DAO;
 using Vertech.Modelos;
-
+using System.ServiceModel;
 
 namespace Vertech.Services
 {
@@ -27,10 +27,10 @@ namespace Vertech.Services
                 di.Create();
 
             ClassException ex = new ClassException();
-            //Consulta consulta = new Consulta();
             Processos processo = new Processos();
+
             int i = 0;
-            List<string> lista = processo.Listar_arquivos(".txt");
+            List<string> lista = processo.ListarArquivos(".txt");
 
             if (lista.Count > 0)
             {
@@ -40,81 +40,89 @@ namespace Vertech.Services
                     if(valida == true)
                     {
                         var p = Helper.GetProtocolo(arq_name);
-                        ConsultaProtocolo(Set_Protocolo(p), p.NomeArquivo);
+                        ConsultaProtocolo(Set_Protocolo(p), p.NomeArquivo, p.Base);
                         i++;
                     }
-                    
-                    //Thread.Sleep(1000);
                 }
                 if (i == 0)
                 {
-                    ex.ImprimeMsgDeErro_NoFilesFound(2);
+                    ex.ExNoFilesFound(2);
                 }
             }
 
             else
             {
-                var l = processo.Listar_arquivos(".xml");
+                var l = processo.ListarArquivos(".xml");
                 if (l.Count <= 0)
                 {
-                    ex.ImprimeMsgDeErro_NoFilesFound(2);
+                    ex.ExNoFilesFound(2);
                 }
             }
             
         }
 
-        public void ConsultaProtocolo(apiIntegra.integraResponse Prot, string filename)
+        public void ConsultaProtocolo(apiIntegra.integraResponse Prot, string filename, string Base)
         {
-            consultaRequest Request = new consultaRequest();
+            var Request = RetornaRequest(Prot);
             consultaResponse Response = new consultaResponse();
             Processos processo = new Processos();
 
-            var s = processo.MontaCaminhoDir(Parametros.GetDirArq(), "\\logs\\logConsulta.log");
-
-            Request.protocolo = Prot.protocolo;
-            Request.protocoloSpecified = Prot.protocoloSpecified;
-            Request.token = Parametros.GetToken();
-            Request.grupo = Parametros.GetGrupo();
-            Request.grupoSpecified = true;
+            //var s = processo.MontaCaminhoDir(Parametros.GetDirArq(), "\\logs\\logConsulta.log");
 
             try
             {
-                EsocialServiceClient req = new EsocialServiceClient();
-                req.Open();
-                Response = req.consultaRequest(Request);
-                req.Close();
+                var wsClient = DefineBaseClient(Base);
+                //req.Endpoint.Behaviors.Add(new CustomEndpointCallBehavior(Convert.ToString(Parametros.GetGrupo()), Parametros.GetToken()));
 
-                StreamWriter w = File.AppendText(@s);
+                wsClient.Open();
+                Response = wsClient.consultaRequest(Request);
+                wsClient.Close();
 
                 processo.GeraLogConsulta(filename
                     , Response.consultaProtocolo.identificador.protocolo.ToString()
                     , Convert.ToString(Response.consultaProtocolo.status.descResposta)
-                    , Convert.ToInt32(Response.consultaProtocolo.status.cdResposta)
-                    , w);
+                    , Convert.ToInt32(Response.consultaProtocolo.status.cdResposta));
 
                 processo.GeraLogDetalhado(filename, Response);
 
-                w.Close();
-
-                if(Response.consultaProtocolo.status.cdResposta == 3)
+                if(Response.consultaProtocolo.status.cdResposta == 3 || Response.consultaProtocolo.status.descResposta == "Processado com Erro")
                 {
-                    processo.Mover_Consultado(filename);
+                    processo.MoverConsultado(filename);
                     Helper.DeleteProtocolo(filename);
                 }
             }
             catch(Exception e)
             {
-                StreamWriter arq = File.AppendText(@s);
+                ClassException ex = new ClassException();
 
-                processo.GeraLogConsulta(filename
-                    , Request.protocolo.ToString()
-                    , e.InnerException.Message.ToString()
-                    , 99
-                    , arq);
-
-                arq.Close();
+                ex.Exception(e.Message, filename, "Consulta", " ");
             }
 
+        }
+
+        private EsocialServiceClient DefineBaseClient(string Base)
+        {
+            if (Base == "Vertech Teste")
+            {
+                var urlServicoEnvio = @"https://apiesocial2.vertech-it.com.br/vch-esocial/consultaintegra?wsdl";
+
+                var address = new EndpointAddress(urlServicoEnvio);
+
+                var binding = new BasicHttpsBinding();
+
+                binding.Security.Transport.ClientCredentialType = HttpClientCredentialType.Basic;
+                
+                var wsClient = new EsocialServiceClient(binding, address);
+
+                wsClient.ClientCredentials.UserName.UserName = Convert.ToString(Parametros.GetGrupo());
+                wsClient.ClientCredentials.UserName.Password = Parametros.GetToken();
+
+                wsClient.Endpoint.Behaviors.Add(new CustomEndpointCallBehavior(Convert.ToString(Parametros.GetGrupo()), Parametros.GetToken()));
+
+                return wsClient;
+            }
+
+            return new EsocialServiceClient();
         }
 
         private apiIntegra.integraResponse Set_Protocolo(Protocolo p)
@@ -128,6 +136,18 @@ namespace Vertech.Services
             response.protocoloSpecified = true; 
 
             return response;
+        }
+
+        private consultaRequest RetornaRequest(apiIntegra.integraResponse prot)
+        {
+            consultaRequest Request = new consultaRequest();
+            Request.protocolo = prot.protocolo;
+            Request.protocoloSpecified = prot.protocoloSpecified;
+            Request.token = Parametros.GetToken();
+            Request.grupo = Parametros.GetGrupo();
+            Request.grupoSpecified = true;
+
+            return Request;
         }
     }
 }

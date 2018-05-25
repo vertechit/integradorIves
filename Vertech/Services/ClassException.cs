@@ -6,61 +6,75 @@ using System.Threading.Tasks;
 using Vertech.Services;
 using System.IO;
 using System.Windows;
+using Vertech.DAO;
+using Vertech.Modelos;
 
 namespace Vertech.Services
 {
     public class ClassException
     {
-        
+        Processos proc = new Processos();
+        public void Exception(string msg, string arquivo, string servico, string acao)
+        {
+
+            if (Parametros.GetTipoApp() == "Service")
+            {
+                if(servico == "Consulta")
+                {
+                    proc.InsereLog(2, msg, arquivo, "Consulta", " ", " ", " ");
+                }
+                else
+                {
+                    proc.InsereLog(1, msg, arquivo, "Integra", " ", " ", " ");
+                }
+            }
+            else
+            {
+                if (servico == "Consulta")
+                {
+                    proc.InsereLog(2, msg, arquivo, "Consulta", " ", " ", " ");
+                }
+                else
+                {
+                    proc.InsereLog(1, msg, arquivo, "Integra", " ", " ", " ");
+                }
+            }
+        }
+
         public void ImprimeException(int tipo, string msg)
         {
-            Processos processo = new Processos();
+
             switch (tipo)
             {
+
                 case 1:
                     if (Parametros.GetTipoApp() == "Service")
                     {
-                        var s = processo.MontaCaminhoDir(Parametros.GetDirArq(), "\\logs\\logEnvio.log");
-                        StreamWriter vWriter = new StreamWriter(@s, true);
-                        vWriter.WriteLine("");
-                        vWriter.WriteLine("Ocorrencia Integra");
-                        vWriter.WriteLine("Data/Hora: " + DateTime.Now.ToString());
-                        vWriter.WriteLine("Descrição: " + msg);
-                        vWriter.WriteLine("");
-                        vWriter.Flush();
-                        vWriter.Close();
+                        proc.InsereLog(3, msg, " ", "Integra", " ", " ", " ");
+
                     }
                     else
                     {
-                        MessageBox.Show(msg);
+                        proc.InsereLog(3, msg, " ", "Integra", " ", " ", " ");
                     }
                     break;
 
                 case 2:
                     if (Parametros.GetTipoApp() == "Service")
                     {
-                        var s = processo.MontaCaminhoDir(Parametros.GetDirArq(), "\\logs\\logConsulta.log");
-                        StreamWriter vWriter = new StreamWriter(@s, true);
-
-                        vWriter.WriteLine("");
-                        vWriter.WriteLine("Ocorrencia Consulta");
-                        vWriter.WriteLine("Data/Hora: " + DateTime.Now.ToString());
-                        vWriter.WriteLine("Descrição: " + msg);
-                        vWriter.WriteLine("");
-                        vWriter.Flush();
-                        vWriter.Close();
+                        proc.InsereLog(3, msg, " ", "Consulta", " ", " ", " ");
                     }
                     else
                     {
-                        MessageBox.Show(msg);
+                        proc.InsereLog(3, msg, " ", "Consulta", " ", " ", " ");
                     }
                     break;
             }
             
         }
-        public void ImprimeMsgDeErro_NoFilesFound(int tp)
+        public void ExNoFilesFound(int tp)
         {
-            Processos processo = new Processos();
+
             switch (tp)
             {
                 case 1:
@@ -68,32 +82,25 @@ namespace Vertech.Services
                     {
                         try
                         {
-                            var s = processo.MontaCaminhoDir(Parametros.GetDirArq(), "\\logs\\logEnvio.log");
-                            StreamWriter vWriter = new StreamWriter(@s, true);
-                            vWriter.WriteLine("");
-                            vWriter.WriteLine("Ocorrencia Integra");
-                            vWriter.WriteLine("Data/Hora: " + DateTime.Now.ToString());
-                            vWriter.WriteLine("Descrição: A pasta selecionada não contem os arquivos necessários para o envio");
-                            vWriter.WriteLine("");
-                            vWriter.Flush();
-                            vWriter.Close();
+                            //proc.InsereLog(3, "A pasta selecionada não contem os arquivos necessários para o envio", " ", "Integra", " ", " ", "21");
                         }
                         catch(Exception ex)
                         {
-                            Exception_Open_Files(999, ex.Message);
+                            ExOpenFile(999, ex.Message);
                         }
                         
                     }
                     else
                     {
-                        var s = processo.MontaCaminhoDir(Parametros.GetDirArq(), "\\logs\\logEnvio.log");
-                        StreamWriter vWriter = new StreamWriter(@s, true);
-                        vWriter.WriteLine("");
-                        vWriter.WriteLine("A pasta selecionada não contem os arquivos necessários para o envio");
-                        vWriter.WriteLine("");
-                        vWriter.Flush();
-                        vWriter.Close();
-                        //MessageBox.Show("A pasta selecionada não contem os arquivos necessários para o envio");
+                        try
+                        {
+                            proc.InsereLog(3, "A pasta selecionada não contem os arquivos necessários para o envio", " ", "Integra", " ", " ", "21");
+                        }
+                        catch (Exception ex)
+                        {
+                            ExOpenFile(999, ex.Message);
+                        }
+                        
                     }
                         break;
                 case 2:
@@ -101,32 +108,26 @@ namespace Vertech.Services
                     {
                         try
                         {
-                            var s = processo.MontaCaminhoDir(Parametros.GetDirArq(), "\\logs\\logConsulta.log");
-                            StreamWriter vWriter = new StreamWriter(@s, true);
+                            //proc.InsereLog(3, "A pasta selecionada não contem os arquivos necessários para a consulta", " ", "Consulta", " ", " ", "21");
 
-                            vWriter.WriteLine("");
-                            vWriter.WriteLine("Ocorrencia Consulta");
-                            vWriter.WriteLine("Data/Hora: " + DateTime.Now.ToString());
-                            vWriter.WriteLine("Descrição: A pasta selecionada não contem os arquivos necessários para a consulta");
-                            vWriter.WriteLine("");
-                            vWriter.Flush();
-                            vWriter.Close();
                         }
                         catch (Exception ex)
                         {
-                            Exception_Open_Files(999, ex.Message);
+                            ExOpenFile(999, ex.Message);
                         }
                     }
                     else
                     {
-                        var s = processo.MontaCaminhoDir(Parametros.GetDirArq(), "\\logs\\logConsulta.log");
-                        StreamWriter w = File.AppendText(@s);
-                        w.WriteLine("");
-                        w.WriteLine("A pasta selecionada não contem os arquivos necessários para a consulta");
-                        w.WriteLine("");
-                        w.Flush();
-                        w.Close();
-                        //MessageBox.Show("A pasta selecionada não contem os arquivos necessários para a consulta");
+                        try
+                        {
+                            proc.InsereLog(3, "A pasta selecionada não contem os arquivos necessários para a consulta", " ", "Consulta", " ", " ", "21");
+
+                        }
+                        catch (Exception ex)
+                        {
+                            ExOpenFile(999, ex.Message);
+                        }
+                        
                     }
                     break;
             }
@@ -134,107 +135,72 @@ namespace Vertech.Services
 
         public void ExProcessos(int codErro, string msg)
         {
-            Processos processo = new Processos();
 
             if (Parametros.GetTipoApp() == "Service")
             {
                 try
                 {
-                    var s = processo.MontaCaminhoDir(Parametros.GetDirArq(), "\\logs\\logException.log");
-                    StreamWriter vWriter = new StreamWriter(@s, true);
-
-                    vWriter.WriteLine("");
-                    vWriter.WriteLine("Ocorrencia: Processos");
-                    vWriter.WriteLine("Data/Hora: " + DateTime.Now.ToString());
-                    vWriter.WriteLine("Codigo do erro: " + codErro.ToString());
-                    vWriter.WriteLine("Descrição: " + msg);
-                    vWriter.WriteLine("");
-                    vWriter.Flush();
-                    vWriter.Close();
+                    proc.InsereLog(3, msg, " ", "Processos", " ", " ", codErro.ToString());
                 }
                 
                 catch (Exception ex)
                 {
-                    Exception_Open_Files(999, ex.Message);
+                    ExOpenFile(999, ex.Message);
                 }
             }
             else
             {
-                MessageBox.Show("Codigo do erro: " + codErro.ToString() + "\n" + msg);
+                try
+                {
+                    proc.InsereLog(3, msg, " ", "Processos", " ", " ", codErro.ToString());
+                }
+                catch(Exception ex)
+                {
+                    ExOpenFile(999, ex.Message);
+                }
+                
             }
         }
 
         public void ExSQLite(int codErro, string msg)
         {
-            Processos processo = new Processos();
 
             if (Parametros.GetTipoApp() == "Service")
             {
                 try
                 {
-                    var s = processo.MontaCaminhoDir(Parametros.GetDirArq(), "\\logs\\logSQL.log");
-                    StreamWriter vWriter = new StreamWriter(@s, true);
-
-                    vWriter.WriteLine("");
-                    vWriter.WriteLine("Ocorrencia: SQLite");
-                    vWriter.WriteLine("Data/Hora: " + DateTime.Now.ToString());
-                    vWriter.WriteLine("Codigo do erro: " + codErro.ToString());
-                    vWriter.WriteLine("Descrição: " + msg);
-                    vWriter.WriteLine("");
-                    vWriter.Flush();
-                    vWriter.Close();
+                    proc.InsereLog(3, msg, " ", "SQLite", " ", " ", codErro.ToString());
                 }
                 catch (Exception ex)
                 {
-                    Exception_Open_Files(999, ex.Message);
+                    ExOpenFile(999, ex.Message);
                 }
 
             }
             else
             {
-                MessageBox.Show("Codigo do erro: " + codErro.ToString() + "\n" + msg);
+                proc.InsereLog(3, msg, " ", "SQLite", " ", " ", codErro.ToString());
             }
         }
 
         public void ExSecureFile(int codErro, string msg)
         {
-            var p = new Processos();
 
-            if(Parametros.GetTipoApp() == "Service")
+            if (Parametros.GetTipoApp() == "Service")
             {
-                var s = p.MontaCaminhoDir(Parametros.GetDirArq(), "\\logs\\logException.log");
-                StreamWriter vWriter = new StreamWriter(@s, true);
-
-                vWriter.WriteLine("");
-                vWriter.WriteLine("Ocorrencia: Secure File");
-                vWriter.WriteLine("Data/Hora: " + DateTime.Now.ToString());
-                vWriter.WriteLine("Codigo do erro: " + codErro.ToString());
-                vWriter.WriteLine("Descrição: " + msg);
-                vWriter.WriteLine("");
-                vWriter.Flush();
-                vWriter.Close();
+                proc.InsereLog(3, msg, " ", "SecureFile", " ", " ", codErro.ToString());
             }
             else
             {
-                MessageBox.Show("Codigo do erro: " + codErro.ToString() + "\n" + msg);
+                proc.InsereLog(3, msg, " ", "SecureFile", " ", " ", codErro.ToString());
             }
         }
 
-        public void Exception_Open_Files(int tipo, string msg)
+        public void ExOpenFile(int tipo, string msg)
         {
-            var p = new Processos();
 
-            var s = p.MontaCaminhoDir(Parametros.GetDirArq(), "\\logs\\logException.log");
-            StreamWriter vWriter = new StreamWriter(@s, true);
+            proc.InsereLog(3, msg, " ", "SQLite", "Encerre um dos processos (Serviço/Integrador(Tela))", " ", "999");
 
-            vWriter.WriteLine("");
-            vWriter.WriteLine("Ocorrencia: Open Files");
-            vWriter.WriteLine("Data/Hora: " + DateTime.Now.ToString());
-            vWriter.WriteLine("Codigo do erro: " + tipo.ToString());
-            vWriter.WriteLine("Descrição: " + msg);
-            vWriter.WriteLine("");
-            vWriter.Flush();
-            vWriter.Close();
         }
     }
 }

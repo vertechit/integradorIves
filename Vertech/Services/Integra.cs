@@ -12,6 +12,7 @@ using System.Xml;
 using System.Windows;
 using Vertech.Services;
 using Vertech.DAO;
+using System.ServiceModel;
 
 namespace Vertech.Services
 {
@@ -27,9 +28,9 @@ namespace Vertech.Services
 
             Processos processo = new Processos();
 
-            var s = processo.MontaCaminhoDir(Parametros.GetDirArq(),"\\logs\\logEnvio.log");
+            //var s = processo.MontaCaminhoDir(Parametros.GetDirArq(),"\\logs\\logEnvio.log");
 
-            var lista = processo.Listar_arquivos(".txt");
+            var lista = processo.ListarArquivos(".txt");
 
             if(lista.Count > 0)
             {
@@ -47,42 +48,33 @@ namespace Vertech.Services
 
                         if (Response.protocolo > 0)
                         {
-                            StreamWriter w = File.AppendText(@s);
                             processo.SalvaProtocolo(Response, arq_name);
-                            processo.GeraLogIntegra(arq_name, "Foi enviado com sucesso!", w);
-                            w.Close();
+                            processo.GeraLogIntegra(arq_name, "Foi enviado com sucesso!");
                         }
                         else
                         {
-                            StreamWriter w = File.AppendText(@s);
-                            processo.GeraLogIntegra(arq_name, "Erro no envio, retorno invalido!", w);
-                            w.Close();
+                            processo.GeraLogIntegra(arq_name, "Erro no envio, retorno invalido!");
                         }
                     }
                     else if (ctrl == 1)
                     {
-                        StreamWriter w = File.AppendText(@s);
-                        processo.GeraLogIntegra(arq_name, "Já foi enviado!", w);
-                        w.Close();
+                        processo.GeraLogIntegra(arq_name, "Já foi enviado!");
                     }
                     else
                     {
-                        StreamWriter w = File.AppendText(@s);
-                        processo.GeraLogIntegra(arq_name, "É invalido", w);
-                        w.Close();
-                    }
+                        processo.GeraLogIntegra(arq_name, "É invalido");
 
-                    //Thread.Sleep(1000);
+                    }
                 }
             }
 
             else
             {
                 ClassException ex = new ClassException();
-                var l = processo.Listar_arquivos(".xml");
+                var l = processo.ListarArquivos(".xml");
                 if (l.Count <= 0)
                 {
-                    ex.ImprimeMsgDeErro_NoFilesFound(1);
+                    ex.ExNoFilesFound(1);
                 }
             }
 
@@ -96,6 +88,7 @@ namespace Vertech.Services
             {
                 Id.grupo = Parametros.GetGrupo();
                 Id.token = Parametros.GetToken();
+                Id.tpamb = Convert.ToInt32(Parametros.GetAmbiente());
             }
             catch (Exception)
             {
@@ -130,16 +123,16 @@ namespace Vertech.Services
 
         public integraResponse Enviar(integraRequest Request)
         {
-            var req = new EsocialServiceClient();
+            var wsClient = DefineBaseClient();
             var Response = new integraResponse();
 
             try
             {
-                req.Open();
+                wsClient.Open();
 
-                Response = req.integraRequest(Request);
+                Response = wsClient.integraRequest(Request);
 
-                req.Close();
+                wsClient.Close();
 
             }
             catch(Exception e)
@@ -149,6 +142,31 @@ namespace Vertech.Services
             }
 
             return Response;
+        }
+
+        private EsocialServiceClient DefineBaseClient()
+        {
+            if(Parametros.GetBase() == "Vertech Teste")
+            {
+                var urlServicoEnvio = @"https://apiesocial2.vertech-it.com.br/vch-esocial/enviaintegra?wsdl";
+
+                var address = new EndpointAddress(urlServicoEnvio);
+
+                var binding = new BasicHttpsBinding();
+
+                binding.Security.Transport.ClientCredentialType = HttpClientCredentialType.Basic;
+
+                var wsClient = new EsocialServiceClient(binding, address);
+
+                wsClient.ClientCredentials.UserName.UserName = Convert.ToString(Parametros.GetGrupo());
+                wsClient.ClientCredentials.UserName.Password = Parametros.GetToken();
+
+                wsClient.Endpoint.Behaviors.Add(new CustomEndpointCallBehavior(Convert.ToString(Parametros.GetGrupo()), Parametros.GetToken()));
+
+                return wsClient;
+            }
+
+            return new EsocialServiceClient();
         }
 
     }

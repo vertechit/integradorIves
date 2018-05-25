@@ -22,8 +22,7 @@ namespace iVesService
 
         Timer Timer;
         int Controle = 0;
-        //int Quantidade = 0;
-        //int Executada = 0;
+
         Consulta consulta = new Consulta();
         Integra integra = new Integra();
         ConsultaLote ConsultaLote = new ConsultaLote();
@@ -41,18 +40,22 @@ namespace iVesService
 
             try
             {
-                var s = Helper.GetParametros();
+                var ret = Helper.GetParametros();
 
-                if(Directory.Exists(s.CaminhoDir) && Directory.Exists(s.CaminhoFim) && File.Exists(s.CaminhoToke))
+                if(Directory.Exists(ret.CaminhoDir) && Directory.Exists(ret.CaminhoFim) && File.Exists(ret.CaminhoToke))
                 {
-                    Parametros.SetDirToke(s.CaminhoToke);
-                    Parametros.SetDirArq(s.CaminhoDir);
-                    Parametros.SetDirFim(s.CaminhoFim);
+                    Parametros.SetDirToke(ret.CaminhoToke);
+                    Parametros.SetDirArq(ret.CaminhoDir);
+                    Parametros.SetDirFim(ret.CaminhoFim);
+                    Parametros.SetAmbiente(ret.Ambiente);
+                    Parametros.SetBase(ret.Base);
 
                     if (DefineToken(Parametros.GetDirToke()) == false)
                     {
                         this.Stop();
                     }
+                    Thread Tproc = new Thread(process.LimpaLog);
+                    Tproc.Start();
                 }
                 else
                 {
@@ -80,17 +83,34 @@ namespace iVesService
 
             if (di.Exists == false)
                 di.Create();
+            else
+            {
+                foreach (var item in di.GetFiles())
+                {
+                    if(item.Name == "logServico.log")
+                    {
+                        item.Delete();
+                    }
+                }
+            }
+                
+            try
+            {
+                StreamWriter vWriter = new StreamWriter(@"c:\vch\log\logServico.log", true);
+                vWriter.WriteLine("--------------------------------------------------");
+                vWriter.WriteLine("Serviço iniciado: " + DateTime.Now.ToString());
+                vWriter.WriteLine("");
+                vWriter.Flush();
+                vWriter.Close();
+            }
+            catch (Exception ex)
+            {
 
-            StreamWriter vWriter = new StreamWriter(@"c:\vch\log\logServico.log", true);
-            vWriter.WriteLine("--------------------------------------------------");
-            vWriter.WriteLine("Serviço iniciado: " + DateTime.Now.ToString());
-            vWriter.WriteLine("");
-            vWriter.Flush();
-            vWriter.Close();
-
+            }
+            
             Parametro();
 
-            Timer = new Timer(new TimerCallback(Timer_Tick), null, 10000, 1200000); //3600000 = 60min | 1200000 = 20min
+            Timer = new Timer(new TimerCallback(Timer_Tick), null, 30000, 60000);
 
         }
 
@@ -114,8 +134,6 @@ namespace iVesService
 
         private void Job()
         {
-            Controle = 1;
-            //Log("----------------------------------", 2);
             Log("Job Iniciado: ", 1);
             Log("Integração TXT iniciada: ", 1);
             integra.Job();
@@ -123,7 +141,7 @@ namespace iVesService
             Log("Integração XML iniciada: ", 1);
             EnviaLote.Job();
             Log("Integração XML finalizado: ", 1);
-            Thread.Sleep(300000); //300000 = 5min
+            Thread.Sleep(60000);
             Log("Consulta TXT iniciada: ", 1);
             consulta.Job();
             Log("Consulta TXT finalizada: ", 1);
@@ -168,19 +186,33 @@ namespace iVesService
         {
             if (tp == 1)
             {
-                StreamWriter vWriter = new StreamWriter(@"c:\vch\log\logServico.log", true);
-                vWriter.WriteLine(msg + DateTime.Now.ToString());
-                vWriter.WriteLine("");
-                vWriter.Flush();
-                vWriter.Close();
+                try
+                {
+                    StreamWriter vWriter = new StreamWriter(@"c:\vch\log\logServico.log", true);
+                    vWriter.WriteLine(msg + DateTime.Now.ToString());
+                    vWriter.WriteLine("");
+                    vWriter.Flush();
+                    vWriter.Close();
+                }catch(Exception ex)
+                {
+                    //NoOp
+                }
+                
             }
             else
             {
-                StreamWriter vWriter = new StreamWriter(@"c:\vch\log\logServico.log", true);
-                vWriter.WriteLine(msg);
-                vWriter.WriteLine("");
-                vWriter.Flush();
-                vWriter.Close();
+                try
+                {
+                    StreamWriter vWriter = new StreamWriter(@"c:\vch\log\logServico.log", true);
+                    vWriter.WriteLine(msg);
+                    vWriter.WriteLine("");
+                    vWriter.Flush();
+                    vWriter.Close();
+                }
+                catch(Exception ex)
+                {
+                    //NoOp
+                }
             }
             
         }

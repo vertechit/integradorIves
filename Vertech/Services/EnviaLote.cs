@@ -28,9 +28,9 @@ namespace Vertech.Services
 
             Processos processo = new Processos();
 
-            var s = processo.MontaCaminhoDir(Parametros.GetDirArq(),"\\logs\\logEnvio.log");
+            //var s = processo.MontaCaminhoDir(Parametros.GetDirArq(),"\\logs\\logEnvio.log");
 
-            var lista = processo.Listar_arquivos(".xml");
+            var lista = processo.ListarArquivos(".xml");
 
             if(lista.Count > 0)
             {
@@ -42,33 +42,27 @@ namespace Vertech.Services
                         var response = Enviar(xmlString);
                         if(processo.VerificaResponseXML(response) == true)
                         {
-                            StreamWriter w = File.AppendText(@s);
                             processo.SalvaProtocoloXML(arq_name, response);
-                            processo.GeraLogEnviaXML(arq_name, "Foi enviado com sucesso!", w);
-                            w.Close();
+                            processo.GeraLogEnviaXML(arq_name, "Foi enviado com sucesso!");
                         }
                         else
                         {
-                            StreamWriter w = File.AppendText(@s);
-                            processo.GeraLogEnviaXML(arq_name, "Não foi enviado", w);
-                            w.Close();
+                            processo.GeraLogEnviaXML(arq_name, "Não foi enviado");
                         }
                     }
                     else
                     {
-                        StreamWriter w = File.AppendText(@s);
-                        processo.GeraLogEnviaXML(arq_name, "Já foi enviado!", w);
-                        w.Close();
+                        processo.GeraLogEnviaXML(arq_name, "Já foi enviado!");
                     }
                 }
             }
             else
             {
                 ClassException ex = new ClassException();
-                var l = processo.Listar_arquivos(".txt");
+                var l = processo.ListarArquivos(".txt");
                 if (l.Count <= 0)
                 {
-                    ex.ImprimeMsgDeErro_NoFilesFound(1);
+                    ex.ExNoFilesFound(1);
                 }
             }
 
@@ -77,7 +71,7 @@ namespace Vertech.Services
         public string Enviar(string xmlString)
         {
 
-            var wsClient = new ServicoEnviarLoteEventosClient();
+            var wsClient = DefineBaseClient();
 
             var request = new EnviarLoteEventosRequestBody();
 
@@ -85,8 +79,6 @@ namespace Vertech.Services
 
             try
             {
-                wsClient.Endpoint.Behaviors.Add(new CustomEndpointCallBehavior(Convert.ToString(Parametros.GetGrupo()), Parametros.GetToken()));
-
                 request.loteEventos = System.Xml.Linq.XElement.Parse(xmlString);
 
                 wsClient.Open();
@@ -107,5 +99,36 @@ namespace Vertech.Services
             return responseString;
 
         }
+
+        private ServicoEnviarLoteEventosClient DefineBaseClient()
+        {
+            if (Parametros.GetBase() == "Vertech Teste")
+            {
+                var urlServicoEnvio = @"https://apiesocial2.vertech-it.com.br/vch-esocial/envialote?wsdl";
+
+                var address = new EndpointAddress(urlServicoEnvio);
+
+                var binding = new BasicHttpsBinding();
+
+                binding.Security.Transport.ClientCredentialType = HttpClientCredentialType.Basic;
+
+                var wsClient = new ServicoEnviarLoteEventosClient(binding, address);
+
+                wsClient.ClientCredentials.UserName.UserName = Convert.ToString(Parametros.GetGrupo());
+                wsClient.ClientCredentials.UserName.Password = Parametros.GetToken();
+
+                wsClient.Endpoint.Behaviors.Add(new CustomEndpointCallBehavior(Convert.ToString(Parametros.GetGrupo()), Parametros.GetToken()));
+
+
+                return wsClient;
+            }
+
+            var wsClientP = new ServicoEnviarLoteEventosClient();
+
+            wsClientP.Endpoint.Behaviors.Add(new CustomEndpointCallBehavior(Convert.ToString(Parametros.GetGrupo()), Parametros.GetToken()));
+
+            return wsClientP;
+        }
+
     }
 }

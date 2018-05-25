@@ -31,10 +31,10 @@ namespace Vertech.Services
 
             ClassException ex = new ClassException();
             Processos processo = new Processos();
-            var s = processo.MontaCaminhoDir(Parametros.GetDirArq(), "\\logs\\logConsulta.log");
+            //var s = processo.MontaCaminhoDir(Parametros.GetDirArq(), "\\logs\\logConsulta.log");
             int i = 0;
 
-            List<string> lista = processo.Listar_arquivos(".xml");
+            List<string> lista = processo.ListarArquivos(".xml");
 
             if (lista.Count > 0)
             {
@@ -45,7 +45,7 @@ namespace Vertech.Services
                     if (valida == true)
                     {
                         var protocolo = Helper.GetProtocolo(arq_name);
-                        var retorno = ConsultaProtocolo(protocolo.NroProtocolo);
+                        var retorno = ConsultaProtocolo(protocolo.NroProtocolo, protocolo.Base);
 
                         try
                         {
@@ -54,67 +54,89 @@ namespace Vertech.Services
                             if (processo.VerificaConsultaXML(retorno) == true)
                             {
                                 //processo.GeraLogConsultaDetalhadaXML(arq_name, protocolo.NroProtocolo, retorno, w);
-                                processo.Mover_Consultado(arq_name);
+                                processo.MoverConsultado(arq_name);
                                 Helper.DeleteProtocolo(arq_name);
                             }
                         }
                         catch (Exception e)
                         {
-                            StreamWriter vWriter = new StreamWriter(@s, true);
-
-                            vWriter.WriteLine("");
-                            vWriter.WriteLine("Ocorrencia ConsultaXML");
-                            vWriter.WriteLine("Data/Hora: " + DateTime.Now.ToString());
-                            vWriter.WriteLine("Codigo Erro: " + 1);
-                            vWriter.WriteLine("Descrição: Tente consultar novamente em alguns minutos.");
-                            vWriter.WriteLine("");
-                            vWriter.Flush();
-                            vWriter.Close();
+                            ex.Exception(e.Message, arq_name, "Consulta", "Tente consultar novamente em alguns minutos");
                         }
                         i++;
                     }
                 }
                 if (i == 0)
                 {
-                    ex.ImprimeMsgDeErro_NoFilesFound(2);
+                    ex.ExNoFilesFound(2);
                 }
             }
 
             else
             {
-                var l = processo.Listar_arquivos(".txt");
+                var l = processo.ListarArquivos(".txt");
                 if (l.Count <= 0)
                 {
-                    ex.ImprimeMsgDeErro_NoFilesFound(2);
+                    ex.ExNoFilesFound(2);
                 }
             }
         }
 
-        public string ConsultaProtocolo(string prot)
+        public string ConsultaProtocolo(string prot, string Base)
         {
-            var wsClient = new ServicoConsultarLoteEventosClient();
+            var wsClient = DefineBaseClient(Base);
             var request = new ConsultarLoteEventosRequestBody();
+
             string strResponse="";
-            request.consulta = System.Xml.Linq.XElement.Parse(MontaRequest(prot));//System.Xml.Linq.XElement.Load(string.Concat(Parametros.GetDirArq(),"\\retorno.xml"));//
+            //System.Xml.Linq.XElement.Load(string.Concat(Parametros.GetDirArq(),"\\retorno.xml"));//
 
             try
             {
-                wsClient.Endpoint.Behaviors.Add(new CustomEndpointCallBehavior(Convert.ToString(Parametros.GetGrupo()), Parametros.GetToken()));
-
+                request.consulta = System.Xml.Linq.XElement.Parse(MontaRequest(prot));
+                
                 wsClient.Open();
                 var response = wsClient.ConsultarLoteEventos(request.consulta);
                 wsClient.Close();
+
                 strResponse = Convert.ToString(response);
             }
             catch(Exception e)
             {
                 ClassException ex = new ClassException();
-                ex.ImprimeException(2, "Erro no Consulta XML! Tente novamente mais tarde.");
+                ex.ImprimeException(2, e.Message);
             }
 
             return strResponse;
         }
-        
+
+        private ServicoConsultarLoteEventosClient DefineBaseClient(string Base)
+        {
+            if (Base == "Vertech Teste")
+            {
+                var urlServicoEnvio = @"https://apiesocial2.vertech-it.com.br/vch-esocial/consultalote?wsdl";
+
+                var address = new EndpointAddress(urlServicoEnvio);
+
+                var binding = new BasicHttpsBinding();
+
+                binding.Security.Transport.ClientCredentialType = HttpClientCredentialType.Basic;
+
+                var wsClient = new ServicoConsultarLoteEventosClient(binding, address);
+
+                wsClient.ClientCredentials.UserName.UserName = Convert.ToString(Parametros.GetGrupo());
+                wsClient.ClientCredentials.UserName.Password = Parametros.GetToken();
+
+                wsClient.Endpoint.Behaviors.Add(new CustomEndpointCallBehavior(Convert.ToString(Parametros.GetGrupo()), Parametros.GetToken()));
+
+                return wsClient;
+            }
+
+            var wsClientP = new ServicoConsultarLoteEventosClient();
+
+            wsClientP.Endpoint.Behaviors.Add(new CustomEndpointCallBehavior(Convert.ToString(Parametros.GetGrupo()), Parametros.GetToken()));
+
+            return wsClientP;
+        }
+
         public string MontaRequest(string prot)
         {
             prot = string.Concat("<protocoloEnvio>", prot, "</protocoloEnvio>");

@@ -29,6 +29,7 @@
           <xs:sequence>
             <xs:element name="grupo" type="xs:long" />
             <xs:element name="token" type="xs:string" />
+            <xs:element name="tpamb" type="xs:long" />
           </xs:sequence>
         </xs:complexType>
       </xs:element>
