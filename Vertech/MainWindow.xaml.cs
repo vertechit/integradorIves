@@ -123,29 +123,36 @@ namespace Vertech
 
                         if(ctrl == 3)
                         {
-
-                            CboAmbiente.SelectedIndex = Convert.ToInt32(param.Ambiente)-1;
-                            TxtbAmbiente.Text = (string)CboAmbiente.SelectedItem;
-
-                            if(param.Base == "Vertech Produção")
+                            try
                             {
-                                CboBase.SelectedIndex = 0;
-                                TxbBase.Text = param.Base;
+                                CboAmbiente.SelectedIndex = Convert.ToInt32(param.Ambiente) - 1;
+                                TxtbAmbiente.Text = (string)CboAmbiente.SelectedItem;
+
+                                if (param.Base == "Vertech Produção")
+                                {
+                                    CboBase.SelectedIndex = 0;
+                                    TxbBase.Text = param.Base;
+                                }
+                                else
+                                {
+                                    CboBase.SelectedIndex = 1;
+                                    TxbBase.Text = param.Base;
+                                }
+
+                                Parametros.SetAmbiente(param.Ambiente);
+                                Parametros.SetBase(param.Base);
+
+                                OrganizaTelaEvent(2);
+                                Job();
+
+                                Thread Tproc = new Thread(process.LimpaLog);
+                                Tproc.Start();
                             }
-                            else
+                            catch(Exception ex)
                             {
-                                CboBase.SelectedIndex = 1;
-                                TxbBase.Text = param.Base;
+                                OrganizaTelaEvent(1);
                             }
-
-                            Parametros.SetAmbiente(param.Ambiente);
-                            Parametros.SetBase(param.Base);
-
-                            OrganizaTelaEvent(2);
-                            Job();
-
-                            Thread Tproc = new Thread(process.LimpaLog);
-                            Tproc.Start();
+                            
                         }
                         else
                         {
