@@ -408,7 +408,6 @@ namespace Vertech.Services
 
         public void GeraLogDetalhado(string filename, apiConsulta.consultaResponse retorno)
         {
-
             try
             {
                 int i = 0;
@@ -548,6 +547,7 @@ namespace Vertech.Services
 
                     i++;
                 }
+
             }
             catch (Exception e)
             {

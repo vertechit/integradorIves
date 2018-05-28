@@ -85,7 +85,7 @@ namespace Vertech.Services
 
                 processo.GeraLogDetalhado(filename, Response);
 
-                if(Response.consultaProtocolo.status.cdResposta == 3 || Response.consultaProtocolo.status.descResposta == "Processado com Erro")
+                if(Response.consultaProtocolo.status.cdResposta == 3 || Response.consultaProtocolo.status.cdResposta == 2)
                 {
                     processo.MoverConsultado(filename);
                     Helper.DeleteProtocolo(filename);
@@ -121,8 +121,14 @@ namespace Vertech.Services
 
                 return wsClient;
             }
+            var wsClientP = new EsocialServiceClient();
 
-            return new EsocialServiceClient();
+            wsClientP.ClientCredentials.UserName.UserName = Convert.ToString(Parametros.GetGrupo());
+            wsClientP.ClientCredentials.UserName.Password = Parametros.GetToken();
+
+            wsClientP.Endpoint.Behaviors.Add(new CustomEndpointCallBehavior(Convert.ToString(Parametros.GetGrupo()), Parametros.GetToken()));
+
+            return wsClientP;
         }
 
         private apiIntegra.integraResponse Set_Protocolo(Protocolo p)
