@@ -28,7 +28,21 @@ namespace Vertech.Services
 
         public void AfterReceiveReply(ref Message reply, object correlationState)
         {
-            //var ret = System.Xml.Linq.XElement.Parse(Convert.ToString(reply));
+            var stringXML = "";
+            try
+            {
+                var ret = System.Xml.Linq.XElement.Parse(Convert.ToString(reply));
+                stringXML = Convert.ToString(ret);
+            }catch(Exception ex)
+            {
+
+            }
+            
+            if (stringXML.Contains("<consultaResponse xmlns=\"http://www.esocial.gov.br/ws\">"))
+            {
+                Processos p = new Processos();
+                p.CreateFileBufferConsulta(stringXML);
+            }
             //throw new NotImplementedException();
         }
 

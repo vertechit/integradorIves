@@ -58,6 +58,15 @@ namespace Vertech.Services
                     ex.ExNoFilesFound(2);
                 }
             }
+
+            try
+            {
+                System.IO.File.Delete(string.Concat(Parametros.GetDirArq(), "\\logs\\retornoTXT\\buffer.dat"));
+            }
+            catch(Exception e)
+            {
+
+            }
             
         }
 
@@ -77,15 +86,17 @@ namespace Vertech.Services
                 wsClient.Open();
                 Response = wsClient.consultaRequest(Request);
                 wsClient.Close();
-
+                
                 processo.GeraLogConsulta(filename
                     , Response.consultaProtocolo.identificador.protocolo.ToString()
                     , Convert.ToString(Response.consultaProtocolo.status.descResposta)
                     , Convert.ToInt32(Response.consultaProtocolo.status.cdResposta));
 
-                processo.GeraLogDetalhado(filename, Response);
+                //processo.GeraLogDetalhado(filename, Response);
 
-                if(Response.consultaProtocolo.status.cdResposta == 3 || Response.consultaProtocolo.status.descResposta == "Processado com Erro")
+                processo.CreateFileRetornoTXT(filename);
+
+                if(Response.consultaProtocolo.status.cdResposta == 3 || Response.consultaProtocolo.status.cdResposta == 2)
                 {
                     processo.MoverConsultado(filename);
                     Helper.DeleteProtocolo(filename);
@@ -121,8 +132,14 @@ namespace Vertech.Services
 
                 return wsClient;
             }
+            var wsClientP = new EsocialServiceClient();
 
-            return new EsocialServiceClient();
+            wsClientP.ClientCredentials.UserName.UserName = Convert.ToString(Parametros.GetGrupo());
+            wsClientP.ClientCredentials.UserName.Password = Parametros.GetToken();
+
+            wsClientP.Endpoint.Behaviors.Add(new CustomEndpointCallBehavior(Convert.ToString(Parametros.GetGrupo()), Parametros.GetToken()));
+
+            return wsClientP;
         }
 
         private apiIntegra.integraResponse Set_Protocolo(Protocolo p)
