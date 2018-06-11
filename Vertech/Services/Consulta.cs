@@ -58,6 +58,15 @@ namespace Vertech.Services
                     ex.ExNoFilesFound(2);
                 }
             }
+
+            try
+            {
+                System.IO.File.Delete(string.Concat(Parametros.GetDirArq(), "\\logs\\retornoTXT\\buffer.dat"));
+            }
+            catch(Exception e)
+            {
+
+            }
             
         }
 
@@ -77,13 +86,15 @@ namespace Vertech.Services
                 wsClient.Open();
                 Response = wsClient.consultaRequest(Request);
                 wsClient.Close();
-
+                
                 processo.GeraLogConsulta(filename
                     , Response.consultaProtocolo.identificador.protocolo.ToString()
                     , Convert.ToString(Response.consultaProtocolo.status.descResposta)
                     , Convert.ToInt32(Response.consultaProtocolo.status.cdResposta));
 
-                processo.GeraLogDetalhado(filename, Response);
+                //processo.GeraLogDetalhado(filename, Response);
+
+                processo.CreateFileRetornoTXT(filename);
 
                 if(Response.consultaProtocolo.status.cdResposta == 3 || Response.consultaProtocolo.status.cdResposta == 2)
                 {

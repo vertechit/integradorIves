@@ -316,9 +316,10 @@ namespace Vertech.Services
 
             try
             {
-                StreamWriter w = File.AppendText(@s);
-                w.Write(protocolo);
-                w.Close();
+                System.IO.File.WriteAllText(@s, protocolo);
+                //StreamWriter w = File.AppendText(@s);
+                //w.Write(protocolo);
+                //w.Close();
             }
             catch (Exception e)
             {
@@ -404,6 +405,58 @@ namespace Vertech.Services
             }
 
 
+        }
+
+        public void CreateFileBufferConsulta(string XML)
+        {
+            DirectoryInfo di = new DirectoryInfo(string.Concat(Parametros.GetDirArq(), "\\logs\\retornoTXT"));
+
+            if (di.Exists == false)
+                di.Create();
+
+            try
+            {
+                System.IO.File.WriteAllText(string.Concat(Parametros.GetDirArq(), "\\logs\\retornoTXT\\buffer.dat"), XML);
+            }
+            catch (Exception err)
+            {
+                
+            }
+            
+        }
+
+        public void CreateFileRetornoTXT(string filename)
+        {
+            DirectoryInfo di = new DirectoryInfo(string.Concat(Parametros.GetDirArq(), "\\logs\\retornoTXT"));
+
+            if (di.Exists == false)
+                di.Create();
+            var nome = string.Concat("log_", filename, ".xml");
+
+            string s = MontaCaminhoDir(string.Concat(Parametros.GetDirArq(), "\\logs\\retornoTXT"), nome);
+
+            var ret = LerArquivo(string.Concat(Parametros.GetDirArq(), "\\logs\\retornoTXT"), "buffer.dat");
+            var xml = "";
+            for (int i = 0; i < ret.Length; i++)
+            {
+                if(i != 0 && i != 1 && i != 2 && i != ret.Length-1 && i != ret.Length-2)
+                {
+                    xml = string.Concat(xml, ret[i]);
+                }
+            }
+
+            try
+            {
+                System.IO.File.WriteAllText(@s, xml);
+                //StreamWriter w = File.AppendText(@s);
+                //w.Write(xml);
+                //w.Close();
+            }
+            catch (Exception e)
+            {
+                ClassException ex = new ClassException();
+                ex.ExProcessos(5, e.Message.ToString());
+            }
         }
 
         public void GeraLogDetalhado(string filename, apiConsulta.consultaResponse retorno)
