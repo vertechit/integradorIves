@@ -27,6 +27,7 @@ namespace iVesService
         Integra integra = new Integra();
         ConsultaLote ConsultaLote = new ConsultaLote();
         EnviaLote EnviaLote = new EnviaLote();
+        Processos proc = new Processos();
 
         public Service()
         {
@@ -126,10 +127,20 @@ namespace iVesService
 
         private void Timer_Tick(object sender)
         {
-            if(Controle == 0)
+            if (Controle == 0)
             {
-                Job();
-            } 
+                if (proc.ValidaParametros() == true)
+                {
+                    Job();
+                }
+                else
+                {
+                    Log("Não foi possivel localizar as informações, por favor, abra o integrador e defina os parametros novamente.", 2);
+                    this.Stop();
+                }
+            }
+            
+            
         }
 
         private void Job()

@@ -49,11 +49,10 @@ namespace Vertech.Services
 
                         try
                         {
-                            processo.GeraLogConsultaXML(arq_name, retorno);
+                            processo.GeraLogConsultaXML(arq_name, retorno, protocolo.NroProtocolo);
 
                             if (processo.VerificaConsultaXML(retorno) == true)
                             {
-                                //processo.GeraLogConsultaDetalhadaXML(arq_name, protocolo.NroProtocolo, retorno, w);
                                 processo.MoverConsultado(arq_name);
                                 Helper.DeleteProtocolo(arq_name);
                             }

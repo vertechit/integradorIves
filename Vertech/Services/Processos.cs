@@ -293,7 +293,7 @@ namespace Vertech.Services
             }
         }
 
-        public void GeraLogConsultaXML(string filename, string response)
+        public void GeraLogConsultaXML(string filename, string response, string prot)
         {
             DirectoryInfo di = new DirectoryInfo(string.Concat(Parametros.GetDirArq(), "\\logs\\retornoXML"));
 
@@ -316,10 +316,30 @@ namespace Vertech.Services
 
             try
             {
+                var tagDescIni = "<descResposta>";
+                var tagDescFim = "</descResposta>";
+
+                int stiDesc = protocolo.IndexOf(tagDescIni);
+                int stfDesc = protocolo.IndexOf(tagDescFim);
+
+                var desc = protocolo.Substring(stiDesc, stfDesc + tagDescFim.Length - stiDesc);
+
+                desc = desc.Replace(tagDescIni, "");
+                desc = desc.Replace(tagDescFim, "");
+
+                InsereLog(2, desc, filename, "Consulta", "Consulte a pasta de log para mais detalhes", prot, "");
+
+            }
+            catch (Exception e)
+            {
+                ClassException ex = new ClassException();
+                ex.ExProcessos(5, e.Message.ToString());
+            }
+            
+            try
+            {
                 System.IO.File.WriteAllText(@s, protocolo);
-                //StreamWriter w = File.AppendText(@s);
-                //w.Write(protocolo);
-                //w.Close();
+
             }
             catch (Exception e)
             {
