@@ -731,6 +731,30 @@ namespace Vertech.Services
             return Convert.ToInt32(ts.TotalDays);
         }
 
+        public bool ValidaParametros()
+        {
+            DirectoryInfo diArq = new DirectoryInfo(Parametros.GetDirArq());
+            DirectoryInfo diCon = new DirectoryInfo(Parametros.GetDirFim());
+            FileInfo diTok = new FileInfo(Parametros.GetDirToke());
+
+            if (diArq.Exists == false)
+            {
+                return false;
+            }
+
+            if (diCon.Exists == false)
+            {
+                return false;
+            }
+
+            if (diTok.Exists == false)
+            {
+                return false;
+            }
+
+            return true;
+        }
+
         public bool VerificaProcessoRun()
         {
             var isOpen = Process.GetProcesses().Any(p =>

@@ -231,15 +231,23 @@ namespace Vertech
             {
                 if ((Parametros.GetDirArq()) != null && Parametros.GetGrupo() != 0 && Parametros.GetToken() != null)
                 {
-                    this.Cursor = System.Windows.Input.Cursors.Wait;
+                    Processos proc = new Processos();
+                    if (proc.ValidaParametros() == true)
+                    {
+                        this.Cursor = System.Windows.Input.Cursors.Wait;
 
-                    Thread t = new Thread(Integra_Esocial);
-                    t.Start();
-                    t.Join();
+                        Thread t = new Thread(Integra_Esocial);
+                        t.Start();
+                        t.Join();
 
-                    this.Cursor = System.Windows.Input.Cursors.Arrow;
+                        this.Cursor = System.Windows.Input.Cursors.Arrow;
 
-                    Job();
+                        Job();
+                    }
+                    else
+                    {
+                        System.Windows.MessageBox.Show("Diretorio(s) foram movidos ou excluidos de sua origem. Por favor, revise os parametros selecionados.");
+                    }
                 }
 
                 else
@@ -261,14 +269,22 @@ namespace Vertech
                 {
                     if ((Parametros.GetDirArq()) != (Parametros.GetDirFim()))
                     {
-                        this.Cursor = System.Windows.Input.Cursors.Wait;
+                        Processos proc = new Processos();
+                        if(proc.ValidaParametros() == true)
+                        {
+                            this.Cursor = System.Windows.Input.Cursors.Wait;
 
-                        Thread t = new Thread(Consulta_Retorno);
-                        t.Start();
-                        t.Join();
-                        this.Cursor = System.Windows.Input.Cursors.Arrow;
+                            Thread t = new Thread(Consulta_Retorno);
+                            t.Start();
+                            t.Join();
+                            this.Cursor = System.Windows.Input.Cursors.Arrow;
 
-                        Job();
+                            Job();
+                        }
+                        else
+                        {
+                            System.Windows.MessageBox.Show("Diretorio(s) foram movidos ou excluidos de sua origem. Por favor, revise os parametros selecionados.");
+                        }
                     }
 
                     else
@@ -523,41 +539,48 @@ namespace Vertech
 
         private void BtnSalvar_Click(object sender, RoutedEventArgs e)
         {
+            Processos process = new Processos();
+
             if (Parametros.GetDirToke() != null)
             {
                 if ((Parametros.GetDirArq()) != null && (Parametros.GetDirFim()) != null && Parametros.GetGrupo() != 0 && Parametros.GetToken() != null)
                 {
                     if ((Parametros.GetDirArq()) != (Parametros.GetDirFim()))
                     {
-                        if(CboAmbiente.SelectedIndex != -1)
+                        if(process.ValidaParametros() == true)
                         {
-                            Processos process = new Processos();
-                            OrganizaTelaEvent(2);
-
-                            try
+                            if (CboAmbiente.SelectedIndex != -1)
                             {
-                                TxbBase.Text = (string)CboBase.SelectedItem;
-                                TxtbAmbiente.Text = (string)CboAmbiente.SelectedItem;
+                                OrganizaTelaEvent(2);
 
-                                Parametros.SetAmbiente(Convert.ToString((int)CboAmbiente.SelectedIndex + 1));
+                                try
+                                {
+                                    TxbBase.Text = (string)CboBase.SelectedItem;
+                                    TxtbAmbiente.Text = (string)CboAmbiente.SelectedItem;
 
-                                Parametros.SetBase((string)CboBase.SelectedItem);
+                                    Parametros.SetAmbiente(Convert.ToString((int)CboAmbiente.SelectedIndex + 1));
 
-                                Helper.AddParametros(new Parametro { Id = 1, CaminhoDir = Parametros.GetDirArq(), CaminhoFim = Parametros.GetDirFim(), CaminhoToke = Parametros.GetDirToke(), Ambiente = Parametros.GetAmbiente(), Base = Parametros.GetBase()});
+                                    Parametros.SetBase((string)CboBase.SelectedItem);
 
-                                Job();
+                                    Helper.AddParametros(new Parametro { Id = 1, CaminhoDir = Parametros.GetDirArq(), CaminhoFim = Parametros.GetDirFim(), CaminhoToke = Parametros.GetDirToke(), Ambiente = Parametros.GetAmbiente(), Base = Parametros.GetBase() });
+
+                                    Job();
+                                }
+                                catch (Exception ex)
+                                {
+                                    System.Windows.MessageBox.Show(ex.Message);
+                                }
+
                             }
-                            catch (Exception ex)
+                            else
                             {
-                                System.Windows.MessageBox.Show(ex.Message);
+                                System.Windows.Forms.MessageBox.Show("Selecione o tipo de ambiente");
                             }
-
                         }
                         else
                         {
-                            System.Windows.Forms.MessageBox.Show("Selecione o tipo de ambiente");
+                            System.Windows.Forms.MessageBox.Show("Diretorio(s) foram movidos ou excluidos de sua origem. Por favor, revise os parametros selecionados.");
                         }
-                        
                     }
 
                     else

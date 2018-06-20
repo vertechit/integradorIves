@@ -134,6 +134,7 @@ namespace iVesService
 
         private void Job()
         {
+            Controle = 1;
             Log("Job Iniciado: ", 1);
             Log("Integração TXT iniciada: ", 1);
             integra.Job();
