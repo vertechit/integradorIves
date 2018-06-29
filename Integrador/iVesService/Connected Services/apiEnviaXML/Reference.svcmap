@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ReferenceGroup xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" ID="ab2c37e4-b044-4c37-9ddb-53bc81335711" xmlns="urn:schemas-microsoft-com:xml-wcfservicemap">
+<ReferenceGroup xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" ID="e0a118ca-f5f0-471d-80c6-423112be6218" xmlns="urn:schemas-microsoft-com:xml-wcfservicemap">
   <ClientOptions>
     <GenerateAsynchronousMethods>false</GenerateAsynchronousMethods>
     <GenerateTaskBasedAsynchronousMethod>true</GenerateTaskBasedAsynchronousMethod>
@@ -22,7 +22,7 @@
     <MetadataSource Address="https://apiesocial.vertech-it.com.br/vch-esocial/envialote?wsdl" Protocol="http" SourceId="1" />
   </MetadataSources>
   <Metadata>
-    <MetadataFile FileName="ServicoEnviarLoteEventos.wsdl" MetadataType="Wsdl" ID="aa9c5ff4-2e19-49fc-96aa-a8dcae60d64d" SourceId="1" SourceUrl="https://apiesocial.vertech-it.com.br/vch-esocial/envialote?wsdl" />
+    <MetadataFile FileName="ServicoEnviarLoteEventos.wsdl" MetadataType="Wsdl" ID="beb5c729-e2bd-4597-b37c-4a0a4c2ff4c9" SourceId="1" SourceUrl="https://apiesocial.vertech-it.com.br/vch-esocial/envialote?wsdl" />
   </Metadata>
   <Extensions>
     <ExtensionFile FileName="configuration91.svcinfo" Name="configuration91.svcinfo" />

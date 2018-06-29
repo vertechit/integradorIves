@@ -8,20 +8,20 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace iVesService.apiConsulta {
+namespace iVesService.apiConsultaTXT {
     
     
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
-    [System.ServiceModel.ServiceContractAttribute(Namespace="http://www.esocial.gov.br/ws", ConfigurationName="apiConsulta.EsocialService")]
+    [System.ServiceModel.ServiceContractAttribute(Namespace="http://www.esocial.gov.br/ws", ConfigurationName="apiConsultaTXT.EsocialService")]
     public interface EsocialService {
         
         // CODEGEN: Gerando contrato de mensagem porque a operação consultaRequest não é RPC nem documento codificado.
         [System.ServiceModel.OperationContractAttribute(Action="", ReplyAction="*")]
         [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
-        iVesService.apiConsulta.consultaResponse1 consultaRequest(iVesService.apiConsulta.consultaRequest1 request);
+        iVesService.apiConsultaTXT.consultaResponse1 consultaRequest(iVesService.apiConsultaTXT.consultaRequest1 request);
         
         [System.ServiceModel.OperationContractAttribute(Action="", ReplyAction="*")]
-        System.Threading.Tasks.Task<iVesService.apiConsulta.consultaResponse1> consultaRequestAsync(iVesService.apiConsulta.consultaRequest1 request);
+        System.Threading.Tasks.Task<iVesService.apiConsultaTXT.consultaResponse1> consultaRequestAsync(iVesService.apiConsultaTXT.consultaRequest1 request);
     }
     
     /// <remarks/>
@@ -816,12 +816,12 @@ namespace iVesService.apiConsulta {
     public partial class consultaRequest1 {
         
         [System.ServiceModel.MessageBodyMemberAttribute(Namespace="http://www.esocial.gov.br/ws", Order=0)]
-        public iVesService.apiConsulta.consultaRequest consultaRequest;
+        public iVesService.apiConsultaTXT.consultaRequest consultaRequest;
         
         public consultaRequest1() {
         }
         
-        public consultaRequest1(iVesService.apiConsulta.consultaRequest consultaRequest) {
+        public consultaRequest1(iVesService.apiConsultaTXT.consultaRequest consultaRequest) {
             this.consultaRequest = consultaRequest;
         }
     }
@@ -833,23 +833,23 @@ namespace iVesService.apiConsulta {
     public partial class consultaResponse1 {
         
         [System.ServiceModel.MessageBodyMemberAttribute(Namespace="http://www.esocial.gov.br/ws", Order=0)]
-        public iVesService.apiConsulta.consultaResponse consultaResponse;
+        public iVesService.apiConsultaTXT.consultaResponse consultaResponse;
         
         public consultaResponse1() {
         }
         
-        public consultaResponse1(iVesService.apiConsulta.consultaResponse consultaResponse) {
+        public consultaResponse1(iVesService.apiConsultaTXT.consultaResponse consultaResponse) {
             this.consultaResponse = consultaResponse;
         }
     }
     
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
-    public interface EsocialServiceChannel : iVesService.apiConsulta.EsocialService, System.ServiceModel.IClientChannel {
+    public interface EsocialServiceChannel : iVesService.apiConsultaTXT.EsocialService, System.ServiceModel.IClientChannel {
     }
     
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
-    public partial class EsocialServiceClient : System.ServiceModel.ClientBase<iVesService.apiConsulta.EsocialService>, iVesService.apiConsulta.EsocialService {
+    public partial class EsocialServiceClient : System.ServiceModel.ClientBase<iVesService.apiConsultaTXT.EsocialService>, iVesService.apiConsultaTXT.EsocialService {
         
         public EsocialServiceClient() {
         }
@@ -871,26 +871,26 @@ namespace iVesService.apiConsulta {
         }
         
         [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
-        iVesService.apiConsulta.consultaResponse1 iVesService.apiConsulta.EsocialService.consultaRequest(iVesService.apiConsulta.consultaRequest1 request) {
+        iVesService.apiConsultaTXT.consultaResponse1 iVesService.apiConsultaTXT.EsocialService.consultaRequest(iVesService.apiConsultaTXT.consultaRequest1 request) {
             return base.Channel.consultaRequest(request);
         }
         
-        public iVesService.apiConsulta.consultaResponse consultaRequest(iVesService.apiConsulta.consultaRequest consultaRequest1) {
-            iVesService.apiConsulta.consultaRequest1 inValue = new iVesService.apiConsulta.consultaRequest1();
+        public iVesService.apiConsultaTXT.consultaResponse consultaRequest(iVesService.apiConsultaTXT.consultaRequest consultaRequest1) {
+            iVesService.apiConsultaTXT.consultaRequest1 inValue = new iVesService.apiConsultaTXT.consultaRequest1();
             inValue.consultaRequest = consultaRequest1;
-            iVesService.apiConsulta.consultaResponse1 retVal = ((iVesService.apiConsulta.EsocialService)(this)).consultaRequest(inValue);
+            iVesService.apiConsultaTXT.consultaResponse1 retVal = ((iVesService.apiConsultaTXT.EsocialService)(this)).consultaRequest(inValue);
             return retVal.consultaResponse;
         }
         
         [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
-        System.Threading.Tasks.Task<iVesService.apiConsulta.consultaResponse1> iVesService.apiConsulta.EsocialService.consultaRequestAsync(iVesService.apiConsulta.consultaRequest1 request) {
+        System.Threading.Tasks.Task<iVesService.apiConsultaTXT.consultaResponse1> iVesService.apiConsultaTXT.EsocialService.consultaRequestAsync(iVesService.apiConsultaTXT.consultaRequest1 request) {
             return base.Channel.consultaRequestAsync(request);
         }
         
-        public System.Threading.Tasks.Task<iVesService.apiConsulta.consultaResponse1> consultaRequestAsync(iVesService.apiConsulta.consultaRequest consultaRequest) {
-            iVesService.apiConsulta.consultaRequest1 inValue = new iVesService.apiConsulta.consultaRequest1();
+        public System.Threading.Tasks.Task<iVesService.apiConsultaTXT.consultaResponse1> consultaRequestAsync(iVesService.apiConsultaTXT.consultaRequest consultaRequest) {
+            iVesService.apiConsultaTXT.consultaRequest1 inValue = new iVesService.apiConsultaTXT.consultaRequest1();
             inValue.consultaRequest = consultaRequest;
-            return ((iVesService.apiConsulta.EsocialService)(this)).consultaRequestAsync(inValue);
+            return ((iVesService.apiConsultaTXT.EsocialService)(this)).consultaRequestAsync(inValue);
         }
     }
 }

@@ -9,6 +9,7 @@ namespace IntegradorCore.Services
 {
     public static class StaticParametros
     {
+        #region Atributos
         //Todos parametros são obrigatorios para o pleno funcionamento do app e serviço
         private static string DirArq = null; //Diretorio de arquivos que serão integrados/Consultados
         private static string DirFim = null; //Diretorio onde será movido os arquivos já enviados e consultados
@@ -18,6 +19,7 @@ namespace IntegradorCore.Services
         private static string TipoApp = null; //Define se está executando um app ou um serviço
         private static long Ambiente = 0; //Ambiente de envio do evento definido pelo usuário
         private static bool Base = false; //Base de dados definida pelo usuário
+        #endregion
 
         #region Teste
         private static ParamVPGP VPGP;
@@ -66,6 +68,7 @@ namespace IntegradorCore.Services
         }
         #endregion
 
+        #region gets/sets
         public static bool GetBase()
         {
             return Base;
@@ -145,5 +148,7 @@ namespace IntegradorCore.Services
         {
             Token = token;
         }
+
+        #endregion
     }
 }

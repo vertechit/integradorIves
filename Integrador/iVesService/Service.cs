@@ -43,6 +43,7 @@ namespace iVesService
                 {
                     StaticParametros.SetDirToke(ret.CaminhoToke);
                     StaticParametros.SetDirOrigem(ret.CaminhoDir);
+                    process.CriarPastas();
 
                     if (DefineToken(StaticParametros.GetDirToke()) == false)
                     {
@@ -108,7 +109,7 @@ namespace iVesService
             }
             catch (Exception ex)
             {
-
+                Log(ex.Message, 2);
             }
             
             Parametro();
@@ -130,7 +131,7 @@ namespace iVesService
         public bool VerificaProcessoRun()
         {
             var isOpen = Process.GetProcesses().Any(p =>
-            p.ProcessName == "Integrador");
+            p.ProcessName == "IntegradorApp");
 
             if (isOpen)
                 return true;
@@ -275,7 +276,7 @@ namespace iVesService
                     vWriter.Close();
                 }catch(Exception ex)
                 {
-                    //NoOp
+                    //Log(ex.Message, 2);
                 }
                 
             }
@@ -291,7 +292,7 @@ namespace iVesService
                 }
                 catch(Exception ex)
                 {
-                    //NoOp
+                    //Log(ex.Message, 2);
                 }
             }
             

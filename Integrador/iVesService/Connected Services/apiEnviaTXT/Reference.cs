@@ -8,20 +8,20 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace iVesService.apiIntegra {
+namespace iVesService.apiEnviaTXT {
     
     
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
-    [System.ServiceModel.ServiceContractAttribute(Namespace="http://www.esocial.gov.br/ws", ConfigurationName="apiIntegra.EsocialService")]
+    [System.ServiceModel.ServiceContractAttribute(Namespace="http://www.esocial.gov.br/ws", ConfigurationName="apiEnviaTXT.EsocialService")]
     public interface EsocialService {
         
         // CODEGEN: Gerando contrato de mensagem porque a operação integraRequest não é RPC nem documento codificado.
         [System.ServiceModel.OperationContractAttribute(Action="", ReplyAction="*")]
         [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
-        iVesService.apiIntegra.integraResponse1 integraRequest(iVesService.apiIntegra.integraRequest1 request);
+        iVesService.apiEnviaTXT.integraResponse1 integraRequest(iVesService.apiEnviaTXT.integraRequest1 request);
         
         [System.ServiceModel.OperationContractAttribute(Action="", ReplyAction="*")]
-        System.Threading.Tasks.Task<iVesService.apiIntegra.integraResponse1> integraRequestAsync(iVesService.apiIntegra.integraRequest1 request);
+        System.Threading.Tasks.Task<iVesService.apiEnviaTXT.integraResponse1> integraRequestAsync(iVesService.apiEnviaTXT.integraRequest1 request);
     }
     
     /// <remarks/>
@@ -216,12 +216,12 @@ namespace iVesService.apiIntegra {
     public partial class integraRequest1 {
         
         [System.ServiceModel.MessageBodyMemberAttribute(Namespace="http://www.esocial.gov.br/ws", Order=0)]
-        public iVesService.apiIntegra.integraRequest integraRequest;
+        public iVesService.apiEnviaTXT.integraRequest integraRequest;
         
         public integraRequest1() {
         }
         
-        public integraRequest1(iVesService.apiIntegra.integraRequest integraRequest) {
+        public integraRequest1(iVesService.apiEnviaTXT.integraRequest integraRequest) {
             this.integraRequest = integraRequest;
         }
     }
@@ -233,23 +233,23 @@ namespace iVesService.apiIntegra {
     public partial class integraResponse1 {
         
         [System.ServiceModel.MessageBodyMemberAttribute(Namespace="http://www.esocial.gov.br/ws", Order=0)]
-        public iVesService.apiIntegra.integraResponse integraResponse;
+        public iVesService.apiEnviaTXT.integraResponse integraResponse;
         
         public integraResponse1() {
         }
         
-        public integraResponse1(iVesService.apiIntegra.integraResponse integraResponse) {
+        public integraResponse1(iVesService.apiEnviaTXT.integraResponse integraResponse) {
             this.integraResponse = integraResponse;
         }
     }
     
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
-    public interface EsocialServiceChannel : iVesService.apiIntegra.EsocialService, System.ServiceModel.IClientChannel {
+    public interface EsocialServiceChannel : iVesService.apiEnviaTXT.EsocialService, System.ServiceModel.IClientChannel {
     }
     
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
-    public partial class EsocialServiceClient : System.ServiceModel.ClientBase<iVesService.apiIntegra.EsocialService>, iVesService.apiIntegra.EsocialService {
+    public partial class EsocialServiceClient : System.ServiceModel.ClientBase<iVesService.apiEnviaTXT.EsocialService>, iVesService.apiEnviaTXT.EsocialService {
         
         public EsocialServiceClient() {
         }
@@ -271,26 +271,26 @@ namespace iVesService.apiIntegra {
         }
         
         [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
-        iVesService.apiIntegra.integraResponse1 iVesService.apiIntegra.EsocialService.integraRequest(iVesService.apiIntegra.integraRequest1 request) {
+        iVesService.apiEnviaTXT.integraResponse1 iVesService.apiEnviaTXT.EsocialService.integraRequest(iVesService.apiEnviaTXT.integraRequest1 request) {
             return base.Channel.integraRequest(request);
         }
         
-        public iVesService.apiIntegra.integraResponse integraRequest(iVesService.apiIntegra.integraRequest integraRequest1) {
-            iVesService.apiIntegra.integraRequest1 inValue = new iVesService.apiIntegra.integraRequest1();
+        public iVesService.apiEnviaTXT.integraResponse integraRequest(iVesService.apiEnviaTXT.integraRequest integraRequest1) {
+            iVesService.apiEnviaTXT.integraRequest1 inValue = new iVesService.apiEnviaTXT.integraRequest1();
             inValue.integraRequest = integraRequest1;
-            iVesService.apiIntegra.integraResponse1 retVal = ((iVesService.apiIntegra.EsocialService)(this)).integraRequest(inValue);
+            iVesService.apiEnviaTXT.integraResponse1 retVal = ((iVesService.apiEnviaTXT.EsocialService)(this)).integraRequest(inValue);
             return retVal.integraResponse;
         }
         
         [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
-        System.Threading.Tasks.Task<iVesService.apiIntegra.integraResponse1> iVesService.apiIntegra.EsocialService.integraRequestAsync(iVesService.apiIntegra.integraRequest1 request) {
+        System.Threading.Tasks.Task<iVesService.apiEnviaTXT.integraResponse1> iVesService.apiEnviaTXT.EsocialService.integraRequestAsync(iVesService.apiEnviaTXT.integraRequest1 request) {
             return base.Channel.integraRequestAsync(request);
         }
         
-        public System.Threading.Tasks.Task<iVesService.apiIntegra.integraResponse1> integraRequestAsync(iVesService.apiIntegra.integraRequest integraRequest) {
-            iVesService.apiIntegra.integraRequest1 inValue = new iVesService.apiIntegra.integraRequest1();
+        public System.Threading.Tasks.Task<iVesService.apiEnviaTXT.integraResponse1> integraRequestAsync(iVesService.apiEnviaTXT.integraRequest integraRequest) {
+            iVesService.apiEnviaTXT.integraRequest1 inValue = new iVesService.apiEnviaTXT.integraRequest1();
             inValue.integraRequest = integraRequest;
-            return ((iVesService.apiIntegra.EsocialService)(this)).integraRequestAsync(inValue);
+            return ((iVesService.apiEnviaTXT.EsocialService)(this)).integraRequestAsync(inValue);
         }
     }
 }

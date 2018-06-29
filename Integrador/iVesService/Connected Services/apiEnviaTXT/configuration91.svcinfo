@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<SavedWcfConfigurationInformation xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" Version="9.1" CheckSum="Zx7dUm20SFf5p65frCtPcvmFwcc=">
+<SavedWcfConfigurationInformation xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" Version="9.1" CheckSum="6lz4sJmyatvdEisiDwr2iqS6gQ0=">
   <bindingConfigurations>
     <bindingConfiguration bindingType="basicHttpBinding" name="EsocialBinding2">
       <properties>
@@ -221,10 +221,10 @@
     </bindingConfiguration>
   </bindingConfigurations>
   <endpoints>
-    <endpoint name="EsocialBinding1" contract="apiConsulta.EsocialService" bindingType="basicHttpBinding" address="https://apiesocial.vertech-it.com.br/vch-esocial/consultaintegra" bindingConfiguration="EsocialBinding2">
+    <endpoint name="EsocialBinding1" contract="apiEnviaTXT.EsocialService" bindingType="basicHttpBinding" address="https://apiesocial.vertech-it.com.br/vch-esocial/enviaintegra?wsdl" bindingConfiguration="EsocialBinding2">
       <properties>
         <property path="/address" isComplexType="false" isExplicitlyDefined="true" clrType="System.Uri, System, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
-          <serializedValue>https://apiesocial.vertech-it.com.br/vch-esocial/consultaintegra</serializedValue>
+          <serializedValue>https://apiesocial.vertech-it.com.br/vch-esocial/enviaintegra?wsdl</serializedValue>
         </property>
         <property path="/behaviorConfiguration" isComplexType="false" isExplicitlyDefined="false" clrType="System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
           <serializedValue />
@@ -236,7 +236,7 @@
           <serializedValue>EsocialBinding2</serializedValue>
         </property>
         <property path="/contract" isComplexType="false" isExplicitlyDefined="true" clrType="System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
-          <serializedValue>apiConsulta.EsocialService</serializedValue>
+          <serializedValue>apiEnviaTXT.EsocialService</serializedValue>
         </property>
         <property path="/headers" isComplexType="true" isExplicitlyDefined="false" clrType="System.ServiceModel.Configuration.AddressHeaderCollectionElement, System.ServiceModel, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
           <serializedValue>System.ServiceModel.Configuration.AddressHeaderCollectionElement</serializedValue>

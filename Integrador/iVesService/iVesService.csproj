@@ -88,22 +88,22 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Connected Services\apiConsultaTXT\Reference.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </Compile>
     <Compile Include="Connected Services\apiConsultaXML\Reference.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>Reference.svcmap</DependentUpon>
     </Compile>
-    <Compile Include="Connected Services\apiConsulta\Reference.cs">
+    <Compile Include="Connected Services\apiEnviaTXT\Reference.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>Reference.svcmap</DependentUpon>
     </Compile>
     <Compile Include="Connected Services\apiEnviaXML\Reference.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>Reference.svcmap</DependentUpon>
-    </Compile>
-    <Compile Include="Connected Services\apiIntegra\Reference.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>Reference.svcmap</DependentUpon>
@@ -125,28 +125,28 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
+    <None Include="Connected Services\apiConsultaTXT\EsocialService.wsdl" />
+    <None Include="Connected Services\apiConsultaTXT\iVesService.apiConsultaTXT.consultaResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Connected Services\apiConsultaTXT\iVesService.apiConsultaTXT.consultaResponse1.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
     <None Include="Connected Services\apiConsultaXML\iVesService.apiConsultaXML.ConsultarLoteEventosResponse.datasource">
       <DependentUpon>Reference.svcmap</DependentUpon>
     </None>
     <None Include="Connected Services\apiConsultaXML\ServicoConsultarLoteEventos.wsdl" />
-    <None Include="Connected Services\apiConsulta\EsocialService.wsdl" />
-    <None Include="Connected Services\apiConsulta\iVesService.apiConsulta.consultaResponse.datasource">
+    <None Include="Connected Services\apiEnviaTXT\EsocialService.wsdl" />
+    <None Include="Connected Services\apiEnviaTXT\iVesService.apiEnviaTXT.integraResponse.datasource">
       <DependentUpon>Reference.svcmap</DependentUpon>
     </None>
-    <None Include="Connected Services\apiConsulta\iVesService.apiConsulta.consultaResponse1.datasource">
+    <None Include="Connected Services\apiEnviaTXT\iVesService.apiEnviaTXT.integraResponse1.datasource">
       <DependentUpon>Reference.svcmap</DependentUpon>
     </None>
     <None Include="Connected Services\apiEnviaXML\iVesService.apiEnviaXML.EnviarLoteEventosResponse.datasource">
       <DependentUpon>Reference.svcmap</DependentUpon>
     </None>
     <None Include="Connected Services\apiEnviaXML\ServicoEnviarLoteEventos.wsdl" />
-    <None Include="Connected Services\apiIntegra\EsocialService.wsdl" />
-    <None Include="Connected Services\apiIntegra\iVesService.apiIntegra.integraResponse.datasource">
-      <DependentUpon>Reference.svcmap</DependentUpon>
-    </None>
-    <None Include="Connected Services\apiIntegra\iVesService.apiIntegra.integraResponse1.datasource">
-      <DependentUpon>Reference.svcmap</DependentUpon>
-    </None>
     <None Include="Properties\app.manifest" />
     <None Include="System.Xml.Linq.XElement.datasource" />
   </ItemGroup>
@@ -160,40 +160,36 @@
       <Project>{94b287d1-6bf6-4390-b74c-61be4c78b0ef}</Project>
       <Name>IntegradorCore</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Vertech\Vertech.csproj">
-      <Project>{df19ba97-1c06-4040-90c2-72b5912283b5}</Project>
-      <Name>Vertech</Name>
-    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <WCFMetadata Include="Connected Services\" />
   </ItemGroup>
   <ItemGroup>
+    <BootstrapperPackage Include=".NETFramework,Version=v4.6.1">
+      <Visible>False</Visible>
+      <ProductName>Microsoft .NET Framework 4.6.1 %28x86 e x64%29</ProductName>
+      <Install>true</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Net.Framework.3.5.SP1">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5 SP1</ProductName>
+      <Install>false</Install>
+    </BootstrapperPackage>
+  </ItemGroup>
+  <ItemGroup>
+    <WCFMetadataStorage Include="Connected Services\apiConsultaTXT\" />
     <WCFMetadataStorage Include="Connected Services\apiConsultaXML\" />
-    <WCFMetadataStorage Include="Connected Services\apiConsulta\" />
+    <WCFMetadataStorage Include="Connected Services\apiEnviaTXT\" />
     <WCFMetadataStorage Include="Connected Services\apiEnviaXML\" />
-    <WCFMetadataStorage Include="Connected Services\apiIntegra\" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Connected Services\apiIntegra\configuration91.svcinfo" />
+    <None Include="Connected Services\apiConsultaTXT\configuration91.svcinfo" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Connected Services\apiIntegra\configuration.svcinfo" />
+    <None Include="Connected Services\apiConsultaTXT\configuration.svcinfo" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Connected Services\apiIntegra\Reference.svcmap">
-      <Generator>WCF Proxy Generator</Generator>
-      <LastGenOutput>Reference.cs</LastGenOutput>
-    </None>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Connected Services\apiConsulta\configuration91.svcinfo" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Connected Services\apiConsulta\configuration.svcinfo" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Connected Services\apiConsulta\Reference.svcmap">
+    <None Include="Connected Services\apiConsultaTXT\Reference.svcmap">
       <Generator>WCF Proxy Generator</Generator>
       <LastGenOutput>Reference.cs</LastGenOutput>
     </None>
@@ -211,6 +207,18 @@
     </None>
   </ItemGroup>
   <ItemGroup>
+    <None Include="Connected Services\apiEnviaTXT\configuration91.svcinfo" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Connected Services\apiEnviaTXT\configuration.svcinfo" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Connected Services\apiEnviaTXT\Reference.svcmap">
+      <Generator>WCF Proxy Generator</Generator>
+      <LastGenOutput>Reference.cs</LastGenOutput>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
     <None Include="Connected Services\apiEnviaXML\configuration91.svcinfo" />
   </ItemGroup>
   <ItemGroup>
@@ -221,18 +229,6 @@
       <Generator>WCF Proxy Generator</Generator>
       <LastGenOutput>Reference.cs</LastGenOutput>
     </None>
-  </ItemGroup>
-  <ItemGroup>
-    <BootstrapperPackage Include=".NETFramework,Version=v4.6.1">
-      <Visible>False</Visible>
-      <ProductName>Microsoft .NET Framework 4.6.1 %28x86 e x64%29</ProductName>
-      <Install>true</Install>
-    </BootstrapperPackage>
-    <BootstrapperPackage Include="Microsoft.Net.Framework.3.5.SP1">
-      <Visible>False</Visible>
-      <ProductName>.NET Framework 3.5 SP1</ProductName>
-      <Install>false</Install>
-    </BootstrapperPackage>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

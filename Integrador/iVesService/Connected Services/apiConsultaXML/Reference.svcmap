@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ReferenceGroup xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" ID="be109f97-c7d4-4dd8-9765-745f48f52e32" xmlns="urn:schemas-microsoft-com:xml-wcfservicemap">
+<ReferenceGroup xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" ID="079023ec-3665-49bd-ab4e-420a89ff3741" xmlns="urn:schemas-microsoft-com:xml-wcfservicemap">
   <ClientOptions>
     <GenerateAsynchronousMethods>false</GenerateAsynchronousMethods>
     <GenerateTaskBasedAsynchronousMethod>true</GenerateTaskBasedAsynchronousMethod>
@@ -19,10 +19,10 @@
     <ServiceContractMappings />
   </ClientOptions>
   <MetadataSources>
-    <MetadataSource Address="http://apiesocial.vertech-it.com.br/vch-esocial/consultalote?wsdl" Protocol="http" SourceId="1" />
+    <MetadataSource Address="https://apiesocial.vertech-it.com.br/vch-esocial/consultalote?wsdl" Protocol="http" SourceId="1" />
   </MetadataSources>
   <Metadata>
-    <MetadataFile FileName="ServicoConsultarLoteEventos.wsdl" MetadataType="Wsdl" ID="ce8464e7-c699-4b05-b19a-341da2fb5a02" SourceId="1" SourceUrl="http://apiesocial.vertech-it.com.br/vch-esocial/consultalote?wsdl" />
+    <MetadataFile FileName="ServicoConsultarLoteEventos.wsdl" MetadataType="Wsdl" ID="f184b566-4c1a-400d-b0cc-126c70c94770" SourceId="1" SourceUrl="https://apiesocial.vertech-it.com.br/vch-esocial/consultalote?wsdl" />
   </Metadata>
   <Extensions>
     <ExtensionFile FileName="configuration91.svcinfo" Name="configuration91.svcinfo" />

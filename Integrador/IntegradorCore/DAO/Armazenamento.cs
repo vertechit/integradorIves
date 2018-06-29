@@ -91,6 +91,22 @@ namespace IntegradorCore.DAO
                     cmd.ExecuteNonQuery();
                 }
 
+                using (var cmd = DbConnection().CreateCommand())
+                {
+                    cmd.CommandText = "CREATE TABLE IF NOT EXISTS protocoloDB(" +
+                                                                            "idEvento VARCHAR NOT NULL PRIMARY KEY UNIQUE," +
+                                                                            "xmlEvento VARCHAR NOT NULL,"+
+                                                                            "nroProt VARCHAR," +
+                                                                            "xmlProt BLOB," +
+                                                                            "nroRec VARCHAR," +
+                                                                            "xmlRec BLOB," +
+                                                                            "salvoDB BOOLEAN DEFAULT false," +
+                                                                            "baseEnv BOOLEAN" +
+                                                                            ") ";
+
+                    cmd.ExecuteNonQuery();
+                }
+
             }
             catch (Exception ex)
             {
@@ -328,6 +344,94 @@ namespace IntegradorCore.DAO
             {
                 exC.ExSQLite(10, ex.Message);
             }
+        }
+
+        public static ProtocoloDB GetProtocoloDB(string idEvento)
+        {
+            SQLiteDataAdapter da = null;
+            DataTable dt = new DataTable();
+            const string quote = "\"";
+            idEvento = quote + idEvento + quote;
+            try
+            {
+                using (var cmd = DbConnection().CreateCommand())
+                {
+                    cmd.CommandText = "SELECT * FROM protocoloDB where idEvento = " + idEvento;
+                    da = new SQLiteDataAdapter(cmd.CommandText, DbConnection());
+                    da.Fill(dt);
+
+                    if (dt.Rows.Count == 1)
+                    {
+                        foreach (DataRow item in dt.Rows)
+                        {
+                            return new ProtocoloDB { idEvento = Convert.ToString(item.ItemArray[0]), xmlEvento = Convert.ToString(item.ItemArray[1]), nroProt = Convert.ToString(item.ItemArray[2]), xmlProt = Convert.ToString(item.ItemArray[3]), nroRec = Convert.ToString(item.ItemArray[4]), xmlRec = Convert.ToString(item.ItemArray[5]), salvoDB = Convert.ToBoolean(item.ItemArray[6]), baseEnv = Convert.ToBoolean(item.ItemArray[7]) };
+                        }
+                    }
+
+                }
+            }
+            catch (Exception ex)
+            {
+                exC.ExSQLite(4, ex.Message);
+            }
+
+            return null;
+        }
+
+        public static void AddProtocoloDB(ProtocoloDB protocolo)
+        {
+            try
+            {
+                var ret = GetProtocoloDB(protocolo.idEvento);
+
+                if(ret == null)
+                {
+                    using (var cmd = DbConnection().CreateCommand())
+                    {
+                        cmd.CommandText = "INSERT INTO protocoloDB(idEvento, xmlEvento) values (@id, @xmlevent)";
+                        cmd.Parameters.AddWithValue("@id", protocolo.idEvento);
+                        cmd.Parameters.AddWithValue("@xmlevent", protocolo.xmlEvento);
+                        cmd.ExecuteNonQuery();
+                    }
+                }
+                else
+                {
+                    updateProtocoloDB(protocolo);
+                }
+                
+            }
+            catch (Exception ex)
+            {
+                exC.ExSQLite(8, ex.Message);
+            }
+        }
+
+        public static void updateProtocoloDB(ProtocoloDB protocolo)
+        {
+            using (var cmd = new SQLiteCommand(DbConnection()))
+            {
+               
+                cmd.CommandText = "UPDATE protocoloDB SET nroProt=@nrprot, xmlProt=@xmlprot, nroRec=@nrRec, xmlRec@xmlrec, baseEnv=@base  WHERE idEvento=@Id";
+                cmd.Parameters.AddWithValue("@Id", protocolo.idEvento);
+                cmd.Parameters.AddWithValue("@nrprot", protocolo.nroProt);
+                cmd.Parameters.AddWithValue("@xmlprot", protocolo.xmlProt);
+                cmd.Parameters.AddWithValue("@nrRec", protocolo.nroRec);
+                cmd.Parameters.AddWithValue("@xmlrec", protocolo.xmlRec);
+                cmd.Parameters.AddWithValue("@base", protocolo.baseEnv);
+                cmd.ExecuteNonQuery();
+            };
+        }
+
+        public static void updateSalvoDB(ProtocoloDB protocolo)
+        {
+            using (var cmd = new SQLiteCommand(DbConnection()))
+            {
+
+                cmd.CommandText = "UPDATE protocoloDB SET salvoDB=@salvo WHERE idEvento=@Id";
+                cmd.Parameters.AddWithValue("@Id", protocolo.idEvento);
+                cmd.Parameters.AddWithValue("@salvo", protocolo.salvoDB);
+                cmd.ExecuteNonQuery();
+            };
         }
     }
 }
