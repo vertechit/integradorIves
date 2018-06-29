@@ -39,13 +39,10 @@ namespace iVesService
             {
                 var ret = Armazenamento.GetParametros();
 
-                if(Directory.Exists(ret.CaminhoDir) && Directory.Exists(ret.CaminhoFim) && File.Exists(ret.CaminhoToke))
+                if(Directory.Exists(ret.CaminhoDir) && File.Exists(ret.CaminhoToke))
                 {
                     StaticParametros.SetDirToke(ret.CaminhoToke);
-                    StaticParametros.SetDirArq(ret.CaminhoDir);
-                    StaticParametros.SetDirFim(ret.CaminhoFim);
-                    StaticParametros.SetAmbiente(Convert.ToInt64(ret.Ambiente));
-                    StaticParametros.SetBase(Convert.ToBoolean(ret.Base));
+                    StaticParametros.SetDirOrigem(ret.CaminhoDir);
 
                     if (DefineToken(StaticParametros.GetDirToke()) == false)
                     {
@@ -166,20 +163,75 @@ namespace iVesService
             Log("Job Iniciado: ", 1);
             Log("Integração iniciada: ", 1);
 
-            job.Envia();
+            Integra(1);
 
-            Log("Integração finalizado: ", 1);
+            //Log("Integração finalizado: ", 1);
 
             Thread.Sleep(60000);
             Log("Consulta iniciada: ", 1);
 
-            job.Consulta();
-
-            Log("Consulta finalizada: ", 1);
+            //job.Consulta();
+            Consulta(1);
+            
             Log("Job finalizado: ", 1);
             Log("--", 2);
             Controle = 0;
 
+        }
+
+        private void Integra(int i)
+        {
+            if (i > 3)
+            {
+                Log("Integração finalizado: ", 1);
+                return;
+            }
+            Processos proc = new Processos();
+
+            if (proc.ValidaStaticParametros())
+            {
+                proc.DefineNullParametros();
+                if (!proc.ValidaStaticParamsJob())
+                {
+                    proc.AlteraParametro(i);
+                    Jobs Job = new Jobs();
+                    Job.Envia();
+                    Integra(i + 1);
+                }
+            }
+            else
+            {
+                Log("Não foi possivel localizar as informações, por favor, abra o integrador e defina os parametros novamente.", 2);
+                this.Stop();
+            }
+        }
+
+        private void Consulta(int i)
+        {
+            if (i > 3)
+            {
+                Log("Consulta finalizada: ", 1);
+                return;
+            }
+
+            Processos proc = new Processos();
+
+            if (proc.ValidaStaticParametros())
+            {
+                proc.DefineNullParametros();
+                if (!proc.ValidaStaticParamsJob())
+                {
+                    proc.AlteraParametro(i);
+                    Jobs Job = new Jobs();
+                    Job.Consulta();
+                    Consulta(i + 1);
+                }
+            }
+            else
+            {
+                Log("Não foi possivel localizar as informações, por favor, abra o integrador e defina os parametros novamente.", 2);
+                this.Stop();
+            }
         }
 
         public bool DefineToken(string dir)
