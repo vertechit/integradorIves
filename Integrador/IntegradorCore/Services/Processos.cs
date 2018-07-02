@@ -14,6 +14,7 @@ using System.Data;
 using System.Diagnostics;
 using System.Security.Principal;
 using System.Reflection;
+using System.Net.NetworkInformation;
 
 namespace IntegradorCore.Services
 {
@@ -28,6 +29,15 @@ namespace IntegradorCore.Services
             int Description;
 
             return InternetGetConnectedState(out Description, 0);
+        }
+
+        public string GetMacAdress()
+        {
+            var networks = NetworkInterface.GetAllNetworkInterfaces();
+            var activeNetworks = networks.Where(ni => ni.OperationalStatus == OperationalStatus.Up && ni.NetworkInterfaceType != NetworkInterfaceType.Loopback);
+            var sortedNetworks = activeNetworks.OrderByDescending(ni => ni.Speed);
+            return sortedNetworks.First().GetPhysicalAddress().ToString();
+            //return NetworkInterface.GetAllNetworkInterfaces().Where(nic => nic.OperationalStatus == OperationalStatus.Up).Select(nic => nic.GetPhysicalAddress().ToString()).FirstOrDefault();
         }
 
         public string[] RetornaData()

@@ -7,20 +7,20 @@
         mc:Ignorable="d"
         Title="Parametros Banco de Dados" Height="400" Width="350" WindowStartupLocation="CenterScreen" ResizeMode="NoResize" Closing="Window_Closing">
     <Grid>
-        <Label x:Name="LblDriver" Content="Driver" HorizontalAlignment="Left" Margin="40,66,0,0" VerticalAlignment="Top"/>
-        <Label x:Name="LblHost" Content="Host" HorizontalAlignment="Left" Margin="40,98,0,0" VerticalAlignment="Top"/>
-        <Label x:Name="LblPort" Content="Porta" HorizontalAlignment="Left" Margin="40,128,0,0" VerticalAlignment="Top"/>
-        <Label x:Name="LblServiceName" Content="ServiceName" HorizontalAlignment="Left" Margin="40,157,0,0" VerticalAlignment="Top"/>
-        <Label x:Name="LblUser" Content="Usuário" HorizontalAlignment="Left" Margin="40,185,0,0" VerticalAlignment="Top"/>
-        <Label x:Name="LblPwd" Content="Senha" HorizontalAlignment="Left" Margin="40,213,0,0" VerticalAlignment="Top"/>
-        <ComboBox HorizontalAlignment="Left" Margin="139,68,0,0" VerticalAlignment="Top" Width="120"/>
-        <TextBox x:Name="TxbHost" Height="23" Margin="139,99,40,0" TextWrapping="Wrap" VerticalAlignment="Top"/>
-        <TextBox x:Name="TxbPort" HorizontalAlignment="Left" Height="23" Margin="139,130,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="81"/>
-        <TextBox x:Name="TxbServiceName" HorizontalAlignment="Left" Height="23" Margin="139,159,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="108"/>
-        <TextBox x:Name="TxbUser" Height="23" Margin="139,188,40,0" TextWrapping="Wrap" VerticalAlignment="Top"/>
-        <PasswordBox x:Name="PwbSenha" Margin="139,217,40,0" VerticalAlignment="Top" Height="21"/>
-        <Button x:Name="BtnDelete" Content="Excluir" Margin="121,277,121,0" VerticalAlignment="Top" Height="33" FontSize="14" Click="BtnDelete_Click"/>
-        <Button x:Name="BtnSalvar" Content="Salvar" Margin="121,325,121,0" VerticalAlignment="Top" Height="33" FontSize="14" Click="BtnSalvar_Click"/>
+        <Label x:Name="LblDriver" Content="Driver" HorizontalAlignment="Left" Margin="36,66,0,0" VerticalAlignment="Top"/>
+        <Label x:Name="LblHost" Content="Host" HorizontalAlignment="Left" Margin="36,98,0,0" VerticalAlignment="Top"/>
+        <Label x:Name="LblPort" Content="Porta" HorizontalAlignment="Left" Margin="36,128,0,0" VerticalAlignment="Top"/>
+        <Label x:Name="LblServiceName" Content="Nome do Serviço" HorizontalAlignment="Left" Margin="36,157,0,0" VerticalAlignment="Top"/>
+        <Label x:Name="LblUser" Content="Usuário" HorizontalAlignment="Left" Margin="36,185,0,0" VerticalAlignment="Top"/>
+        <Label x:Name="LblPwd" Content="Senha" HorizontalAlignment="Left" Margin="36,213,0,0" VerticalAlignment="Top"/>
+        <ComboBox HorizontalAlignment="Left" Margin="143,68,0,0" VerticalAlignment="Top" Width="120"/>
+        <TextBox x:Name="TxbHost" Height="23" Margin="143,99,36,0" TextWrapping="Wrap" VerticalAlignment="Top"/>
+        <TextBox x:Name="TxbPort" HorizontalAlignment="Left" Height="23" Margin="143,130,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="81"/>
+        <TextBox x:Name="TxbServiceName" HorizontalAlignment="Left" Height="23" Margin="143,159,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="108"/>
+        <TextBox x:Name="TxbUser" Height="23" Margin="143,188,36,0" TextWrapping="Wrap" VerticalAlignment="Top"/>
+        <PasswordBox x:Name="PwbSenha" Margin="143,217,36,0" VerticalAlignment="Top" Height="21"/>
+        <Button x:Name="BtnDelete" Content="Excluir" Margin="121,269,121,0" VerticalAlignment="Top" Height="33" FontSize="14" Click="BtnDelete_Click"/>
+        <Button x:Name="BtnSalvar" Content="Ok" Margin="121,317,121,0" VerticalAlignment="Top" Height="33" FontSize="14" Click="BtnSalvar_Click"/>
         <Label Content="Conexão Banco de dados" Margin="60,18,60,0" VerticalAlignment="Top" FontSize="18" FontWeight="Bold"/>
 
     </Grid>

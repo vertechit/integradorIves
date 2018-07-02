@@ -11,6 +11,8 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
+using IntegradorCore.Services;
+using IntegradorCore.DAO;
 
 namespace IntegradorApp.Telas
 {
@@ -25,11 +27,26 @@ namespace IntegradorApp.Telas
         {
             InitializeComponent();
             __main = a;
+            init();
         }
+        #region Click Events
 
         private void BtnSalvar_Click(object sender, RoutedEventArgs e)
         {
-
+            if(TxbHost.Text != "" && TxbPort.Text != "" && TxbServiceName.Text != "" && TxbUser.Text != "" && PwbSenha.Password != "")
+            {
+                StaticParametersDB.SetDriver("oracle");
+                StaticParametersDB.SetHost(TxbHost.Text);
+                StaticParametersDB.SetPort(TxbPort.Text);
+                StaticParametersDB.SetServiceName(TxbServiceName.Text);
+                StaticParametersDB.SetUser(TxbUser.Text);
+                StaticParametersDB.SetPassword(PwbSenha.Password);
+                this.Close();
+            }
+            else
+            {
+                MessageBox.Show("Preencha todos os campos antes de continuar");
+            }
         }
 
         private void BtnDelete_Click(object sender, RoutedEventArgs e)
@@ -41,5 +58,40 @@ namespace IntegradorApp.Telas
         {
             __main.Show();
         }
+
+        #endregion
+
+        #region Functions
+        
+        private void init()
+        {
+            try
+            {
+                var process = new Processos();
+                var param = Armazenamento.GetParametrosDB();
+                
+                if(param != null)
+                {
+                    TxbHost.Text = param.Host;
+                    TxbPort.Text = param.Port;
+                    TxbServiceName.Text = param.ServiceName;
+                    TxbUser.Text = param.User;
+                    PwbSenha.Password = AESThenHMAC.SimpleDecryptWithPassword(param.Password, process.GetMacAdress());
+
+                    StaticParametersDB.SetDriver("oracle");
+                    StaticParametersDB.SetHost(TxbHost.Text);
+                    StaticParametersDB.SetPort(TxbPort.Text);
+                    StaticParametersDB.SetServiceName(TxbServiceName.Text);
+                    StaticParametersDB.SetUser(TxbUser.Text);
+                    StaticParametersDB.SetPassword(PwbSenha.Password);
+                }
+
+            }catch(Exception e)
+            {
+                
+            }
+        }
+
+        #endregion
     }
 }

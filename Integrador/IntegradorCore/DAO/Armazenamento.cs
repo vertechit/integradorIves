@@ -64,22 +64,6 @@ namespace IntegradorCore.DAO
                     cmd.ExecuteNonQuery();
                 }
 
-                /*using (var cmd = DbConnection().CreateCommand())
-                {
-                    cmd.CommandText = "CREATE TABLE IF NOT EXISTS parametros(" +
-                                                                            "id integer not null," +
-                                                                            "CaminhoDir varchar2(500) not null," +
-                                                                            "CaminhoFim varchar2(500) not null," +
-                                                                            "CaminhoToke varchar2(500) not null," +
-                                                                            "Ambiente varchar2(10) not null," +
-                                                                            "Base varchar2(50) not null," +
-                                                                            "constraint pk_parametros " +
-                                                                            "primary key(id)" +
-                                                                            ") ";
-
-                    cmd.ExecuteNonQuery();
-                }*/
-
                 using (var cmd = DbConnection().CreateCommand())
                 {
                     cmd.CommandText = "CREATE TABLE IF NOT EXISTS parametros(" +
@@ -103,6 +87,21 @@ namespace IntegradorCore.DAO
                                                                             "xmlRec BLOB," +
                                                                             "salvoDB BOOLEAN DEFAULT false," +
                                                                             "baseEnv BOOLEAN" +
+                                                                            ") ";
+
+                    cmd.ExecuteNonQuery();
+                }
+
+                using (var cmd = DbConnection().CreateCommand())
+                {
+                    cmd.CommandText = "CREATE TABLE IF NOT EXISTS parametrosDB(" +
+                                                                            "id integer primary key autoincrement," +
+                                                                            "driver VARCHAR NOT NULL," +
+                                                                            "host VARCHAR NOT NULL," +
+                                                                            "port VARCHAR NOT NULL," +
+                                                                            "serviceName VARCHAR NOT NULL," +
+                                                                            "user VARCHAR NOT NULL," +
+                                                                            "password VARCHAR NOT NULL" +
                                                                             ") ";
 
                     cmd.ExecuteNonQuery();
@@ -452,6 +451,105 @@ namespace IntegradorCore.DAO
             catch (Exception ex)
             {
                 exC.ExSQLite(6, ex.Message);
+            }
+        }
+
+        public static ParametroDB GetParametrosDB()
+        {
+            SQLiteDataAdapter da = null;
+            DataTable dt = new DataTable();
+            try
+            {
+                using (var cmd = DbConnection().CreateCommand())
+                {
+                    cmd.CommandText = "SELECT * FROM parametrosDB where id = 1";
+                    da = new SQLiteDataAdapter(cmd.CommandText, DbConnection());
+                    da.Fill(dt);
+                    var param = new ParametroDB();
+                    if (dt.Rows.Count > 0)
+                    {
+
+                        foreach (DataRow item in dt.Rows)
+                        {
+                            param.Id = (Convert.ToInt64(item.ItemArray[0]));
+                            param.Driver = (Convert.ToString(item.ItemArray[1]));
+                            param.Host = (Convert.ToString(item.ItemArray[2]));
+                            param.Port = (Convert.ToString(item.ItemArray[3]));
+                            param.ServiceName = (Convert.ToString(item.ItemArray[4]));
+                            param.User = (Convert.ToString(item.ItemArray[5]));
+                            param.Password = (Convert.ToString(item.ItemArray[6]));
+                        }
+                    }
+                    else
+                    {
+                        return null;
+                    }
+
+                    return param;
+                }
+            }
+            catch (Exception ex)
+            {
+                exC.ExSQLite(7, ex.Message);
+            }
+
+            return null;
+        }
+
+        public static void AddParametrosDB(ParametroDB param)
+        {
+            try
+            {
+                var p = GetParametrosDB();
+
+                if (p == null)
+                {
+                    using (var cmd = DbConnection().CreateCommand())
+                    {
+                        cmd.CommandText = "INSERT INTO parametrosDB(id, driver, host, port, serviceName, user, password) values (@id, @driver, @host, @port, @service, @user, @password)";
+                        cmd.Parameters.AddWithValue("@id", param.Id);
+                        cmd.Parameters.AddWithValue("@driver", param.Driver);
+                        cmd.Parameters.AddWithValue("@host", param.Host);
+                        cmd.Parameters.AddWithValue("@port", param.Port);
+                        cmd.Parameters.AddWithValue("@service", param.ServiceName);
+                        cmd.Parameters.AddWithValue("@user", param.User);
+                        cmd.Parameters.AddWithValue("@password", param.Password);
+                        cmd.ExecuteNonQuery();
+                    }
+                }
+                else
+                    UpdateParametrosDB(param);
+
+            }
+            catch (Exception ex)
+            {
+                exC.ExSQLite(9, ex.Message);
+            }
+        }
+
+        public static void UpdateParametrosDB(ParametroDB param)
+        {
+            try
+            {
+                using (var cmd = new SQLiteCommand(DbConnection()))
+                {
+                    if (param.Id == 1)
+                    {
+                        cmd.CommandText = "UPDATE parametros SET driver=@driver, host=@host, port=@port, serviceName=@service, user=@user, password=@password WHERE id=@id";
+                        cmd.Parameters.AddWithValue("@id", param.Id);
+                        cmd.Parameters.AddWithValue("@driver", param.Driver);
+                        cmd.Parameters.AddWithValue("@host", param.Host);
+                        cmd.Parameters.AddWithValue("@port", param.Port);
+                        cmd.Parameters.AddWithValue("@service", param.ServiceName);
+                        cmd.Parameters.AddWithValue("@user", param.User);
+                        cmd.Parameters.AddWithValue("@password", param.Password);
+                        cmd.ExecuteNonQuery();
+                    }
+                };
+            }
+            catch (Exception ex)
+            {
+                exC.ExSQLite(10, ex.Message);
             }
         }
     }

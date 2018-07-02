@@ -124,6 +124,12 @@ namespace IntegradorApp
 
                                 if (ctrl == 2)
                                 {
+                                    if(StaticParametersDB.GetDriver() != null)
+                                    {
+                                        StaticParametros.SetIntegraBanco(true);
+                                        Armazenamento.AddParametrosDB(new ParametroDB { Id = 1, Driver = StaticParametersDB.GetDriver(), Host = StaticParametersDB.GetHost(), Port = StaticParametersDB.GetPort(), ServiceName = StaticParametersDB.GetServiceName(), User = StaticParametersDB.GetUser(), Password = AESThenHMAC.SimpleEncryptWithPassword(StaticParametersDB.GetPassword(), process.GetMacAdress()) });
+                                    }
+                                    
                                     Armazenamento.AddParametros(new Parametro { Id = 1, CaminhoDir = StaticParametros.GetDirOrigem(), CaminhoToke = StaticParametros.GetDirToke(), IntegraBanco = StaticParametros.GetIntegraBanco() });
                                     OrganizaTelaEvent(2);
                                     process.CriarPastas();
@@ -304,6 +310,24 @@ namespace IntegradorApp
                         {
                             try
                             {
+                                var paramDB = Armazenamento.GetParametrosDB();
+
+                                if(paramDB != null)
+                                {
+                                    StaticParametros.SetIntegraBanco(param.IntegraBanco);
+
+                                    StaticParametersDB.SetDriver(paramDB.Driver);
+                                    StaticParametersDB.SetHost(paramDB.Host);
+                                    StaticParametersDB.SetPort(paramDB.Port);
+                                    StaticParametersDB.SetServiceName(paramDB.ServiceName);
+                                    StaticParametersDB.SetUser(paramDB.User);
+                                    StaticParametersDB.SetPassword(AESThenHMAC.SimpleDecryptWithPassword(paramDB.Password, process.GetMacAdress()));
+                                }
+                                else
+                                {
+                                    StaticParametros.SetIntegraBanco(false);
+                                    Armazenamento.UpdateParametros(new Parametro { Id = 1, CaminhoDir = param.CaminhoDir, CaminhoToke = param.CaminhoToke, IntegraBanco = false });
+                                }
 
                                 OrganizaTelaEvent(2);
                                 //Job();
