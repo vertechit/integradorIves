@@ -183,5 +183,23 @@ namespace IntegradorCore.Services
                 ex.Exception(e.Message, "buffer.dat", "ConsultaTXT", "");
             }
         }
+
+        public void GetXMLDataBase()
+        {
+            if(StaticParametros.GetIntegraBanco() == true)
+            {
+                OracleDB.GetData();
+            }
+        }
+
+        public void EnviaDB()
+        {
+
+        }
+
+        public void ConsultaDB()
+        {
+
+        }
     }
 }

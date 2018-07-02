@@ -201,7 +201,9 @@ namespace IntegradorApp
             if (proc.VerificaProcessoRun() == false)
             {
                 this.Cursor = System.Windows.Input.Cursors.Wait;
-                Integra(1);
+                //Integra(1);
+                Jobs j = new Jobs();
+                j.GetXMLDataBase();
                 this.Cursor = System.Windows.Input.Cursors.Arrow;
             }
             else

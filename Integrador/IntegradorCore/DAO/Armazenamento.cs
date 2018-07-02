@@ -82,11 +82,11 @@ namespace IntegradorCore.DAO
                                                                             "idEvento VARCHAR NOT NULL PRIMARY KEY UNIQUE," +
                                                                             "xmlEvento VARCHAR NOT NULL,"+
                                                                             "nroProt VARCHAR," +
-                                                                            "xmlProt BLOB," +
+                                                                            "xmlProt VARCHAR," +
                                                                             "nroRec VARCHAR," +
-                                                                            "xmlRec BLOB," +
+                                                                            "xmlRec VARCHAR," +
                                                                             "salvoDB BOOLEAN DEFAULT false," +
-                                                                            "baseEnv BOOLEAN" +
+                                                                            "baseEnv VARCHAR" +
                                                                             ") ";
 
                     cmd.ExecuteNonQuery();
@@ -367,7 +367,15 @@ namespace IntegradorCore.DAO
                     {
                         foreach (DataRow item in dt.Rows)
                         {
-                            return new ProtocoloDB { idEvento = Convert.ToString(item.ItemArray[0]), xmlEvento = Convert.ToString(item.ItemArray[1]), nroProt = Convert.ToString(item.ItemArray[2]), xmlProt = Convert.ToString(item.ItemArray[3]), nroRec = Convert.ToString(item.ItemArray[4]), xmlRec = Convert.ToString(item.ItemArray[5]), salvoDB = Convert.ToBoolean(item.ItemArray[6]), baseEnv = Convert.ToBoolean(item.ItemArray[7]) };
+                            
+                            return new ProtocoloDB { idEvento = Convert.ToString(item.ItemArray[0])
+                                , xmlEvento = Convert.ToString(item.ItemArray[1])
+                                , nroProt = item.ItemArray[2].ToString()
+                                , xmlProt = item.ItemArray[3].ToString()
+                                , nroRec = item.ItemArray[4].ToString()
+                                , xmlRec = item.ItemArray[5].ToString()
+                                , salvoDB = Convert.ToBoolean(item.ItemArray[6])
+                                , baseEnv = Convert.ToString(item.ItemArray[7]) };
                         }
                     }
 

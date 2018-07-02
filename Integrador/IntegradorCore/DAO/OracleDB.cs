@@ -10,7 +10,7 @@ namespace IntegradorCore.DAO
 {
     public class OracleDB
     {
-        public OracleConnection GetConnection()
+        private static OracleConnection GetConnection()
         {
             string oradb = "Data Source=(DESCRIPTION=(ADDRESS=(PROTOCOL=tcp)(HOST=host1)(PORT=port1))(CONNECT_DATA=(SERVER=DEDICATED)(SERVICE_NAME=servicename1)));User ID=user1;Password=password1;";
 
@@ -23,7 +23,7 @@ namespace IntegradorCore.DAO
             return new OracleConnection(oradb);
         }
 
-        public void GetData()
+        public static void GetData()
         {
             try
             {
@@ -34,7 +34,7 @@ namespace IntegradorCore.DAO
                     using (var comm = new OracleCommand())
                     {
                         comm.Connection = conn;
-                        comm.CommandText = "SELECT ID, XMLEVENTO FROM ZMDATVIVES_EVENTOS_ESOCIAL WHERE NRPROTOCOLO IS NULL";
+                        comm.CommandText = "SELECT ID, XMLEVENTO FROM ZMDATVIVES_EVENTOS_ESOCIAL WHERE NROPROTOCOLO IS NULL";
 
                         var adapter = new OracleDataAdapter(comm);
                         var dataTable = new System.Data.DataTable();
