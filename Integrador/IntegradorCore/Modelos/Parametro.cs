@@ -12,6 +12,7 @@ namespace IntegradorCore.Modelos
         public string CaminhoDir { get; set; }
         //public string CaminhoFim { get; set; }
         public string CaminhoToke { get; set; }
+        public bool IntegraBanco { get; set; }
         //public string Ambiente { get; set; }
         //public string Base { get; set; }
     }

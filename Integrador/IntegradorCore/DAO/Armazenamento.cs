@@ -85,7 +85,8 @@ namespace IntegradorCore.DAO
                     cmd.CommandText = "CREATE TABLE IF NOT EXISTS parametros(" +
                                                                             "id integer primary key autoincrement," +
                                                                             "CaminhoDir varchar2(500) not null," +
-                                                                            "CaminhoToke varchar2(500) not null" +
+                                                                            "CaminhoToke varchar2(500) not null," +
+                                                                            "integraBanco BOOLEAN not null" +
                                                                             ") ";
 
                     cmd.ExecuteNonQuery();
@@ -240,6 +241,7 @@ namespace IntegradorCore.DAO
                             param.Id = (Convert.ToInt64(item.ItemArray[0]));
                             param.CaminhoDir = (Convert.ToString(item.ItemArray[1]));
                             param.CaminhoToke = (Convert.ToString(item.ItemArray[2]));
+                            param.IntegraBanco = (Convert.ToBoolean(item.ItemArray[3]));
                             //param.CaminhoFim = (Convert.ToString(item.ItemArray[2]));
                             //param.CaminhoToke = (Convert.ToString(item.ItemArray[3]));
                             //param.Ambiente = (Convert.ToString(item.ItemArray[4]));
@@ -303,10 +305,11 @@ namespace IntegradorCore.DAO
                     }*/
                     using (var cmd = DbConnection().CreateCommand())
                     {
-                        cmd.CommandText = "INSERT INTO parametros(id, CaminhoDir, CaminhoToke) values (@id, @caminho_dir, @caminho_tok)";
+                        cmd.CommandText = "INSERT INTO parametros(id, CaminhoDir, CaminhoToke, integraBanco) values (@id, @caminho_dir, @caminho_tok, @integraBanco)";
                         cmd.Parameters.AddWithValue("@id", param.Id);
                         cmd.Parameters.AddWithValue("@caminho_dir", param.CaminhoDir);
                         cmd.Parameters.AddWithValue("@caminho_tok", param.CaminhoToke);
+                        cmd.Parameters.AddWithValue("@integraBanco", param.IntegraBanco);
                         cmd.ExecuteNonQuery();
                     }
                 }
@@ -329,11 +332,12 @@ namespace IntegradorCore.DAO
                     if (param.Id == 1)
                     {
                         //cmd.CommandText = "UPDATE parametros SET CaminhoDir=@caminho_dir, CaminhoFim=@caminho_fim, CaminhoToke=@caminho_tok, Ambiente=@ambiente, Base=@base WHERE Id=@Id";
-                        cmd.CommandText = "UPDATE parametros SET CaminhoDir=@caminho_dir, CaminhoToke=@caminho_tok WHERE Id=@Id";
+                        cmd.CommandText = "UPDATE parametros SET CaminhoDir=@caminho_dir, CaminhoToke=@caminho_tok, integraBanco=@integra WHERE Id=@Id";
                         cmd.Parameters.AddWithValue("@Id", param.Id);
                         cmd.Parameters.AddWithValue("@caminho_dir", param.CaminhoDir);
                         //cmd.Parameters.AddWithValue("@caminho_fim", param.CaminhoFim);
                         cmd.Parameters.AddWithValue("@caminho_tok", param.CaminhoToke);
+                        cmd.Parameters.AddWithValue("@integra", param.IntegraBanco);
                         //cmd.Parameters.AddWithValue("@ambiente", param.Ambiente);
                         //cmd.Parameters.AddWithValue("@base", param.Base);
                         cmd.ExecuteNonQuery();
@@ -432,6 +436,23 @@ namespace IntegradorCore.DAO
                 cmd.Parameters.AddWithValue("@salvo", protocolo.salvoDB);
                 cmd.ExecuteNonQuery();
             };
+        }
+
+        public static void DeleteProtocoloDB(string idEvento)
+        {
+            try
+            {
+                using (var cmd = DbConnection().CreateCommand())
+                {
+                    cmd.CommandText = "DELETE from protocoloDB where idEvento = @Id";
+                    cmd.Parameters.AddWithValue("@Id", idEvento);
+                    cmd.ExecuteNonQuery();
+                }
+            }
+            catch (Exception ex)
+            {
+                exC.ExSQLite(6, ex.Message);
+            }
         }
     }
 }

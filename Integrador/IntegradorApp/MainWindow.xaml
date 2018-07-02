@@ -168,11 +168,9 @@
 
             <Label x:Name="LblSalvar" 
                    Content="Parâmetros" 
-                   HorizontalAlignment="Left" 
                    VerticalAlignment="Top" 
                    RenderTransformOrigin="9.429,6.547" 
-                   Margin="68,150,0,0" 
-                   Width="151"
+                   Margin="68,150,50,0"
                    FontFamily="Century Gothic" 
                    FontSize="25" Grid.Column="1"/>
 
@@ -196,6 +194,7 @@
                 RenderTransformOrigin="0.505,0.36" 
                 FontFamily="Century Gothic" 
                 FontSize="12" Click="BtnLog_Click"/>
+            <Button x:Name="BtnConectarBanco" Content="Conectar Banco" Grid.Column="1" Margin="85,140,84,0" Grid.Row="1" VerticalAlignment="Top" Height="28" Click="BtnConectarBanco_Click"/>
 
         </Grid>
     </Viewbox>

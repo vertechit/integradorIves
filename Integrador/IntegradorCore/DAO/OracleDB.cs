@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using IntegradorCore.Services;
 using Oracle.ManagedDataAccess.Client;
 
 namespace IntegradorCore.DAO
@@ -11,7 +12,13 @@ namespace IntegradorCore.DAO
     {
         public OracleConnection GetConnection()
         {
-            string oradb = "Data Source=(DESCRIPTION=(ADDRESS=(PROTOCOL=tcp)(HOST=host)(PORT=port))(CONNECT_DATA=(SERVER=DEDICATED)(SERVICE_NAME=servicename)));User ID=user;Password=password;";
+            string oradb = "Data Source=(DESCRIPTION=(ADDRESS=(PROTOCOL=tcp)(HOST=host1)(PORT=port1))(CONNECT_DATA=(SERVER=DEDICATED)(SERVICE_NAME=servicename1)));User ID=user1;Password=password1;";
+
+            oradb = oradb.Replace("host1", StaticParametersDB.GetHost());
+            oradb = oradb.Replace("port1", StaticParametersDB.GetPort());
+            oradb = oradb.Replace("servicename1", StaticParametersDB.GetServiceName());
+            oradb = oradb.Replace("user1", StaticParametersDB.GetUser());
+            oradb = oradb.Replace("password1", StaticParametersDB.GetPassword());
 
             return new OracleConnection(oradb);
         }
@@ -36,7 +43,9 @@ namespace IntegradorCore.DAO
 
                         foreach (System.Data.DataRow row in dataTable.Rows)
                         {
-                            Console.WriteLine("ID: {0}", row["XMLEVENTO"]);
+                            Armazenamento.AddProtocoloDB(
+                                new Modelos.ProtocoloDB { idEvento = Convert.ToString(row["ID"]), xmlEvento = Convert.ToString(row["XMLEVENTO"]) }
+                            );
                         }
                     }
 

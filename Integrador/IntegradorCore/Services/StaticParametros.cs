@@ -19,6 +19,7 @@ namespace IntegradorCore.Services
         private static string TipoApp = null; //Define se está executando um app ou um serviço
         private static long Ambiente = 0; //Ambiente de envio do evento definido pelo usuário
         private static bool Base = false; //Base de dados definida pelo usuário
+        private static bool IntegraBanco = false;
         #endregion
 
         #region Teste
@@ -69,6 +70,17 @@ namespace IntegradorCore.Services
         #endregion
 
         #region gets/sets
+
+        public static bool GetIntegraBanco()
+        {
+            return IntegraBanco;
+        }
+
+        public static void SetIntegraBanco(bool integraBanco)
+        {
+            IntegraBanco = integraBanco;
+        }
+
         public static bool GetBase()
         {
             return Base;

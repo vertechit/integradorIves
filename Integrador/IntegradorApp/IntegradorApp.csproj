@@ -119,6 +119,9 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Reference.svcmap</DependentUpon>
     </Compile>
+    <Compile Include="Telas\ParametrosBanco.xaml.cs">
+      <DependentUpon>ParametrosBanco.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Telas\SistemaLog.xaml.cs" />
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
@@ -132,6 +135,10 @@
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Page Include="Telas\ParametrosBanco.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Telas\SistemaLog.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>

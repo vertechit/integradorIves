@@ -17,6 +17,7 @@ using System.Windows.Shapes;
 using IntegradorCore.DAO;
 using IntegradorCore.Services;
 using IntegradorCore.Modelos;
+using IntegradorApp.Telas;
 using Microsoft.Win32;
 using System.Windows.Forms;
 using System.Threading;
@@ -41,6 +42,7 @@ namespace IntegradorApp
         #region Click events
         private void BtnProcurarToken_Click(object sender, RoutedEventArgs e)
         {
+            
             var proc = new Processos();
             if (proc.VerificaProcessoRun() == false)
             {
@@ -122,7 +124,7 @@ namespace IntegradorApp
 
                                 if (ctrl == 2)
                                 {
-                                    Armazenamento.AddParametros(new Parametro { Id = 1, CaminhoDir = StaticParametros.GetDirOrigem(), CaminhoToke = StaticParametros.GetDirToke() });
+                                    Armazenamento.AddParametros(new Parametro { Id = 1, CaminhoDir = StaticParametros.GetDirOrigem(), CaminhoToke = StaticParametros.GetDirToke(), IntegraBanco = StaticParametros.GetIntegraBanco() });
                                     OrganizaTelaEvent(2);
                                     process.CriarPastas();
                                 }
@@ -215,6 +217,13 @@ namespace IntegradorApp
             {
                 System.Windows.MessageBox.Show("O serviço está em execução");
             }
+        }
+
+        private void BtnConectarBanco_Click(object sender, RoutedEventArgs e)
+        {
+            this.Hide();
+            var janela = new Telas.ParametrosBanco(this);
+            janela.Show();
         }
         #endregion
 
@@ -455,6 +464,7 @@ namespace IntegradorApp
                 LbltmCons.Visibility = Visibility.Hidden;
                 BtnParam.Visibility = Visibility.Hidden;
                 BtnLog.Visibility = Visibility.Hidden;
+                BtnConectarBanco.Visibility = Visibility.Visible;
             }
             else if (tipo == 2)
             {
@@ -471,9 +481,12 @@ namespace IntegradorApp
                 LblSalvar.Visibility = Visibility.Hidden;
                 BtnProcurarIni.Visibility = Visibility.Hidden;
                 BtnProcurarToken.Visibility = Visibility.Hidden;
+                BtnConectarBanco.Visibility = Visibility.Hidden;
             }
         }
 
         #endregion
+
+        
     }
 }
