@@ -87,6 +87,7 @@ namespace IntegradorCore.DAO
                                                                             "xmlRec VARCHAR," +
                                                                             "salvoDB BOOLEAN DEFAULT false," +
                                                                             "baseEnv VARCHAR" +
+                                                                            "erros VARCHAR" +
                                                                             ") ";
 
                     cmd.ExecuteNonQuery();
@@ -375,7 +376,9 @@ namespace IntegradorCore.DAO
                                 , nroRec = item.ItemArray[4].ToString()
                                 , xmlRec = item.ItemArray[5].ToString()
                                 , salvoDB = Convert.ToBoolean(item.ItemArray[6])
-                                , baseEnv = Convert.ToString(item.ItemArray[7]) };
+                                , baseEnv = Convert.ToString(item.ItemArray[7])
+                                , erros = Convert.ToString(item.ItemArray[8])
+                            };
                         }
                     }
 
@@ -407,7 +410,7 @@ namespace IntegradorCore.DAO
                 }
                 else
                 {
-                    updateProtocoloDB(protocolo);
+                    updateProtocoloDB(protocolo, ret);
                 }
                 
             }
@@ -417,18 +420,43 @@ namespace IntegradorCore.DAO
             }
         }
 
-        public static void updateProtocoloDB(ProtocoloDB protocolo)
+        public static void updateProtocoloDB(ProtocoloDB protocolo, ProtocoloDB old)
         {
+            if(protocolo.xmlProt == null)
+            {
+                protocolo.xmlProt = old.xmlProt;
+            }
+            if (protocolo.nroProt == null)
+            {
+                protocolo.nroProt = old.nroProt;
+            }
+            if (protocolo.xmlRec == null)
+            {
+                protocolo.xmlRec = old.xmlRec;
+            }
+            if (protocolo.nroRec == null)
+            {
+                protocolo.nroRec = old.nroRec;
+            }
+            if (protocolo.baseEnv == null)
+            {
+                protocolo.baseEnv = old.baseEnv;
+            }
+            if (protocolo.erros == null)
+            {
+                protocolo.erros = old.erros;
+            }
             using (var cmd = new SQLiteCommand(DbConnection()))
             {
                
-                cmd.CommandText = "UPDATE protocoloDB SET nroProt=@nrprot, xmlProt=@xmlprot, nroRec=@nrRec, xmlRec@xmlrec, baseEnv=@base  WHERE idEvento=@Id";
+                cmd.CommandText = "UPDATE protocoloDB SET nroProt=@nrprot, xmlProt=@xmlprot, nroRec=@nrRec, xmlRec=@xmlrec, baseEnv=@base, erros=@erros WHERE idEvento=@Id";
                 cmd.Parameters.AddWithValue("@Id", protocolo.idEvento);
                 cmd.Parameters.AddWithValue("@nrprot", protocolo.nroProt);
                 cmd.Parameters.AddWithValue("@xmlprot", protocolo.xmlProt);
                 cmd.Parameters.AddWithValue("@nrRec", protocolo.nroRec);
                 cmd.Parameters.AddWithValue("@xmlrec", protocolo.xmlRec);
                 cmd.Parameters.AddWithValue("@base", protocolo.baseEnv);
+                cmd.Parameters.AddWithValue("@erros", protocolo.erros);
                 cmd.ExecuteNonQuery();
             };
         }
@@ -560,5 +588,113 @@ namespace IntegradorCore.DAO
                 exC.ExSQLite(10, ex.Message);
             }
         }
+
+        public static List<ProtocoloDB> GetProtocolosDBEnv()
+        {
+            SQLiteDataAdapter da = null;
+            DataTable dt = new DataTable();
+            const string quote = "\"";
+            //idEvento = quote + idEvento + quote;
+            try
+            {
+                using (var cmd = DbConnection().CreateCommand())
+                {
+                    cmd.CommandText = "SELECT * FROM protocoloDB where nroProt is null or nroProt = "+quote+quote;
+                    da = new SQLiteDataAdapter(cmd.CommandText, DbConnection());
+                    da.Fill(dt);
+
+                    if (dt.Rows.Count > 0)
+                    {
+                        var lista = new List<ProtocoloDB>();
+                        foreach (DataRow item in dt.Rows)
+                        {
+
+                            lista.Add( new ProtocoloDB
+                            {
+                                idEvento = Convert.ToString(item.ItemArray[0])
+                                ,
+                                xmlEvento = Convert.ToString(item.ItemArray[1])
+                                ,
+                                nroProt = item.ItemArray[2].ToString()
+                                ,
+                                xmlProt = item.ItemArray[3].ToString()
+                                ,
+                                nroRec = item.ItemArray[4].ToString()
+                                ,
+                                xmlRec = item.ItemArray[5].ToString()
+                                ,
+                                salvoDB = Convert.ToBoolean(item.ItemArray[6])
+                                ,
+                                baseEnv = Convert.ToString(item.ItemArray[7])
+                            });
+                        }
+
+                        return lista;
+                    }
+
+                }
+            }
+            catch (Exception ex)
+            {
+                exC.ExSQLite(4, ex.Message);
+            }
+
+            return null;
+        }
+
+
+        public static List<ProtocoloDB> GetProtocolosDBCon()
+        {
+            SQLiteDataAdapter da = null;
+            DataTable dt = new DataTable();
+            const string quote = "\"";
+            //idEvento = quote + idEvento + quote;
+            try
+            {
+                using (var cmd = DbConnection().CreateCommand())
+                {
+                    cmd.CommandText = "SELECT * FROM protocoloDB where nroProt is not null and nroProt <> " + quote + quote + "and nroRec is null or nroRec = " + quote + quote + "and erros is null or erros = " + quote + quote;
+                    da = new SQLiteDataAdapter(cmd.CommandText, DbConnection());
+                    da.Fill(dt);
+
+                    if (dt.Rows.Count > 0)
+                    {
+                        var lista = new List<ProtocoloDB>();
+                        foreach (DataRow item in dt.Rows)
+                        {
+
+                            lista.Add(new ProtocoloDB
+                            {
+                                idEvento = Convert.ToString(item.ItemArray[0])
+                                ,
+                                xmlEvento = Convert.ToString(item.ItemArray[1])
+                                ,
+                                nroProt = item.ItemArray[2].ToString()
+                                ,
+                                xmlProt = item.ItemArray[3].ToString()
+                                ,
+                                nroRec = item.ItemArray[4].ToString()
+                                ,
+                                xmlRec = item.ItemArray[5].ToString()
+                                ,
+                                salvoDB = Convert.ToBoolean(item.ItemArray[6])
+                                ,
+                                baseEnv = Convert.ToString(item.ItemArray[7])
+                            });
+                        }
+
+                        return lista;
+                    }
+
+                }
+            }
+            catch (Exception ex)
+            {
+                exC.ExSQLite(4, ex.Message);
+            }
+
+            return null;
+        }
+
     }
 }

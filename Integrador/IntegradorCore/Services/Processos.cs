@@ -161,6 +161,20 @@ namespace IntegradorCore.Services
             return xml;
         }
 
+        public string MontaXMLDB(string idevento, string Xml)
+        {
+
+            string xsdInicio = "<eSocial><envioLoteEventos grupo=\"1\"><eventos><evento id=\"123\">";
+
+            xsdInicio = xsdInicio.Replace("123", idevento);
+
+            string xsdFim = " </evento></eventos></envioLoteEventos></eSocial>";
+
+            var xml = String.Concat(xsdInicio, Xml, xsdFim);
+
+            return xml;
+        }
+
         public Boolean VerificaConsultaXML(string response)
         {
             int sti = 0;
@@ -190,6 +204,54 @@ namespace IntegradorCore.Services
             }
 
             return false;
+        }
+
+        public bool VerificaXMLRetornoConsulta(string xml)
+        {
+            var XML = System.Xml.Linq.XElement.Parse(xml);
+
+            return XML.Elements("nrRecibo").Any();
+        }
+
+        public string ExtraiXMLRecibo(string xml)
+        {
+            var tagIni = "<retornoEvento>";
+            var tagFim = "</retornoEvento>";
+
+            int sti = xml.IndexOf(tagIni) + tagIni.Length;
+            int stf = xml.IndexOf(tagFim) - tagFim.Length;
+
+            var nwxml = xml.Substring(sti, stf + tagFim.Length - sti);
+
+            return "";
+        }
+
+        public string ExtraiNumRecibo(string xml)
+        {
+            var tagIni = "<nrRecibo>";
+            var tagFim = "</nrRecibo>";
+
+            int sti = xml.IndexOf(tagIni) + tagIni.Length;
+            int stf = xml.IndexOf(tagFim) - tagFim.Length;
+
+            var nrRec = xml.Substring(sti, stf + tagFim.Length - sti);
+
+            return nrRec;
+        }
+
+        public string ExtraiErrosXmlDB(string xml)
+        {
+            var tagIni = "<ocorrencias>";
+            var tagFim = "</ocorrencias>";
+
+            int sti = xml.IndexOf(tagIni);// + tagIni.Length;
+            int stf = xml.IndexOf(tagFim);// - tagFim.Length;
+
+            var nwxml = xml.Substring(sti, stf + tagFim.Length - sti);
+
+            var XML = System.Xml.Linq.XElement.Parse(nwxml);
+
+            return XML.Value;
         }
 
         public List<string> ListarArquivos(string ext)
@@ -260,7 +322,7 @@ namespace IntegradorCore.Services
             }
         }
 
-        public void SalvaProtocoloXML(string arq, string Response)
+        public void SalvaProtocoloXML(string id, string Response, int tipo)
         {
             var tagIni = "<protocoloEnvio>";
             var tagFim = "</protocoloEnvio>";
@@ -272,7 +334,14 @@ namespace IntegradorCore.Services
 
             try
             {
-                Armazenamento.AddProtocolo(new Protocolo { Id = 0, NomeArquivo = arq, NroProtocolo = protocolo, Base = Convert.ToString(StaticParametros.GetBase()) });
+                if(tipo == 1)
+                {
+                    Armazenamento.AddProtocolo(new Protocolo { Id = 0, NomeArquivo = id, NroProtocolo = protocolo, Base = Convert.ToString(StaticParametros.GetBase()) });
+                }
+                else
+                {
+                    Armazenamento.AddProtocoloDB(new ProtocoloDB { idEvento = id, nroProt = protocolo, xmlProt = Response });
+                }
             }
             catch (Exception e)
             {

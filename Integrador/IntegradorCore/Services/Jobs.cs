@@ -8,6 +8,7 @@ using IntegradorCore.DAO;
 using IntegradorCore.API;
 using IntegradorCore.Modelos;
 using IntegradorCore.Services;
+using System.Threading;
 
 namespace IntegradorCore.Services
 {
@@ -72,7 +73,7 @@ namespace IntegradorCore.Services
                         var response = apiXML.SendXML(xmlString);
                         if (proc.VerificaResponseXML(response) == true)
                         {
-                            proc.SalvaProtocoloXML(item, response);
+                            proc.SalvaProtocoloXML(item, response, 1);
                             proc.GeraLogEnviaXML(item, "Foi enviado com sucesso!");
                         }
                         else
@@ -190,16 +191,76 @@ namespace IntegradorCore.Services
             {
                 OracleDB.GetData();
             }
+
+            var controle = EnviaDB();
+
+            if(controle == 1)
+                Thread.Sleep(60000);
+
+            ConsultaDB();
         }
 
-        public void EnviaDB()
+        public int EnviaDB()
         {
+            int ctrl = 0;
+            EnviaXML apiXMLTeste = new EnviaXML(StaticParametros.GetGrupo(), StaticParametros.GetToken(), true);
+            var lista = Armazenamento.GetProtocolosDBEnv();
 
+            if (lista != null)
+            {
+                ctrl = 1;
+                foreach (var item in lista)
+                {
+                    var xmlString = proc.MontaXMLDB(item.idEvento, item.xmlEvento);
+                    var response = apiXMLTeste.SendXML(xmlString);
+                    if (proc.VerificaResponseXML(response) == true)
+                    {
+                        proc.SalvaProtocoloXML(item.idEvento, response, 2);
+                        Armazenamento.AddProtocoloDB(new ProtocoloDB { idEvento = item.idEvento, baseEnv = Convert.ToString(StaticParametros.GetBase()) });
+                        proc.GeraLogEnviaXML(item.idEvento, "Foi enviado com sucesso!");
+                    }
+                    else
+                    {
+                        proc.GeraLogEnviaXML(item.idEvento, "Não foi enviado");
+                    }
+                }
+            }
+
+            return ctrl;
         }
 
         public void ConsultaDB()
         {
+            ConsultaXML apiConXMLTeste = new ConsultaXML(StaticParametros.GetGrupo(), StaticParametros.GetToken());
+            var lista = Armazenamento.GetProtocolosDBCon();
+            if(lista != null)
+            {
+                foreach (var item in lista)
+                {
+                    var retorno = apiConXML.ConsultaProtocolo(item.nroProt, item.baseEnv, item.idEvento);
 
+                    try
+                    {
+                        proc.GeraLogConsultaXML(item.idEvento, retorno, item.nroProt);
+
+                        if (proc.VerificaXMLRetornoConsulta(retorno) == true)
+                        {
+                            var xmlRec = proc.ExtraiXMLRecibo(retorno);
+                            var nrRec = proc.ExtraiNumRecibo(retorno);
+                            Armazenamento.AddProtocoloDB(new ProtocoloDB { idEvento = item.idEvento, xmlRec = xmlRec, nroRec = nrRec });
+                        }
+                        else
+                        {
+                            var erros = proc.ExtraiErrosXmlDB(retorno);
+                            Armazenamento.AddProtocoloDB(new ProtocoloDB { idEvento = item.idEvento, erros = erros });
+                        }
+                    }
+                    catch (Exception e)
+                    {
+                        ex.Exception(e.Message, item.idEvento, "Consulta", "Tente consultar novamente em alguns minutos");
+                    }
+                }
+            }
         }
     }
 }

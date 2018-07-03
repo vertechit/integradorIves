@@ -16,5 +16,6 @@ namespace IntegradorCore.Modelos
         public string xmlRec { get; set; }
         public bool salvoDB { get; set; }
         public string baseEnv { get; set; }
+        public string erros { get; set; }
     }
 }
