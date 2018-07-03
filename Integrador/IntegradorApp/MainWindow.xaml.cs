@@ -201,9 +201,7 @@ namespace IntegradorApp
             if (proc.VerificaProcessoRun() == false)
             {
                 this.Cursor = System.Windows.Input.Cursors.Wait;
-                //Integra(1);
-                Jobs j = new Jobs();
-                j.GetXMLDataBase();
+                ActionIntegra();
                 this.Cursor = System.Windows.Input.Cursors.Arrow;
             }
             else
@@ -218,7 +216,7 @@ namespace IntegradorApp
             if (proc.VerificaProcessoRun() == false)
             {
                 this.Cursor = System.Windows.Input.Cursors.Wait;
-                Consulta(1);
+                ActionConsulta();
                 this.Cursor = System.Windows.Input.Cursors.Arrow;
             }
             else
@@ -417,11 +415,56 @@ namespace IntegradorApp
 
         }
 
-        private void Integra(int i)
+        private void ActionIntegra()
+        {
+
+            if (StaticParametros.GetIntegraBanco() == true)
+            {
+                IntegraDB();
+            }
+
+            if (StaticParametros.GetDirOrigem() != null || StaticParametros.GetDirOrigem() != "")
+            {
+                IntegraArquivos(1);
+            }
+                
+            System.Windows.MessageBox.Show("Processo de integração concluido!");
+        }
+
+        private void ActionConsulta()
+        {
+            if (StaticParametros.GetIntegraBanco() == true)
+            {
+                ConsultaDB();
+
+            }
+
+            if (StaticParametros.GetDirOrigem() != null || StaticParametros.GetDirOrigem() != "")
+            {
+                ConsultaArquivos(1);
+            }
+                
+            System.Windows.MessageBox.Show("Processo de consulta concluido!");
+        }
+
+        private void IntegraDB()
+        {
+            Jobs Job = new Jobs();
+            Job.EnviaDB();
+        }
+
+        private void ConsultaDB()
+        {
+            Jobs Job = new Jobs();
+            Job.ConsultaDB();
+            Job.UpdateDB();
+        }
+
+        private void IntegraArquivos(int i)
         {
             if(i > 3)
             {
-                System.Windows.MessageBox.Show("Processo de integração concluido!");
+                //System.Windows.MessageBox.Show("Processo de integração concluido!");
                 return;
             }
             Processos proc = new Processos();
@@ -434,7 +477,7 @@ namespace IntegradorApp
                     proc.AlteraParametro(i);
                     Jobs Job = new Jobs();
                     Job.Envia();
-                    Integra(i + 1);
+                    IntegraArquivos(i + 1);
                 }
             }
             else
@@ -444,11 +487,11 @@ namespace IntegradorApp
             }
         }
 
-        private void Consulta(int i)
+        private void ConsultaArquivos(int i)
         {
             if (i > 3)
             {
-                System.Windows.MessageBox.Show("Processo de consulta concluido!");
+                //System.Windows.MessageBox.Show("Processo de consulta concluido!");
                 return;
             }
 
@@ -462,7 +505,7 @@ namespace IntegradorApp
                     proc.AlteraParametro(i);
                     Jobs Job = new Jobs();
                     Job.Consulta();
-                    Consulta(i + 1);
+                    ConsultaArquivos(i + 1);
                 }
             }
             else
@@ -471,6 +514,8 @@ namespace IntegradorApp
                 OrganizaTelaEvent(1);
             }
         }
+
+        
 
         private void OrganizaTelaEvent(int tipo)
         {

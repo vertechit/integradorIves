@@ -191,17 +191,11 @@ namespace IntegradorCore.Services
             {
                 OracleDB.GetData();
             }
-
-            var controle = EnviaDB();
-
-            if(controle == 1)
-                Thread.Sleep(60000);
-
-            ConsultaDB();
         }
 
         public int EnviaDB()
         {
+            GetXMLDataBase();
             int ctrl = 0;
             EnviaXML apiXMLTeste = new EnviaXML(StaticParametros.GetGrupo(), StaticParametros.GetToken(), true);
             var lista = Armazenamento.GetProtocolosDBEnv();
@@ -216,7 +210,7 @@ namespace IntegradorCore.Services
                     if (proc.VerificaResponseXML(response) == true)
                     {
                         proc.SalvaProtocoloXML(item.idEvento, response, 2);
-                        Armazenamento.AddProtocoloDB(new ProtocoloDB { idEvento = item.idEvento, baseEnv = Convert.ToString(StaticParametros.GetBase()) });
+                        Armazenamento.AddProtocoloDB(new ProtocoloDB { idEvento = item.idEvento, baseEnv = Convert.ToString(true) });
                         proc.GeraLogEnviaXML(item.idEvento, "Foi enviado com sucesso!");
                     }
                     else
@@ -241,24 +235,53 @@ namespace IntegradorCore.Services
 
                     try
                     {
-                        proc.GeraLogConsultaXML(item.idEvento, retorno, item.nroProt);
+                        //proc.GeraLogConsultaXML(item.idEvento, retorno, item.nroProt);
 
                         if (proc.VerificaXMLRetornoConsulta(retorno) == true)
                         {
                             var xmlRec = proc.ExtraiXMLRecibo(retorno);
                             var nrRec = proc.ExtraiNumRecibo(retorno);
-                            Armazenamento.AddProtocoloDB(new ProtocoloDB { idEvento = item.idEvento, xmlRec = xmlRec, nroRec = nrRec });
+                            Armazenamento.AddProtocoloDB(new ProtocoloDB { idEvento = item.idEvento, xmlRec = xmlRec, nroRec = nrRec, consultado = true });
                         }
                         else
                         {
                             var erros = proc.ExtraiErrosXmlDB(retorno);
-                            Armazenamento.AddProtocoloDB(new ProtocoloDB { idEvento = item.idEvento, erros = erros });
+                            Armazenamento.AddProtocoloDB(new ProtocoloDB { idEvento = item.idEvento, erros = erros, consultado = true });
                         }
                     }
                     catch (Exception e)
                     {
                         ex.Exception(e.Message, item.idEvento, "Consulta", "Tente consultar novamente em alguns minutos");
                     }
+                }
+            }
+        }
+
+        public void UpdateDB()
+        {
+            var lista = Armazenamento.GetProtocolosDBReadyUpdate();
+            if(lista != null)
+            {
+                foreach (var item in lista)
+                {
+                    try
+                    {
+                        if(!item.salvoDB)
+                        {
+                            var ret = OracleDB.UpdateDB(item);
+
+                            if (ret == true)
+                            {
+                                Armazenamento.updateSalvoDB(item);
+                            }
+                        }
+                        
+                    }
+                    catch(Exception ex)
+                    {
+
+                    }
+                    
                 }
             }
         }

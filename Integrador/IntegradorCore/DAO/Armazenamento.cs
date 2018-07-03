@@ -85,9 +85,10 @@ namespace IntegradorCore.DAO
                                                                             "xmlProt VARCHAR," +
                                                                             "nroRec VARCHAR," +
                                                                             "xmlRec VARCHAR," +
-                                                                            "salvoDB BOOLEAN DEFAULT false," +
-                                                                            "baseEnv VARCHAR" +
-                                                                            "erros VARCHAR" +
+                                                                            "salvoDB BOOLEAN DEFAULT 0," +
+                                                                            "baseEnv VARCHAR," +
+                                                                            "erros VARCHAR," +
+                                                                            "consultado BOOLEAN DEFAULT 0"+
                                                                             ") ";
 
                     cmd.ExecuteNonQuery();
@@ -446,10 +447,14 @@ namespace IntegradorCore.DAO
             {
                 protocolo.erros = old.erros;
             }
+            if(protocolo.consultado == null)
+            {
+                protocolo.consultado = old.consultado;
+            }
             using (var cmd = new SQLiteCommand(DbConnection()))
             {
                
-                cmd.CommandText = "UPDATE protocoloDB SET nroProt=@nrprot, xmlProt=@xmlprot, nroRec=@nrRec, xmlRec=@xmlrec, baseEnv=@base, erros=@erros WHERE idEvento=@Id";
+                cmd.CommandText = "UPDATE protocoloDB SET nroProt=@nrprot, xmlProt=@xmlprot, nroRec=@nrRec, xmlRec=@xmlrec, baseEnv=@base, erros=@erros, consultado=@consult WHERE idEvento=@Id";
                 cmd.Parameters.AddWithValue("@Id", protocolo.idEvento);
                 cmd.Parameters.AddWithValue("@nrprot", protocolo.nroProt);
                 cmd.Parameters.AddWithValue("@xmlprot", protocolo.xmlProt);
@@ -457,6 +462,7 @@ namespace IntegradorCore.DAO
                 cmd.Parameters.AddWithValue("@xmlrec", protocolo.xmlRec);
                 cmd.Parameters.AddWithValue("@base", protocolo.baseEnv);
                 cmd.Parameters.AddWithValue("@erros", protocolo.erros);
+                cmd.Parameters.AddWithValue("@consult", protocolo.consultado);
                 cmd.ExecuteNonQuery();
             };
         }
@@ -468,7 +474,7 @@ namespace IntegradorCore.DAO
 
                 cmd.CommandText = "UPDATE protocoloDB SET salvoDB=@salvo WHERE idEvento=@Id";
                 cmd.Parameters.AddWithValue("@Id", protocolo.idEvento);
-                cmd.Parameters.AddWithValue("@salvo", protocolo.salvoDB);
+                cmd.Parameters.AddWithValue("@salvo", true);
                 cmd.ExecuteNonQuery();
             };
         }
@@ -626,6 +632,10 @@ namespace IntegradorCore.DAO
                                 salvoDB = Convert.ToBoolean(item.ItemArray[6])
                                 ,
                                 baseEnv = Convert.ToString(item.ItemArray[7])
+                                ,
+                                erros = Convert.ToString(item.ItemArray[8])
+                                ,
+                                consultado = Convert.ToBoolean(item.ItemArray[9])
                             });
                         }
 
@@ -653,7 +663,7 @@ namespace IntegradorCore.DAO
             {
                 using (var cmd = DbConnection().CreateCommand())
                 {
-                    cmd.CommandText = "SELECT * FROM protocoloDB where nroProt is not null and nroProt <> " + quote + quote + "and nroRec is null or nroRec = " + quote + quote + "and erros is null or erros = " + quote + quote;
+                    cmd.CommandText = "SELECT * FROM protocoloDB where nroProt is not null and nroProt != " + quote + quote +" and consultado is null";
                     da = new SQLiteDataAdapter(cmd.CommandText, DbConnection());
                     da.Fill(dt);
 
@@ -680,6 +690,67 @@ namespace IntegradorCore.DAO
                                 salvoDB = Convert.ToBoolean(item.ItemArray[6])
                                 ,
                                 baseEnv = Convert.ToString(item.ItemArray[7])
+                                ,
+                                erros = Convert.ToString(item.ItemArray[8])
+                                ,
+                                consultado = Convert.ToBoolean(item.ItemArray[9])
+                            });
+                        }
+
+                        return lista;
+                    }
+
+                }
+            }
+            catch (Exception ex)
+            {
+                exC.ExSQLite(4, ex.Message);
+            }
+
+            return null;
+        }
+
+        public static List<ProtocoloDB> GetProtocolosDBReadyUpdate()
+        {
+            SQLiteDataAdapter da = null;
+            DataTable dt = new DataTable();
+            const string quote = "\"";
+            //idEvento = quote + idEvento + quote;
+            try
+            {
+                using (var cmd = DbConnection().CreateCommand())
+                {
+                    cmd.CommandText = "SELECT * FROM protocoloDB where consultado = 1 and salvoDB = 0";
+                    da = new SQLiteDataAdapter(cmd.CommandText, DbConnection());
+                    da.Fill(dt);
+
+                    if (dt.Rows.Count > 0)
+                    {
+                        var lista = new List<ProtocoloDB>();
+                        foreach (DataRow item in dt.Rows)
+                        {
+
+                            lista.Add(new ProtocoloDB
+                            {
+                                idEvento = Convert.ToString(item.ItemArray[0])
+                                ,
+                                xmlEvento = Convert.ToString(item.ItemArray[1])
+                                ,
+                                nroProt = item.ItemArray[2].ToString()
+                                ,
+                                xmlProt = item.ItemArray[3].ToString()
+                                ,
+                                nroRec = item.ItemArray[4].ToString()
+                                ,
+                                xmlRec = item.ItemArray[5].ToString()
+                                ,
+                                salvoDB = Convert.ToBoolean(item.ItemArray[6])
+                                ,
+                                baseEnv = Convert.ToString(item.ItemArray[7])
+                                ,
+                                erros = Convert.ToString(item.ItemArray[8])
+                                ,
+                                consultado = Convert.ToBoolean(item.ItemArray[9])
                             });
                         }
 

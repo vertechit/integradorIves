@@ -17,5 +17,6 @@ namespace IntegradorCore.Modelos
         public bool salvoDB { get; set; }
         public string baseEnv { get; set; }
         public string erros { get; set; }
+        public bool consultado { get; set; }
     }
 }

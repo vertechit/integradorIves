@@ -4,7 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using IntegradorCore.Services;
+using IntegradorCore.Modelos;
 using Oracle.ManagedDataAccess.Client;
+using System.Data;
 
 namespace IntegradorCore.DAO
 {
@@ -54,77 +56,71 @@ namespace IntegradorCore.DAO
             }
             catch (Exception ex)
             {
-
             }
         }
 
-        public void SetResponseEnvio()
+        private static string CriaSQL(ProtocoloDB prot, int tipo)
         {
-            try
-            {
+            var quote = '\'';
 
+            if (tipo == 1)
+            {
+                var sql = "UPDATE ZMDATVIVES_EVENTOS_ESOCIAL SET NROPROTOCOLO = :Nrprot, XMLPROTOCOLO = :Xmlprot, MENSAGEMERRO = :Erro  WHERE ID = :Id";
+                sql = sql.Replace(":Nrprot", string.Concat(quote + prot.nroProt + quote));
+                sql = sql.Replace(":Xmlprot", string.Concat(quote + (prot.xmlProt = prot.xmlProt.Replace("> <", "><")) + quote));
+                sql = sql.Replace(":Erro", string.Concat(quote + prot.erros + quote));
+                sql = sql.Replace(":Id", string.Concat(quote + prot.idEvento + quote));
+
+                return sql;
             }
-            catch (Exception ex)
+            else
             {
+                var sql = "UPDATE ZMDATVIVES_EVENTOS_ESOCIAL SET NROPROTOCOLO = :nrprot, XMLPROTOCOLO = :xmlprot, NRORECIBO = :nroRec, XMLRECIBO = :xmlRec WHERE ID = :Id";
+                sql = sql.Replace(":Nrprot", string.Concat(quote + prot.nroProt + quote));
+                sql = sql.Replace(":Xmlprot", string.Concat(quote + prot.xmlProt + quote));
+                sql = sql.Replace(":nroRec", string.Concat(quote + prot.nroRec + quote));
+                sql = sql.Replace(":xmlRec", string.Concat(quote + prot.xmlRec + quote));
+                sql = sql.Replace(":Id", string.Concat(quote + prot.idEvento + quote));
 
+                return sql;
             }
         }
 
-        public void SetResponseConsulta()
+        public static bool UpdateDB(ProtocoloDB prot)
         {
+            
             try
             {
-
-            }
-            catch (Exception ex)
-            {
-
-            }
-        }
-
-        public void teste()
-        {
-            try
-            {
-
-                
-
                 using (OracleConnection conn = GetConnection())
                 {
                     conn.Open();
-                    Console.Write("Conexão efetuada com sucesso\n");
                     using (var comm = new OracleCommand())
                     {
-                        comm.Connection = conn;
-                        comm.CommandText = "SELECT * FROM ZMDATVIVES_EVENTOS_ESOCIAL";
-
-                        /*Console.WriteLine("DataReader:");
-                        using (var reader = comm.ExecuteReader())
+                        if (prot.nroRec == null || prot.nroRec == "")
                         {
-                            while (reader.Read())
-                            {
-                                Console.WriteLine("ID {0}", reader["ID"]);
-                            }
-                        }*/
-
-                        Console.WriteLine("DataAdapter:");
-                        var adapter = new OracleDataAdapter(comm);
-                        var dataTable = new System.Data.DataTable();
-                        adapter.Fill(dataTable);
-                        foreach (System.Data.DataRow row in dataTable.Rows)
-                        {
-                            Console.WriteLine("ID: {0}", row["XMLEVENTO"]);
+                            var sql = CriaSQL(prot, 1);
+                            comm.Connection = conn;
+                            comm.CommandType = CommandType.Text;
+                            comm.CommandText = sql;
+                            comm.ExecuteNonQuery();
                         }
+                        else
+                        {
+                            var sql = CriaSQL(prot, 2);
+                            comm.Connection = conn;
+                            comm.CommandType = CommandType.Text;
+                            comm.CommandText = sql;
+                            comm.ExecuteNonQuery();
+                        }
+                        conn.Close();
+                        return true;
                     }
-                    conn.Close();
                 }
             }
-            // Retorna erro
-            catch (Exception ex)
+            catch(Exception Ex)
             {
-                // Mostra menssagem de erro
-                Console.Write(ex.ToString());
-
+                //conn.Close();
+                return false;
             }
         }
     }
