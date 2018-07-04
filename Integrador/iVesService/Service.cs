@@ -12,6 +12,8 @@ using System.IO;
 using IntegradorCore;
 using IntegradorCore.Services;
 using IntegradorCore.DAO;
+using IntegradorCore.NHibernate;
+using IntegradorCore.NHibernate.DAO;
 using IntegradorCore.Modelos;
 using System.Collections;
 
@@ -32,36 +34,41 @@ namespace iVesService
 
         public void Parametro()
         {
+            var sessao = AuxiliarNhibernate.AbrirSessao();
+            var ParametroDAO = new ParametroDAO(sessao);
             Processos process = new Processos();
             StaticParametros.SetTipoApp("Service");
 
             try
             {
-                var ret = Armazenamento.GetParametros();
-
-                if(Directory.Exists(ret.CaminhoDir) && File.Exists(ret.CaminhoToke))
+                var ret = ParametroDAO.BuscarPorID(1);//Armazenamento.GetParametros();
+                try
                 {
-                    StaticParametros.SetDirToke(ret.CaminhoToke);
-                    StaticParametros.SetDirOrigem(ret.CaminhoDir);
-                    process.CriarPastas();
 
-                    if (DefineToken(StaticParametros.GetDirToke()) == false)
+                    if (Directory.Exists(ret.CaminhoDir) && File.Exists(ret.CaminhoToke))
                     {
-                        this.Stop();
+                        StaticParametros.SetDirToke(ret.CaminhoToke);
+                        StaticParametros.SetDirOrigem(ret.CaminhoDir);
+                        process.CriarPastas();
+
+                        if (DefineToken(StaticParametros.GetDirToke()) == false)
+                        {
+                            this.Stop();
+                        }
+                        if (VerificaProcessoRun() == false)
+                        {
+                            Thread Tproc = new Thread(process.LimpaLog);
+                            Tproc.Start();
+                        }
+                        else
+                        {
+                            Log("Feche o integrador para iniciar o serviço.", 2);
+                            this.Stop();
+                        }
+
                     }
-                    if(VerificaProcessoRun() == false)
-                    {
-                        Thread Tproc = new Thread(process.LimpaLog);
-                        Tproc.Start();
-                    }
-                    else
-                    {
-                        Log("Feche o integrador para iniciar o serviço.", 2);
-                        this.Stop();
-                    }
-                    
                 }
-                else
+                catch (Exception)
                 {
                     Log("Não foi possivel localizar as informações, por favor, abra o integrador e defina os parametros novamente.", 2);
                     this.Stop();
@@ -74,9 +81,11 @@ namespace iVesService
                 vWriter.WriteLine("Erro " + DateTime.Now.ToString());
                 vWriter.Flush();
                 vWriter.Close();
-
+                sessao.Close();
                 this.Stop();
             }
+
+            sessao.Close();
         }
 
         protected override void OnStart(string[] args)
@@ -164,7 +173,7 @@ namespace iVesService
             Log("Job Iniciado: ", 1);
             Log("Integração iniciada: ", 1);
 
-            Integra(1);
+            ActionIntegra();
 
             //Log("Integração finalizado: ", 1);
 
@@ -172,7 +181,7 @@ namespace iVesService
             Log("Consulta iniciada: ", 1);
 
             //job.Consulta();
-            Consulta(1);
+            ActionConsulta();
             
             Log("Job finalizado: ", 1);
             Log("--", 2);
@@ -180,11 +189,43 @@ namespace iVesService
 
         }
 
+         private void ActionIntegra()
+        {
+
+            if (StaticParametros.GetIntegraBanco() == true)
+            {
+                IntegraDB();
+            }
+
+            if (StaticParametros.GetDirOrigem() != null && StaticParametros.GetDirOrigem() != "")
+            {
+                Integra(1);
+            }
+                
+            Log("Integração finalizado: ", 1);
+        }
+
+        private void ActionConsulta()
+        {
+            if (StaticParametros.GetIntegraBanco() == true)
+            {
+                ConsultaDB();
+
+            }
+
+            if (StaticParametros.GetDirOrigem() != null && StaticParametros.GetDirOrigem() != "")
+            {
+                Consulta(1);
+            }
+                
+            Log("Consulta finalizada: ", 1);
+        }
+
         private void Integra(int i)
         {
             if (i > 3)
             {
-                Log("Integração finalizado: ", 1);
+                
                 return;
             }
             Processos proc = new Processos();
@@ -211,7 +252,7 @@ namespace iVesService
         {
             if (i > 3)
             {
-                Log("Consulta finalizada: ", 1);
+                
                 return;
             }
 
@@ -233,6 +274,19 @@ namespace iVesService
                 Log("Não foi possivel localizar as informações, por favor, abra o integrador e defina os parametros novamente.", 2);
                 this.Stop();
             }
+        }
+
+        private void IntegraDB()
+        {
+            Jobs Job = new Jobs();
+            Job.EnviaDB();
+        }
+
+        private void ConsultaDB()
+        {
+            Jobs Job = new Jobs();
+            Job.ConsultaDB();
+            Job.UpdateDB();
         }
 
         public bool DefineToken(string dir)
@@ -274,7 +328,7 @@ namespace iVesService
                     vWriter.WriteLine("");
                     vWriter.Flush();
                     vWriter.Close();
-                }catch(Exception ex)
+                }catch(Exception)
                 {
                     //Log(ex.Message, 2);
                 }
@@ -290,7 +344,7 @@ namespace iVesService
                     vWriter.Flush();
                     vWriter.Close();
                 }
-                catch(Exception ex)
+                catch(Exception)
                 {
                     //Log(ex.Message, 2);
                 }
