@@ -8,12 +8,9 @@ namespace IntegradorCore.Modelos
 {
     public class Parametro
     {
-        public long? Id { get; set; }
-        public string CaminhoDir { get; set; }
-        //public string CaminhoFim { get; set; }
-        public string CaminhoToke { get; set; }
-        public bool IntegraBanco { get; set; }
-        //public string Ambiente { get; set; }
-        //public string Base { get; set; }
+        public virtual long? Id { get; set; }
+        public virtual string CaminhoDir { get; set; }
+        public virtual string CaminhoToke { get; set; }
+        public virtual bool IntegraBanco { get; set; }
     }
 }

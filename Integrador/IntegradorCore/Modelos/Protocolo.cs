@@ -8,10 +8,10 @@ namespace IntegradorCore.Modelos
 {
     public class Protocolo
     {
-        public long? Id { get; set; }
-        public string NomeArquivo { get; set; }
-        public string NroProtocolo { get; set; }
-        public string Base { get; set; }
-        public long? Ambiente { get; set; }
+        public virtual long? Id { get; set; }
+        public virtual string NomeArquivo { get; set; }
+        public virtual string NroProtocolo { get; set; }
+        public virtual string Base { get; set; }
+        public virtual long? Ambiente { get; set; }
     }
 }

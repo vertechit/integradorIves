@@ -9,6 +9,9 @@ using IntegradorCore.API;
 using IntegradorCore.Modelos;
 using IntegradorCore.Services;
 using System.Threading;
+using IntegradorCore.NHibernate.DAO;
+using IntegradorCore.NHibernate;
+using NHibernate;
 
 namespace IntegradorCore.Services
 {
@@ -20,9 +23,13 @@ namespace IntegradorCore.Services
         ConsultaTXT apiConTXT = new ConsultaTXT(StaticParametros.GetGrupo(), StaticParametros.GetToken());
         ConsultaXML apiConXML = new ConsultaXML(StaticParametros.GetGrupo(), StaticParametros.GetToken());
         ExceptionCore ex = new ExceptionCore();
+        //ISession sessao = AuxiliarNhibernate.AbrirSessao();
+
+
 
         public void Envia()
         {
+            var sessao = AuxiliarNhibernate.AbrirSessao();
             DirectoryInfo di = new DirectoryInfo(string.Concat(StaticParametros.GetDirArq(), "\\logs"));
 
             if (di.Exists == false)
@@ -73,7 +80,7 @@ namespace IntegradorCore.Services
                         var response = apiXML.SendXML(xmlString);
                         if (proc.VerificaResponseXML(response) == true)
                         {
-                            proc.SalvaProtocoloXML(item, response, 1);
+                            proc.SalvaProtocoloXML(item, response, 1, sessao);
                             proc.GeraLogEnviaXML(item, "Foi enviado com sucesso!");
                         }
                         else
@@ -185,22 +192,50 @@ namespace IntegradorCore.Services
             }
         }
 
-        public void GetXMLDataBase()
+        public void SelectDriverToGetXMLOnDataBase(ISession sessao)
         {
             if(StaticParametros.GetIntegraBanco() == true)
             {
-                OracleDB.GetData();
+                if (StaticParametersDB.GetDriver() == "oracle")
+                    OracleDB.GetData(sessao);
+
+                else{
+
+                }
             }
+        }
+
+        public bool SelectDriverToUpdate(ProtocoloDB prot)
+        {
+            if (StaticParametros.GetIntegraBanco() == true)
+            {
+                if (StaticParametersDB.GetDriver() == "oracle")
+                {
+                    return OracleDB.UpdateDB(prot);
+                }
+                    
+                else
+                {
+                    return false;
+                }
+
+            }
+
+            return false;
         }
 
         public int EnviaDB()
         {
-            GetXMLDataBase();
+            var sessao = AuxiliarNhibernate.AbrirSessao();
+            ProtocoloDB_DAO ProtocoloDAO = new ProtocoloDB_DAO(sessao);
+
+            SelectDriverToGetXMLOnDataBase(sessao);
+
             int ctrl = 0;
             EnviaXML apiXMLTeste = new EnviaXML(StaticParametros.GetGrupo(), StaticParametros.GetToken(), true);
-            var lista = Armazenamento.GetProtocolosDBEnv();
+            var lista = ProtocoloDAO.BuscaEnvio();//Armazenamento.GetProtocolosDBEnv();
 
-            if (lista != null)
+            if (lista.Count > 0)
             {
                 ctrl = 1;
                 foreach (var item in lista)
@@ -209,8 +244,9 @@ namespace IntegradorCore.Services
                     var response = apiXMLTeste.SendXML(xmlString);
                     if (proc.VerificaResponseXML(response) == true)
                     {
-                        proc.SalvaProtocoloXML(item.idEvento, response, 2);
-                        Armazenamento.AddProtocoloDB(new ProtocoloDB { idEvento = item.idEvento, baseEnv = Convert.ToString(true) });
+                        proc.SalvaProtocoloXML(item.idEvento, response, 2, sessao);
+                        var nprot = new ProtocoloDB { idEvento = item.idEvento, baseEnv = Convert.ToString(true) };
+                        ProtocoloDAO.Salvar(nprot);
                         proc.GeraLogEnviaXML(item.idEvento, "Foi enviado com sucesso!");
                     }
                     else
@@ -219,15 +255,18 @@ namespace IntegradorCore.Services
                     }
                 }
             }
-
+            sessao.Close();
             return ctrl;
         }
 
         public void ConsultaDB()
         {
+            var sessao = AuxiliarNhibernate.AbrirSessao();
+            ProtocoloDB_DAO ProtocoloDAO = new ProtocoloDB_DAO(sessao);
+
             ConsultaXML apiConXMLTeste = new ConsultaXML(StaticParametros.GetGrupo(), StaticParametros.GetToken());
-            var lista = Armazenamento.GetProtocolosDBCon();
-            if(lista != null)
+            var lista = ProtocoloDAO.BuscaConsulta();
+            if(lista.Count > 0)
             {
                 foreach (var item in lista)
                 {
@@ -241,12 +280,16 @@ namespace IntegradorCore.Services
                         {
                             var xmlRec = proc.ExtraiXMLRecibo(retorno);
                             var nrRec = proc.ExtraiNumRecibo(retorno);
-                            Armazenamento.AddProtocoloDB(new ProtocoloDB { idEvento = item.idEvento, xmlRec = xmlRec, nroRec = nrRec, consultado = true });
+                            var prot = new ProtocoloDB { idEvento = item.idEvento, xmlRec = xmlRec, nroRec = nrRec, consultado = true };
+                            ProtocoloDAO.Salvar(prot);
+                            //Armazenamento.AddProtocoloDB(new ProtocoloDB { idEvento = item.idEvento, xmlRec = xmlRec, nroRec = nrRec, consultado = true });
                         }
                         else
                         {
                             var erros = proc.ExtraiErrosXmlDB(retorno);
-                            Armazenamento.AddProtocoloDB(new ProtocoloDB { idEvento = item.idEvento, erros = erros, consultado = true });
+                            var prot = new ProtocoloDB { idEvento = item.idEvento, erros = erros, consultado = true };
+                            ProtocoloDAO.Salvar(prot);
+                            //Armazenamento.AddProtocoloDB(new ProtocoloDB { idEvento = item.idEvento, erros = erros, consultado = true });
                         }
                     }
                     catch (Exception e)
@@ -255,12 +298,18 @@ namespace IntegradorCore.Services
                     }
                 }
             }
+
+            sessao.Close();
         }
 
         public void UpdateDB()
         {
-            var lista = Armazenamento.GetProtocolosDBReadyUpdate();
-            if(lista != null)
+            var sessao = AuxiliarNhibernate.AbrirSessao();
+            ProtocoloDB_DAO ProtocoloDAO = new ProtocoloDB_DAO(sessao);
+
+            var lista = ProtocoloDAO.BuscaParaAtualizarBanco();
+            //Armazenamento.GetProtocolosDBReadyUpdate();
+            if (lista.Count > 0)
             {
                 foreach (var item in lista)
                 {
@@ -268,7 +317,7 @@ namespace IntegradorCore.Services
                     {
                         if(!item.salvoDB)
                         {
-                            var ret = OracleDB.UpdateDB(item);
+                            var ret = SelectDriverToUpdate(item);
 
                             if (ret == true)
                             {
@@ -284,6 +333,8 @@ namespace IntegradorCore.Services
                     
                 }
             }
+
+            sessao.Close();
         }
     }
 }

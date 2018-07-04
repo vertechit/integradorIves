@@ -7,6 +7,9 @@ using IntegradorCore.Services;
 using IntegradorCore.Modelos;
 using Oracle.ManagedDataAccess.Client;
 using System.Data;
+using IntegradorCore.NHibernate;
+using IntegradorCore.NHibernate.DAO;
+using NHibernate;
 
 namespace IntegradorCore.DAO
 {
@@ -25,8 +28,11 @@ namespace IntegradorCore.DAO
             return new OracleConnection(oradb);
         }
 
-        public static void GetData()
+        public static void GetData(ISession sessao)
         {
+            //var sessao = AuxiliarNhibernate.AbrirSessao();
+            var ProtocoloDAO = new ProtocoloDB_DAO(sessao);
+
             try
             {
                 using (OracleConnection conn = GetConnection())
@@ -45,9 +51,10 @@ namespace IntegradorCore.DAO
 
                         foreach (System.Data.DataRow row in dataTable.Rows)
                         {
-                            Armazenamento.AddProtocoloDB(
-                                new Modelos.ProtocoloDB { idEvento = Convert.ToString(row["ID"]), xmlEvento = Convert.ToString(row["XMLEVENTO"]) }
-                            );
+                            //Armazenamento.AddProtocoloDB(
+                            var prot = new Modelos.ProtocoloDB { idEvento = Convert.ToString(row["ID"]), xmlEvento = Convert.ToString(row["XMLEVENTO"]) };
+                            ProtocoloDAO.Salvar(prot);
+                            //);
                         }
                     }
 

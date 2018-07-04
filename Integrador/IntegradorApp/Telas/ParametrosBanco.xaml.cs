@@ -13,6 +13,8 @@ using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using IntegradorCore.Services;
 using IntegradorCore.DAO;
+using IntegradorCore.NHibernate;
+using IntegradorCore.NHibernate.DAO;
 
 namespace IntegradorApp.Telas
 {
@@ -65,12 +67,16 @@ namespace IntegradorApp.Telas
         
         private void init()
         {
+            var sessao = AuxiliarNhibernate.AbrirSessao();
+            var ParametroDB = new ParametroDB_DAO(sessao);
+
             try
             {
                 var process = new Processos();
-                var param = Armazenamento.GetParametrosDB();
+
+                var param = ParametroDB.BuscarPorID(1);//Armazenamento.GetParametrosDB();
                 
-                if(param != null)
+                try
                 {
                     TxbHost.Text = param.Host;
                     TxbPort.Text = param.Port;
@@ -85,11 +91,17 @@ namespace IntegradorApp.Telas
                     StaticParametersDB.SetUser(TxbUser.Text);
                     StaticParametersDB.SetPassword(PwbSenha.Password);
                 }
+                catch (Exception e)
+                {
+
+                }
 
             }catch(Exception e)
             {
                 
             }
+
+            sessao.Close();
         }
 
         #endregion

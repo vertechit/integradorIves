@@ -15,6 +15,9 @@ using System.Diagnostics;
 using System.Security.Principal;
 using System.Reflection;
 using System.Net.NetworkInformation;
+using IntegradorCore.NHibernate;
+using IntegradorCore.NHibernate.DAO;
+using NHibernate;
 
 namespace IntegradorCore.Services
 {
@@ -150,7 +153,7 @@ namespace IntegradorCore.Services
                 xmlString = xmlString.Replace("<tpAmb>3</tpAmb>", string.Concat(tagIni, StaticParametros.GetAmbiente(), tagFim));
             }
 
-            string xsdInicio = "<eSocial><envioLoteEventos grupo=\"1\"><eventos><evento id=\"123\">";
+            string xsdInicio = "<eSocial><envioLoteEventos grupo=\"1\"><eventos><evento Id=\"123\">";
 
             xsdInicio = xsdInicio.Replace("123", arqname);
 
@@ -164,7 +167,7 @@ namespace IntegradorCore.Services
         public string MontaXMLDB(string idevento, string Xml)
         {
 
-            string xsdInicio = "<eSocial><envioLoteEventos grupo=\"1\"><eventos><evento id=\"123\">";
+            string xsdInicio = "<eSocial><envioLoteEventos grupo=\"1\"><eventos><evento Id=\"123\">";
 
             xsdInicio = xsdInicio.Replace("123", idevento);
 
@@ -322,8 +325,9 @@ namespace IntegradorCore.Services
             }
         }
 
-        public void SalvaProtocoloXML(string id, string Response, int tipo)
+        public void SalvaProtocoloXML(string id, string Response, int tipo, ISession sessao)
         {
+
             var tagIni = "<protocoloEnvio>";
             var tagFim = "</protocoloEnvio>";
 
@@ -340,7 +344,10 @@ namespace IntegradorCore.Services
                 }
                 else
                 {
-                    Armazenamento.AddProtocoloDB(new ProtocoloDB { idEvento = id, nroProt = protocolo, xmlProt = Response });
+                    ProtocoloDB_DAO ProtocoloDAO = new ProtocoloDB_DAO(sessao);
+                    var prot = new ProtocoloDB { idEvento = id, nroProt = protocolo, xmlProt = Response };
+                    //Armazenamento.AddProtocoloDB(new ProtocoloDB { idEvento = id, nroProt = protocolo, xmlProt = Response });
+                    ProtocoloDAO.Salvar(prot);
                 }
             }
             catch (Exception e)

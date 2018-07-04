@@ -17,6 +17,10 @@ using System.Windows.Shapes;
 using IntegradorCore.DAO;
 using IntegradorCore.Services;
 using IntegradorCore.Modelos;
+using IntegradorCore.NHibernate;
+using IntegradorCore.NHibernate.DAO;
+using IntegradorCore;
+using NHibernate;
 using IntegradorApp.Telas;
 using Microsoft.Win32;
 using System.Windows.Forms;
@@ -107,6 +111,14 @@ namespace IntegradorApp
         private void BtnSalvar_Click(object sender, RoutedEventArgs e)
         {
             var proc = new Processos();
+
+            var sessao = AuxiliarNhibernate.AbrirSessao();
+            var parametroDAO = new ParametroDAO(sessao);
+            var parametroDBDAO = new ParametroDB_DAO(sessao);
+
+            var resultadoParam = parametroDAO.BuscarPorID(1);
+            var resultadoParamDB = parametroDBDAO.BuscarPorID(1);
+
             if (proc.VerificaProcessoRun() == false)
             {
                 Processos process = new Processos();
@@ -127,10 +139,18 @@ namespace IntegradorApp
                                     if(StaticParametersDB.GetDriver() != null)
                                     {
                                         StaticParametros.SetIntegraBanco(true);
-                                        Armazenamento.AddParametrosDB(new ParametroDB { Id = 1, Driver = StaticParametersDB.GetDriver(), Host = StaticParametersDB.GetHost(), Port = StaticParametersDB.GetPort(), ServiceName = StaticParametersDB.GetServiceName(), User = StaticParametersDB.GetUser(), Password = AESThenHMAC.SimpleEncryptWithPassword(StaticParametersDB.GetPassword(), process.GetMacAdress()) });
+                                        
+                                        var paramdb = new ParametroDB { Id = 1, Driver = StaticParametersDB.GetDriver(), Host = StaticParametersDB.GetHost(), Port = StaticParametersDB.GetPort(), ServiceName = StaticParametersDB.GetServiceName(), User = StaticParametersDB.GetUser(), Password = AESThenHMAC.SimpleEncryptWithPassword(StaticParametersDB.GetPassword(), process.GetMacAdress()) };
+                                            
+                                        parametroDBDAO.Salvar(resultadoParamDB);
+
+                                        //Armazenamento.AddParametrosDB(new ParametroDB { Id = 1, Driver = StaticParametersDB.GetDriver(), Host = StaticParametersDB.GetHost(), Port = StaticParametersDB.GetPort(), ServiceName = StaticParametersDB.GetServiceName(), User = StaticParametersDB.GetUser(), Password = AESThenHMAC.SimpleEncryptWithPassword(StaticParametersDB.GetPassword(), process.GetMacAdress()) });
                                     }
+                                   
+                                    var newParam = new Parametro { Id = 1, CaminhoDir = StaticParametros.GetDirOrigem(), CaminhoToke = StaticParametros.GetDirToke(), IntegraBanco = StaticParametros.GetIntegraBanco() };
+                                    parametroDAO.Salvar(newParam);
                                     
-                                    Armazenamento.AddParametros(new Parametro { Id = 1, CaminhoDir = StaticParametros.GetDirOrigem(), CaminhoToke = StaticParametros.GetDirToke(), IntegraBanco = StaticParametros.GetIntegraBanco() });
+                                    //Armazenamento.AddParametros(new Parametro { Id = 1, CaminhoDir = StaticParametros.GetDirOrigem(), CaminhoToke = StaticParametros.GetDirToke(), IntegraBanco = StaticParametros.GetIntegraBanco() });
                                     OrganizaTelaEvent(2);
                                     process.CriarPastas();
                                 }
@@ -165,6 +185,8 @@ namespace IntegradorApp
             {
                 System.Windows.MessageBox.Show("O serviço está em execução");
             }
+
+            sessao.Close();
         }
 
         private void BtnParam_Click(object sender, RoutedEventArgs e)
@@ -238,7 +260,7 @@ namespace IntegradorApp
         public void Init()
         {
             Processos process = new Processos();
-
+            var sessao = AuxiliarNhibernate.AbrirSessao();
             DirectoryInfo dir = new DirectoryInfo(@"C:\\vch");
 
             int i = 0;
@@ -274,19 +296,20 @@ namespace IntegradorApp
 
                 if (arq1 == 0)
                 {
-                    Armazenamento.CriarBancoSQLite();
-                    Armazenamento.CriarTabelaSQlite();
+                    //Armazenamento.CriarBancoSQLite();
+                    //Armazenamento.CriarTabelaSQlite();
                 }
                 if (arq2 == 0)
                 {
                     Log.CriarBancoSQLite();
                     Log.CriarTabelaSQlite();
                 }
+                var parametroDAO = new ParametroDAO(sessao);
+                var param = parametroDAO.BuscarPorID(1);//Armazenamento.GetParametros();
 
-                var param = Armazenamento.GetParametros();
                 int ctrl = 0;
 
-                if (param != null)
+                try
                 {
                     if (param.CaminhoToke.Contains(".ives") && param.CaminhoToke != "" && File.Exists(param.CaminhoToke))
                     {
@@ -310,9 +333,11 @@ namespace IntegradorApp
                         {
                             try
                             {
-                                var paramDB = Armazenamento.GetParametrosDB();
+                                var parametroDBDAO = new ParametroDB_DAO(sessao);
+                                var paramDB = parametroDBDAO.BuscarPorID(1);
+                                //var paramDB = Armazenamento.GetParametrosDB();
 
-                                if(paramDB != null)
+                                try
                                 {
                                     StaticParametros.SetIntegraBanco(param.IntegraBanco);
 
@@ -323,10 +348,17 @@ namespace IntegradorApp
                                     StaticParametersDB.SetUser(paramDB.User);
                                     StaticParametersDB.SetPassword(AESThenHMAC.SimpleDecryptWithPassword(paramDB.Password, process.GetMacAdress()));
                                 }
-                                else
+                                catch(Exception ex)
                                 {
                                     StaticParametros.SetIntegraBanco(false);
-                                    Armazenamento.UpdateParametros(new Parametro { Id = 1, CaminhoDir = param.CaminhoDir, CaminhoToke = param.CaminhoToke, IntegraBanco = false });
+                                    if(param.IntegraBanco == true)
+                                    {
+                                        
+                                        var paramn = new Parametro { Id = 1, CaminhoDir = StaticParametros.GetDirOrigem(), CaminhoToke = StaticParametros.GetDirToke(), IntegraBanco = StaticParametros.GetIntegraBanco() };
+                                        parametroDAO.Salvar(param);
+                                        
+                                    }
+                                    //Armazenamento.UpdateParametros(new Parametro { Id = 1, CaminhoDir = param.CaminhoDir, CaminhoToke = param.CaminhoToke, IntegraBanco = false });
                                 }
 
                                 OrganizaTelaEvent(2);
@@ -353,13 +385,12 @@ namespace IntegradorApp
                     }
 
                 }
-
-                else if (param == null)
+                catch (Exception ex)
                 {
                     OrganizaTelaEvent(1);
                 }
             }
-
+            
             else
             {
                 string user = System.Windows.Forms.SystemInformation.UserName;
@@ -371,13 +402,15 @@ namespace IntegradorApp
                 folderInfo.Create(ds);
                 folderInfo.CreateSubdirectory("vch");
 
-                Armazenamento.CriarBancoSQLite();
-                Armazenamento.CriarTabelaSQlite();
+                //Armazenamento.CriarBancoSQLite();
+                //Armazenamento.CriarTabelaSQlite();
                 Log.CriarBancoSQLite();
                 Log.CriarTabelaSQlite();
 
                 OrganizaTelaEvent(1);
             }
+
+            sessao.Close();
 
         }
 
@@ -515,8 +548,6 @@ namespace IntegradorApp
             }
         }
 
-        
-
         private void OrganizaTelaEvent(int tipo)
         {
             if (tipo == 1)
@@ -557,7 +588,5 @@ namespace IntegradorApp
         }
 
         #endregion
-
-        
     }
 }
