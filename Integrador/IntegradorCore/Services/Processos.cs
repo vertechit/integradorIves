@@ -312,11 +312,14 @@ namespace IntegradorCore.Services
             return false;
         }
 
-        public void SalvaProtocolo(apiEnviaTXT.integraResponse Response, string arq)
+        public void SalvaProtocolo(apiEnviaTXT.integraResponse Response, string arq, ISession sessao)
         {
+            var protocoloDAO = new ProtocoloDAO(sessao); 
             try
             {
-                Armazenamento.AddProtocolo(new Protocolo { Id = 0, NomeArquivo = arq, NroProtocolo = Convert.ToString(Response.protocolo), Base = Convert.ToString(StaticParametros.GetBase()), Ambiente = Convert.ToInt64(StaticParametros.GetAmbiente()) });
+                var prot = new Protocolo { Id = 0, NomeArquivo = arq, NroProtocolo = Convert.ToString(Response.protocolo), Base = Convert.ToString(StaticParametros.GetBase()), Ambiente = Convert.ToInt64(StaticParametros.GetAmbiente()) };
+                //Armazenamento.AddProtocolo(new Protocolo { Id = 0, NomeArquivo = arq, NroProtocolo = Convert.ToString(Response.protocolo), Base = Convert.ToString(StaticParametros.GetBase()), Ambiente = Convert.ToInt64(StaticParametros.GetAmbiente()) });
+                protocoloDAO.Salvar(prot);
             }
             catch (Exception e)
             {
@@ -340,7 +343,10 @@ namespace IntegradorCore.Services
             {
                 if(tipo == 1)
                 {
-                    Armazenamento.AddProtocolo(new Protocolo { Id = 0, NomeArquivo = id, NroProtocolo = protocolo, Base = Convert.ToString(StaticParametros.GetBase()) });
+                    var ProtocoloDAO = new ProtocoloDAO(sessao);
+                    var prot = new Protocolo { Id = 0, NomeArquivo = id, NroProtocolo = protocolo, Base = Convert.ToString(StaticParametros.GetBase()), Ambiente = StaticParametros.GetAmbiente() };
+                    ProtocoloDAO.Salvar(prot);
+                    //Armazenamento.AddProtocolo(new Protocolo { Id = 0, NomeArquivo = id, NroProtocolo = protocolo, Base = Convert.ToString(StaticParametros.GetBase()) });
                 }
                 else
                 {
@@ -357,12 +363,24 @@ namespace IntegradorCore.Services
             }
         }
 
-        public Boolean VerificacaoEnviaLote(string arq)
+        public Boolean VerificacaoEnviaLote(string arq, ISession sessao)
         {
             string dir = StaticParametros.GetDirArq();
             DirectoryInfo diretorio = new DirectoryInfo(dir);
 
-            if (Armazenamento.ExistsProtocolo(arq) == true)
+            bool result = false;
+            var ProtocoloDAO = new ProtocoloDAO(sessao);
+            var prot = ProtocoloDAO.BuscarPorNomeArquivo(arq);
+            
+            try
+            {
+                var a = prot.NroProtocolo;
+                result = true;
+            }catch(Exception e){
+
+            }
+
+            if (result == true)
             {
                 return false;
             }
@@ -370,13 +388,23 @@ namespace IntegradorCore.Services
             return true;
         }
 
-        public int VerificacaoIntegra(string arq)
+        public int VerificacaoIntegra(string arq, ISession sessao)
         {
-
             string dir = StaticParametros.GetDirArq();
             DirectoryInfo diretorio = new DirectoryInfo(dir);
 
-            if (Armazenamento.ExistsProtocolo(arq) == true)
+            bool result = false;
+            var ProtocoloDAO = new ProtocoloDAO(sessao);
+            var prot = ProtocoloDAO.BuscarPorNomeArquivo(arq);
+            try
+            {
+                var a = prot.NroProtocolo;
+                result = true;
+            }catch(Exception e){
+
+            }
+
+            if (result == true)
             {
                 return 1;
             }
