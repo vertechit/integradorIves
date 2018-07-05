@@ -36,12 +36,14 @@ namespace iVesService
         {
             var sessao = AuxiliarNhibernate.AbrirSessao();
             var ParametroDAO = new ParametroDAO(sessao);
+            var ParametroDBDAO = new ParametroDB_DAO(sessao);
             Processos process = new Processos();
             StaticParametros.SetTipoApp("Service");
 
             try
             {
                 var ret = ParametroDAO.BuscarPorID(1);//Armazenamento.GetParametros();
+                var retdb = ParametroDBDAO.BuscarPorID(1);
                 try
                 {
 
@@ -49,6 +51,7 @@ namespace iVesService
                     {
                         StaticParametros.SetDirToke(ret.CaminhoToke);
                         StaticParametros.SetDirOrigem(ret.CaminhoDir);
+                        StaticParametros.SetIntegraBanco(ret.IntegraBanco);
                         process.CriarPastas();
 
                         if (DefineToken(StaticParametros.GetDirToke()) == false)
@@ -73,6 +76,20 @@ namespace iVesService
                     Log("Não foi possivel localizar as informações, por favor, abra o integrador e defina os parametros novamente.", 2);
                     this.Stop();
                 }
+
+                try
+                {
+                    StaticParametersDB.SetDriver("oracle");
+                    StaticParametersDB.SetHost(retdb.Host);
+                    StaticParametersDB.SetPort(retdb.Port);
+                    StaticParametersDB.SetServiceName(retdb.ServiceName);
+                    StaticParametersDB.SetUser(retdb.User);
+                    StaticParametersDB.SetPassword(AESThenHMAC.SimpleDecryptWithPassword(retdb.Password, process.GetMacAdress()));
+                }
+                catch (Exception)
+                {
+                    StaticParametros.SetIntegraBanco(false);
+                }
             }
             catch
             {
@@ -90,7 +107,7 @@ namespace iVesService
 
         protected override void OnStart(string[] args)
         {
-            //System.Diagnostics.Debugger.Launch();
+            System.Diagnostics.Debugger.Launch();
 
             DirectoryInfo di = new DirectoryInfo("c:\\vch\\log");
 

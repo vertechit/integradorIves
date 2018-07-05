@@ -116,8 +116,8 @@ namespace IntegradorApp
             var parametroDAO = new ParametroDAO(sessao);
             var parametroDBDAO = new ParametroDB_DAO(sessao);
 
-            var resultadoParam = parametroDAO.BuscarPorID(1);
-            var resultadoParamDB = parametroDBDAO.BuscarPorID(1);
+            //var resultadoParam = parametroDAO.BuscarPorID(1);
+            //var resultadoParamDB = parametroDBDAO.BuscarPorID(1);
 
             if (proc.VerificaProcessoRun() == false)
             {
@@ -142,7 +142,7 @@ namespace IntegradorApp
                                         
                                         var paramdb = new ParametroDB { Id = 1, Driver = StaticParametersDB.GetDriver(), Host = StaticParametersDB.GetHost(), Port = StaticParametersDB.GetPort(), ServiceName = StaticParametersDB.GetServiceName(), User = StaticParametersDB.GetUser(), Password = AESThenHMAC.SimpleEncryptWithPassword(StaticParametersDB.GetPassword(), process.GetMacAdress()) };
                                             
-                                        parametroDBDAO.Salvar(resultadoParamDB);
+                                        parametroDBDAO.Salvar(paramdb);
 
                                         //Armazenamento.AddParametrosDB(new ParametroDB { Id = 1, Driver = StaticParametersDB.GetDriver(), Host = StaticParametersDB.GetHost(), Port = StaticParametersDB.GetPort(), ServiceName = StaticParametersDB.GetServiceName(), User = StaticParametersDB.GetUser(), Password = AESThenHMAC.SimpleEncryptWithPassword(StaticParametersDB.GetPassword(), process.GetMacAdress()) });
                                     }
