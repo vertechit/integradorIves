@@ -10,6 +10,7 @@ namespace IntegradorCore.Modelos
     {
         public virtual string idEvento { get; set; }
         public virtual string xmlEvento { get; set; }
+        public virtual string driver { get; set; }
         public virtual string nroProt { get; set; }
         public virtual string xmlProt { get; set; }
         public virtual string nroRec { get; set; }

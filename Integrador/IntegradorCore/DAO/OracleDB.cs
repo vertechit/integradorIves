@@ -39,24 +39,32 @@ namespace IntegradorCore.DAO
                 {
                     conn.Open();
 
-                    using (var comm = new OracleCommand())
+                    try
                     {
-                        comm.Connection = conn;
-                        comm.CommandText = "SELECT ID, XMLEVENTO FROM ZMDATVIVES_EVENTOS_ESOCIAL WHERE NROPROTOCOLO IS NULL";
-
-                        var adapter = new OracleDataAdapter(comm);
-                        var dataTable = new System.Data.DataTable();
-
-                        adapter.Fill(dataTable);
-
-                        foreach (System.Data.DataRow row in dataTable.Rows)
+                        using (var comm = new OracleCommand())
                         {
-                            //Armazenamento.AddProtocoloDB(
-                            var prot = new Modelos.ProtocoloDB { idEvento = Convert.ToString(row["ID"]), xmlEvento = Convert.ToString(row["XMLEVENTO"]) };
-                            ProtocoloDAO.Salvar(prot);
-                            //);
+                            comm.Connection = conn;
+                            comm.CommandText = "SELECT ID, XMLEVENTO FROM ZMDATVIVES_EVENTOS_ESOCIAL WHERE NROPROTOCOLO IS NULL";
+
+                            var adapter = new OracleDataAdapter(comm);
+                            var dataTable = new System.Data.DataTable();
+
+                            adapter.Fill(dataTable);
+
+                            foreach (System.Data.DataRow row in dataTable.Rows)
+                            {
+                                //Armazenamento.AddProtocoloDB(
+                                var prot = new Modelos.ProtocoloDB { idEvento = Convert.ToString(row["ID"]), xmlEvento = Convert.ToString(row["XMLEVENTO"]), driver = "oracle" };
+                                ProtocoloDAO.Salvar(prot);
+                                //);
+                            }
                         }
                     }
+                    catch (Exception)
+                    {
+
+                    }
+                    
 
                     conn.Close();
                 }
@@ -83,8 +91,8 @@ namespace IntegradorCore.DAO
             else
             {
                 var sql = "UPDATE ZMDATVIVES_EVENTOS_ESOCIAL SET NROPROTOCOLO = :nrprot, XMLPROTOCOLO = :xmlprot, NRORECIBO = :nroRec, XMLRECIBO = :xmlRec WHERE ID = :Id";
-                sql = sql.Replace(":Nrprot", string.Concat(quote + prot.nroProt + quote));
-                sql = sql.Replace(":Xmlprot", string.Concat(quote + prot.xmlProt + quote));
+                sql = sql.Replace(":nrprot", string.Concat(quote + prot.nroProt + quote));
+                sql = sql.Replace(":xmlprot", string.Concat(quote + prot.xmlProt + quote));
                 sql = sql.Replace(":nroRec", string.Concat(quote + prot.nroRec + quote));
                 sql = sql.Replace(":xmlRec", string.Concat(quote + prot.xmlRec + quote));
                 sql = sql.Replace(":Id", string.Concat(quote + prot.idEvento + quote));
@@ -101,27 +109,40 @@ namespace IntegradorCore.DAO
                 using (OracleConnection conn = GetConnection())
                 {
                     conn.Open();
-                    using (var comm = new OracleCommand())
+
+                    try
                     {
-                        if (prot.nroRec == null || prot.nroRec == "")
+                        using (var comm = new OracleCommand())
                         {
-                            var sql = CriaSQL(prot, 1);
-                            comm.Connection = conn;
-                            comm.CommandType = CommandType.Text;
-                            comm.CommandText = sql;
-                            comm.ExecuteNonQuery();
+                            if (prot.nroRec == null || prot.nroRec == "")
+                            {
+                                var sql = CriaSQL(prot, 1);
+                                comm.Connection = conn;
+                                comm.CommandType = CommandType.Text;
+                                comm.CommandText = sql;
+                                comm.ExecuteNonQuery();
+                            }
+                            else
+                            {
+                                var sql = CriaSQL(prot, 2);
+                                comm.Connection = conn;
+                                comm.CommandType = CommandType.Text;
+                                comm.CommandText = sql;
+                                comm.ExecuteNonQuery();
+                            }
+                            
                         }
-                        else
-                        {
-                            var sql = CriaSQL(prot, 2);
-                            comm.Connection = conn;
-                            comm.CommandType = CommandType.Text;
-                            comm.CommandText = sql;
-                            comm.ExecuteNonQuery();
-                        }
-                        conn.Close();
-                        return true;
                     }
+                    catch (Exception)
+                    {
+                        conn.Close();
+
+                        return false;
+                    }
+
+                    conn.Close();
+
+                    return true;
                 }
             }
             catch(Exception Ex)

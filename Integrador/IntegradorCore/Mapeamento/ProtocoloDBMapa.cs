@@ -15,6 +15,7 @@ namespace IntegradorCore.Mapeamento
             Table("protocoloDB");
             Id(x => x.idEvento).Unique().Column("idEvento").Not.Nullable();
             Map(x => x.xmlEvento).Column("xmlEvento").Not.Nullable();
+            Map(x => x.driver).Column("driver").Not.Nullable();
             Map(x => x.nroProt).Column("nroProt");
             Map(x => x.xmlProt).Column("xmlProt");
             Map(x => x.nroRec).Column("nroRec");

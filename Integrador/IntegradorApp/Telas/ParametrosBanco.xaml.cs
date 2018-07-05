@@ -35,9 +35,16 @@ namespace IntegradorApp.Telas
 
         private void BtnSalvar_Click(object sender, RoutedEventArgs e)
         {
-            if(TxbHost.Text != "" && TxbPort.Text != "" && TxbServiceName.Text != "" && TxbUser.Text != "" && PwbSenha.Password != "")
+            if(TxbHost.Text != "" && TxbPort.Text != "" && TxbServiceName.Text != "" && TxbUser.Text != "" && PwbSenha.Password != "" && CboDriver.SelectedIndex != -1)
             {
-                StaticParametersDB.SetDriver("oracle");
+                if(CboDriver.SelectedIndex == 0)
+                {
+                    StaticParametersDB.SetDriver("oracle");
+                }
+                else
+                {
+                    StaticParametersDB.SetDriver("sqlserver");
+                }
                 StaticParametersDB.SetHost(TxbHost.Text);
                 StaticParametersDB.SetPort(TxbPort.Text);
                 StaticParametersDB.SetServiceName(TxbServiceName.Text);
@@ -53,6 +60,33 @@ namespace IntegradorApp.Telas
 
         private void BtnDelete_Click(object sender, RoutedEventArgs e)
         {
+            var sessao = AuxiliarNhibernate.AbrirSessao();
+
+            var paramdb = new ParametroDB_DAO(sessao);
+
+            var param = new ParametroDAO(sessao);
+
+            try
+            {
+                var item = paramdb.BuscarPorID(1);
+                var a = item.Driver;
+                paramdb.Remover(item);
+                var itemUp = param.BuscarPorID(1);
+                itemUp.IntegraBanco = false;
+                StaticParametros.SetIntegraBanco(false);
+                param.Salvar(itemUp);
+                StaticParametersDB.SetDriver(null);
+                TxbHost.Text = "";
+                TxbPort.Text = "";
+                TxbServiceName.Text = "";
+                TxbUser.Text = "";
+                PwbSenha.Password = "";
+            }
+            catch (Exception)
+            {
+
+            }
+            
 
         }
 
@@ -67,6 +101,11 @@ namespace IntegradorApp.Telas
         
         private void init()
         {
+            BtnDelete.Visibility = Visibility.Hidden;
+            CboDriver.Items.Insert(0, "Oracle");
+            CboDriver.Items.Insert(1, "SQLServer");
+
+            CboDriver.SelectedIndex = -1;
             var sessao = AuxiliarNhibernate.AbrirSessao();
             var ParametroDB = new ParametroDB_DAO(sessao);
 
@@ -78,6 +117,14 @@ namespace IntegradorApp.Telas
                 
                 try
                 {
+                    if(param.Driver == "oracle")
+                    {
+                        CboDriver.SelectedIndex = 0;
+                    }
+                    else
+                    {
+                        CboDriver.SelectedIndex = 1;
+                    }
                     TxbHost.Text = param.Host;
                     TxbPort.Text = param.Port;
                     TxbServiceName.Text = param.ServiceName;
@@ -90,11 +137,29 @@ namespace IntegradorApp.Telas
                     StaticParametersDB.SetServiceName(TxbServiceName.Text);
                     StaticParametersDB.SetUser(TxbUser.Text);
                     StaticParametersDB.SetPassword(PwbSenha.Password);
+                    BtnDelete.Visibility = Visibility.Visible;
                 }
                 catch (Exception e)
                 {
-
+                    if (StaticParametersDB.GetDriver() != null)
+                    {
+                        var driver = StaticParametersDB.GetDriver();
+                        if (driver == "oracle")
+                        {
+                            CboDriver.SelectedIndex = 0;
+                        }
+                        else
+                        {
+                            CboDriver.SelectedIndex = 1;
+                        }
+                        TxbHost.Text = StaticParametersDB.GetHost();
+                        TxbPort.Text = StaticParametersDB.GetPort();
+                        TxbServiceName.Text = StaticParametersDB.GetServiceName();
+                        TxbUser.Text = StaticParametersDB.GetUser();
+                        PwbSenha.Password = StaticParametersDB.GetPassword();
+                    }
                 }
+                
 
             }catch(Exception e)
             {

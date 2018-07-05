@@ -53,7 +53,7 @@ namespace IntegradorCore.NHibernate.DAO
 
         public IList<ProtocoloDB> BuscaParaAtualizarBanco()
         {
-            ICriterion criterio1 = Restrictions.Eq("consultado", true);
+            ICriterion criterio1 = Restrictions.And(Restrictions.Eq("consultado", true), Restrictions.Eq("salvoDB", false));
 
             criterios.Add(criterio1);
 
@@ -117,6 +117,10 @@ namespace IntegradorCore.NHibernate.DAO
             if (protocoloNew.xmlProt != null && protocoloNew.xmlProt != "")
             {
                 protocoloCurrent.xmlProt = protocoloNew.xmlProt;
+            }
+            if (protocoloNew.erros != null && protocoloNew.erros != "")
+            {
+                protocoloCurrent.erros = protocoloNew.erros;
             }
             if (protocoloNew.salvoDB != false)
             {

@@ -39,21 +39,21 @@ namespace iVesService
             var ParametroDBDAO = new ParametroDB_DAO(sessao);
             Processos process = new Processos();
             StaticParametros.SetTipoApp("Service");
+            int ctrl = 0;
 
             try
             {
+                
                 var ret = ParametroDAO.BuscarPorID(1);//Armazenamento.GetParametros();
                 var retdb = ParametroDBDAO.BuscarPorID(1);
+
                 try
                 {
-
-                    if (Directory.Exists(ret.CaminhoDir) && File.Exists(ret.CaminhoToke))
+                    if (File.Exists(ret.CaminhoToke))
                     {
+                        ctrl++;
                         StaticParametros.SetDirToke(ret.CaminhoToke);
-                        StaticParametros.SetDirOrigem(ret.CaminhoDir);
-                        StaticParametros.SetIntegraBanco(ret.IntegraBanco);
-                        process.CriarPastas();
-
+                        
                         if (DefineToken(StaticParametros.GetDirToke()) == false)
                         {
                             this.Stop();
@@ -79,16 +79,38 @@ namespace iVesService
 
                 try
                 {
+                    if (Directory.Exists(ret.CaminhoDir))
+                    {
+                        ctrl++;
+                        StaticParametros.SetDirOrigem(ret.CaminhoDir);
+                        process.CriarPastas();
+                    }
+                }
+                catch (Exception)
+                {
+
+                }
+
+                try
+                {
                     StaticParametersDB.SetDriver("oracle");
                     StaticParametersDB.SetHost(retdb.Host);
                     StaticParametersDB.SetPort(retdb.Port);
                     StaticParametersDB.SetServiceName(retdb.ServiceName);
                     StaticParametersDB.SetUser(retdb.User);
                     StaticParametersDB.SetPassword(AESThenHMAC.SimpleDecryptWithPassword(retdb.Password, process.GetMacAdress()));
+                    StaticParametros.SetIntegraBanco(true);
+                    ctrl++;
                 }
                 catch (Exception)
                 {
                     StaticParametros.SetIntegraBanco(false);
+                }
+
+                if(ctrl < 2)
+                {
+                    Log("Não foi possivel localizar as informações, por favor, abra o integrador e defina os parametros novamente.", 2);
+                    this.Stop();
                 }
             }
             catch

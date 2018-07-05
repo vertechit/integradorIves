@@ -18,6 +18,7 @@ using System.Net.NetworkInformation;
 using IntegradorCore.NHibernate;
 using IntegradorCore.NHibernate.DAO;
 using NHibernate;
+using System.Xml.Linq;
 
 namespace IntegradorCore.Services
 {
@@ -211,22 +212,38 @@ namespace IntegradorCore.Services
 
         public bool VerificaXMLRetornoConsulta(string xml)
         {
-            var XML = System.Xml.Linq.XElement.Parse(xml);
+            var v1 = xml.IndexOf("<recibo>");
+            var v2 = xml.IndexOf("</recibo>");
 
-            return XML.Elements("nrRecibo").Any();
+            if(v1 != -1 && v2 != -1)
+                return true;
+
+            return false;
         }
 
         public string ExtraiXMLRecibo(string xml)
         {
-            var tagIni = "<retornoEvento>";
-            var tagFim = "</retornoEvento>";
+            var tagIni = "<retornoEventos>";
+            var tagFim = "</retornoEventos>";
 
             int sti = xml.IndexOf(tagIni) + tagIni.Length;
             int stf = xml.IndexOf(tagFim) - tagFim.Length;
 
             var nwxml = xml.Substring(sti, stf + tagFim.Length - sti);
 
-            return "";
+            var tagIniE = "<retornoEvento>";
+            var tagFimE = "</retornoEvento>";
+
+            int stie = nwxml.IndexOf(tagIniE) + tagIniE.Length;
+            int stfe = nwxml.LastIndexOf(tagFimE) - tagFimE.Length;
+
+            var xm = nwxml.Substring(stie, stfe + tagFimE.Length - stie);
+
+            //xm = xm.Replace("\r\n", "");
+
+            //xm = xm.Replace(" ", "");
+
+            return xm;
         }
 
         public string ExtraiNumRecibo(string xml)
@@ -251,7 +268,7 @@ namespace IntegradorCore.Services
             int stf = xml.IndexOf(tagFim);// - tagFim.Length;
 
             var nwxml = xml.Substring(sti, stf + tagFim.Length - sti);
-
+            //nwxml.Replace();
             var XML = System.Xml.Linq.XElement.Parse(nwxml);
 
             return XML.Value;
@@ -937,13 +954,18 @@ namespace IntegradorCore.Services
 
         public bool ValidaStaticParametros()
         {
-            DirectoryInfo origem = new DirectoryInfo(StaticParametros.GetDirOrigem());
+            if (StaticParametros.GetDirOrigem() != null)
+            {
+                DirectoryInfo origem = new DirectoryInfo(StaticParametros.GetDirOrigem());
+                if (origem.Exists == false)
+                {
+                    return false;
+                }
+            }
+            
             FileInfo diTok = new FileInfo(StaticParametros.GetDirToke());
 
-            if (origem.Exists == false)
-            {
-                return false;
-            }
+            
 
             if (diTok.Exists == false)
             {

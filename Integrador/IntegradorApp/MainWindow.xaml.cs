@@ -133,27 +133,6 @@ namespace IntegradorApp
                             if (Directory.Exists(StaticParametros.GetDirOrigem()))
                             {
                                 ctrl++;
-
-                                if (ctrl == 2)
-                                {
-                                    if(StaticParametersDB.GetDriver() != null)
-                                    {
-                                        StaticParametros.SetIntegraBanco(true);
-                                        
-                                        var paramdb = new ParametroDB { Id = 1, Driver = StaticParametersDB.GetDriver(), Host = StaticParametersDB.GetHost(), Port = StaticParametersDB.GetPort(), ServiceName = StaticParametersDB.GetServiceName(), User = StaticParametersDB.GetUser(), Password = AESThenHMAC.SimpleEncryptWithPassword(StaticParametersDB.GetPassword(), process.GetMacAdress()) };
-                                            
-                                        parametroDBDAO.Salvar(paramdb);
-
-                                        //Armazenamento.AddParametrosDB(new ParametroDB { Id = 1, Driver = StaticParametersDB.GetDriver(), Host = StaticParametersDB.GetHost(), Port = StaticParametersDB.GetPort(), ServiceName = StaticParametersDB.GetServiceName(), User = StaticParametersDB.GetUser(), Password = AESThenHMAC.SimpleEncryptWithPassword(StaticParametersDB.GetPassword(), process.GetMacAdress()) });
-                                    }
-                                   
-                                    var newParam = new Parametro { Id = 1, CaminhoDir = StaticParametros.GetDirOrigem(), CaminhoToke = StaticParametros.GetDirToke(), IntegraBanco = StaticParametros.GetIntegraBanco() };
-                                    parametroDAO.Salvar(newParam);
-                                    
-                                    //Armazenamento.AddParametros(new Parametro { Id = 1, CaminhoDir = StaticParametros.GetDirOrigem(), CaminhoToke = StaticParametros.GetDirToke(), IntegraBanco = StaticParametros.GetIntegraBanco() });
-                                    OrganizaTelaEvent(2);
-                                    process.CriarPastas();
-                                }
                             }
                             else
                             {
@@ -163,9 +142,35 @@ namespace IntegradorApp
                             }
 
                         }
+
+                        if (StaticParametersDB.GetDriver() != null)
+                        {
+                            ctrl++;
+
+                            StaticParametros.SetIntegraBanco(true);
+
+                            var paramdb = new ParametroDB { Id = 1, Driver = StaticParametersDB.GetDriver(), Host = StaticParametersDB.GetHost(), Port = StaticParametersDB.GetPort(), ServiceName = StaticParametersDB.GetServiceName(), User = StaticParametersDB.GetUser(), Password = AESThenHMAC.SimpleEncryptWithPassword(StaticParametersDB.GetPassword(), process.GetMacAdress()) };
+
+                            parametroDBDAO.Salvar(paramdb);
+
+                            //Armazenamento.AddParametrosDB(new ParametroDB { Id = 1, Driver = StaticParametersDB.GetDriver(), Host = StaticParametersDB.GetHost(), Port = StaticParametersDB.GetPort(), ServiceName = StaticParametersDB.GetServiceName(), User = StaticParametersDB.GetUser(), Password = AESThenHMAC.SimpleEncryptWithPassword(StaticParametersDB.GetPassword(), process.GetMacAdress()) });
+                        }
+
+                        if (ctrl >= 2)
+                        {
+
+                            var newParam = new Parametro { Id = 1, CaminhoDir = StaticParametros.GetDirOrigem(), CaminhoToke = StaticParametros.GetDirToke(), IntegraBanco = StaticParametros.GetIntegraBanco() };
+                            parametroDAO.Salvar(newParam);
+
+                            //Armazenamento.AddParametros(new Parametro { Id = 1, CaminhoDir = StaticParametros.GetDirOrigem(), CaminhoToke = StaticParametros.GetDirToke(), IntegraBanco = StaticParametros.GetIntegraBanco() });
+                            OrganizaTelaEvent(2);
+
+                            if(StaticParametros.GetDirOrigem() != null && StaticParametros.GetDirOrigem() != "")
+                                process.CriarPastas();
+                        }
                         else
                         {
-                            System.Windows.MessageBox.Show("É necessário definir um diretorio para continuar");
+                            System.Windows.MessageBox.Show("É necessário definir um diretorio ou configurar uma conexão com banco de dados para continuar");
                         }
                     }
                     else
@@ -329,64 +334,68 @@ namespace IntegradorApp
                             ctrl++;
                         }
 
-                        if (ctrl == 2)
-                        {
-                            try
-                            {
-                                var parametroDBDAO = new ParametroDB_DAO(sessao);
-                                var paramDB = parametroDBDAO.BuscarPorID(1);
-                                //var paramDB = Armazenamento.GetParametrosDB();
-
-                                try
-                                {
-                                    StaticParametros.SetIntegraBanco(param.IntegraBanco);
-
-                                    StaticParametersDB.SetDriver(paramDB.Driver);
-                                    StaticParametersDB.SetHost(paramDB.Host);
-                                    StaticParametersDB.SetPort(paramDB.Port);
-                                    StaticParametersDB.SetServiceName(paramDB.ServiceName);
-                                    StaticParametersDB.SetUser(paramDB.User);
-                                    StaticParametersDB.SetPassword(AESThenHMAC.SimpleDecryptWithPassword(paramDB.Password, process.GetMacAdress()));
-                                }
-                                catch(Exception ex)
-                                {
-                                    StaticParametros.SetIntegraBanco(false);
-                                    if(param.IntegraBanco == true)
-                                    {
-                                        
-                                        var paramn = new Parametro { Id = 1, CaminhoDir = StaticParametros.GetDirOrigem(), CaminhoToke = StaticParametros.GetDirToke(), IntegraBanco = StaticParametros.GetIntegraBanco() };
-                                        parametroDAO.Salvar(param);
-                                        
-                                    }
-                                    //Armazenamento.UpdateParametros(new Parametro { Id = 1, CaminhoDir = param.CaminhoDir, CaminhoToke = param.CaminhoToke, IntegraBanco = false });
-                                }
-
-                                OrganizaTelaEvent(2);
-                                //Job();
-                                process.CriarPastas();
-                                Thread Tproc = new Thread(process.LimpaLog);
-                                Tproc.Start();
-                            }
-                            catch (Exception ex)
-                            {
-                                OrganizaTelaEvent(1);
-                            }
-
-                        }
-                        else
-                        {
-
-                            Thread Tproc = new Thread(process.LimpaLog);
-                            Tproc.Start();
-
-                            OrganizaTelaEvent(1);
-                        }
-
                     }
 
                 }
                 catch (Exception ex)
                 {
+                    //OrganizaTelaEvent(1);
+                }
+
+                var parametroDBDAO = new ParametroDB_DAO(sessao);
+                var paramDB = parametroDBDAO.BuscarPorID(1);
+                //var paramDB = Armazenamento.GetParametrosDB();
+
+                try
+                {
+                    StaticParametersDB.SetDriver(paramDB.Driver);
+                    StaticParametersDB.SetHost(paramDB.Host);
+                    StaticParametersDB.SetPort(paramDB.Port);
+                    StaticParametersDB.SetServiceName(paramDB.ServiceName);
+                    StaticParametersDB.SetUser(paramDB.User);
+                    StaticParametersDB.SetPassword(AESThenHMAC.SimpleDecryptWithPassword(paramDB.Password, process.GetMacAdress()));
+                    StaticParametros.SetIntegraBanco(true);
+                    ctrl++;
+                }
+                catch (Exception ex)
+                {
+                    StaticParametros.SetIntegraBanco(false);
+                    if (param.IntegraBanco == true)
+                    {
+
+                        var paramn = new Parametro { Id = 1, CaminhoDir = StaticParametros.GetDirOrigem(), CaminhoToke = StaticParametros.GetDirToke(), IntegraBanco = StaticParametros.GetIntegraBanco() };
+                        parametroDAO.Salvar(param);
+
+                    }
+                    //Armazenamento.UpdateParametros(new Parametro { Id = 1, CaminhoDir = param.CaminhoDir, CaminhoToke = param.CaminhoToke, IntegraBanco = false });
+                }
+
+                if (ctrl >= 2)
+                {
+                    try
+                    {
+                        OrganizaTelaEvent(2);
+                        //Job();
+                        if(StaticParametros.GetDirOrigem() != null && StaticParametros.GetDirOrigem() != "")
+                        {
+                            process.CriarPastas();
+                        }
+
+                        Thread Tproc = new Thread(process.LimpaLog);
+                        Tproc.Start();
+                    }
+                    catch (Exception ex)
+                    {
+                        OrganizaTelaEvent(1);
+                    }
+
+                }
+                else
+                {
+
+                    Thread Tproc = new Thread(process.LimpaLog);
+                    Tproc.Start();
+
                     OrganizaTelaEvent(1);
                 }
             }
@@ -456,7 +465,7 @@ namespace IntegradorApp
                 IntegraDB();
             }
 
-            if (StaticParametros.GetDirOrigem() != null || StaticParametros.GetDirOrigem() != "")
+            if (StaticParametros.GetDirOrigem() != null && StaticParametros.GetDirOrigem() != "")
             {
                 IntegraArquivos(1);
             }
@@ -469,10 +478,9 @@ namespace IntegradorApp
             if (StaticParametros.GetIntegraBanco() == true)
             {
                 ConsultaDB();
-
             }
 
-            if (StaticParametros.GetDirOrigem() != null || StaticParametros.GetDirOrigem() != "")
+            if (StaticParametros.GetDirOrigem() != null && StaticParametros.GetDirOrigem() != "")
             {
                 ConsultaArquivos(1);
             }

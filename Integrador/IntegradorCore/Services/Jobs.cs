@@ -250,39 +250,40 @@ namespace IntegradorCore.Services
             return false;
         }
 
-        public int EnviaDB()
+        public void EnviaDB()
         {
             var sessao = AuxiliarNhibernate.AbrirSessao();
             ProtocoloDB_DAO ProtocoloDAO = new ProtocoloDB_DAO(sessao);
 
             SelectDriverToGetXMLOnDataBase(sessao);
 
-            int ctrl = 0;
             EnviaXML apiXMLTeste = new EnviaXML(StaticParametros.GetGrupo(), StaticParametros.GetToken(), true);
             var lista = ProtocoloDAO.BuscaEnvio();//Armazenamento.GetProtocolosDBEnv();
 
             if (lista.Count > 0)
             {
-                ctrl = 1;
                 foreach (var item in lista)
                 {
-                    var xmlString = proc.MontaXMLDB(item.idEvento, item.xmlEvento);
-                    var response = apiXMLTeste.SendXML(xmlString);
-                    if (proc.VerificaResponseXML(response) == true)
+                    if(item.driver == StaticParametersDB.GetDriver())
                     {
-                        proc.SalvaProtocoloXML(item.idEvento, response, 2, sessao);
-                        var nprot = new ProtocoloDB { idEvento = item.idEvento, baseEnv = Convert.ToString(true) };
-                        ProtocoloDAO.Salvar(nprot);
-                        proc.GeraLogEnviaXML(item.idEvento, "Foi enviado com sucesso!");
+                        var xmlString = proc.MontaXMLDB(item.idEvento, item.xmlEvento);
+                        var response = apiXMLTeste.SendXML(xmlString);
+                        if (proc.VerificaResponseXML(response) == true)
+                        {
+                            proc.SalvaProtocoloXML(item.idEvento, response, 2, sessao);
+                            var nprot = new ProtocoloDB { idEvento = item.idEvento, baseEnv = Convert.ToString(true) };
+                            ProtocoloDAO.Salvar(nprot);
+                            proc.GeraLogEnviaXML(item.idEvento, "Foi enviado com sucesso!");
+                        }
+                        else
+                        {
+                            proc.GeraLogEnviaXML(item.idEvento, "Não foi enviado");
+                        }
                     }
-                    else
-                    {
-                        proc.GeraLogEnviaXML(item.idEvento, "Não foi enviado");
-                    }
+                    
                 }
             }
             sessao.Close();
-            return ctrl;
         }
 
         public void ConsultaDB()
@@ -296,31 +297,41 @@ namespace IntegradorCore.Services
             {
                 foreach (var item in lista)
                 {
-                    var retorno = apiConXML.ConsultaProtocolo(item.nroProt, item.baseEnv, item.idEvento);
-
-                    try
+                    if (item.driver == StaticParametersDB.GetDriver())
                     {
-                        //proc.GeraLogConsultaXML(item.idEvento, retorno, item.nroProt);
+                        var retorno = apiConXML.ConsultaProtocolo(item.nroProt, item.baseEnv, item.idEvento);
 
-                        if (proc.VerificaXMLRetornoConsulta(retorno) == true)
+                        try
                         {
-                            var xmlRec = proc.ExtraiXMLRecibo(retorno);
-                            var nrRec = proc.ExtraiNumRecibo(retorno);
-                            var prot = new ProtocoloDB { idEvento = item.idEvento, xmlRec = xmlRec, nroRec = nrRec, consultado = true };
-                            ProtocoloDAO.Salvar(prot);
-                            //Armazenamento.AddProtocoloDB(new ProtocoloDB { idEvento = item.idEvento, xmlRec = xmlRec, nroRec = nrRec, consultado = true });
+                            //proc.GeraLogConsultaXML(item.idEvento, retorno, item.nroProt);
+                            if(proc.VerificaConsultaXML(retorno) == true)
+                            {
+                                if (proc.VerificaXMLRetornoConsulta(retorno) == true)
+                                {
+                                    var xmlRec = proc.ExtraiXMLRecibo(retorno);
+                                    var nrRec = proc.ExtraiNumRecibo(retorno);
+                                    var prot = new ProtocoloDB { idEvento = item.idEvento, xmlRec = xmlRec, nroRec = nrRec, consultado = true };
+                                    ProtocoloDAO.Salvar(prot);
+                                    //Armazenamento.AddProtocoloDB(new ProtocoloDB { idEvento = item.idEvento, xmlRec = xmlRec, nroRec = nrRec, consultado = true });
+                                }
+                                else
+                                {
+                                    var erros = proc.ExtraiErrosXmlDB(retorno);
+                                    var prot = new ProtocoloDB { idEvento = item.idEvento, erros = erros, consultado = true };
+                                    ProtocoloDAO.Salvar(prot);
+                                    //Armazenamento.AddProtocoloDB(new ProtocoloDB { idEvento = item.idEvento, erros = erros, consultado = true });
+                                }
+                            }
+                            else
+                            {
+                                //NoOp
+                            }
+                            
                         }
-                        else
+                        catch (Exception e)
                         {
-                            var erros = proc.ExtraiErrosXmlDB(retorno);
-                            var prot = new ProtocoloDB { idEvento = item.idEvento, erros = erros, consultado = true };
-                            ProtocoloDAO.Salvar(prot);
-                            //Armazenamento.AddProtocoloDB(new ProtocoloDB { idEvento = item.idEvento, erros = erros, consultado = true });
+                            ex.Exception(e.Message, item.idEvento, "Consulta", "Tente consultar novamente em alguns minutos");
                         }
-                    }
-                    catch (Exception e)
-                    {
-                        ex.Exception(e.Message, item.idEvento, "Consulta", "Tente consultar novamente em alguns minutos");
                     }
                 }
             }
@@ -339,22 +350,27 @@ namespace IntegradorCore.Services
             {
                 foreach (var item in lista)
                 {
-                    try
+                    if (item.driver == StaticParametersDB.GetDriver())
                     {
-                        if (!item.salvoDB)
+                        try
                         {
-                            var ret = SelectDriverToUpdate(item);
-
-                            if (ret == true)
+                            if (!item.salvoDB)
                             {
-                                Armazenamento.updateSalvoDB(item);
+                                var ret = SelectDriverToUpdate(item);
+
+                                if (ret == true)
+                                {
+                                    item.salvoDB = true;
+                                    ProtocoloDAO.Salvar(item);
+                                    //Armazenamento.updateSalvoDB(item);
+                                }
                             }
+
                         }
+                        catch (Exception ex)
+                        {
 
-                    }
-                    catch (Exception ex)
-                    {
-
+                        }
                     }
 
                 }
