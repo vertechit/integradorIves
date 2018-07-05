@@ -10,6 +10,7 @@ using FluentNHibernate.Cfg.Db;
 using NHibernate;
 using NHibernate.Cfg;
 using NHibernate.Tool.hbm2ddl;
+using System.IO;
 
 namespace IntegradorCore.NHibernate
 {
@@ -17,13 +18,19 @@ namespace IntegradorCore.NHibernate
     {
 
         private static ISessionFactory fabricaConexao;
+        private static string Conexao = Assembly.GetExecutingAssembly().Location;
 
         public static void CriarFabricaConexao()
         {
+            //var path = Conexao.Replace("\\IntegradorCore.dll", "\\dados.db");
+
+            //string path = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
+            //path = string.Concat(path, "\\dados.db");
+
             if (fabricaConexao == null)
             {
                 fabricaConexao = Fluently.Configure()
-                .Database(SQLiteConfiguration.Standard.UsingFile("c:\\vch\\dados.db").ShowSql().FormatSql())
+                .Database(SQLiteConfiguration.Standard.UsingFileWithPassword("C:\\vch\\dados.db", "secret").ShowSql().FormatSql())
                 .Mappings(x => x.FluentMappings.AddFromAssembly(Assembly.GetExecutingAssembly()))
                 .ExposeConfiguration(GerarSchema)
                 .BuildSessionFactory();

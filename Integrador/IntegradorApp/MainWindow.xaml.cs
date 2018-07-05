@@ -313,6 +313,7 @@ namespace IntegradorApp
                 var param = parametroDAO.BuscarPorID(1);//Armazenamento.GetParametros();
 
                 int ctrl = 0;
+                int ctrlFirstExec = 0;
 
                 try
                 {
@@ -340,6 +341,7 @@ namespace IntegradorApp
                 catch (Exception ex)
                 {
                     //OrganizaTelaEvent(1);
+                    ctrlFirstExec = 1;
                 }
 
                 var parametroDBDAO = new ParametroDB_DAO(sessao);
@@ -360,14 +362,14 @@ namespace IntegradorApp
                 catch (Exception ex)
                 {
                     StaticParametros.SetIntegraBanco(false);
-                    if (param.IntegraBanco == true)
-                    {
 
+                    if(ctrlFirstExec == 0)
+                    {
                         var paramn = new Parametro { Id = 1, CaminhoDir = StaticParametros.GetDirOrigem(), CaminhoToke = StaticParametros.GetDirToke(), IntegraBanco = StaticParametros.GetIntegraBanco() };
                         parametroDAO.Salvar(param);
 
+                        //Armazenamento.UpdateParametros(new Parametro { Id = 1, CaminhoDir = param.CaminhoDir, CaminhoToke = param.CaminhoToke, IntegraBanco = false });
                     }
-                    //Armazenamento.UpdateParametros(new Parametro { Id = 1, CaminhoDir = param.CaminhoDir, CaminhoToke = param.CaminhoToke, IntegraBanco = false });
                 }
 
                 if (ctrl >= 2)
