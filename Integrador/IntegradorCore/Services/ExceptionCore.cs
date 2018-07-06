@@ -183,6 +183,18 @@ namespace IntegradorCore.Services
             }
         }
 
+        public void ExDriverOracle(int codErro, string msg)
+        {
+            if (StaticParametros.GetTipoApp() == "Service")
+            {
+                proc.InsereLog(3, msg, " ", "OracleDriver", " ", " ", codErro.ToString());
+            }
+            else
+            {
+                proc.InsereLog(3, msg, " ", "OracleDriver", " ", " ", codErro.ToString());
+            }
+        }
+
         public void ExSecureFile(int codErro, string msg)
         {
 

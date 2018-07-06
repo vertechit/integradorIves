@@ -60,9 +60,10 @@ namespace IntegradorCore.DAO
                             }
                         }
                     }
-                    catch (Exception)
+                    catch (Exception ex)
                     {
-
+                        ExceptionCore e = new ExceptionCore();
+                        e.ExDriverOracle(2, ex.Message);
                     }
                     
 
@@ -71,6 +72,8 @@ namespace IntegradorCore.DAO
             }
             catch (Exception ex)
             {
+                ExceptionCore e = new ExceptionCore();
+                e.ExDriverOracle(1, ex.Message);
             }
         }
 
@@ -133,8 +136,11 @@ namespace IntegradorCore.DAO
                             
                         }
                     }
-                    catch (Exception)
+                    catch (Exception ex)
                     {
+                        ExceptionCore e = new ExceptionCore();
+                        e.ExDriverOracle(2, ex.Message);
+
                         conn.Close();
 
                         return false;
@@ -145,9 +151,11 @@ namespace IntegradorCore.DAO
                     return true;
                 }
             }
-            catch(Exception Ex)
+            catch(Exception ex)
             {
-                //conn.Close();
+                ExceptionCore e = new ExceptionCore();
+                e.ExDriverOracle(1, ex.Message);
+
                 return false;
             }
         }
