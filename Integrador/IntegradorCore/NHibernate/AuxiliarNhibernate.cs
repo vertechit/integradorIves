@@ -22,10 +22,6 @@ namespace IntegradorCore.NHibernate
 
         public static void CriarFabricaConexao()
         {
-            //var path = Conexao.Replace("\\IntegradorCore.dll", "\\dados.db");
-
-            //string path = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
-            //path = string.Concat(path, "\\dados.db");
 
             if (fabricaConexao == null)
             {

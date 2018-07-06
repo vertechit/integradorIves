@@ -8,12 +8,12 @@ namespace IntegradorCore.Modelos
 {
     public class LogConsulta
     {
-        public long? Id { get; set; }
-        public string NomeArquivo { get; set; }
-        public string Protocolo { get; set; }
-        public string Msg { get; set; }
-        public string Acao { get; set; }
-        public string Data { get; set; }
-        public string Hora { get; set; }
+        public virtual long? Id { get; set; }
+        public virtual string Identificador { get; set; }
+        public virtual string Protocolo { get; set; }
+        public virtual string Msg { get; set; }
+        public virtual string Acao { get; set; }
+        public virtual string Data { get; set; }
+        public virtual string Hora { get; set; }
     }
 }

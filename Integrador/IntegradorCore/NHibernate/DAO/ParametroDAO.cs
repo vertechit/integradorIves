@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using IntegradorCore.Modelos;
 using NHibernate;
 using NHibernate.Criterion;
+using Iesi.Collections;
 
 namespace IntegradorCore.NHibernate.DAO
 {

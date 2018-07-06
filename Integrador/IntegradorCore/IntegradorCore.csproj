@@ -112,6 +112,9 @@
     <Compile Include="API\EnviaXML.cs" />
     <Compile Include="API\MessageHttpHeaderInspector.cs" />
     <Compile Include="DAO\OracleDB.cs" />
+    <Compile Include="Mapeamento\LogConsultaMapa.cs" />
+    <Compile Include="Mapeamento\LogEnvioMapa.cs" />
+    <Compile Include="Mapeamento\LogErroMapa.cs" />
     <Compile Include="Mapeamento\ParametroDBMapa.cs" />
     <Compile Include="Mapeamento\ParametroMapa.cs" />
     <Compile Include="Mapeamento\ProtocoloDBMapa.cs" />
@@ -127,6 +130,9 @@
     <Compile Include="Modelos\Protocolo.cs" />
     <Compile Include="Modelos\ProtocoloDB.cs" />
     <Compile Include="NHibernate\AuxiliarNhibernate.cs" />
+    <Compile Include="NHibernate\DAO\LogConsultaDAO.cs" />
+    <Compile Include="NHibernate\DAO\LogEnvioDAO.cs" />
+    <Compile Include="NHibernate\DAO\LogErroDAO.cs" />
     <Compile Include="NHibernate\DAO\ParametroDAO.cs" />
     <Compile Include="NHibernate\DAO\ParametroDB_DAO.cs" />
     <Compile Include="NHibernate\DAO\ProtocoloDAO.cs" />

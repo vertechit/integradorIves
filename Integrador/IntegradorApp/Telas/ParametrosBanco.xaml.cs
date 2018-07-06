@@ -103,7 +103,7 @@ namespace IntegradorApp.Telas
         {
             BtnDelete.Visibility = Visibility.Hidden;
             CboDriver.Items.Insert(0, "Oracle");
-            CboDriver.Items.Insert(1, "SQLServer");
+            //CboDriver.Items.Insert(1, "SQLServer");
 
             CboDriver.SelectedIndex = -1;
             var sessao = AuxiliarNhibernate.AbrirSessao();

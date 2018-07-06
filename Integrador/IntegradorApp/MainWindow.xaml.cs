@@ -265,56 +265,33 @@ namespace IntegradorApp
         public void Init()
         {
             Processos process = new Processos();
-            var sessao = AuxiliarNhibernate.AbrirSessao();
             DirectoryInfo dir = new DirectoryInfo(@"C:\\vch");
+            int ctrlFirstExec = 0;
 
-            int i = 0;
-
-            try
+            if (dir.Exists != true)
             {
-                foreach (var item in dir.GetFiles())
-                {
-                    i++;
-                }
+                ctrlFirstExec = 1;
+                string user = System.Windows.Forms.SystemInformation.UserName;
+                System.IO.DirectoryInfo folderInfo = new System.IO.DirectoryInfo("C:\\");
+
+                DirectorySecurity ds = new DirectorySecurity();
+                ds.AddAccessRule(new FileSystemAccessRule(user, FileSystemRights.Modify, AccessControlType.Allow));
+                ds.SetAccessRuleProtection(false, false);
+                folderInfo.Create(ds);
+                folderInfo.CreateSubdirectory("vch");
+
+                OrganizaTelaEvent(1);
             }
-            catch (Exception)
+
+            var sessao = AuxiliarNhibernate.AbrirSessao();
+
+            if (ctrlFirstExec == 0)
             {
-
-            }
-
-            if (i > 0)
-            {
-                int arq1 = 0;
-                int arq2 = 0;
-
-                foreach (var item in dir.GetFiles())
-                {
-                    if (item.Name == "dados.db")
-                    {
-                        arq1 = 1;
-                    }
-                    else if (item.Name == "logs.db")
-                    {
-                        arq2 = 1;
-                    }
-                }
-
-                if (arq1 == 0)
-                {
-                    //Armazenamento.CriarBancoSQLite();
-                    //Armazenamento.CriarTabelaSQlite();
-                }
-                if (arq2 == 0)
-                {
-                    Log.CriarBancoSQLite();
-                    Log.CriarTabelaSQlite();
-                }
                 var parametroDAO = new ParametroDAO(sessao);
                 var param = parametroDAO.BuscarPorID(1);//Armazenamento.GetParametros();
 
                 int ctrl = 0;
-                int ctrlFirstExec = 0;
-
+                int ctrlVazio = 0;
                 try
                 {
                     if (param.CaminhoToke.Contains(".ives") && param.CaminhoToke != "" && File.Exists(param.CaminhoToke))
@@ -341,7 +318,7 @@ namespace IntegradorApp
                 catch (Exception ex)
                 {
                     //OrganizaTelaEvent(1);
-                    ctrlFirstExec = 1;
+                    ctrlVazio = 1;
                 }
 
                 var parametroDBDAO = new ParametroDB_DAO(sessao);
@@ -363,7 +340,7 @@ namespace IntegradorApp
                 {
                     StaticParametros.SetIntegraBanco(false);
 
-                    if(ctrlFirstExec == 0)
+                    if (ctrlVazio == 0)
                     {
                         var paramn = new Parametro { Id = 1, CaminhoDir = StaticParametros.GetDirOrigem(), CaminhoToke = StaticParametros.GetDirToke(), IntegraBanco = StaticParametros.GetIntegraBanco() };
                         parametroDAO.Salvar(param);
@@ -378,7 +355,7 @@ namespace IntegradorApp
                     {
                         OrganizaTelaEvent(2);
                         //Job();
-                        if(StaticParametros.GetDirOrigem() != null && StaticParametros.GetDirOrigem() != "")
+                        if (StaticParametros.GetDirOrigem() != null && StaticParametros.GetDirOrigem() != "")
                         {
                             process.CriarPastas();
                         }
@@ -400,25 +377,6 @@ namespace IntegradorApp
 
                     OrganizaTelaEvent(1);
                 }
-            }
-            
-            else
-            {
-                string user = System.Windows.Forms.SystemInformation.UserName;
-                System.IO.DirectoryInfo folderInfo = new System.IO.DirectoryInfo("C:\\");
-
-                DirectorySecurity ds = new DirectorySecurity();
-                ds.AddAccessRule(new FileSystemAccessRule(user, FileSystemRights.Modify, AccessControlType.Allow));
-                ds.SetAccessRuleProtection(false, false);
-                folderInfo.Create(ds);
-                folderInfo.CreateSubdirectory("vch");
-
-                //Armazenamento.CriarBancoSQLite();
-                //Armazenamento.CriarTabelaSQlite();
-                Log.CriarBancoSQLite();
-                Log.CriarTabelaSQlite();
-
-                OrganizaTelaEvent(1);
             }
 
             sessao.Close();

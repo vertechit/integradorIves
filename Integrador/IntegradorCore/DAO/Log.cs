@@ -105,7 +105,7 @@ namespace IntegradorCore.DAO
                 using (var cmd = DbConnection().CreateCommand())
                 {
                     cmd.CommandText = "INSERT INTO logconsulta(nome_arq, protocolo, msg, acao, data, hora) values (@arq, @prot, @msg, @acao, @data, @hora)";
-                    cmd.Parameters.AddWithValue("@arq", log.NomeArquivo);
+                    cmd.Parameters.AddWithValue("@arq", log.Identificador);
                     cmd.Parameters.AddWithValue("@prot", log.Protocolo);
                     cmd.Parameters.AddWithValue("@msg", log.Msg);
                     cmd.Parameters.AddWithValue("@acao", log.Acao);
@@ -127,7 +127,7 @@ namespace IntegradorCore.DAO
                 using (var cmd = DbConnection().CreateCommand())
                 {
                     cmd.CommandText = "INSERT INTO logenvia(nome_arq, msg, acao, data, hora) values (@arq, @msg, @acao, @data, @hora)";
-                    cmd.Parameters.AddWithValue("@arq", log.NomeArquivo);
+                    cmd.Parameters.AddWithValue("@arq", log.Identificador);
                     cmd.Parameters.AddWithValue("@msg", log.Msg);
                     cmd.Parameters.AddWithValue("@acao", log.Acao);
                     cmd.Parameters.AddWithValue("@data", log.Data);

@@ -19,6 +19,7 @@ using IntegradorCore.NHibernate;
 using IntegradorCore.NHibernate.DAO;
 using NHibernate;
 using System.Xml.Linq;
+using System.ComponentModel;
 
 namespace IntegradorCore.Services
 {
@@ -861,15 +862,37 @@ namespace IntegradorCore.Services
             }
         }
 
+        public DataTable ConvertToDataTable<T>(IList<T> data)
+        {
+            PropertyDescriptorCollection properties =
+               TypeDescriptor.GetProperties(typeof(T));
+            DataTable table = new DataTable();
+            foreach (PropertyDescriptor prop in properties)
+                table.Columns.Add(prop.Name, Nullable.GetUnderlyingType(prop.PropertyType) ?? prop.PropertyType);
+            foreach (T item in data)
+            {
+                DataRow row = table.NewRow();
+                foreach (PropertyDescriptor prop in properties)
+                    row[prop.Name] = prop.GetValue(item) ?? DBNull.Value;
+                table.Rows.Add(row);
+            }
+            return table;
+
+        }
+
         public void LimpaLog()
         {
-            string err = "logerro";
-            string con = "logconsulta";
-            string env = "logenvia";
+            var sessao = AuxiliarNhibernate.AbrirSessao();
+            var logConsultDao = new LogConsultaDAO(sessao);
+            var logEnvioDao = new LogEnvioDAO(sessao);
+            var logErroDao = new LogErroDAO(sessao);
+            //string err = "logerro";
+            //string con = "logconsulta";
+            //string env = "logenvia";
 
-            DataTable dtErro = Log.GetLogs(err);
-            DataTable dtConsu = Log.GetLogs(con);
-            DataTable dtEnvia = Log.GetLogs(env);
+            DataTable dtErro = ConvertToDataTable(logErroDao.BuscaTodos());//Log.GetLogs(err);
+            DataTable dtConsu = ConvertToDataTable(logConsultDao.BuscaTodos());//Log.GetLogs(con);
+            DataTable dtEnvia = ConvertToDataTable(logEnvioDao.BuscaTodos());//Log.GetLogs(env);
 
             try
             {
@@ -891,7 +914,8 @@ namespace IntegradorCore.Services
 
                     foreach (var item in remover)
                     {
-                        Log.DeleteByData(err, item);
+                        logErroDao.DeleteByData(item);
+                        //Log.DeleteByData(err, item);
                     }
                 }
 
@@ -913,7 +937,8 @@ namespace IntegradorCore.Services
 
                     foreach (var item in remover)
                     {
-                        Log.DeleteByData(con, item);
+                        logConsultDao.DeleteByData(item);
+                        //Log.DeleteByData(con, item);
                     }
                 }
 
@@ -935,7 +960,8 @@ namespace IntegradorCore.Services
 
                     foreach (var item in remover)
                     {
-                        Log.DeleteByData(env, item);
+                        logEnvioDao.DeleteByData(item);
+                        //Log.DeleteByData(env, item);
                     }
                 }
             }
@@ -944,6 +970,7 @@ namespace IntegradorCore.Services
                 //noOp
             }
 
+            sessao.Close();
         }
 
         public int DiferencaDataDias(DateTime Inicio, DateTime Fim)
@@ -1051,7 +1078,7 @@ namespace IntegradorCore.Services
 
         }*/
 
-        private void rodarComoAdmin()
+        /*private void rodarComoAdmin()
         {
             WindowsPrincipal principal = new WindowsPrincipal(WindowsIdentity.GetCurrent());
             bool administrativeMode = principal.IsInRole(WindowsBuiltInRole.Administrator);
@@ -1070,10 +1097,16 @@ namespace IntegradorCore.Services
                     throw new Exception("Não foi possível conceder acesso como Admin" + Environment.NewLine + "As operações realizadas poderão ter Acesso Negado !");
                 }
             }
-        }
+        }*/
 
         public void InsereLog(int tipo, string msg, string arquivo, string servico, string acao, string protocolo, string coderro)
         {
+            var sessao =  AuxiliarNhibernate.AbrirSessao();
+
+            var logConsultDao = new LogConsultaDAO(sessao);
+            var logEnvioDao = new LogEnvioDAO(sessao);
+            var logErroDao = new LogErroDAO(sessao);
+
             var strArr = RetornaData();
 
             string hora = strArr[1];
@@ -1081,24 +1114,24 @@ namespace IntegradorCore.Services
 
             if (tipo == 1)
             {
-                Log.AddLogEnvia(
+                logEnvioDao.Salvar(
                         new LogEnvia
                         {
                             Id = 0,
                             Msg = msg,
                             Acao = acao,
-                            NomeArquivo = arquivo,
+                            Identificador = arquivo,
                             Data = data,
                             Hora = hora
                         });
             }
             else if (tipo == 2)
             {
-                Log.AddLogConsulta(
+                logConsultDao.Salvar(
                         new LogConsulta
                         {
                             Id = 0,
-                            NomeArquivo = arquivo,
+                            Identificador = arquivo,
                             Protocolo = protocolo,
                             Msg = msg,
                             Acao = acao,
@@ -1108,7 +1141,7 @@ namespace IntegradorCore.Services
             }
             else
             {
-                Log.AddLogErro(new LogErros
+                logErroDao.Salvar(new LogErros
                 {
                     Id = 0,
                     Servico = servico,
@@ -1119,6 +1152,8 @@ namespace IntegradorCore.Services
                     Hora = hora
                 });
             }
+
+            //sessao.Close();
         }
 
     }
