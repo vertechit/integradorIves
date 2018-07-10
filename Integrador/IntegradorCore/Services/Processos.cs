@@ -381,6 +381,20 @@ namespace IntegradorCore.Services
             }
         }
 
+        public Protocolo RetornaProtocolo(string arq, ISession sessao)
+        {
+            var ProtocoloDAO = new ProtocoloDAO(sessao);
+            var prot = ProtocoloDAO.BuscarPorNomeArquivo(arq);
+
+            return prot;
+        }
+
+        public void RemoveProtocolo(Protocolo prot, ISession sessao)
+        {
+            var ProtocoloDAO = new ProtocoloDAO(sessao);
+            ProtocoloDAO.Remover(prot);
+        }
+
         public Boolean VerificacaoEnviaLote(string arq, ISession sessao)
         {
             string dir = StaticParametros.GetDirArq();
@@ -882,17 +896,13 @@ namespace IntegradorCore.Services
 
         public void LimpaLog()
         {
-            var sessao = AuxiliarNhibernate.AbrirSessao();
-            var logConsultDao = new LogConsultaDAO(sessao);
-            var logEnvioDao = new LogEnvioDAO(sessao);
-            var logErroDao = new LogErroDAO(sessao);
-            //string err = "logerro";
-            //string con = "logconsulta";
-            //string env = "logenvia";
+            string err = "logerro";
+            string con = "logconsulta";
+            string env = "logenvia";
 
-            DataTable dtErro = ConvertToDataTable(logErroDao.BuscaTodos());//Log.GetLogs(err);
-            DataTable dtConsu = ConvertToDataTable(logConsultDao.BuscaTodos());//Log.GetLogs(con);
-            DataTable dtEnvia = ConvertToDataTable(logEnvioDao.BuscaTodos());//Log.GetLogs(env);
+            DataTable dtErro = Log.GetLogs(err);
+            DataTable dtConsu = Log.GetLogs(con);
+            DataTable dtEnvia = Log.GetLogs(env);
 
             try
             {
@@ -914,8 +924,7 @@ namespace IntegradorCore.Services
 
                     foreach (var item in remover)
                     {
-                        logErroDao.DeleteByData(item);
-                        //Log.DeleteByData(err, item);
+                        Log.DeleteByData(err, item);
                     }
                 }
 
@@ -937,8 +946,7 @@ namespace IntegradorCore.Services
 
                     foreach (var item in remover)
                     {
-                        logConsultDao.DeleteByData(item);
-                        //Log.DeleteByData(con, item);
+                        Log.DeleteByData(con, item);
                     }
                 }
 
@@ -960,8 +968,7 @@ namespace IntegradorCore.Services
 
                     foreach (var item in remover)
                     {
-                        logEnvioDao.DeleteByData(item);
-                        //Log.DeleteByData(env, item);
+                        Log.DeleteByData(env, item);
                     }
                 }
             }
@@ -970,7 +977,6 @@ namespace IntegradorCore.Services
                 //noOp
             }
 
-            sessao.Close();
         }
 
         public int DiferencaDataDias(DateTime Inicio, DateTime Fim)
@@ -1032,6 +1038,18 @@ namespace IntegradorCore.Services
                 return true;
 
             return false;
+        }
+
+        public bool VerificaConexaoBanco(string host, string port, string servicename, string user, string password, int driver)
+        {
+            var retorno = false;
+
+            if(driver == 0)
+            {
+                retorno = OracleDB.TesteConexao(host, port, servicename, user, password);
+            }
+            
+            return retorno;
         }
 
         /*public void GerenciaServico(int action)
@@ -1101,11 +1119,6 @@ namespace IntegradorCore.Services
 
         public void InsereLog(int tipo, string msg, string arquivo, string servico, string acao, string protocolo, string coderro)
         {
-            var sessao =  AuxiliarNhibernate.AbrirSessao();
-
-            var logConsultDao = new LogConsultaDAO(sessao);
-            var logEnvioDao = new LogEnvioDAO(sessao);
-            var logErroDao = new LogErroDAO(sessao);
 
             var strArr = RetornaData();
 
@@ -1114,7 +1127,7 @@ namespace IntegradorCore.Services
 
             if (tipo == 1)
             {
-                logEnvioDao.Salvar(
+                Log.AddLogEnvia(
                         new LogEnvia
                         {
                             Id = 0,
@@ -1127,7 +1140,7 @@ namespace IntegradorCore.Services
             }
             else if (tipo == 2)
             {
-                logConsultDao.Salvar(
+                Log.AddLogConsulta(
                         new LogConsulta
                         {
                             Id = 0,
@@ -1141,7 +1154,7 @@ namespace IntegradorCore.Services
             }
             else
             {
-                logErroDao.Salvar(new LogErros
+                Log.AddLogErro(new LogErros
                 {
                     Id = 0,
                     Servico = servico,
@@ -1153,7 +1166,6 @@ namespace IntegradorCore.Services
                 });
             }
 
-            //sessao.Close();
         }
 
     }

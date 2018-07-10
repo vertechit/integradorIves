@@ -10,6 +10,7 @@ using System.Data;
 using IntegradorCore.NHibernate;
 using IntegradorCore.NHibernate.DAO;
 using NHibernate;
+using System.Windows.Forms;
 
 namespace IntegradorCore.DAO
 {
@@ -102,6 +103,35 @@ namespace IntegradorCore.DAO
 
                 return sql;
             }
+        }
+
+        public static bool TesteConexao(string host, string port, string servicename, string user, string password)
+        {
+            string oradb = "Data Source=(DESCRIPTION=(ADDRESS=(PROTOCOL=tcp)(HOST=host1)(PORT=port1))(CONNECT_DATA=(SERVER=DEDICATED)(SERVICE_NAME=servicename1)));User ID=user1;Password=password1;";
+
+            oradb = oradb.Replace("host1", host);
+            oradb = oradb.Replace("port1", port);
+            oradb = oradb.Replace("servicename1", servicename);
+            oradb = oradb.Replace("user1", user);
+            oradb = oradb.Replace("password1", password);
+
+            try
+            {
+                using (OracleConnection conn = new OracleConnection(oradb))
+                {
+                    conn.Open();
+
+                    conn.Close();
+                }
+
+                return true;
+            }
+            catch(Exception e)
+            {
+                MessageBox.Show(e.Message);
+                return false;
+            }
+            
         }
 
         public static bool UpdateDB(ProtocoloDB prot)

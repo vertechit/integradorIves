@@ -49,7 +49,7 @@ namespace IntegradorCore.API
             }
             catch (Exception e)
             {
-                ex.Exception(e.Message, filename, "ConsultaXML", "");
+                ex.Exception(e.Message, filename, "Consulta", "");
             }
 
             return strResponse;

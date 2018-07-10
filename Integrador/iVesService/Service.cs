@@ -129,7 +129,7 @@ namespace iVesService
 
         protected override void OnStart(string[] args)
         {
-            System.Diagnostics.Debugger.Launch();
+            //System.Diagnostics.Debugger.Launch();
 
             DirectoryInfo di = new DirectoryInfo("c:\\vch\\log");
 

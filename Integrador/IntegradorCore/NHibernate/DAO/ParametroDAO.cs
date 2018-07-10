@@ -33,7 +33,7 @@ namespace IntegradorCore.NHibernate.DAO
             {
                 var param = BuscarPorID(1);
 
-                if(param.CaminhoDir != null)
+                if(param.IntegraBanco != null)
                 {
                     Atualizar(param, parametro);
                 }

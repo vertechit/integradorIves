@@ -61,7 +61,7 @@ namespace IntegradorCore.Services
                     }
                     else if (result == 1)
                     {
-                        proc.GeraLogIntegra(item, "Já foi enviado!");
+                        //proc.GeraLogIntegra(item, "Já foi enviado!");
                     }
                     else
                     {
@@ -90,7 +90,7 @@ namespace IntegradorCore.Services
                     }
                     else
                     {
-                        proc.GeraLogEnviaXML(item, "Já foi enviado!");
+                        //proc.GeraLogEnviaXML(item, "Já foi enviado!");
                     }
                 }
             }
@@ -101,7 +101,7 @@ namespace IntegradorCore.Services
         public void Consulta()
         {
             var sessao = AuxiliarNhibernate.AbrirSessao();
-            var ProtocoloDAO = new ProtocoloDAO(sessao);
+            //var ProtocoloDAO = new ProtocoloDAO(sessao);
 
             DirectoryInfo di = new DirectoryInfo(string.Concat(StaticParametros.GetDirArq(), "\\logs"));
 
@@ -117,7 +117,7 @@ namespace IntegradorCore.Services
                 {
                     bool result = false;
 
-                    var prot = ProtocoloDAO.BuscarPorNomeArquivo(item);
+                    var prot = proc.RetornaProtocolo(item, sessao);//ProtocoloDAO.BuscarPorNomeArquivo(item);
                     try
                     {
                         var a = prot.NroProtocolo;
@@ -147,7 +147,7 @@ namespace IntegradorCore.Services
                             if (retorno.consultaProtocolo.status.cdResposta == 3 || retorno.consultaProtocolo.status.cdResposta == 2)
                             {
                                 proc.MoverConsultado(item);
-                                ProtocoloDAO.Remover(prot);//Armazenamento.DeleteProtocolo(item);
+                                proc.RemoveProtocolo(prot, sessao);//ProtocoloDAO.Remover(prot);//Armazenamento.DeleteProtocolo(item);
                             }
 
                         }
@@ -166,7 +166,7 @@ namespace IntegradorCore.Services
                 foreach (var item in ArquivosXML)
                 {
                     bool result = false;
-                    var prot = ProtocoloDAO.BuscarPorNomeArquivo(item);
+                    var prot = proc.RetornaProtocolo(item, sessao);//ProtocoloDAO.BuscarPorNome(item);
 
                     try
                     {
@@ -187,13 +187,17 @@ namespace IntegradorCore.Services
 
                         try
                         {
-                            proc.GeraLogConsultaXML(item, retorno, prot.NroProtocolo);
-
-                            if (proc.VerificaConsultaXML(retorno) == true)
+                            if(retorno != "")
                             {
-                                proc.MoverConsultado(item);
-                                ProtocoloDAO.Remover(prot);//Armazenamento.DeleteProtocolo(item);
+                                proc.GeraLogConsultaXML(item, retorno, prot.NroProtocolo);
+
+                                if (proc.VerificaConsultaXML(retorno) == true)
+                                {
+                                    proc.MoverConsultado(item);
+                                    proc.RemoveProtocolo(prot, sessao);//ProtocoloDAO.Remover(prot);//Armazenamento.DeleteProtocolo(item);
+                                }
                             }
+                            
                         }
                         catch (Exception e)
                         {
@@ -211,7 +215,7 @@ namespace IntegradorCore.Services
             }
             catch (Exception e)
             {
-                ex.Exception(e.Message, "buffer.dat", "ConsultaTXT", "");
+                //ex.Exception(e.Message, "buffer.dat", "ConsultaTXT", "");
             }
 
             sessao.Close();

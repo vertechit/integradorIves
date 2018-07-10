@@ -72,8 +72,7 @@
 
             <Label Name="LblCaminho" 
                    Content="Origem:" 
-                   HorizontalAlignment="Left" 
-                   Margin="161,59,0,0" 
+                   Margin="161,59,49,0" 
                    Grid.Row="1" 
                    FontFamily="Century Gothic" 
                    VerticalAlignment="Top"/>
@@ -140,8 +139,7 @@
 
             <Label x:Name="LblToken" 
                    Content="Token:" 
-                   HorizontalAlignment="Left" 
-                   Margin="169,198,0,0" 
+                   Margin="169,198,51,0" 
                    FontFamily="Century Gothic" 
                    VerticalAlignment="Top" Grid.RowSpan="2"/>
 
@@ -194,7 +192,18 @@
                 RenderTransformOrigin="0.505,0.36" 
                 FontFamily="Century Gothic" 
                 FontSize="12" Click="BtnLog_Click"/>
-            <Button x:Name="BtnConectarBanco" Content="Conectar Banco" Grid.Column="1" Margin="85,140,84,0" Grid.Row="1" VerticalAlignment="Top" Height="28" Click="BtnConectarBanco_Click"/>
+            <Button x:Name="BtnConectarBanco" Content="Conectar Banco" Grid.Column="1" Margin="85,172,84,0" Grid.Row="1" VerticalAlignment="Top" Height="28" Click="BtnConectarBanco_Click"/>
+            <Label Content="Status banco:" Margin="129,110,48,0" Grid.Row="1" VerticalAlignment="Top" FontFamily="Century Gothic"/>
+            <TextBlock x:Name ="TxtStatusBanco" 
+                HorizontalAlignment="Left" 
+                Height="23" 
+                Margin="216,115,0,0" 
+                Grid.Row="1" 
+                FontFamily="Century Gothic" 
+                TextWrapping="Wrap" 
+                VerticalAlignment="Top" 
+                Width="365" 
+                Grid.ColumnSpan="3"/>
 
         </Grid>
     </Viewbox>

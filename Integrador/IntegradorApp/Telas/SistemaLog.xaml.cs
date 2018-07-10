@@ -60,10 +60,6 @@ namespace IntegradorApp.Telas
         private void BtnBuscar_Click(object sender, RoutedEventArgs e)
         {
             var proc = new Processos();
-            var sessao = AuxiliarNhibernate.AbrirSessao();
-            var logConsultDao = new LogConsultaDAO(sessao);
-            var logEnvioDao = new LogEnvioDAO(sessao);
-            var logErroDao = new LogErroDAO(sessao);
 
 
             string escolha = (string)CboTipo.SelectedItem;
@@ -74,19 +70,19 @@ namespace IntegradorApp.Telas
             {
                 if(campo == null || campo == "")
                 {
-                    DataTable dt = proc.ConvertToDataTable(logConsultDao.BuscaTodos());//DataTable dt = Log.GetLogs("logconsulta");
+                    DataTable dt = Log.GetLogs("logconsulta");// proc.ConvertToDataTable(logConsultDao.BuscaTodos());//DataTable dt = 
                     DtData.ItemsSource = dt.DefaultView;
                 }
                 else
                 {
                     if(campo == "Identificador")
                     {
-                        DataTable dt = proc.ConvertToDataTable(logConsultDao.BuscaPorIdentificador(TxbValor.Text));//Log.GetLogsWithParam(1, TxbValor.Text, "logconsulta");
+                        DataTable dt = Log.GetLogsWithParam(1, TxbValor.Text, "logconsulta"); // proc.ConvertToDataTable(logConsultDao.BuscaPorIdentificador(TxbValor.Text));//
                         DtData.ItemsSource = dt.DefaultView;
                     }
                     else
                     {
-                        DataTable dt = proc.ConvertToDataTable(logConsultDao.BuscaPorData(TxbValor.Text));//Log.GetLogsWithParam(2, TxbValor.Text, "logconsulta");
+                        DataTable dt = Log.GetLogsWithParam(2, TxbValor.Text, "logconsulta"); //proc.ConvertToDataTable(logConsultDao.BuscaPorData(TxbValor.Text));//
                         DtData.ItemsSource = dt.DefaultView;
                     }
                 }
@@ -95,19 +91,19 @@ namespace IntegradorApp.Telas
             {
                 if (campo == null || campo == "")
                 {
-                    DataTable dt = proc.ConvertToDataTable(logEnvioDao.BuscaTodos());//DataTable dt = Log.GetLogs("logenvia");
+                    DataTable dt = Log.GetLogs("logenvia"); //proc.ConvertToDataTable(logEnvioDao.BuscaTodos());/
                     DtData.ItemsSource = dt.DefaultView;
                 }
                 else
                 {
                     if (campo == "Identificador")
                     {
-                        DataTable dt = proc.ConvertToDataTable(logEnvioDao.BuscaPorIdentificador(TxbValor.Text));//Log.GetLogsWithParam(1, TxbValor.Text, "logenvia");
+                        DataTable dt = Log.GetLogsWithParam(1, TxbValor.Text, "logenvia"); //proc.ConvertToDataTable(logEnvioDao.BuscaPorIdentificador(TxbValor.Text));//
                         DtData.ItemsSource = dt.DefaultView;
                     }
                     else
                     {
-                        DataTable dt = proc.ConvertToDataTable(logEnvioDao.BuscaPorData(TxbValor.Text));//Log.GetLogsWithParam(2, TxbValor.Text, "logenvia");
+                        DataTable dt = Log.GetLogsWithParam(2, TxbValor.Text, "logenvia"); //proc.ConvertToDataTable(logEnvioDao.BuscaPorData(TxbValor.Text));//
                         DtData.ItemsSource = dt.DefaultView;
                     }
                 }
@@ -117,19 +113,21 @@ namespace IntegradorApp.Telas
             {
                 if (campo == null || campo == "")
                 {
-                    DataTable dt = proc.ConvertToDataTable(logErroDao.BuscaTodos());//DataTable dt = Log.GetLogs("logerro");
+                    //DataTable dt = proc.ConvertToDataTable(logErroDao.BuscaTodos());//
+                    DataTable dt = Log.GetLogs("logerro");
                     DtData.ItemsSource = dt.DefaultView;
                 }
                 else
                 {
                     if (campo == "Serviço")
                     {
-                        DataTable dt = proc.ConvertToDataTable(logErroDao.BuscaPorServico(TxbValor.Text));//Log.GetLogsWithParam(1, TxbValor.Text, "logerro");
+                        //DataTable dt = proc.ConvertToDataTable(logErroDao.BuscaPorServico(TxbValor.Text));//
+                        DataTable dt = Log.GetLogsWithParam(1, TxbValor.Text, "logerro");Log.GetLogsWithParam(1, TxbValor.Text, "logerro");
                         DtData.ItemsSource = dt.DefaultView;
                     }
                     else
                     {
-                        DataTable dt = proc.ConvertToDataTable(logErroDao.BuscaPorData(TxbValor.Text));//Log.GetLogsWithParam(2, TxbValor.Text, "logerro");
+                        DataTable dt = Log.GetLogsWithParam(2, TxbValor.Text, "logerro"); //proc.ConvertToDataTable(logErroDao.BuscaPorData(TxbValor.Text));//
                         DtData.ItemsSource = dt.DefaultView;
                     }
                 }
@@ -139,7 +137,6 @@ namespace IntegradorApp.Telas
                 DtData.ItemsSource = null;
             }
 
-            sessao.Close();
         }
 
         private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)

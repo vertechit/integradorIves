@@ -35,22 +35,26 @@ namespace IntegradorApp.Telas
 
         private void BtnSalvar_Click(object sender, RoutedEventArgs e)
         {
+            Processos proc = new Processos();
             if(TxbHost.Text != "" && TxbPort.Text != "" && TxbServiceName.Text != "" && TxbUser.Text != "" && PwbSenha.Password != "" && CboDriver.SelectedIndex != -1)
             {
-                if(CboDriver.SelectedIndex == 0)
+                if(proc.VerificaConexaoBanco(TxbHost.Text, TxbPort.Text, TxbServiceName.Text, TxbUser.Text, PwbSenha.Password, CboDriver.SelectedIndex) == true)
                 {
-                    StaticParametersDB.SetDriver("oracle");
+                    if (CboDriver.SelectedIndex == 0)
+                    {
+                        StaticParametersDB.SetDriver("oracle");
+                    }
+                    else
+                    {
+                        StaticParametersDB.SetDriver("sqlserver");
+                    }
+                    StaticParametersDB.SetHost(TxbHost.Text);
+                    StaticParametersDB.SetPort(TxbPort.Text);
+                    StaticParametersDB.SetServiceName(TxbServiceName.Text);
+                    StaticParametersDB.SetUser(TxbUser.Text);
+                    StaticParametersDB.SetPassword(PwbSenha.Password);
+                    this.Close();
                 }
-                else
-                {
-                    StaticParametersDB.SetDriver("sqlserver");
-                }
-                StaticParametersDB.SetHost(TxbHost.Text);
-                StaticParametersDB.SetPort(TxbPort.Text);
-                StaticParametersDB.SetServiceName(TxbServiceName.Text);
-                StaticParametersDB.SetUser(TxbUser.Text);
-                StaticParametersDB.SetPassword(PwbSenha.Password);
-                this.Close();
             }
             else
             {

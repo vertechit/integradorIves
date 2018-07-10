@@ -152,7 +152,7 @@ namespace IntegradorApp
                             var paramdb = new ParametroDB { Id = 1, Driver = StaticParametersDB.GetDriver(), Host = StaticParametersDB.GetHost(), Port = StaticParametersDB.GetPort(), ServiceName = StaticParametersDB.GetServiceName(), User = StaticParametersDB.GetUser(), Password = AESThenHMAC.SimpleEncryptWithPassword(StaticParametersDB.GetPassword(), process.GetMacAdress()) };
 
                             parametroDBDAO.Salvar(paramdb);
-
+                            //TxtStatusBanco.Text = "Conectado";
                             //Armazenamento.AddParametrosDB(new ParametroDB { Id = 1, Driver = StaticParametersDB.GetDriver(), Host = StaticParametersDB.GetHost(), Port = StaticParametersDB.GetPort(), ServiceName = StaticParametersDB.GetServiceName(), User = StaticParametersDB.GetUser(), Password = AESThenHMAC.SimpleEncryptWithPassword(StaticParametersDB.GetPassword(), process.GetMacAdress()) });
                         }
 
@@ -162,6 +162,14 @@ namespace IntegradorApp
                             var newParam = new Parametro { Id = 1, CaminhoDir = StaticParametros.GetDirOrigem(), CaminhoToke = StaticParametros.GetDirToke(), IntegraBanco = StaticParametros.GetIntegraBanco() };
                             parametroDAO.Salvar(newParam);
 
+                            if(StaticParametersDB.GetDriver() != null)
+                            {
+                                TxtStatusBanco.Text = "Conectado";
+                            }
+                            else
+                            {
+                                TxtStatusBanco.Text = "Desconectado";
+                            }
                             //Armazenamento.AddParametros(new Parametro { Id = 1, CaminhoDir = StaticParametros.GetDirOrigem(), CaminhoToke = StaticParametros.GetDirToke(), IntegraBanco = StaticParametros.GetIntegraBanco() });
                             OrganizaTelaEvent(2);
 
@@ -266,10 +274,12 @@ namespace IntegradorApp
         {
             Processos process = new Processos();
             DirectoryInfo dir = new DirectoryInfo(@"C:\\vch");
+            FileInfo fil = new FileInfo(@"C:\\vch\\logs.db");
             int ctrlFirstExec = 0;
 
             if (dir.Exists != true)
             {
+                
                 ctrlFirstExec = 1;
                 string user = System.Windows.Forms.SystemInformation.UserName;
                 System.IO.DirectoryInfo folderInfo = new System.IO.DirectoryInfo("C:\\");
@@ -281,6 +291,12 @@ namespace IntegradorApp
                 folderInfo.CreateSubdirectory("vch");
 
                 OrganizaTelaEvent(1);
+            }
+
+            if(fil.Exists != true)
+            {
+                Log.CriarBancoSQLite();
+                Log.CriarTabelaSQlite();
             }
 
             var sessao = AuxiliarNhibernate.AbrirSessao();
@@ -334,12 +350,13 @@ namespace IntegradorApp
                     StaticParametersDB.SetUser(paramDB.User);
                     StaticParametersDB.SetPassword(AESThenHMAC.SimpleDecryptWithPassword(paramDB.Password, process.GetMacAdress()));
                     StaticParametros.SetIntegraBanco(true);
+                    TxtStatusBanco.Text = "Conectado";
                     ctrl++;
                 }
                 catch (Exception ex)
                 {
                     StaticParametros.SetIntegraBanco(false);
-
+                    TxtStatusBanco.Text = "Desconectado";
                     if (ctrlVazio == 0)
                     {
                         var paramn = new Parametro { Id = 1, CaminhoDir = StaticParametros.GetDirOrigem(), CaminhoToke = StaticParametros.GetDirToke(), IntegraBanco = StaticParametros.GetIntegraBanco() };
@@ -540,10 +557,14 @@ namespace IntegradorApp
             {
                 BtnConsultar.Visibility = Visibility.Visible;
                 BtnEnviar.Visibility = Visibility.Visible;
-                LblqtdCons.Visibility = Visibility.Visible;
-                LblqtdEnv.Visibility = Visibility.Visible;
-                LbltmEnv.Visibility = Visibility.Visible;
-                LbltmCons.Visibility = Visibility.Visible;
+                LblqtdCons.Visibility = Visibility.Hidden;
+                LblqtdEnv.Visibility = Visibility.Hidden;
+                LbltmEnv.Visibility = Visibility.Hidden;
+                LbltmCons.Visibility = Visibility.Hidden;
+                //LblqtdCons.Visibility = Visibility.Visible;
+                //LblqtdEnv.Visibility = Visibility.Visible;
+                //LbltmEnv.Visibility = Visibility.Visible;
+                //LbltmCons.Visibility = Visibility.Visible;
                 BtnParam.Visibility = Visibility.Visible;
                 BtnLog.Visibility = Visibility.Visible;
 

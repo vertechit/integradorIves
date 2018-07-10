@@ -49,7 +49,7 @@ namespace IntegradorCore.DAO
                 {
                     cmd.CommandText = "CREATE TABLE IF NOT EXISTS logconsulta(" +
                                                                             "id integer primary key autoincrement," +
-                                                                            "nome_arq varchar2(100)," +
+                                                                            "identificador varchar2(100)," +
                                                                             "protocolo varchar2(100)," +
                                                                             "msg varchar2(500)," +
                                                                             "acao varchar2(500)," +
@@ -65,7 +65,7 @@ namespace IntegradorCore.DAO
                 {
                     cmd.CommandText = "CREATE TABLE IF NOT EXISTS logenvia(" +
                                                                             "id integer primary key autoincrement," +
-                                                                            "nome_arq varchar2(100)," +
+                                                                            "identificador varchar2(100)," +
                                                                             "msg varchar2(500)," +
                                                                             "acao varchar2(500)," +
                                                                             "data varchar2(10) not null," +
@@ -104,7 +104,7 @@ namespace IntegradorCore.DAO
             {
                 using (var cmd = DbConnection().CreateCommand())
                 {
-                    cmd.CommandText = "INSERT INTO logconsulta(nome_arq, protocolo, msg, acao, data, hora) values (@arq, @prot, @msg, @acao, @data, @hora)";
+                    cmd.CommandText = "INSERT INTO logconsulta(identificador, protocolo, msg, acao, data, hora) values (@arq, @prot, @msg, @acao, @data, @hora)";
                     cmd.Parameters.AddWithValue("@arq", log.Identificador);
                     cmd.Parameters.AddWithValue("@prot", log.Protocolo);
                     cmd.Parameters.AddWithValue("@msg", log.Msg);
@@ -126,7 +126,7 @@ namespace IntegradorCore.DAO
             {
                 using (var cmd = DbConnection().CreateCommand())
                 {
-                    cmd.CommandText = "INSERT INTO logenvia(nome_arq, msg, acao, data, hora) values (@arq, @msg, @acao, @data, @hora)";
+                    cmd.CommandText = "INSERT INTO logenvia(identificador, msg, acao, data, hora) values (@arq, @msg, @acao, @data, @hora)";
                     cmd.Parameters.AddWithValue("@arq", log.Identificador);
                     cmd.Parameters.AddWithValue("@msg", log.Msg);
                     cmd.Parameters.AddWithValue("@acao", log.Acao);
@@ -159,7 +159,7 @@ namespace IntegradorCore.DAO
             }
             catch (Exception ex)
             {
-                exC.ExSQLite(4, ex.Message);
+                exC.ExSQLite(41, ex.Message);
             }
         }
 
@@ -229,7 +229,7 @@ namespace IntegradorCore.DAO
                     {
                         using (var cmd = DbConnection().CreateCommand())
                         {
-                            cmd.CommandText = "SELECT * FROM " + Tabela + " where nome_arq = " + param;
+                            cmd.CommandText = "SELECT * FROM " + Tabela + " where identificador = " + param;
                             //cmd.Parameters.AddWithValue("@tabela", Tabela);
                             da = new SQLiteDataAdapter(cmd.CommandText, DbConnection());
                             da.Fill(dt);
