@@ -113,6 +113,7 @@
     <Compile Include="API\EnviaXML.cs" />
     <Compile Include="API\MessageHttpHeaderInspector.cs" />
     <Compile Include="DAO\OracleDB.cs" />
+    <Compile Include="DAO\SQLServerDB.cs" />
     <Compile Include="Mapeamento\LogConsultaMapa.cs" />
     <Compile Include="Mapeamento\LogEnvioMapa.cs" />
     <Compile Include="Mapeamento\LogErroMapa.cs" />

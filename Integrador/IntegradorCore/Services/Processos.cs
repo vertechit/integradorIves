@@ -1042,11 +1042,15 @@ namespace IntegradorCore.Services
 
         public bool VerificaConexaoBanco(string host, string port, string servicename, string user, string password, int driver)
         {
-            var retorno = false;
+            var retorno = true;
 
             if(driver == 0)
             {
                 retorno = OracleDB.TesteConexao(host, port, servicename, user, password);
+            }
+            else
+            {
+                retorno = SQLServerDB.TesteConexao(host, port, servicename, user, password);
             }
             
             return retorno;

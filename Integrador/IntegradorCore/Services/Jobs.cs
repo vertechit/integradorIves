@@ -230,7 +230,7 @@ namespace IntegradorCore.Services
 
                 else
                 {
-
+                    SQLServerDB.GetData(sessao);
                 }
             }
         }
@@ -246,7 +246,7 @@ namespace IntegradorCore.Services
 
                 else
                 {
-                    return false;
+                    return SQLServerDB.UpdateDB(prot);
                 }
 
             }

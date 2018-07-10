@@ -195,6 +195,18 @@ namespace IntegradorCore.Services
             }
         }
 
+        public void ExDriverSQLServer(int codErro, string msg)
+        {
+            if (StaticParametros.GetTipoApp() == "Service")
+            {
+                proc.InsereLog(3, msg, " ", "SQLServerDriver", " ", " ", codErro.ToString());
+            }
+            else
+            {
+                proc.InsereLog(3, msg, " ", "SQLServerDriver", " ", " ", codErro.ToString());
+            }
+        }
+
         public void ExSecureFile(int codErro, string msg)
         {
 
