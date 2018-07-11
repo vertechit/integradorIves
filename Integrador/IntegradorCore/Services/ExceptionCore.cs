@@ -183,6 +183,18 @@ namespace IntegradorCore.Services
             }
         }
 
+        public void EncryptException(string msg, int codErro)
+        {
+            if (StaticParametros.GetTipoApp() == "Service")
+            {
+                proc.InsereLog(3, msg, " ", "Encrypt/Decrypt", " ", " ", codErro.ToString());
+            }
+            else
+            {
+                proc.InsereLog(3, msg, " ", "Encrypt/Decrypt", " ", " ", codErro.ToString());
+            }
+        }
+
         public void ExDriverOracle(int codErro, string msg)
         {
             if (StaticParametros.GetTipoApp() == "Service")

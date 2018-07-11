@@ -198,17 +198,15 @@ namespace IntegradorCore.Services
 
         /// </remarks>
 
-        public static string SimpleEncryptWithPassword(string secretMessage, string password,
-
-                                                       byte[] nonSecretPayload = null)
-
+        public static string SimpleEncryptWithPassword(string secretMessage, string password, byte[] nonSecretPayload = null)
         {
+            ExceptionCore ex = new ExceptionCore();
 
             if (string.IsNullOrEmpty(secretMessage))
-
+            {
+                //ex.EncryptException("Dados para encryptação é NULL", 1);
                 throw new ArgumentException("Secret Message Required!", "secretMessage");
-
-
+            }
 
             var plainText = Encoding.UTF8.GetBytes(secretMessage);
 
@@ -253,10 +251,11 @@ namespace IntegradorCore.Services
                                                        int nonSecretPayloadLength = 0)
 
         {
+            ExceptionCore ex = new ExceptionCore();
 
             if (string.IsNullOrWhiteSpace(encryptedMessage))
 
-                throw new ArgumentException("Encrypted Message Required!", "encryptedMessage");
+                ex.EncryptException("Dados para decodificação é NULL", 2);//throw new ArgumentException("Encrypted Message Required!", "encryptedMessage");
 
 
 

@@ -148,10 +148,19 @@ namespace IntegradorApp
                             ctrl++;
 
                             StaticParametros.SetIntegraBanco(true);
+                            try {
+                                var paramdb = new ParametroDB { Id = 1, Driver = StaticParametersDB.GetDriver(), Host = StaticParametersDB.GetHost(), Port = StaticParametersDB.GetPort(), ServiceName = StaticParametersDB.GetServiceName(), User = StaticParametersDB.GetUser(), Password = AESThenHMAC.SimpleEncryptWithPassword(StaticParametersDB.GetPassword(), process.GetMacAdress()) };
 
-                            var paramdb = new ParametroDB { Id = 1, Driver = StaticParametersDB.GetDriver(), Host = StaticParametersDB.GetHost(), Port = StaticParametersDB.GetPort(), ServiceName = StaticParametersDB.GetServiceName(), User = StaticParametersDB.GetUser(), Password = AESThenHMAC.SimpleEncryptWithPassword(StaticParametersDB.GetPassword(), process.GetMacAdress()) };
-
-                            parametroDBDAO.Salvar(paramdb);
+                                parametroDBDAO.Salvar(paramdb);
+                            }
+                            catch(Exception ex)
+                            {
+                                StaticParametros.SetIntegraBanco(false);
+                                ExceptionCore exe = new ExceptionCore();
+                                exe.EncryptException(ex.Message, 3);
+                                ctrl--;
+                            }
+                            
                             //TxtStatusBanco.Text = "Conectado";
                             //Armazenamento.AddParametrosDB(new ParametroDB { Id = 1, Driver = StaticParametersDB.GetDriver(), Host = StaticParametersDB.GetHost(), Port = StaticParametersDB.GetPort(), ServiceName = StaticParametersDB.GetServiceName(), User = StaticParametersDB.GetUser(), Password = AESThenHMAC.SimpleEncryptWithPassword(StaticParametersDB.GetPassword(), process.GetMacAdress()) });
                         }

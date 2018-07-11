@@ -133,14 +133,17 @@ namespace IntegradorApp.Telas
                     TxbPort.Text = param.Port;
                     TxbServiceName.Text = param.ServiceName;
                     TxbUser.Text = param.User;
-                    PwbSenha.Password = AESThenHMAC.SimpleDecryptWithPassword(param.Password, process.GetMacAdress());
+                    
 
                     StaticParametersDB.SetDriver("oracle");
                     StaticParametersDB.SetHost(TxbHost.Text);
                     StaticParametersDB.SetPort(TxbPort.Text);
                     StaticParametersDB.SetServiceName(TxbServiceName.Text);
                     StaticParametersDB.SetUser(TxbUser.Text);
+
+                    PwbSenha.Password = AESThenHMAC.SimpleDecryptWithPassword(param.Password, process.GetMacAdress());
                     StaticParametersDB.SetPassword(PwbSenha.Password);
+
                     BtnDelete.Visibility = Visibility.Visible;
                 }
                 catch (Exception e)
@@ -161,6 +164,8 @@ namespace IntegradorApp.Telas
                         TxbServiceName.Text = StaticParametersDB.GetServiceName();
                         TxbUser.Text = StaticParametersDB.GetUser();
                         PwbSenha.Password = StaticParametersDB.GetPassword();
+
+                        BtnDelete.Visibility = Visibility.Visible;
                     }
                 }
                 
