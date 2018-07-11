@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace iVesService.apiConsultaXML {
+namespace IntegradorService.apiConsultaXML {
     
     
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
@@ -20,12 +20,12 @@ namespace iVesService.apiConsultaXML {
         [System.ServiceModel.OperationContractAttribute(Action="http://www.esocial.gov.br/servicos/empregador/lote/eventos/envio/consulta/retorno" +
             "Processamento/v1_1_0/ServicoConsultarLoteEventos/ConsultarLoteEventos", ReplyAction="http://www.esocial.gov.br/servicos/empregador/lote/eventos/envio/consulta/retorno" +
             "Processamento/v1_1_0/ServicoConsultarLoteEventos/ConsultarLoteEventosResponse")]
-        iVesService.apiConsultaXML.ConsultarLoteEventosResponse ConsultarLoteEventos(iVesService.apiConsultaXML.ConsultarLoteEventosRequest request);
+        IntegradorService.apiConsultaXML.ConsultarLoteEventosResponse ConsultarLoteEventos(IntegradorService.apiConsultaXML.ConsultarLoteEventosRequest request);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://www.esocial.gov.br/servicos/empregador/lote/eventos/envio/consulta/retorno" +
             "Processamento/v1_1_0/ServicoConsultarLoteEventos/ConsultarLoteEventos", ReplyAction="http://www.esocial.gov.br/servicos/empregador/lote/eventos/envio/consulta/retorno" +
             "Processamento/v1_1_0/ServicoConsultarLoteEventos/ConsultarLoteEventosResponse")]
-        System.Threading.Tasks.Task<iVesService.apiConsultaXML.ConsultarLoteEventosResponse> ConsultarLoteEventosAsync(iVesService.apiConsultaXML.ConsultarLoteEventosRequest request);
+        System.Threading.Tasks.Task<IntegradorService.apiConsultaXML.ConsultarLoteEventosResponse> ConsultarLoteEventosAsync(IntegradorService.apiConsultaXML.ConsultarLoteEventosRequest request);
     }
     
     [System.Diagnostics.DebuggerStepThroughAttribute()]
@@ -36,12 +36,12 @@ namespace iVesService.apiConsultaXML {
         
         [System.ServiceModel.MessageBodyMemberAttribute(Name="ConsultarLoteEventos", Namespace="http://www.esocial.gov.br/servicos/empregador/lote/eventos/envio/consulta/retorno" +
             "Processamento/v1_1_0", Order=0)]
-        public iVesService.apiConsultaXML.ConsultarLoteEventosRequestBody Body;
+        public IntegradorService.apiConsultaXML.ConsultarLoteEventosRequestBody Body;
         
         public ConsultarLoteEventosRequest() {
         }
         
-        public ConsultarLoteEventosRequest(iVesService.apiConsultaXML.ConsultarLoteEventosRequestBody Body) {
+        public ConsultarLoteEventosRequest(IntegradorService.apiConsultaXML.ConsultarLoteEventosRequestBody Body) {
             this.Body = Body;
         }
     }
@@ -72,12 +72,12 @@ namespace iVesService.apiConsultaXML {
         
         [System.ServiceModel.MessageBodyMemberAttribute(Name="ConsultarLoteEventosResponse", Namespace="http://www.esocial.gov.br/servicos/empregador/lote/eventos/envio/consulta/retorno" +
             "Processamento/v1_1_0", Order=0)]
-        public iVesService.apiConsultaXML.ConsultarLoteEventosResponseBody Body;
+        public IntegradorService.apiConsultaXML.ConsultarLoteEventosResponseBody Body;
         
         public ConsultarLoteEventosResponse() {
         }
         
-        public ConsultarLoteEventosResponse(iVesService.apiConsultaXML.ConsultarLoteEventosResponseBody Body) {
+        public ConsultarLoteEventosResponse(IntegradorService.apiConsultaXML.ConsultarLoteEventosResponseBody Body) {
             this.Body = Body;
         }
     }
@@ -101,12 +101,12 @@ namespace iVesService.apiConsultaXML {
     }
     
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
-    public interface ServicoConsultarLoteEventosChannel : iVesService.apiConsultaXML.ServicoConsultarLoteEventos, System.ServiceModel.IClientChannel {
+    public interface ServicoConsultarLoteEventosChannel : IntegradorService.apiConsultaXML.ServicoConsultarLoteEventos, System.ServiceModel.IClientChannel {
     }
     
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
-    public partial class ServicoConsultarLoteEventosClient : System.ServiceModel.ClientBase<iVesService.apiConsultaXML.ServicoConsultarLoteEventos>, iVesService.apiConsultaXML.ServicoConsultarLoteEventos {
+    public partial class ServicoConsultarLoteEventosClient : System.ServiceModel.ClientBase<IntegradorService.apiConsultaXML.ServicoConsultarLoteEventos>, IntegradorService.apiConsultaXML.ServicoConsultarLoteEventos {
         
         public ServicoConsultarLoteEventosClient() {
         }
@@ -128,28 +128,28 @@ namespace iVesService.apiConsultaXML {
         }
         
         [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
-        iVesService.apiConsultaXML.ConsultarLoteEventosResponse iVesService.apiConsultaXML.ServicoConsultarLoteEventos.ConsultarLoteEventos(iVesService.apiConsultaXML.ConsultarLoteEventosRequest request) {
+        IntegradorService.apiConsultaXML.ConsultarLoteEventosResponse IntegradorService.apiConsultaXML.ServicoConsultarLoteEventos.ConsultarLoteEventos(IntegradorService.apiConsultaXML.ConsultarLoteEventosRequest request) {
             return base.Channel.ConsultarLoteEventos(request);
         }
         
         public System.Xml.Linq.XElement ConsultarLoteEventos(System.Xml.Linq.XElement consulta) {
-            iVesService.apiConsultaXML.ConsultarLoteEventosRequest inValue = new iVesService.apiConsultaXML.ConsultarLoteEventosRequest();
-            inValue.Body = new iVesService.apiConsultaXML.ConsultarLoteEventosRequestBody();
+            IntegradorService.apiConsultaXML.ConsultarLoteEventosRequest inValue = new IntegradorService.apiConsultaXML.ConsultarLoteEventosRequest();
+            inValue.Body = new IntegradorService.apiConsultaXML.ConsultarLoteEventosRequestBody();
             inValue.Body.consulta = consulta;
-            iVesService.apiConsultaXML.ConsultarLoteEventosResponse retVal = ((iVesService.apiConsultaXML.ServicoConsultarLoteEventos)(this)).ConsultarLoteEventos(inValue);
+            IntegradorService.apiConsultaXML.ConsultarLoteEventosResponse retVal = ((IntegradorService.apiConsultaXML.ServicoConsultarLoteEventos)(this)).ConsultarLoteEventos(inValue);
             return retVal.Body.ConsultarLoteEventosResult;
         }
         
         [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
-        System.Threading.Tasks.Task<iVesService.apiConsultaXML.ConsultarLoteEventosResponse> iVesService.apiConsultaXML.ServicoConsultarLoteEventos.ConsultarLoteEventosAsync(iVesService.apiConsultaXML.ConsultarLoteEventosRequest request) {
+        System.Threading.Tasks.Task<IntegradorService.apiConsultaXML.ConsultarLoteEventosResponse> IntegradorService.apiConsultaXML.ServicoConsultarLoteEventos.ConsultarLoteEventosAsync(IntegradorService.apiConsultaXML.ConsultarLoteEventosRequest request) {
             return base.Channel.ConsultarLoteEventosAsync(request);
         }
         
-        public System.Threading.Tasks.Task<iVesService.apiConsultaXML.ConsultarLoteEventosResponse> ConsultarLoteEventosAsync(System.Xml.Linq.XElement consulta) {
-            iVesService.apiConsultaXML.ConsultarLoteEventosRequest inValue = new iVesService.apiConsultaXML.ConsultarLoteEventosRequest();
-            inValue.Body = new iVesService.apiConsultaXML.ConsultarLoteEventosRequestBody();
+        public System.Threading.Tasks.Task<IntegradorService.apiConsultaXML.ConsultarLoteEventosResponse> ConsultarLoteEventosAsync(System.Xml.Linq.XElement consulta) {
+            IntegradorService.apiConsultaXML.ConsultarLoteEventosRequest inValue = new IntegradorService.apiConsultaXML.ConsultarLoteEventosRequest();
+            inValue.Body = new IntegradorService.apiConsultaXML.ConsultarLoteEventosRequestBody();
             inValue.Body.consulta = consulta;
-            return ((iVesService.apiConsultaXML.ServicoConsultarLoteEventos)(this)).ConsultarLoteEventosAsync(inValue);
+            return ((IntegradorService.apiConsultaXML.ServicoConsultarLoteEventos)(this)).ConsultarLoteEventosAsync(inValue);
         }
     }
 }

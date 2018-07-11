@@ -17,7 +17,7 @@ using IntegradorCore.NHibernate.DAO;
 using IntegradorCore.Modelos;
 using System.Collections;
 
-namespace iVesService
+namespace IntegradorService
 {
     public partial class Service : ServiceBase
     {

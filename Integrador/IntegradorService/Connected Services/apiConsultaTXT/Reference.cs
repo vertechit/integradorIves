@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace iVesService.apiConsultaTXT {
+namespace IntegradorService.apiConsultaTXT {
     
     
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
@@ -18,14 +18,14 @@ namespace iVesService.apiConsultaTXT {
         // CODEGEN: Gerando contrato de mensagem porque a operação consultaRequest não é RPC nem documento codificado.
         [System.ServiceModel.OperationContractAttribute(Action="", ReplyAction="*")]
         [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
-        iVesService.apiConsultaTXT.consultaResponse1 consultaRequest(iVesService.apiConsultaTXT.consultaRequest1 request);
+        IntegradorService.apiConsultaTXT.consultaResponse1 consultaRequest(IntegradorService.apiConsultaTXT.consultaRequest1 request);
         
         [System.ServiceModel.OperationContractAttribute(Action="", ReplyAction="*")]
-        System.Threading.Tasks.Task<iVesService.apiConsultaTXT.consultaResponse1> consultaRequestAsync(iVesService.apiConsultaTXT.consultaRequest1 request);
+        System.Threading.Tasks.Task<IntegradorService.apiConsultaTXT.consultaResponse1> consultaRequestAsync(IntegradorService.apiConsultaTXT.consultaRequest1 request);
     }
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.7.3056.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.7.2558.0")]
     [System.SerializableAttribute()]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
@@ -141,7 +141,7 @@ namespace iVesService.apiConsultaTXT {
     }
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.7.3056.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.7.2558.0")]
     [System.SerializableAttribute()]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
@@ -173,7 +173,7 @@ namespace iVesService.apiConsultaTXT {
     }
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.7.3056.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.7.2558.0")]
     [System.SerializableAttribute()]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
@@ -234,7 +234,7 @@ namespace iVesService.apiConsultaTXT {
     }
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.7.3056.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.7.2558.0")]
     [System.SerializableAttribute()]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
@@ -322,7 +322,7 @@ namespace iVesService.apiConsultaTXT {
     }
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.7.3056.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.7.2558.0")]
     [System.SerializableAttribute()]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
@@ -368,7 +368,7 @@ namespace iVesService.apiConsultaTXT {
     }
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.7.3056.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.7.2558.0")]
     [System.SerializableAttribute()]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
@@ -611,7 +611,7 @@ namespace iVesService.apiConsultaTXT {
     }
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.7.3056.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.7.2558.0")]
     [System.SerializableAttribute()]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
@@ -643,7 +643,7 @@ namespace iVesService.apiConsultaTXT {
     }
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.7.3056.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.7.2558.0")]
     [System.SerializableAttribute()]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
@@ -690,7 +690,7 @@ namespace iVesService.apiConsultaTXT {
     }
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.7.3056.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.7.2558.0")]
     [System.SerializableAttribute()]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
@@ -736,7 +736,7 @@ namespace iVesService.apiConsultaTXT {
     }
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.7.3056.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.7.2558.0")]
     [System.SerializableAttribute()]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
@@ -816,12 +816,12 @@ namespace iVesService.apiConsultaTXT {
     public partial class consultaRequest1 {
         
         [System.ServiceModel.MessageBodyMemberAttribute(Namespace="http://www.esocial.gov.br/ws", Order=0)]
-        public iVesService.apiConsultaTXT.consultaRequest consultaRequest;
+        public IntegradorService.apiConsultaTXT.consultaRequest consultaRequest;
         
         public consultaRequest1() {
         }
         
-        public consultaRequest1(iVesService.apiConsultaTXT.consultaRequest consultaRequest) {
+        public consultaRequest1(IntegradorService.apiConsultaTXT.consultaRequest consultaRequest) {
             this.consultaRequest = consultaRequest;
         }
     }
@@ -833,23 +833,23 @@ namespace iVesService.apiConsultaTXT {
     public partial class consultaResponse1 {
         
         [System.ServiceModel.MessageBodyMemberAttribute(Namespace="http://www.esocial.gov.br/ws", Order=0)]
-        public iVesService.apiConsultaTXT.consultaResponse consultaResponse;
+        public IntegradorService.apiConsultaTXT.consultaResponse consultaResponse;
         
         public consultaResponse1() {
         }
         
-        public consultaResponse1(iVesService.apiConsultaTXT.consultaResponse consultaResponse) {
+        public consultaResponse1(IntegradorService.apiConsultaTXT.consultaResponse consultaResponse) {
             this.consultaResponse = consultaResponse;
         }
     }
     
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
-    public interface EsocialServiceChannel : iVesService.apiConsultaTXT.EsocialService, System.ServiceModel.IClientChannel {
+    public interface EsocialServiceChannel : IntegradorService.apiConsultaTXT.EsocialService, System.ServiceModel.IClientChannel {
     }
     
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
-    public partial class EsocialServiceClient : System.ServiceModel.ClientBase<iVesService.apiConsultaTXT.EsocialService>, iVesService.apiConsultaTXT.EsocialService {
+    public partial class EsocialServiceClient : System.ServiceModel.ClientBase<IntegradorService.apiConsultaTXT.EsocialService>, IntegradorService.apiConsultaTXT.EsocialService {
         
         public EsocialServiceClient() {
         }
@@ -871,26 +871,26 @@ namespace iVesService.apiConsultaTXT {
         }
         
         [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
-        iVesService.apiConsultaTXT.consultaResponse1 iVesService.apiConsultaTXT.EsocialService.consultaRequest(iVesService.apiConsultaTXT.consultaRequest1 request) {
+        IntegradorService.apiConsultaTXT.consultaResponse1 IntegradorService.apiConsultaTXT.EsocialService.consultaRequest(IntegradorService.apiConsultaTXT.consultaRequest1 request) {
             return base.Channel.consultaRequest(request);
         }
         
-        public iVesService.apiConsultaTXT.consultaResponse consultaRequest(iVesService.apiConsultaTXT.consultaRequest consultaRequest1) {
-            iVesService.apiConsultaTXT.consultaRequest1 inValue = new iVesService.apiConsultaTXT.consultaRequest1();
+        public IntegradorService.apiConsultaTXT.consultaResponse consultaRequest(IntegradorService.apiConsultaTXT.consultaRequest consultaRequest1) {
+            IntegradorService.apiConsultaTXT.consultaRequest1 inValue = new IntegradorService.apiConsultaTXT.consultaRequest1();
             inValue.consultaRequest = consultaRequest1;
-            iVesService.apiConsultaTXT.consultaResponse1 retVal = ((iVesService.apiConsultaTXT.EsocialService)(this)).consultaRequest(inValue);
+            IntegradorService.apiConsultaTXT.consultaResponse1 retVal = ((IntegradorService.apiConsultaTXT.EsocialService)(this)).consultaRequest(inValue);
             return retVal.consultaResponse;
         }
         
         [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
-        System.Threading.Tasks.Task<iVesService.apiConsultaTXT.consultaResponse1> iVesService.apiConsultaTXT.EsocialService.consultaRequestAsync(iVesService.apiConsultaTXT.consultaRequest1 request) {
+        System.Threading.Tasks.Task<IntegradorService.apiConsultaTXT.consultaResponse1> IntegradorService.apiConsultaTXT.EsocialService.consultaRequestAsync(IntegradorService.apiConsultaTXT.consultaRequest1 request) {
             return base.Channel.consultaRequestAsync(request);
         }
         
-        public System.Threading.Tasks.Task<iVesService.apiConsultaTXT.consultaResponse1> consultaRequestAsync(iVesService.apiConsultaTXT.consultaRequest consultaRequest) {
-            iVesService.apiConsultaTXT.consultaRequest1 inValue = new iVesService.apiConsultaTXT.consultaRequest1();
+        public System.Threading.Tasks.Task<IntegradorService.apiConsultaTXT.consultaResponse1> consultaRequestAsync(IntegradorService.apiConsultaTXT.consultaRequest consultaRequest) {
+            IntegradorService.apiConsultaTXT.consultaRequest1 inValue = new IntegradorService.apiConsultaTXT.consultaRequest1();
             inValue.consultaRequest = consultaRequest;
-            return ((iVesService.apiConsultaTXT.EsocialService)(this)).consultaRequestAsync(inValue);
+            return ((IntegradorService.apiConsultaTXT.EsocialService)(this)).consultaRequestAsync(inValue);
         }
     }
 }

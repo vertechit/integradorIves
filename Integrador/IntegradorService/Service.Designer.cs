@@ -1,4 +1,4 @@
-﻿namespace iVesService
+﻿namespace IntegradorService
 {
     partial class Service
     {

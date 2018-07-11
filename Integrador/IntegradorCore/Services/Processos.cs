@@ -1032,7 +1032,7 @@ namespace IntegradorCore.Services
         public bool VerificaProcessoRun()
         {
             var isOpen = Process.GetProcesses().Any(p =>
-            p.ProcessName == "iVesService");
+            p.ProcessName == "IntegradorService");
 
             if (isOpen)
                 return true;

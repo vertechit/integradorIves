@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace iVesService.apiEnviaTXT {
+namespace IntegradorService.apiEnviaTXT {
     
     
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
@@ -18,14 +18,14 @@ namespace iVesService.apiEnviaTXT {
         // CODEGEN: Gerando contrato de mensagem porque a operação integraRequest não é RPC nem documento codificado.
         [System.ServiceModel.OperationContractAttribute(Action="", ReplyAction="*")]
         [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
-        iVesService.apiEnviaTXT.integraResponse1 integraRequest(iVesService.apiEnviaTXT.integraRequest1 request);
+        IntegradorService.apiEnviaTXT.integraResponse1 integraRequest(IntegradorService.apiEnviaTXT.integraRequest1 request);
         
         [System.ServiceModel.OperationContractAttribute(Action="", ReplyAction="*")]
-        System.Threading.Tasks.Task<iVesService.apiEnviaTXT.integraResponse1> integraRequestAsync(iVesService.apiEnviaTXT.integraRequest1 request);
+        System.Threading.Tasks.Task<IntegradorService.apiEnviaTXT.integraResponse1> integraRequestAsync(IntegradorService.apiEnviaTXT.integraRequest1 request);
     }
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.7.3056.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.7.2558.0")]
     [System.SerializableAttribute()]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
@@ -57,7 +57,7 @@ namespace iVesService.apiEnviaTXT {
     }
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.7.3056.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.7.2558.0")]
     [System.SerializableAttribute()]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
@@ -104,7 +104,7 @@ namespace iVesService.apiEnviaTXT {
     }
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.7.3056.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.7.2558.0")]
     [System.SerializableAttribute()]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
@@ -164,7 +164,7 @@ namespace iVesService.apiEnviaTXT {
     }
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.7.3056.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.7.2558.0")]
     [System.SerializableAttribute()]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
@@ -216,12 +216,12 @@ namespace iVesService.apiEnviaTXT {
     public partial class integraRequest1 {
         
         [System.ServiceModel.MessageBodyMemberAttribute(Namespace="http://www.esocial.gov.br/ws", Order=0)]
-        public iVesService.apiEnviaTXT.integraRequest integraRequest;
+        public IntegradorService.apiEnviaTXT.integraRequest integraRequest;
         
         public integraRequest1() {
         }
         
-        public integraRequest1(iVesService.apiEnviaTXT.integraRequest integraRequest) {
+        public integraRequest1(IntegradorService.apiEnviaTXT.integraRequest integraRequest) {
             this.integraRequest = integraRequest;
         }
     }
@@ -233,23 +233,23 @@ namespace iVesService.apiEnviaTXT {
     public partial class integraResponse1 {
         
         [System.ServiceModel.MessageBodyMemberAttribute(Namespace="http://www.esocial.gov.br/ws", Order=0)]
-        public iVesService.apiEnviaTXT.integraResponse integraResponse;
+        public IntegradorService.apiEnviaTXT.integraResponse integraResponse;
         
         public integraResponse1() {
         }
         
-        public integraResponse1(iVesService.apiEnviaTXT.integraResponse integraResponse) {
+        public integraResponse1(IntegradorService.apiEnviaTXT.integraResponse integraResponse) {
             this.integraResponse = integraResponse;
         }
     }
     
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
-    public interface EsocialServiceChannel : iVesService.apiEnviaTXT.EsocialService, System.ServiceModel.IClientChannel {
+    public interface EsocialServiceChannel : IntegradorService.apiEnviaTXT.EsocialService, System.ServiceModel.IClientChannel {
     }
     
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
-    public partial class EsocialServiceClient : System.ServiceModel.ClientBase<iVesService.apiEnviaTXT.EsocialService>, iVesService.apiEnviaTXT.EsocialService {
+    public partial class EsocialServiceClient : System.ServiceModel.ClientBase<IntegradorService.apiEnviaTXT.EsocialService>, IntegradorService.apiEnviaTXT.EsocialService {
         
         public EsocialServiceClient() {
         }
@@ -271,26 +271,26 @@ namespace iVesService.apiEnviaTXT {
         }
         
         [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
-        iVesService.apiEnviaTXT.integraResponse1 iVesService.apiEnviaTXT.EsocialService.integraRequest(iVesService.apiEnviaTXT.integraRequest1 request) {
+        IntegradorService.apiEnviaTXT.integraResponse1 IntegradorService.apiEnviaTXT.EsocialService.integraRequest(IntegradorService.apiEnviaTXT.integraRequest1 request) {
             return base.Channel.integraRequest(request);
         }
         
-        public iVesService.apiEnviaTXT.integraResponse integraRequest(iVesService.apiEnviaTXT.integraRequest integraRequest1) {
-            iVesService.apiEnviaTXT.integraRequest1 inValue = new iVesService.apiEnviaTXT.integraRequest1();
+        public IntegradorService.apiEnviaTXT.integraResponse integraRequest(IntegradorService.apiEnviaTXT.integraRequest integraRequest1) {
+            IntegradorService.apiEnviaTXT.integraRequest1 inValue = new IntegradorService.apiEnviaTXT.integraRequest1();
             inValue.integraRequest = integraRequest1;
-            iVesService.apiEnviaTXT.integraResponse1 retVal = ((iVesService.apiEnviaTXT.EsocialService)(this)).integraRequest(inValue);
+            IntegradorService.apiEnviaTXT.integraResponse1 retVal = ((IntegradorService.apiEnviaTXT.EsocialService)(this)).integraRequest(inValue);
             return retVal.integraResponse;
         }
         
         [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
-        System.Threading.Tasks.Task<iVesService.apiEnviaTXT.integraResponse1> iVesService.apiEnviaTXT.EsocialService.integraRequestAsync(iVesService.apiEnviaTXT.integraRequest1 request) {
+        System.Threading.Tasks.Task<IntegradorService.apiEnviaTXT.integraResponse1> IntegradorService.apiEnviaTXT.EsocialService.integraRequestAsync(IntegradorService.apiEnviaTXT.integraRequest1 request) {
             return base.Channel.integraRequestAsync(request);
         }
         
-        public System.Threading.Tasks.Task<iVesService.apiEnviaTXT.integraResponse1> integraRequestAsync(iVesService.apiEnviaTXT.integraRequest integraRequest) {
-            iVesService.apiEnviaTXT.integraRequest1 inValue = new iVesService.apiEnviaTXT.integraRequest1();
+        public System.Threading.Tasks.Task<IntegradorService.apiEnviaTXT.integraResponse1> integraRequestAsync(IntegradorService.apiEnviaTXT.integraRequest integraRequest) {
+            IntegradorService.apiEnviaTXT.integraRequest1 inValue = new IntegradorService.apiEnviaTXT.integraRequest1();
             inValue.integraRequest = integraRequest;
-            return ((iVesService.apiEnviaTXT.EsocialService)(this)).integraRequestAsync(inValue);
+            return ((IntegradorService.apiEnviaTXT.EsocialService)(this)).integraRequestAsync(inValue);
         }
     }
 }

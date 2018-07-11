@@ -1,4 +1,4 @@
-﻿namespace iVesService
+﻿namespace IntegradorService
 {
     partial class ProjectInstaller
     {
@@ -36,12 +36,14 @@
             this.serviceProcessInstaller1.Account = System.ServiceProcess.ServiceAccount.LocalSystem;
             this.serviceProcessInstaller1.Password = null;
             this.serviceProcessInstaller1.Username = null;
+            this.serviceProcessInstaller1.AfterInstall += new System.Configuration.Install.InstallEventHandler(this.serviceProcessInstaller1_AfterInstall);
             // 
             // serviceInstaller1
             // 
             this.serviceInstaller1.Description = "Serviço Integrador iVes da Vertech";
             this.serviceInstaller1.DisplayName = "Integrador Vertech Ives";
             this.serviceInstaller1.ServiceName = "Vertech Integrador Service";
+            this.serviceInstaller1.AfterInstall += new System.Configuration.Install.InstallEventHandler(this.serviceInstaller1_AfterInstall);
             // 
             // ProjectInstaller
             // 

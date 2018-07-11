@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace iVesService.apiEnviaXML {
+namespace IntegradorService.apiEnviaXML {
     
     
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
@@ -19,12 +19,12 @@ namespace iVesService.apiEnviaXML {
         [System.ServiceModel.OperationContractAttribute(Action="http://www.esocial.gov.br/servicos/empregador/lote/eventos/envio/v1_1_0/ServicoEn" +
             "viarLoteEventos/EnviarLoteEventos", ReplyAction="http://www.esocial.gov.br/servicos/empregador/lote/eventos/envio/v1_1_0/ServicoEn" +
             "viarLoteEventos/EnviarLoteEventosResponse")]
-        iVesService.apiEnviaXML.EnviarLoteEventosResponse EnviarLoteEventos(iVesService.apiEnviaXML.EnviarLoteEventosRequest request);
+        IntegradorService.apiEnviaXML.EnviarLoteEventosResponse EnviarLoteEventos(IntegradorService.apiEnviaXML.EnviarLoteEventosRequest request);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://www.esocial.gov.br/servicos/empregador/lote/eventos/envio/v1_1_0/ServicoEn" +
             "viarLoteEventos/EnviarLoteEventos", ReplyAction="http://www.esocial.gov.br/servicos/empregador/lote/eventos/envio/v1_1_0/ServicoEn" +
             "viarLoteEventos/EnviarLoteEventosResponse")]
-        System.Threading.Tasks.Task<iVesService.apiEnviaXML.EnviarLoteEventosResponse> EnviarLoteEventosAsync(iVesService.apiEnviaXML.EnviarLoteEventosRequest request);
+        System.Threading.Tasks.Task<IntegradorService.apiEnviaXML.EnviarLoteEventosResponse> EnviarLoteEventosAsync(IntegradorService.apiEnviaXML.EnviarLoteEventosRequest request);
     }
     
     [System.Diagnostics.DebuggerStepThroughAttribute()]
@@ -34,12 +34,12 @@ namespace iVesService.apiEnviaXML {
     public partial class EnviarLoteEventosRequest {
         
         [System.ServiceModel.MessageBodyMemberAttribute(Name="EnviarLoteEventos", Namespace="http://www.esocial.gov.br/servicos/empregador/lote/eventos/envio/v1_1_0", Order=0)]
-        public iVesService.apiEnviaXML.EnviarLoteEventosRequestBody Body;
+        public IntegradorService.apiEnviaXML.EnviarLoteEventosRequestBody Body;
         
         public EnviarLoteEventosRequest() {
         }
         
-        public EnviarLoteEventosRequest(iVesService.apiEnviaXML.EnviarLoteEventosRequestBody Body) {
+        public EnviarLoteEventosRequest(IntegradorService.apiEnviaXML.EnviarLoteEventosRequestBody Body) {
             this.Body = Body;
         }
     }
@@ -68,12 +68,12 @@ namespace iVesService.apiEnviaXML {
     public partial class EnviarLoteEventosResponse {
         
         [System.ServiceModel.MessageBodyMemberAttribute(Name="EnviarLoteEventosResponse", Namespace="http://www.esocial.gov.br/servicos/empregador/lote/eventos/envio/v1_1_0", Order=0)]
-        public iVesService.apiEnviaXML.EnviarLoteEventosResponseBody Body;
+        public IntegradorService.apiEnviaXML.EnviarLoteEventosResponseBody Body;
         
         public EnviarLoteEventosResponse() {
         }
         
-        public EnviarLoteEventosResponse(iVesService.apiEnviaXML.EnviarLoteEventosResponseBody Body) {
+        public EnviarLoteEventosResponse(IntegradorService.apiEnviaXML.EnviarLoteEventosResponseBody Body) {
             this.Body = Body;
         }
     }
@@ -96,12 +96,12 @@ namespace iVesService.apiEnviaXML {
     }
     
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
-    public interface ServicoEnviarLoteEventosChannel : iVesService.apiEnviaXML.ServicoEnviarLoteEventos, System.ServiceModel.IClientChannel {
+    public interface ServicoEnviarLoteEventosChannel : IntegradorService.apiEnviaXML.ServicoEnviarLoteEventos, System.ServiceModel.IClientChannel {
     }
     
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
-    public partial class ServicoEnviarLoteEventosClient : System.ServiceModel.ClientBase<iVesService.apiEnviaXML.ServicoEnviarLoteEventos>, iVesService.apiEnviaXML.ServicoEnviarLoteEventos {
+    public partial class ServicoEnviarLoteEventosClient : System.ServiceModel.ClientBase<IntegradorService.apiEnviaXML.ServicoEnviarLoteEventos>, IntegradorService.apiEnviaXML.ServicoEnviarLoteEventos {
         
         public ServicoEnviarLoteEventosClient() {
         }
@@ -123,28 +123,28 @@ namespace iVesService.apiEnviaXML {
         }
         
         [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
-        iVesService.apiEnviaXML.EnviarLoteEventosResponse iVesService.apiEnviaXML.ServicoEnviarLoteEventos.EnviarLoteEventos(iVesService.apiEnviaXML.EnviarLoteEventosRequest request) {
+        IntegradorService.apiEnviaXML.EnviarLoteEventosResponse IntegradorService.apiEnviaXML.ServicoEnviarLoteEventos.EnviarLoteEventos(IntegradorService.apiEnviaXML.EnviarLoteEventosRequest request) {
             return base.Channel.EnviarLoteEventos(request);
         }
         
         public System.Xml.Linq.XElement EnviarLoteEventos(System.Xml.Linq.XElement loteEventos) {
-            iVesService.apiEnviaXML.EnviarLoteEventosRequest inValue = new iVesService.apiEnviaXML.EnviarLoteEventosRequest();
-            inValue.Body = new iVesService.apiEnviaXML.EnviarLoteEventosRequestBody();
+            IntegradorService.apiEnviaXML.EnviarLoteEventosRequest inValue = new IntegradorService.apiEnviaXML.EnviarLoteEventosRequest();
+            inValue.Body = new IntegradorService.apiEnviaXML.EnviarLoteEventosRequestBody();
             inValue.Body.loteEventos = loteEventos;
-            iVesService.apiEnviaXML.EnviarLoteEventosResponse retVal = ((iVesService.apiEnviaXML.ServicoEnviarLoteEventos)(this)).EnviarLoteEventos(inValue);
+            IntegradorService.apiEnviaXML.EnviarLoteEventosResponse retVal = ((IntegradorService.apiEnviaXML.ServicoEnviarLoteEventos)(this)).EnviarLoteEventos(inValue);
             return retVal.Body.EnviarLoteEventosResult;
         }
         
         [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
-        System.Threading.Tasks.Task<iVesService.apiEnviaXML.EnviarLoteEventosResponse> iVesService.apiEnviaXML.ServicoEnviarLoteEventos.EnviarLoteEventosAsync(iVesService.apiEnviaXML.EnviarLoteEventosRequest request) {
+        System.Threading.Tasks.Task<IntegradorService.apiEnviaXML.EnviarLoteEventosResponse> IntegradorService.apiEnviaXML.ServicoEnviarLoteEventos.EnviarLoteEventosAsync(IntegradorService.apiEnviaXML.EnviarLoteEventosRequest request) {
             return base.Channel.EnviarLoteEventosAsync(request);
         }
         
-        public System.Threading.Tasks.Task<iVesService.apiEnviaXML.EnviarLoteEventosResponse> EnviarLoteEventosAsync(System.Xml.Linq.XElement loteEventos) {
-            iVesService.apiEnviaXML.EnviarLoteEventosRequest inValue = new iVesService.apiEnviaXML.EnviarLoteEventosRequest();
-            inValue.Body = new iVesService.apiEnviaXML.EnviarLoteEventosRequestBody();
+        public System.Threading.Tasks.Task<IntegradorService.apiEnviaXML.EnviarLoteEventosResponse> EnviarLoteEventosAsync(System.Xml.Linq.XElement loteEventos) {
+            IntegradorService.apiEnviaXML.EnviarLoteEventosRequest inValue = new IntegradorService.apiEnviaXML.EnviarLoteEventosRequest();
+            inValue.Body = new IntegradorService.apiEnviaXML.EnviarLoteEventosRequestBody();
             inValue.Body.loteEventos = loteEventos;
-            return ((iVesService.apiEnviaXML.ServicoEnviarLoteEventos)(this)).EnviarLoteEventosAsync(inValue);
+            return ((IntegradorService.apiEnviaXML.ServicoEnviarLoteEventos)(this)).EnviarLoteEventosAsync(inValue);
         }
     }
 }

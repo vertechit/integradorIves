@@ -6,8 +6,8 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProjectGuid>{6149ABAA-F033-4966-A40B-5CEA5B06AAF3}</ProjectGuid>
     <OutputType>WinExe</OutputType>
-    <RootNamespace>iVesService</RootNamespace>
-    <AssemblyName>iVesService</AssemblyName>
+    <RootNamespace>IntegradorService</RootNamespace>
+    <AssemblyName>IntegradorService</AssemblyName>
     <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
@@ -132,24 +132,24 @@
   <ItemGroup>
     <None Include="App.config" />
     <None Include="Connected Services\apiConsultaTXT\EsocialService.wsdl" />
-    <None Include="Connected Services\apiConsultaTXT\iVesService.apiConsultaTXT.consultaResponse.datasource">
+    <None Include="Connected Services\apiConsultaTXT\IntegradorService.apiConsultaTXT.consultaResponse.datasource">
       <DependentUpon>Reference.svcmap</DependentUpon>
     </None>
-    <None Include="Connected Services\apiConsultaTXT\iVesService.apiConsultaTXT.consultaResponse1.datasource">
+    <None Include="Connected Services\apiConsultaTXT\IntegradorService.apiConsultaTXT.consultaResponse1.datasource">
       <DependentUpon>Reference.svcmap</DependentUpon>
     </None>
-    <None Include="Connected Services\apiConsultaXML\iVesService.apiConsultaXML.ConsultarLoteEventosResponse.datasource">
+    <None Include="Connected Services\apiConsultaXML\IntegradorService.apiConsultaXML.ConsultarLoteEventosResponse.datasource">
       <DependentUpon>Reference.svcmap</DependentUpon>
     </None>
     <None Include="Connected Services\apiConsultaXML\ServicoConsultarLoteEventos.wsdl" />
     <None Include="Connected Services\apiEnviaTXT\EsocialService.wsdl" />
-    <None Include="Connected Services\apiEnviaTXT\iVesService.apiEnviaTXT.integraResponse.datasource">
+    <None Include="Connected Services\apiEnviaTXT\IntegradorService.apiEnviaTXT.integraResponse.datasource">
       <DependentUpon>Reference.svcmap</DependentUpon>
     </None>
-    <None Include="Connected Services\apiEnviaTXT\iVesService.apiEnviaTXT.integraResponse1.datasource">
+    <None Include="Connected Services\apiEnviaTXT\IntegradorService.apiEnviaTXT.integraResponse1.datasource">
       <DependentUpon>Reference.svcmap</DependentUpon>
     </None>
-    <None Include="Connected Services\apiEnviaXML\iVesService.apiEnviaXML.EnviarLoteEventosResponse.datasource">
+    <None Include="Connected Services\apiEnviaXML\IntegradorService.apiEnviaXML.EnviarLoteEventosResponse.datasource">
       <DependentUpon>Reference.svcmap</DependentUpon>
     </None>
     <None Include="Connected Services\apiEnviaXML\ServicoEnviarLoteEventos.wsdl" />
