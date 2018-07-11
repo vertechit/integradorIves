@@ -193,7 +193,7 @@
                 FontFamily="Century Gothic" 
                 FontSize="12" Click="BtnLog_Click"/>
             <Button x:Name="BtnConectarBanco" Content="Conectar Banco" Grid.Column="1" Margin="85,172,84,0" Grid.Row="1" VerticalAlignment="Top" Height="28" Click="BtnConectarBanco_Click"/>
-            <Label Content="Status banco:" Margin="129,110,48,0" Grid.Row="1" VerticalAlignment="Top" FontFamily="Century Gothic"/>
+            <Label Content="Status banco:" Margin="133,110,51,0" Grid.Row="1" VerticalAlignment="Top" FontFamily="Century Gothic"/>
             <TextBlock x:Name ="TxtStatusBanco" 
                 HorizontalAlignment="Left" 
                 Height="23" 
