@@ -38,7 +38,7 @@ namespace IntegradorApp.Telas
             Processos proc = new Processos();
             if(TxbHost.Text != "" && TxbPort.Text != "" && TxbServiceName.Text != "" && TxbUser.Text != "" && PwbSenha.Password != "" && CboDriver.SelectedIndex != -1)
             {
-                if(proc.VerificaConexaoBanco(TxbHost.Text, TxbPort.Text, TxbServiceName.Text, TxbUser.Text, PwbSenha.Password, CboDriver.SelectedIndex) == true)
+                if (proc.VerificaConexaoBanco(TxbHost.Text, TxbPort.Text, TxbServiceName.Text, TxbUser.Text, PwbSenha.Password, (string)CboDriver.SelectedItem) == true)
                 {
                     if (CboDriver.SelectedIndex == 0)
                     {

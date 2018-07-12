@@ -108,6 +108,7 @@
     <Compile Include="API\ConsultaXML.cs" />
     <Compile Include="API\CustomEndpointCallBehavior.cs" />
     <Compile Include="DAO\Armazenamento.cs" />
+    <Compile Include="DAO\Banco.cs" />
     <Compile Include="DAO\Log.cs" />
     <Compile Include="API\EnviaTXT.cs" />
     <Compile Include="API\EnviaXML.cs" />

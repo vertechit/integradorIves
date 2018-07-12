@@ -352,13 +352,15 @@ namespace IntegradorCore.Services
         {
             if (StaticParametros.GetIntegraBanco() == true)
             {
-                if (StaticParametersDB.GetDriver() == "oracle")
+                /*if (StaticParametersDB.GetDriver() == "oracle")
                     OracleDB.GetData(sessao);
 
                 else
                 {
                     SQLServerDB.GetData(sessao);
-                }
+                }*/
+
+                Banco.GetData(sessao);
             }
         }
 
@@ -366,7 +368,7 @@ namespace IntegradorCore.Services
         {
             if (StaticParametros.GetIntegraBanco() == true)
             {
-                if (StaticParametersDB.GetDriver() == "oracle")
+                /*if (StaticParametersDB.GetDriver() == "oracle")
                 {
                     return OracleDB.UpdateDB(prot);
                 }
@@ -374,7 +376,9 @@ namespace IntegradorCore.Services
                 else
                 {
                     return SQLServerDB.UpdateDB(prot);
-                }
+                }*/
+
+                return Banco.UpdateDB(prot);
 
             }
 

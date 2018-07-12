@@ -219,6 +219,18 @@ namespace IntegradorCore.Services
             }
         }
 
+        public void ExBanco(int codErro, string msg, string driver)
+        {
+            if (StaticParametros.GetTipoApp() == "Service")
+            {
+                proc.InsereLog(3, msg, " ", driver, " ", " ", codErro.ToString());
+            }
+            else
+            {
+                proc.InsereLog(3, msg, " ", driver, " ", " ", codErro.ToString());
+            }
+        }
+
         public void ExSecureFile(int codErro, string msg)
         {
 

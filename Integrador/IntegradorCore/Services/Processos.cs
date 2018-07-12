@@ -1053,20 +1053,21 @@ namespace IntegradorCore.Services
             return false;
         }
 
-        public bool VerificaConexaoBanco(string host, string port, string servicename, string user, string password, int driver)
+        public bool VerificaConexaoBanco(string host, string port, string servicename, string user, string password, string driver)
         {
-            var retorno = true;
+            return Banco.TesteConexao(host, port, servicename, user, password, driver);
 
-            if(driver == 0)
+
+            /*if(driver == 0)
             {
                 retorno = OracleDB.TesteConexao(host, port, servicename, user, password);
             }
             else
             {
                 retorno = SQLServerDB.TesteConexao(host, port, servicename, user, password);
-            }
-            
-            return retorno;
+            }*/
+
+            // retorno;
         }
 
         /*public void GerenciaServico(int action)
