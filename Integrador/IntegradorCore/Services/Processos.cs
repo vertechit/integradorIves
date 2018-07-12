@@ -260,6 +260,19 @@ namespace IntegradorCore.Services
             return nrRec;
         }
 
+        public string ExtraiNumProtGov(string xml)
+        {
+            var tagIni = "<protocoloEnvioLote>";
+            var tagFim = "</protocoloEnvioLote>";
+
+            int sti = xml.IndexOf(tagIni) + tagIni.Length;
+            int stf = xml.IndexOf(tagFim) - tagFim.Length;
+
+            var nrProtgov = xml.Substring(sti, stf + tagFim.Length - sti);
+
+            return nrProtgov;
+        }
+
         public string ExtraiErrosXmlDB(string xml)
         {
             var tagIni = "<ocorrencias>";

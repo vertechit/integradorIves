@@ -211,17 +211,12 @@ namespace IntegradorService
             Controle = 1;
             Log("Job Iniciado: ", 1);
             Log("Integração iniciada: ", 1);
-
             ActionIntegra();
 
-            //Log("Integração finalizado: ", 1);
-
             Thread.Sleep(60000);
-            Log("Consulta iniciada: ", 1);
 
-            //job.Consulta();
+            Log("Consulta iniciada: ", 1);
             ActionConsulta();
-            
             Log("Job finalizado: ", 1);
             Log("--", 2);
             Controle = 0;
