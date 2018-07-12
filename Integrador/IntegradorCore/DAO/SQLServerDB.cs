@@ -33,45 +33,39 @@ namespace IntegradorCore.DAO
         {
             var ProtocoloDAO = new ProtocoloDB_DAO(sessao);
 
-            try
+            using (SqlConnection conn = GetConnection())
             {
-                using (SqlConnection conn = GetConnection())
+
+                try
                 {
                     conn.Open();
 
-                    try
+                    using (var comm = new SqlCommand())
                     {
-                        using (var comm = new SqlCommand())
+                        comm.Connection = conn;
+                        comm.CommandText = "SELECT ID, XMLEVENTO FROM ZMDATVIVES_EVENTOS_ESOCIAL WHERE NROPROTOCOLO IS NULL";
+
+                        var adapter = new SqlDataAdapter(comm);
+                        var dataTable = new System.Data.DataTable();
+
+                        adapter.Fill(dataTable);
+
+                        foreach (System.Data.DataRow row in dataTable.Rows)
                         {
-                            comm.Connection = conn;
-                            comm.CommandText = "SELECT ID, XMLEVENTO FROM ZMDATVIVES_EVENTOS_ESOCIAL WHERE NROPROTOCOLO IS NULL";
-
-                            var adapter = new SqlDataAdapter(comm);
-                            var dataTable = new System.Data.DataTable();
-
-                            adapter.Fill(dataTable);
-
-                            foreach (System.Data.DataRow row in dataTable.Rows)
-                            {
-                                var prot = new Modelos.ProtocoloDB { idEvento = Convert.ToString(row["ID"]), xmlEvento = Convert.ToString(row["XMLEVENTO"]), driver = "sqlserver" };
-                                ProtocoloDAO.Salvar(prot);
-                            }
+                            var prot = new Modelos.ProtocoloDB { idEvento = Convert.ToString(row["ID"]), xmlEvento = Convert.ToString(row["XMLEVENTO"]), driver = "sqlserver" };
+                            ProtocoloDAO.Salvar(prot);
                         }
                     }
-                    catch (Exception ex)
-                    {
-                        ExceptionCore e = new ExceptionCore();
-                        e.ExDriverSQLServer(2, ex.Message);
-                    }
-
-
+                }
+                catch (Exception ex)
+                {
+                    ExceptionCore e = new ExceptionCore();
+                    e.ExDriverSQLServer(2, ex.Message);
+                }
+                finally
+                {
                     conn.Close();
                 }
-            }
-            catch (Exception ex)
-            {
-                ExceptionCore e = new ExceptionCore();
-                e.ExDriverSQLServer(1, ex.Message);
             }
         }
 
@@ -112,79 +106,73 @@ namespace IntegradorCore.DAO
             strconnection = strconnection.Replace("myUsername", user);
             strconnection = strconnection.Replace("myPassword", password);
 
-            try
+            var retorno = true;
+
+            using (SqlConnection conn = new SqlConnection(strconnection))
             {
-                using (SqlConnection conn = new SqlConnection(strconnection))
+                try
                 {
                     conn.Open();
-
+                }
+                catch (Exception e)
+                {
+                    MessageBox.Show(e.Message);
+                    retorno = false;
+                }
+                finally
+                {
                     conn.Close();
                 }
-
-                return true;
-            }
-            catch (Exception e)
-            {
-                MessageBox.Show(e.Message);
-                return false;
             }
 
+            return retorno;
         }
 
         public static bool UpdateDB(ProtocoloDB prot)
         {
+            bool retorno = true;
 
-            try
+            using (SqlConnection conn = GetConnection())
             {
-                using (SqlConnection conn = GetConnection())
+                try
                 {
                     conn.Open();
 
-                    try
+                    using (var comm = new SqlCommand())
                     {
-                        using (var comm = new SqlCommand())
+                        if (prot.nroRec == null || prot.nroRec == "")
                         {
-                            if (prot.nroRec == null || prot.nroRec == "")
-                            {
-                                var sql = CriaSQL(prot, 1);
-                                comm.Connection = conn;
-                                comm.CommandType = CommandType.Text;
-                                comm.CommandText = sql;
-                                comm.ExecuteNonQuery();
-                            }
-                            else
-                            {
-                                var sql = CriaSQL(prot, 2);
-                                comm.Connection = conn;
-                                comm.CommandType = CommandType.Text;
-                                comm.CommandText = sql;
-                                comm.ExecuteNonQuery();
-                            }
-
+                            var sql = CriaSQL(prot, 1);
+                            comm.Connection = conn;
+                            comm.CommandType = CommandType.Text;
+                            comm.CommandText = sql;
+                            comm.ExecuteNonQuery();
                         }
+                        else
+                        {
+                            var sql = CriaSQL(prot, 2);
+                            comm.Connection = conn;
+                            comm.CommandType = CommandType.Text;
+                            comm.CommandText = sql;
+                            comm.ExecuteNonQuery();
+                        }
+
                     }
-                    catch (Exception ex)
-                    {
-                        ExceptionCore e = new ExceptionCore();
-                        e.ExDriverSQLServer(2, ex.Message);
+                }
+                catch (Exception ex)
+                {
+                    ExceptionCore e = new ExceptionCore();
+                    e.ExDriverSQLServer(1, ex.Message);
 
-                        conn.Close();
-
-                        return false;
-                    }
-
+                    retorno = false;
+                }
+                finally
+                {
                     conn.Close();
-
-                    return true;
                 }
             }
-            catch (Exception ex)
-            {
-                ExceptionCore e = new ExceptionCore();
-                e.ExDriverSQLServer(1, ex.Message);
 
-                return false;
-            }
+            return retorno;
         }
     }
 }

@@ -31,50 +31,41 @@ namespace IntegradorCore.DAO
 
         public static void GetData(ISession sessao)
         {
-            //var sessao = AuxiliarNhibernate.AbrirSessao();
             var ProtocoloDAO = new ProtocoloDB_DAO(sessao);
 
-            try
+            using (OracleConnection conn = GetConnection())
             {
-                using (OracleConnection conn = GetConnection())
+                try
                 {
                     conn.Open();
 
-                    try
+                    using (var comm = new OracleCommand())
                     {
-                        using (var comm = new OracleCommand())
+                        comm.Connection = conn;
+                        comm.CommandText = "SELECT ID, XMLEVENTO FROM ZMDATVIVES_EVENTOS_ESOCIAL WHERE NROPROTOCOLO IS NULL";
+
+                        var adapter = new OracleDataAdapter(comm);
+                        var dataTable = new System.Data.DataTable();
+
+                        adapter.Fill(dataTable);
+
+                        foreach (System.Data.DataRow row in dataTable.Rows)
                         {
-                            comm.Connection = conn;
-                            comm.CommandText = "SELECT ID, XMLEVENTO FROM ZMDATVIVES_EVENTOS_ESOCIAL WHERE NROPROTOCOLO IS NULL";
-
-                            var adapter = new OracleDataAdapter(comm);
-                            var dataTable = new System.Data.DataTable();
-
-                            adapter.Fill(dataTable);
-
-                            foreach (System.Data.DataRow row in dataTable.Rows)
-                            {
-                                //Armazenamento.AddProtocoloDB(
-                                var prot = new Modelos.ProtocoloDB { idEvento = Convert.ToString(row["ID"]), xmlEvento = Convert.ToString(row["XMLEVENTO"]), driver = "oracle" };
-                                ProtocoloDAO.Salvar(prot);
-                                //);
-                            }
+                            var prot = new Modelos.ProtocoloDB { idEvento = Convert.ToString(row["ID"]), xmlEvento = Convert.ToString(row["XMLEVENTO"]), driver = "oracle" };
+                            ProtocoloDAO.Salvar(prot);
                         }
                     }
-                    catch (Exception ex)
-                    {
-                        ExceptionCore e = new ExceptionCore();
-                        e.ExDriverOracle(2, ex.Message);
-                    }
-                    
 
+                }
+                catch (Exception ex)
+                {
+                    ExceptionCore e = new ExceptionCore();
+                    e.ExDriverOracle(1, ex.Message);
+                }
+                finally
+                {
                     conn.Close();
                 }
-            }
-            catch (Exception ex)
-            {
-                ExceptionCore e = new ExceptionCore();
-                e.ExDriverOracle(1, ex.Message);
             }
         }
 
@@ -115,79 +106,74 @@ namespace IntegradorCore.DAO
             oradb = oradb.Replace("user1", user);
             oradb = oradb.Replace("password1", password);
 
-            try
+            var retorno = true;
+
+            using (OracleConnection conn = new OracleConnection(oradb))
             {
-                using (OracleConnection conn = new OracleConnection(oradb))
+                try
                 {
                     conn.Open();
-
+                }
+                catch (Exception e)
+                {
+                    MessageBox.Show(e.Message);
+                    retorno = false;
+                }
+                finally
+                {
                     conn.Close();
                 }
-
-                return true;
             }
-            catch(Exception e)
-            {
-                MessageBox.Show(e.Message);
-                return false;
-            }
-            
+            return retorno;
         }
 
         public static bool UpdateDB(ProtocoloDB prot)
         {
-            
-            try
+            var retorno = true;
+
+            using (OracleConnection conn = GetConnection())
             {
-                using (OracleConnection conn = GetConnection())
+                try
                 {
                     conn.Open();
 
-                    try
+                    using (var comm = new OracleCommand())
                     {
-                        using (var comm = new OracleCommand())
+                        if (prot.nroRec == null || prot.nroRec == "")
                         {
-                            if (prot.nroRec == null || prot.nroRec == "")
-                            {
-                                var sql = CriaSQL(prot, 1);
-                                comm.Connection = conn;
-                                comm.CommandType = CommandType.Text;
-                                comm.CommandText = sql;
-                                comm.ExecuteNonQuery();
-                            }
-                            else
-                            {
-                                var sql = CriaSQL(prot, 2);
-                                comm.Connection = conn;
-                                comm.CommandType = CommandType.Text;
-                                comm.CommandText = sql;
-                                comm.ExecuteNonQuery();
-                            }
-                            
+                            var sql = CriaSQL(prot, 1);
+                            comm.Connection = conn;
+                            comm.CommandType = CommandType.Text;
+                            comm.CommandText = sql;
+                            comm.ExecuteNonQuery();
                         }
+                        else
+                        {
+                            var sql = CriaSQL(prot, 2);
+                            comm.Connection = conn;
+                            comm.CommandType = CommandType.Text;
+                            comm.CommandText = sql;
+                            comm.ExecuteNonQuery();
+                        }
+
                     }
-                    catch (Exception ex)
-                    {
-                        ExceptionCore e = new ExceptionCore();
-                        e.ExDriverOracle(2, ex.Message);
 
-                        conn.Close();
+                }
+                catch (Exception ex)
+                {
+                    ExceptionCore e = new ExceptionCore();
+                    e.ExDriverOracle(1, ex.Message);
 
-                        return false;
-                    }
+                    retorno = false;
+                }
 
+                finally
+                {
                     conn.Close();
-
-                    return true;
                 }
             }
-            catch(Exception ex)
-            {
-                ExceptionCore e = new ExceptionCore();
-                e.ExDriverOracle(1, ex.Message);
 
-                return false;
-            }
+            return retorno;
         }
     }
 }

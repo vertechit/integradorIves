@@ -218,39 +218,6 @@ namespace IntegradorCore.Services
             sessao.Close();
         }
 
-        public void SelectDriverToGetXMLOnDataBase(ISession sessao)
-        {
-            if (StaticParametros.GetIntegraBanco() == true)
-            {
-                if (StaticParametersDB.GetDriver() == "oracle")
-                    OracleDB.GetData(sessao);
-
-                else
-                {
-                    SQLServerDB.GetData(sessao);
-                }
-            }
-        }
-
-        public bool SelectDriverToUpdate(ProtocoloDB prot)
-        {
-            if (StaticParametros.GetIntegraBanco() == true)
-            {
-                if (StaticParametersDB.GetDriver() == "oracle")
-                {
-                    return OracleDB.UpdateDB(prot);
-                }
-
-                else
-                {
-                    return SQLServerDB.UpdateDB(prot);
-                }
-
-            }
-
-            return false;
-        }
-
         public void EnviaDB()
         {
             var sessao = AuxiliarNhibernate.AbrirSessao();
@@ -379,6 +346,39 @@ namespace IntegradorCore.Services
             }
 
             sessao.Close();
+        }
+
+        public void SelectDriverToGetXMLOnDataBase(ISession sessao)
+        {
+            if (StaticParametros.GetIntegraBanco() == true)
+            {
+                if (StaticParametersDB.GetDriver() == "oracle")
+                    OracleDB.GetData(sessao);
+
+                else
+                {
+                    SQLServerDB.GetData(sessao);
+                }
+            }
+        }
+
+        public bool SelectDriverToUpdate(ProtocoloDB prot)
+        {
+            if (StaticParametros.GetIntegraBanco() == true)
+            {
+                if (StaticParametersDB.GetDriver() == "oracle")
+                {
+                    return OracleDB.UpdateDB(prot);
+                }
+
+                else
+                {
+                    return SQLServerDB.UpdateDB(prot);
+                }
+
+            }
+
+            return false;
         }
     }
 }
