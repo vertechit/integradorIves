@@ -159,12 +159,12 @@ namespace IntegradorCore.DAO
                 {
                     conn.Open();
 
-                    using (var comm = GetCommand()) //funcion here
+                    using (var comm = GetCommand())
                     {
                         comm.Connection = conn;
                         comm.CommandText = "SELECT ID, XMLEVENTO FROM ZMDATVIVES_EVENTOS_ESOCIAL WHERE NROPROTOCOLO IS NULL";
 
-                        var adapter = GetAdapter(comm);//new SqlDataAdapter(comm); //funcion here
+                        var adapter = GetAdapter(comm);
                         var dataTable = new System.Data.DataTable();
 
                         adapter.Fill(dataTable);
