@@ -62,7 +62,7 @@
             <TextBlock Name ="txtFolderIni" 
                        HorizontalAlignment="Left" 
                        Height="23" 
-                       Margin="214,64,0,0" 
+                       Margin="218,64,0,0" 
                        Grid.Row="1" 
                        FontFamily="Century Gothic" 
                        TextWrapping="Wrap" 
@@ -129,7 +129,7 @@
             <TextBlock x:Name ="txtFolderToken" 
                        HorizontalAlignment="Left" 
                        Height="23" 
-                       Margin="214,3,0,0" 
+                       Margin="218,3,0,0" 
                        Grid.Row="1" 
                        TextWrapping="Wrap" 
                        VerticalAlignment="Top" 
@@ -193,11 +193,11 @@
                 FontFamily="Century Gothic" 
                 FontSize="12" Click="BtnLog_Click"/>
             <Button x:Name="BtnConectarBanco" Content="Conectar Banco" Grid.Column="1" Margin="85,172,84,0" Grid.Row="1" VerticalAlignment="Top" Height="28" Click="BtnConectarBanco_Click"/>
-            <Label Content="Status banco:" Margin="133,110,51,0" Grid.Row="1" VerticalAlignment="Top" FontFamily="Century Gothic"/>
+            <Label Content="Status banco:" Margin="128,110,49,0" Grid.Row="1" VerticalAlignment="Top" FontFamily="Century Gothic"/>
             <TextBlock x:Name ="TxtStatusBanco" 
                 HorizontalAlignment="Left" 
                 Height="23" 
-                Margin="216,115,0,0" 
+                Margin="220,115,0,0" 
                 Grid.Row="1" 
                 FontFamily="Century Gothic" 
                 TextWrapping="Wrap" 
