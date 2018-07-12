@@ -23,9 +23,6 @@ namespace IntegradorCore.Services
         ConsultaTXT apiConTXT = new ConsultaTXT(StaticParametros.GetGrupo(), StaticParametros.GetToken());
         ConsultaXML apiConXML = new ConsultaXML(StaticParametros.GetGrupo(), StaticParametros.GetToken());
         ExceptionCore ex = new ExceptionCore();
-        //ISession sessao = AuxiliarNhibernate.AbrirSessao();
-
-
 
         public void Envia()
         {

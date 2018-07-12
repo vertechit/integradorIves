@@ -93,7 +93,7 @@ namespace IntegradorService
 
                 try
                 {
-                    StaticParametersDB.SetDriver("oracle");
+                    StaticParametersDB.SetDriver(retdb.Driver);
                     StaticParametersDB.SetHost(retdb.Host);
                     StaticParametersDB.SetPort(retdb.Port);
                     StaticParametersDB.SetServiceName(retdb.ServiceName);
@@ -129,7 +129,7 @@ namespace IntegradorService
 
         protected override void OnStart(string[] args)
         {
-            //System.Diagnostics.Debugger.Launch();
+            System.Diagnostics.Debugger.Launch();
 
             DirectoryInfo di = new DirectoryInfo("c:\\vch\\log");
 
