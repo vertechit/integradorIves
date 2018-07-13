@@ -1,0 +1,166 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using IntegradorCore.Modelos;
+
+namespace IntegradorCore.Services
+{
+    public static class StaticParametros
+    {
+        #region Atributos
+        //Todos parametros são obrigatorios para o pleno funcionamento do app e serviço
+        private static string DirArq = null; //Diretorio de arquivos que serão integrados/Consultados
+        private static string DirFim = null; //Diretorio onde será movido os arquivos já enviados e consultados
+        private static string DirToke = null; //Diretorio onde está localizado o token
+        private static long Grupo = 0; //Deve ser definido com a leitura do arquivo token
+        private static string Token = null; //Deve ser definido com a leitura do arquivo token
+        private static string TipoApp = null; //Define se está executando um app ou um serviço
+        private static long Ambiente = 0; //Ambiente de envio do evento definido pelo usuário
+        private static bool Base = false; //Base de dados definida pelo usuário
+        private static bool IntegraBanco = false;
+        #endregion
+
+        #region Teste
+        private static ParamVPGP VPGP;
+        private static ParamVPGT VPGT;
+        private static ParamVTGT VTGT;
+        private static string DirOrigem = null;
+
+        public static string GetDirOrigem()
+        {
+            return DirOrigem;
+        }
+
+        public static void SetDirOrigem(string dir)
+        {
+            DirOrigem = dir;
+        }
+
+        public static ParamVPGP GetVPGP()
+        {
+            return VPGP;
+        }
+
+        public static void SetVPGP()
+        {
+            VPGP = new ParamVPGP(string.Concat(GetDirOrigem(), "\\", "VPGP"));
+        }
+
+        public static ParamVPGT GetVPGT()
+        {
+            return VPGT;
+        }
+
+        public static void SetVPGT()
+        {
+            VPGT = new ParamVPGT(string.Concat(GetDirOrigem(), "\\", "VPGT"));
+        }
+
+        public static ParamVTGT GetVTGT()
+        {
+            return VTGT;
+        }
+
+        public static void SetVTGT()
+        {
+            VTGT = new ParamVTGT(string.Concat(GetDirOrigem(), "\\", "VTGT"));
+        }
+        #endregion
+
+        #region gets/sets
+
+        public static bool GetIntegraBanco()
+        {
+            return IntegraBanco;
+        }
+
+        public static void SetIntegraBanco(bool integraBanco)
+        {
+            IntegraBanco = integraBanco;
+        }
+
+        public static bool GetBase()
+        {
+            return Base;
+        }
+
+        public static void SetBase(bool basea)
+        {
+            Base = basea;
+        }
+
+        public static long GetAmbiente()
+        {
+            return Ambiente;
+        }
+
+        public static void SetAmbiente(long ambiente)
+        {
+            Ambiente = ambiente;
+        }
+
+        public static string GetTipoApp()
+        {
+            return TipoApp;
+        }
+
+        public static void SetTipoApp(string tipo)
+        {
+            TipoApp = tipo;
+        }
+
+        public static string GetDirToke()
+        {
+            return DirToke;
+        }
+
+        public static void SetDirToke(string dir)
+        {
+            DirToke = dir;
+        }
+
+        public static string GetDirFim()
+        {
+            return DirFim;
+        }
+
+        public static void SetDirFim(string dir)
+        {
+            DirFim = dir;
+        }
+
+        public static string GetDirArq()
+        {
+            return DirArq;
+        }
+
+        public static void SetDirArq(string dir)
+        {
+            DirArq = dir;
+        }
+
+        public static long GetGrupo()
+        {
+            return Grupo;
+        }
+
+        public static void SetGrupo(long grupo)
+        {
+            Grupo = grupo;
+        }
+
+        public static string GetToken()
+        {
+            return Token;
+        }
+
+        public static void SetToken(string token)
+        {
+            Token = token;
+        }
+
+        #endregion
+    }
+}
