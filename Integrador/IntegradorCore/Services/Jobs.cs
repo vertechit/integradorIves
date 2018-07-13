@@ -186,10 +186,9 @@ namespace IntegradorCore.Services
                         {
                             if(retorno != "")
                             {
-                                proc.GeraLogConsultaXML(item, retorno, prot.NroProtocolo);
-
                                 if (proc.VerificaConsultaXML(retorno) == true)
                                 {
+                                    proc.GeraLogConsultaXML(item, retorno, prot.NroProtocolo);
                                     proc.MoverConsultado(item);
                                     proc.RemoveProtocolo(prot, sessao);//ProtocoloDAO.Remover(prot);//Armazenamento.DeleteProtocolo(item);
                                 }
