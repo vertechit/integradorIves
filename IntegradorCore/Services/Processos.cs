@@ -1186,5 +1186,38 @@ namespace IntegradorCore.Services
 
         }
 
+        public bool DefineBaseEnvioDB(string xml)
+        {
+            try
+            {
+                int sti = 0;
+                int stf = 0;
+
+                string tagIni = "<tpAmb>";
+                string tagFim = "</tpAmb>";
+
+                sti = xml.IndexOf(tagIni);
+                stf = xml.IndexOf(tagFim);
+
+                var ambiente = xml.Substring(sti, stf + tagFim.Length - sti);
+
+                if (ambiente == "1")
+                {
+                    return false;
+                }
+                else
+                {
+                    return true;
+                }
+            }
+            catch (Exception)
+            {
+
+            }
+
+            return true;
+            
+        }
+
     }
 }

@@ -33,15 +33,29 @@ namespace IntegradorCore.DAO
             }
             else
             {
-                var strconnection = "Data Source=host,port;Network Library=DBMSSOCN;Initial Catalog = myDataBase; User ID = myUsername; Password = myPassword;";
+                if (StaticParametersDB.GetPort() != "0")
+                {
+                    var strconnection = "Data Source=host,port;Network Library=DBMSSOCN;Initial Catalog = myDataBase; User ID = myUsername; Password = myPassword;";
 
-                strconnection = strconnection.Replace("host", StaticParametersDB.GetHost());
-                strconnection = strconnection.Replace("port", StaticParametersDB.GetPort());
-                strconnection = strconnection.Replace("myDataBase", StaticParametersDB.GetServiceName());
-                strconnection = strconnection.Replace("myUsername", StaticParametersDB.GetUser());
-                strconnection = strconnection.Replace("myPassword", StaticParametersDB.GetPassword());
+                    strconnection = strconnection.Replace("host", StaticParametersDB.GetHost());
+                    strconnection = strconnection.Replace("port", StaticParametersDB.GetPort());
+                    strconnection = strconnection.Replace("myDataBase", StaticParametersDB.GetServiceName());
+                    strconnection = strconnection.Replace("myUsername", StaticParametersDB.GetUser());
+                    strconnection = strconnection.Replace("myPassword", StaticParametersDB.GetPassword());
 
-                return new SqlConnection(strconnection);
+                    return new SqlConnection(strconnection);
+                }
+                else
+                {
+                    var strconnection = "Server=myInstanceName;Database=myDataBase;Trusted_Connection=True;User Id=myUsername;Password = myPassword; ";
+
+                    strconnection = strconnection.Replace("myInstanceName", StaticParametersDB.GetHost());
+                    //strconnection = strconnection.Replace("port", port);
+                    strconnection = strconnection.Replace("myDataBase", StaticParametersDB.GetServiceName());
+                    strconnection = strconnection.Replace("myUsername", StaticParametersDB.GetUser());
+                    strconnection = strconnection.Replace("myPassword", StaticParametersDB.GetPassword());
+                    return new SqlConnection(strconnection);
+                }
             }
             
         }
@@ -62,15 +76,30 @@ namespace IntegradorCore.DAO
             }
             else
             {
-                var strconnection = "Data Source=host,port;Network Library=DBMSSOCN;Initial Catalog = myDataBase; User ID = myUsername; Password = myPassword;";
+                if(port != "0")
+                {
+                    var strconnection = "Data Source=host,port;Network Library=DBMSSOCN;Initial Catalog = myDataBase; User ID = myUsername; Password = myPassword;";
 
-                strconnection = strconnection.Replace("host", host);
-                strconnection = strconnection.Replace("port", port);
-                strconnection = strconnection.Replace("myDataBase", servicename);
-                strconnection = strconnection.Replace("myUsername", user);
-                strconnection = strconnection.Replace("myPassword", password);
+                    strconnection = strconnection.Replace("host", host);
+                    strconnection = strconnection.Replace("port", port);
+                    strconnection = strconnection.Replace("myDataBase", servicename);
+                    strconnection = strconnection.Replace("myUsername", user);
+                    strconnection = strconnection.Replace("myPassword", password);
 
-                return new SqlConnection(strconnection);
+                    return new SqlConnection(strconnection);
+                }
+                else
+                {
+                    var strconnection = "Server=myInstanceName;Database=myDataBase;Trusted_Connection=True;User Id=myUsername;Password = myPassword; ";
+
+                    strconnection = strconnection.Replace("myInstanceName", host);
+                    //strconnection = strconnection.Replace("port", port);
+                    strconnection = strconnection.Replace("myDataBase", servicename);
+                    strconnection = strconnection.Replace("myUsername", user);
+                    strconnection = strconnection.Replace("myPassword", password);
+
+                    return new SqlConnection(strconnection);
+                }
             }
         }
 
@@ -168,10 +197,11 @@ namespace IntegradorCore.DAO
                         var dataTable = new System.Data.DataTable();
 
                         adapter.Fill(dataTable);
-
+                        Processos proc = new Processos();
                         foreach (System.Data.DataRow row in dataTable.Rows)
                         {
-                            var prot = new Modelos.ProtocoloDB { idEvento = Convert.ToString(row["ID"]), xmlEvento = Convert.ToString(row["XMLEVENTO"]), driver = StaticParametersDB.GetDriver() };
+                            var Base = proc.DefineBaseEnvioDB(Convert.ToString(row["XMLEVENTO"]));
+                            var prot = new ProtocoloDB { idEvento = Convert.ToString(row["ID"]), xmlEvento = Convert.ToString(row["XMLEVENTO"]), driver = StaticParametersDB.GetDriver(), baseEnv = Convert.ToString(Base) };
                             ProtocoloDAO.Salvar(prot);
                         }
                     }
