@@ -224,21 +224,23 @@ namespace IntegradorCore.Services
 
             SelectDriverToGetXMLOnDataBase(sessao);
 
-            EnviaXML apiXMLTeste = new EnviaXML(StaticParametros.GetGrupo(), StaticParametros.GetToken(), true);
+            //EnviaXML apiXMLTeste = new EnviaXML(StaticParametros.GetGrupo(), StaticParametros.GetToken(), true);
             var lista = ProtocoloDAO.BuscaEnvio();//Armazenamento.GetProtocolosDBEnv();
 
             if (lista.Count > 0)
             {
                 foreach (var item in lista)
                 {
-                    if(item.driver == StaticParametersDB.GetDriver())
+                    var apiXMLTeste = new EnviaXML(StaticParametros.GetGrupo(), StaticParametros.GetToken(), Convert.ToBoolean(item.baseEnv));
+
+                    if (item.driver == StaticParametersDB.GetDriver())
                     {
                         var xmlString = proc.MontaXMLDB(item.idEvento, item.xmlEvento);
                         var response = apiXMLTeste.SendXML(xmlString);
                         if (proc.VerificaResponseXML(response) == true)
                         {
                             proc.SalvaProtocoloXML(item.idEvento, response, 2, sessao);
-                            var nprot = new ProtocoloDB { idEvento = item.idEvento, baseEnv = Convert.ToString(true), dtenvio = DateTime.Now };
+                            var nprot = new ProtocoloDB { idEvento = item.idEvento, dtenvio = DateTime.Now };
                             ProtocoloDAO.Salvar(nprot);
                             proc.GeraLogEnviaXML(item.idEvento, "Foi enviado com sucesso!");
                         }

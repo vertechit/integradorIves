@@ -197,10 +197,11 @@ namespace IntegradorCore.DAO
                         var dataTable = new System.Data.DataTable();
 
                         adapter.Fill(dataTable);
-
+                        Processos proc = new Processos();
                         foreach (System.Data.DataRow row in dataTable.Rows)
                         {
-                            var prot = new Modelos.ProtocoloDB { idEvento = Convert.ToString(row["ID"]), xmlEvento = Convert.ToString(row["XMLEVENTO"]), driver = StaticParametersDB.GetDriver() };
+                            var Base = proc.DefineBaseEnvioDB(Convert.ToString(row["XMLEVENTO"]));
+                            var prot = new ProtocoloDB { idEvento = Convert.ToString(row["ID"]), xmlEvento = Convert.ToString(row["XMLEVENTO"]), driver = StaticParametersDB.GetDriver(), baseEnv = Convert.ToString(Base) };
                             ProtocoloDAO.Salvar(prot);
                         }
                     }
