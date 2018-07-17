@@ -118,13 +118,16 @@
     <Compile Include="Mapeamento\LogConsultaMapa.cs" />
     <Compile Include="Mapeamento\LogEnvioMapa.cs" />
     <Compile Include="Mapeamento\LogErroMapa.cs" />
+    <Compile Include="Mapeamento\LogInternoMapa.cs" />
     <Compile Include="Mapeamento\ParametroDBMapa.cs" />
     <Compile Include="Mapeamento\ParametroMapa.cs" />
     <Compile Include="Mapeamento\ProtocoloDBMapa.cs" />
     <Compile Include="Mapeamento\ProtocoloMapa.cs" />
+    <Compile Include="Modelos\ErroModel.cs" />
     <Compile Include="Modelos\LogConsulta.cs" />
     <Compile Include="Modelos\LogEnvia.cs" />
     <Compile Include="Modelos\LogErros.cs" />
+    <Compile Include="Modelos\LogInterno.cs" />
     <Compile Include="Modelos\Parametro.cs" />
     <Compile Include="Modelos\ParametroDB.cs" />
     <Compile Include="Modelos\ParamVPGP.cs" />
@@ -136,6 +139,7 @@
     <Compile Include="NHibernate\DAO\LogConsultaDAO.cs" />
     <Compile Include="NHibernate\DAO\LogEnvioDAO.cs" />
     <Compile Include="NHibernate\DAO\LogErroDAO.cs" />
+    <Compile Include="NHibernate\DAO\LogInternoDAO.cs" />
     <Compile Include="NHibernate\DAO\ParametroDAO.cs" />
     <Compile Include="NHibernate\DAO\ParametroDB_DAO.cs" />
     <Compile Include="NHibernate\DAO\ProtocoloDAO.cs" />

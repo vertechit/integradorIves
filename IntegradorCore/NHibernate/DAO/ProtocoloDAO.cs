@@ -21,9 +21,10 @@ namespace IntegradorCore.NHibernate.DAO
 
         }
 
-        public Protocolo BuscarPorNomeArquivo(string nomeArquivo)
+        public Protocolo BuscarPorNomeArquivo(string nomeArquivo, string Base, long? Ambiente)
         {
-            criterios.Add(Restrictions.Eq("NomeArquivo", nomeArquivo));
+            ICriterion criterio1 = Restrictions.And(Restrictions.Eq("Base", Base), Restrictions.Eq("Ambiente", Ambiente));
+            criterios.Add(Restrictions.And(criterio1, Restrictions.Eq("NomeArquivo", nomeArquivo)));
             return criterios.UniqueResult<Protocolo>();
         }
 
@@ -36,7 +37,7 @@ namespace IntegradorCore.NHibernate.DAO
         {
             try
             {
-                var prot = BuscarPorNomeArquivo(protocolo.NomeArquivo);
+                var prot = BuscarPorNomeArquivo(protocolo.NomeArquivo, protocolo.Base, protocolo.Ambiente);
 
                 if (prot.NroProtocolo != null)
                 {

@@ -62,7 +62,7 @@ namespace IntegradorCore.Services
                     }
                     else
                     {
-                        proc.GeraLogIntegra(item, "É invalido");
+                        proc.GeraLogIntegra(item, "O arquivo está com o formato inválido");
                     }
                 }
             }
@@ -128,30 +128,34 @@ namespace IntegradorCore.Services
 
                     if (result == true)
                     {
-                        try
+                        if(prot.Ambiente == StaticParametros.GetAmbiente() && Convert.ToBoolean(prot.Base) == StaticParametros.GetBase())
                         {
-                            //var protocolo = Armazenamento.GetProtocolo(item);
-                            var retorno = apiConTXT.ConsultaProtocolo(prot, item);
-
-                            proc.GeraLogConsulta(item, retorno.consultaProtocolo.identificador.protocolo.ToString()
-                                                    , Convert.ToString(retorno.consultaProtocolo.status.descResposta)
-                                                    , Convert.ToInt32(retorno.consultaProtocolo.status.cdResposta));
-
-                            //processo.GeraLogDetalhado(filename, Response);
-
-                            //proc.CreateFileRetornoTXT(item);
-
-                            if (retorno.consultaProtocolo.status.cdResposta == 3 || retorno.consultaProtocolo.status.cdResposta == 2)
+                            try
                             {
-                                proc.MoverConsultado(item);
-                                proc.RemoveProtocolo(prot, sessao);//ProtocoloDAO.Remover(prot);//Armazenamento.DeleteProtocolo(item);
-                            }
+                                //var protocolo = Armazenamento.GetProtocolo(item);
+                                var retorno = apiConTXT.ConsultaProtocolo(prot, item);
 
+                                proc.GeraLogConsulta(item, retorno.consultaProtocolo.identificador.protocolo.ToString()
+                                                        , Convert.ToString(retorno.consultaProtocolo.status.descResposta)
+                                                        , Convert.ToInt32(retorno.consultaProtocolo.status.cdResposta));
+
+                                //processo.GeraLogDetalhado(filename, Response);
+
+                                //proc.CreateFileRetornoTXT(item);
+
+                                if (retorno.consultaProtocolo.status.cdResposta == 3 || retorno.consultaProtocolo.status.cdResposta == 2)
+                                {
+                                    proc.MoverConsultado(item);
+                                    proc.RemoveProtocolo(prot, sessao);//ProtocoloDAO.Remover(prot);//Armazenamento.DeleteProtocolo(item);
+                                }
+
+                            }
+                            catch (Exception e)
+                            {
+                                ex.Exception(e.Message, item, "ConsultaTXT", "");
+                            }
                         }
-                        catch (Exception e)
-                        {
-                            ex.Exception(e.Message, item, "ConsultaTXT", "");
-                        }
+                        
                     }
 
 
@@ -179,28 +183,28 @@ namespace IntegradorCore.Services
                     if (result == true)
                     {
                         //var protocolo = Armazenamento.GetProtocolo(item);
-
-                        var retorno = apiConXML.ConsultaProtocolo(prot.NroProtocolo, prot.Base, item);
-
-                        try
+                        if (prot.Ambiente == StaticParametros.GetAmbiente() && Convert.ToBoolean(prot.Base) == StaticParametros.GetBase())
                         {
-                            if(retorno != "")
+                            var retorno = apiConXML.ConsultaProtocolo(prot.NroProtocolo, prot.Base, item);
+
+                            try
                             {
-                                if (proc.VerificaConsultaXML(retorno) == true)
+                                if (retorno != "")
                                 {
-                                    proc.GeraLogConsultaXML(item, retorno, prot.NroProtocolo);
-                                    proc.MoverConsultado(item);
-                                    proc.RemoveProtocolo(prot, sessao);//ProtocoloDAO.Remover(prot);//Armazenamento.DeleteProtocolo(item);
+                                    if (proc.VerificaConsultaXML(retorno) == true)
+                                    {
+                                        proc.GeraLogConsultaXML(item, retorno, prot.NroProtocolo);
+                                        proc.MoverConsultado(item);
+                                        proc.RemoveProtocolo(prot, sessao);//ProtocoloDAO.Remover(prot);//Armazenamento.DeleteProtocolo(item);
+                                    }
                                 }
+
                             }
-                            
+                            catch (Exception e)
+                            {
+                                ex.Exception(e.Message, item, "Consulta", "Tente consultar novamente em alguns minutos");
+                            }
                         }
-                        catch (Exception e)
-                        {
-                            ex.Exception(e.Message, item, "Consulta", "Tente consultar novamente em alguns minutos");
-                        }
-
-
                     }
                 }
             }

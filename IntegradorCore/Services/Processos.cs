@@ -397,7 +397,7 @@ namespace IntegradorCore.Services
         public Protocolo RetornaProtocolo(string arq, ISession sessao)
         {
             var ProtocoloDAO = new ProtocoloDAO(sessao);
-            var prot = ProtocoloDAO.BuscarPorNomeArquivo(arq);
+            var prot = ProtocoloDAO.BuscarPorNomeArquivo(arq, Convert.ToString(StaticParametros.GetBase()), StaticParametros.GetAmbiente());
 
             return prot;
         }
@@ -415,7 +415,7 @@ namespace IntegradorCore.Services
 
             bool result = false;
             var ProtocoloDAO = new ProtocoloDAO(sessao);
-            var prot = ProtocoloDAO.BuscarPorNomeArquivo(arq);
+            var prot = ProtocoloDAO.BuscarPorNomeArquivo(arq, Convert.ToString(StaticParametros.GetBase()), StaticParametros.GetAmbiente());
             
             try
             {
@@ -427,7 +427,8 @@ namespace IntegradorCore.Services
 
             if (result == true)
             {
-                return false;
+                if(prot.Ambiente == StaticParametros.GetAmbiente() && Convert.ToBoolean(prot.Base) == StaticParametros.GetBase())
+                    return false;
             }
 
             return true;
@@ -440,7 +441,7 @@ namespace IntegradorCore.Services
 
             bool result = false;
             var ProtocoloDAO = new ProtocoloDAO(sessao);
-            var prot = ProtocoloDAO.BuscarPorNomeArquivo(arq);
+            var prot = ProtocoloDAO.BuscarPorNomeArquivo(arq, Convert.ToString(StaticParametros.GetBase()), StaticParametros.GetAmbiente());
             try
             {
                 var a = prot.NroProtocolo;
@@ -451,7 +452,8 @@ namespace IntegradorCore.Services
 
             if (result == true)
             {
-                return 1;
+                if(Convert.ToBoolean(prot.Base) == StaticParametros.GetBase() && prot.Ambiente == StaticParametros.GetAmbiente())
+                    return 1;
             }
 
             int tam = 0;
@@ -1184,6 +1186,44 @@ namespace IntegradorCore.Services
                 });
             }
 
+        }
+
+        public void InsereLogInterno(string servico, Exception ex, string codErro)
+        {
+            var sessao = AuxiliarNhibernate.AbrirSessao();
+            var LogInternoDAO = new LogInternoDAO(sessao);
+            var msg = " ";
+            var innerex = " ";
+            var stackTrace = " ";
+            var source = " ";
+
+            if(ex.Message != null)
+            {
+                msg = ex.Message;
+            }
+
+            if(ex.InnerException.Message != null)
+            {
+                innerex = ex.InnerException.Message;
+                source = ex.InnerException.Source;
+            }
+
+            else
+            {
+                source = ex.Source;
+            }
+
+            if(ex.StackTrace.ToString() != null)
+            {
+                stackTrace = ex.StackTrace.ToString();
+                if(innerex != " ")
+                {
+                    stackTrace = stackTrace + "\n\n\n"+ ex.InnerException.StackTrace.ToString();
+                }
+            }
+
+            var log = new LogInterno { Servico = servico, CodErro = codErro, Data = DateTime.Now, Mensagem = msg, InnerException = innerex, StackTrace = stackTrace, Source = source, Base = StaticParametros.GetBase(), Ambiente = StaticParametros.GetAmbiente() };
+            LogInternoDAO.Salvar(log);
         }
 
         public bool DefineBaseEnvioDB(string xml)
