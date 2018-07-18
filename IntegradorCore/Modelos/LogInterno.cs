@@ -19,7 +19,7 @@ namespace IntegradorCore.Modelos
         public virtual long Ambiente { get; set; }
         public virtual string Xml { get; set; }
         public virtual string Identificacao { get; set; }
-        public virtual DateTime Data { get; set; }
+        public virtual string Data { get; set; }
         
     }
 }

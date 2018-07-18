@@ -1260,8 +1260,8 @@ namespace IntegradorCore.Services
                     stackTrace = stackTrace + "\n\n\n"+ ex.InnerException.StackTrace.ToString();
                 }
             }
-
-            var log = new LogInterno { Servico = servico, CodErro = codErro, Data = DateTime.Now, Mensagem = msg, InnerException = innerex, StackTrace = stackTrace
+            var data = RetornaData();
+            var log = new LogInterno { Servico = servico, CodErro = codErro, Data = data[0], Mensagem = msg, InnerException = innerex, StackTrace = stackTrace
                 , Source = source, Base = StaticParametros.GetBase(), Ambiente = StaticParametros.GetAmbiente(), Identificacao = id, Xml = xml };
             LogInternoDAO.Salvar(log);
         }

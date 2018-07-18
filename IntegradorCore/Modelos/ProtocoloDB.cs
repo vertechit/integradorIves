@@ -19,8 +19,8 @@ namespace IntegradorCore.Modelos
         public virtual string baseEnv { get; set; }
         public virtual string erros { get; set; }
         public virtual bool consultado { get; set; }
-        public virtual DateTime dtenvio { get; set; }
-        public virtual DateTime dtconsulta { get; set; }
+        public virtual string dtenvio { get; set; }
+        public virtual string dtconsulta { get; set; }
         public virtual string nroProtGov { get; set; }
     }
 }

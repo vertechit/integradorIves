@@ -239,7 +239,8 @@ namespace IntegradorCore.Services
                         if (proc.VerificaResponseXML(response) == true)
                         {
                             proc.SalvaProtocoloXML(item.idEvento, response, 2, sessao);
-                            var nprot = new ProtocoloDB { idEvento = item.idEvento, dtenvio = DateTime.Now };
+                            var data = proc.RetornaData();
+                            var nprot = new ProtocoloDB { idEvento = item.idEvento, dtenvio = data[0] };
                             ProtocoloDAO.Salvar(nprot);
                             proc.GeraLogEnviaXML(item.idEvento, "Foi enviado com sucesso!");
                         }
@@ -282,14 +283,16 @@ namespace IntegradorCore.Services
                                     var xmlRec = proc.ExtraiXMLRecibo(retorno);
                                     var nrRec = proc.ExtraiNumRecibo(retorno);
                                     var nrProtgov = proc.ExtraiNumProtGov(xmlRec);
-                                    var prot = new ProtocoloDB { idEvento = item.idEvento, xmlRec = xmlRec, nroRec = nrRec, consultado = true, dtconsulta = DateTime.Now, nroProtGov = nrProtgov };
+                                    var data = proc.RetornaData();
+                                    var prot = new ProtocoloDB { idEvento = item.idEvento, xmlRec = xmlRec, nroRec = nrRec, consultado = true, dtconsulta = data[0], nroProtGov = nrProtgov };
                                     ProtocoloDAO.Salvar(prot);
                                     //Armazenamento.AddProtocoloDB(new ProtocoloDB { idEvento = item.idEvento, xmlRec = xmlRec, nroRec = nrRec, consultado = true });
                                 }
                                 else
                                 {
                                     var erros = proc.ExtraiErrosXmlDB(retorno);
-                                    var prot = new ProtocoloDB { idEvento = item.idEvento, erros = erros, consultado = true, dtconsulta = DateTime.Now };
+                                    var data = proc.RetornaData();
+                                    var prot = new ProtocoloDB { idEvento = item.idEvento, erros = erros, consultado = true, dtconsulta = data[0] };
                                     ProtocoloDAO.Salvar(prot);
                                     //Armazenamento.AddProtocoloDB(new ProtocoloDB { idEvento = item.idEvento, erros = erros, consultado = true });
                                 }
