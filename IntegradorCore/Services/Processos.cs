@@ -1325,11 +1325,13 @@ namespace IntegradorCore.Services
             try
             {
                 var version = retorno.CurrentVersion;
-                sysinfoDAO.Salvar(new SysInfo { Id = 1, CurrentVersion = "18.7.4", NeedUpdate = false });
             }
             catch (Exception)
             {
-                sysinfoDAO.Salvar(new SysInfo { Id = 1, CurrentVersion = "18.7.4", NeedUpdate = true });
+            }
+            finally
+            {
+                sysinfoDAO.Salvar(new SysInfo { Id = 1, CurrentVersion = "18.7.4", NeedUpdate = false });
             }
 
             var valid = Atualizador.VerificaTabela();
@@ -1337,8 +1339,6 @@ namespace IntegradorCore.Services
             if(valid > 0)
             {
                 Atualizador.Script();
-
-                sysinfoDAO.Salvar(new SysInfo { Id = 1, CurrentVersion = "18.7.4", NeedUpdate = false });
 
                 var protDAODB = new ProtocoloDB_DAO(sessao);
 

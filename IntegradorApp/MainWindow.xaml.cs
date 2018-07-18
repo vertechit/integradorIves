@@ -304,8 +304,8 @@ namespace IntegradorApp
 
             if(fil.Exists != true)
             {
-                Log.CriarBancoSQLite();
-                Log.CriarTabelaSQlite();
+                //Log.CriarBancoSQLite();
+                //Log.CriarTabelaSQlite();
             }
 
             var sessao = AuxiliarNhibernate.AbrirSessao();
