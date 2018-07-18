@@ -310,6 +310,9 @@ namespace IntegradorApp
 
             var sessao = AuxiliarNhibernate.AbrirSessao();
 
+            Thread t = new Thread(process.VerificaParaAtualizar);
+            t.Start();
+
             if (ctrlFirstExec == 0)
             {
                 var parametroDAO = new ParametroDAO(sessao);

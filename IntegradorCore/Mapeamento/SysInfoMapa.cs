@@ -15,7 +15,7 @@ namespace IntegradorCore.Mapeamento
             Table("sysinfo");
             Id(x => x.Id).Column("id").Not.Nullable().GeneratedBy.Increment();
             Map(x => x.CurrentVersion).Column("versao");
-            Map(x => x.NeedUpdate).Column("needUpdate");
+            Map(x => x.NeedUpdate).Column("needUpdate").Default("0");
         }
         
     }

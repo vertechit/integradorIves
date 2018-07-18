@@ -50,7 +50,9 @@ namespace IntegradorCore.NHibernate.DAO
         {
             if (infoNew != null)
             {
-                infoCurrent.CurrentVersion = infoNew.CurrentVersion;
+                if(infoNew.CurrentVersion != null && infoNew.CurrentVersion != "")
+                    infoCurrent.CurrentVersion = infoNew.CurrentVersion;
+
                 infoCurrent.NeedUpdate = infoNew.NeedUpdate;
 
                 sessao.Update(infoCurrent);

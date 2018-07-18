@@ -944,13 +944,21 @@ namespace IntegradorCore.Services
 
         public void LimpaLog()
         {
-            string err = "logerro";
-            string con = "logconsulta";
-            string env = "logenvia";
+            var sessao = AuxiliarNhibernate.AbrirSessao();
+            var logConsultDao = new LogConsultaDAO(sessao);
+            var logEnvioDao = new LogEnvioDAO(sessao);
+            var logErroDao = new LogErroDAO(sessao);
 
-            DataTable dtErro = Log.GetLogs(err);
-            DataTable dtConsu = Log.GetLogs(con);
-            DataTable dtEnvia = Log.GetLogs(env);
+            //string err = "logerro";
+            //string con = "logconsulta";
+            //string env = "logenvia";
+
+            //DataTable dtErro = Log.GetLogs(err);
+            //DataTable dtConsu = Log.GetLogs(con);
+            //DataTable dtEnvia = Log.GetLogs(env);
+            DataTable dtErro = ConvertToDataTable(logErroDao.BuscaTodos());
+            DataTable dtConsu = ConvertToDataTable(logConsultDao.BuscaTodos());
+            DataTable dtEnvia = ConvertToDataTable(logEnvioDao.BuscaTodos());
 
             try
             {
@@ -972,7 +980,8 @@ namespace IntegradorCore.Services
 
                     foreach (var item in remover)
                     {
-                        Log.DeleteByData(err, item);
+                        logErroDao.DeleteByData(item);
+                        //Log.DeleteByData(err, item);
                     }
                 }
 
@@ -994,7 +1003,8 @@ namespace IntegradorCore.Services
 
                     foreach (var item in remover)
                     {
-                        Log.DeleteByData(con, item);
+                        logConsultDao.DeleteByData(item);
+                        //Log.DeleteByData(con, item);
                     }
                 }
 
@@ -1016,7 +1026,8 @@ namespace IntegradorCore.Services
 
                     foreach (var item in remover)
                     {
-                        Log.DeleteByData(env, item);
+                        logEnvioDao.DeleteByData(item);
+                        //Log.DeleteByData(env, item);
                     }
                 }
             }
@@ -1172,6 +1183,11 @@ namespace IntegradorCore.Services
 
         public void InsereLog(int tipo, string msg, string arquivo, string servico, string acao, string protocolo, string coderro)
         {
+            var sessao = AuxiliarNhibernate.AbrirSessao();
+
+            var logConsultDao = new LogConsultaDAO(sessao);
+            var logEnvioDao = new LogEnvioDAO(sessao);
+            var logErroDao = new LogErroDAO(sessao);
 
             var strArr = RetornaData();
 
@@ -1180,7 +1196,7 @@ namespace IntegradorCore.Services
 
             if (tipo == 1)
             {
-                Log.AddLogEnvia(
+                logEnvioDao.Salvar(
                         new LogEnvia
                         {
                             Id = 0,
@@ -1193,7 +1209,7 @@ namespace IntegradorCore.Services
             }
             else if (tipo == 2)
             {
-                Log.AddLogConsulta(
+                logConsultDao.Salvar(
                         new LogConsulta
                         {
                             Id = 0,
@@ -1207,7 +1223,7 @@ namespace IntegradorCore.Services
             }
             else
             {
-                Log.AddLogErro(new LogErros
+                logErroDao.Salvar(new LogErros
                 {
                     Id = 0,
                     Servico = servico,
@@ -1297,6 +1313,62 @@ namespace IntegradorCore.Services
 
             return true;
             
+        }
+
+        public void VerificaParaAtualizar()
+        {
+            var sessao = AuxiliarNhibernate.AbrirSessao();
+            var sysinfoDAO = new SysInfoDAO(sessao);
+
+            var retorno = sysinfoDAO.BuscarPorID(1);
+
+            try
+            {
+                var version = retorno.CurrentVersion;
+                sysinfoDAO.Salvar(new SysInfo { Id = 1, CurrentVersion = "18.7.4", NeedUpdate = false });
+            }
+            catch (Exception)
+            {
+                sysinfoDAO.Salvar(new SysInfo { Id = 1, CurrentVersion = "18.7.4", NeedUpdate = true });
+            }
+
+            var valid = Atualizador.VerificaTabela();
+
+            if(valid > 0)
+            {
+                Atualizador.Script();
+
+                sysinfoDAO.Salvar(new SysInfo { Id = 1, CurrentVersion = "18.7.4", NeedUpdate = false });
+
+                var protDAODB = new ProtocoloDB_DAO(sessao);
+
+                var lista = protDAODB.BuscaTodos();
+
+                if(lista.Count > 0)
+                {
+                    char[] splitchar = { ' ' };
+
+                    foreach (var item in lista)
+                    {
+                        var dtenv = Convert.ToDateTime(item.dtenvio);
+                        var dtcon = Convert.ToDateTime(item.dtconsulta);
+
+                        string[] strArrEnv = null;
+                        string[] strArrCon = null;
+
+                        
+                        strArrEnv = Convert.ToString(dtenv).Split(splitchar);
+                        strArrCon = Convert.ToString(dtcon).Split(splitchar);
+
+                        item.dtenvio = strArrEnv[0];
+                        item.dtconsulta = strArrCon[0];
+
+                        var protDAO_DB = new ProtocoloDB_DAO(sessao);
+                        protDAO_DB.Atualizar(item);
+                    }
+                }
+            }
+
         }
 
     }

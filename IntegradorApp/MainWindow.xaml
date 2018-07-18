@@ -62,7 +62,7 @@
             <TextBlock Name ="txtFolderIni" 
                        HorizontalAlignment="Left" 
                        Height="23" 
-                       Margin="218,64,0,0" 
+                       Margin="218,60,0,0" 
                        Grid.Row="1" 
                        FontFamily="Century Gothic" 
                        TextWrapping="Wrap" 
@@ -71,17 +71,17 @@
                        Grid.ColumnSpan="3"/>
 
             <Label Name="LblCaminho" 
-                   Content="Origem:" 
-                   Margin="161,59,49,0" 
+                   Content="Pasta para recepção:" 
+                   Margin="78,55,49,0" 
                    Grid.Row="1" 
                    FontFamily="Century Gothic" 
                    VerticalAlignment="Top"/>
 
             <Button Name="BtnProcurarIni" 
-                    Content="Origem" 
+                    Content="Buscar" 
                     Grid.Column="2" 
                     HorizontalAlignment="Left" 
-                    Margin="56,63,0,0" 
+                    Margin="56,59,0,0" 
                     Grid.Row="1" 
                     VerticalAlignment="Top" 
                     Width="58" 
