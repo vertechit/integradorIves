@@ -27,7 +27,7 @@ namespace IntegradorCore.API
             }
             catch (Exception e)
             {
-                ex.ImprimeException(2, e.Message, e);
+                ex.ImprimeException(2, e.Message, e, " ");
             }
 
         }

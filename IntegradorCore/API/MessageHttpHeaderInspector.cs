@@ -39,11 +39,14 @@ namespace IntegradorCore.API
             {
 
             }
-
+            Processos p = new Processos();
             if (stringXML.Contains("<consultaResponse xmlns=\"http://www.esocial.gov.br/ws\">"))
             {
-                Processos p = new Processos();
                 p.CreateFileBufferConsulta(stringXML);
+            }
+            else
+            {
+                p.CreateFileBufferEnviaXML(stringXML);
             }
             //throw new NotImplementedException();
         }

@@ -74,7 +74,7 @@ namespace IntegradorCore.Services
                     if (proc.VerificacaoEnviaLote(item, sessao) == true)
                     {
                         var xmlString = proc.MontaXML(item);
-                        var response = apiXML.SendXML(xmlString);
+                        var response = apiXML.SendXML(xmlString, item);
                         if (proc.VerificaResponseXML(response) == true)
                         {
                             proc.SalvaProtocoloXML(item, response, 1, sessao);
@@ -91,6 +91,8 @@ namespace IntegradorCore.Services
                     }
                 }
             }
+
+            proc.RemoveFileBuffer();
 
             sessao.Close();
         }
@@ -209,14 +211,7 @@ namespace IntegradorCore.Services
                 }
             }
 
-            try
-            {
-                System.IO.File.Delete(string.Concat(StaticParametros.GetDirArq(), "\\logs\\retornoTXT\\buffer.dat"));
-            }
-            catch (Exception e)
-            {
-                //ex.Exception(e.Message, "buffer.dat", "ConsultaTXT", "");
-            }
+            proc.RemoveFileBuffer();
 
             sessao.Close();
         }
@@ -240,7 +235,7 @@ namespace IntegradorCore.Services
                     if (item.driver == StaticParametersDB.GetDriver())
                     {
                         var xmlString = proc.MontaXMLDB(item.idEvento, item.xmlEvento);
-                        var response = apiXMLTeste.SendXML(xmlString);
+                        var response = apiXMLTeste.SendXML(xmlString, item.idEvento);
                         if (proc.VerificaResponseXML(response) == true)
                         {
                             proc.SalvaProtocoloXML(item.idEvento, response, 2, sessao);
@@ -256,6 +251,9 @@ namespace IntegradorCore.Services
                     
                 }
             }
+
+            proc.RemoveFileBuffer();
+
             sessao.Close();
         }
 
@@ -309,6 +307,8 @@ namespace IntegradorCore.Services
                     }
                 }
             }
+
+            proc.RemoveFileBuffer();
 
             sessao.Close();
         }

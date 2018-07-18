@@ -42,7 +42,7 @@ namespace IntegradorCore.Services
             }
         }
 
-        public void ImprimeException(int tipo, string msg, Exception ex)
+        public void ImprimeException(int tipo, string msg, Exception ex, string id)
         {
             var acao = " ";
             var codErro = " ";
@@ -64,12 +64,12 @@ namespace IntegradorCore.Services
                     if (StaticParametros.GetTipoApp() == "Service")
                     {
                         proc.InsereLog(3, msg, " ", "Integra", acao, " ", codErro);
-                        proc.InsereLogInterno("Integra", ex, codErro);
+                        proc.InsereLogInterno("Integra", ex, codErro, id);
                     }
                     else
                     {
                         proc.InsereLog(3, msg, " ", "Integra", acao, " ", codErro);
-                        proc.InsereLogInterno("Integra", ex, codErro);
+                        proc.InsereLogInterno("Integra", ex, codErro, id);
                     }
                     break;
 
@@ -77,12 +77,12 @@ namespace IntegradorCore.Services
                     if (StaticParametros.GetTipoApp() == "Service")
                     {
                         proc.InsereLog(3, msg, " ", "Consulta", acao, " ", codErro);
-                        proc.InsereLogInterno("Consulta", ex, codErro);
+                        proc.InsereLogInterno("Consulta", ex, codErro, id);
                     }
                     else
                     {
                         proc.InsereLog(3, msg, " ", "Consulta", acao, " ", codErro);
-                        proc.InsereLogInterno("Consulta", ex, codErro);
+                        proc.InsereLogInterno("Consulta", ex, codErro, id);
                     }
                     break;
             }

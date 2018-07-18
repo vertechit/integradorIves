@@ -676,6 +676,39 @@ namespace IntegradorCore.Services
 
         }
 
+        public void CreateFileBufferEnviaXML(string XML)
+        {
+            try
+            {
+                System.IO.File.WriteAllText(string.Concat(StaticParametros.GetDirArq(), "\\bufferEnviaXML.dat"), XML);
+            }
+            catch (Exception err)
+            {
+
+            }
+
+        }
+
+        public void RemoveFileBuffer()
+        {
+            try
+            {
+                System.IO.File.Delete(string.Concat(StaticParametros.GetDirArq(), "\\bufferEnviaXML.dat"));
+            }
+            catch (Exception)
+            {
+
+            }
+            try
+            {
+                System.IO.File.Delete(string.Concat(StaticParametros.GetDirArq(), "\\logs\\retornoTXT\\buffer.dat"));
+            }
+            catch (Exception)
+            {
+                //ex.Exception(e.Message, "buffer.dat", "ConsultaTXT", "");
+            }
+        }
+
         public void CreateFileRetornoTXT(string filename)
         {
             DirectoryInfo di = new DirectoryInfo(string.Concat(StaticParametros.GetDirArq(), "\\logs\\retornoTXT"));
@@ -1188,7 +1221,7 @@ namespace IntegradorCore.Services
 
         }
 
-        public void InsereLogInterno(string servico, Exception ex, string codErro)
+        public void InsereLogInterno(string servico, Exception ex, string codErro, string id)
         {
             var sessao = AuxiliarNhibernate.AbrirSessao();
             var LogInternoDAO = new LogInternoDAO(sessao);
@@ -1196,6 +1229,12 @@ namespace IntegradorCore.Services
             var innerex = " ";
             var stackTrace = " ";
             var source = " ";
+            var xml = " ";
+
+            if (File.Exists(string.Concat(StaticParametros.GetDirArq(), "\\bufferEnviaXML.dat")))
+            {
+                xml = File.ReadAllText(string.Concat(StaticParametros.GetDirArq(), "\\bufferEnviaXML.dat"));
+            }
 
             if(ex.Message != null)
             {
@@ -1222,7 +1261,8 @@ namespace IntegradorCore.Services
                 }
             }
 
-            var log = new LogInterno { Servico = servico, CodErro = codErro, Data = DateTime.Now, Mensagem = msg, InnerException = innerex, StackTrace = stackTrace, Source = source, Base = StaticParametros.GetBase(), Ambiente = StaticParametros.GetAmbiente() };
+            var log = new LogInterno { Servico = servico, CodErro = codErro, Data = DateTime.Now, Mensagem = msg, InnerException = innerex, StackTrace = stackTrace
+                , Source = source, Base = StaticParametros.GetBase(), Ambiente = StaticParametros.GetAmbiente(), Identificacao = id, Xml = xml };
             LogInternoDAO.Salvar(log);
         }
 

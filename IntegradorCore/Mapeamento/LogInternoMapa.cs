@@ -23,6 +23,8 @@ namespace IntegradorCore.Mapeamento
             Map(x => x.Base).Column("base");
             Map(x => x.Ambiente).Column("ambiente");
             Map(x => x.Data).Column("data");
+            Map(x => x.Identificacao).Column("identificacao");
+            Map(x => x.Xml).Column("XML");
         }
     }
 }
