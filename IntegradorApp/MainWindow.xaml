@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:IntegradorApp"
         mc:Ignorable="d"
-        Title="Integrador Vertech Ives" Height="616" Width="800" WindowStartupLocation="CenterScreen" ResizeMode="CanMinimize" IsManipulationEnabled="True" >
+        Title="Integrador Ives" Height="616" Width="800" WindowStartupLocation="CenterScreen" ResizeMode="CanMinimize" IsManipulationEnabled="True" >
 
     <Viewbox>
         <Grid  x:Name="Main_Page" Height="600" Width="800">
@@ -86,45 +86,6 @@
                     VerticalAlignment="Top" 
                     Width="58" 
                     Click="BtnProcurarIni_Click"/>
-
-            <Label x:Name="LbltmEnv" 
-                   Content="Quantidade para envio" 
-                   Grid.Column="1" 
-                   HorizontalAlignment="Left" 
-                   Margin="44,61,0,0" 
-                   Grid.Row="2" 
-                   FontFamily="Century Gothic" 
-                   VerticalAlignment="Top"/>
-
-            <Label x:Name="LbltmCons" 
-                   Content="Quantidade para consulta" 
-                   Grid.Column="1" 
-                   HorizontalAlignment="Left" 
-                   Margin="44,103,0,0" 
-                   Grid.Row="2" 
-                   FontFamily="Century Gothic" 
-                   VerticalAlignment="Top" 
-                   RenderTransformOrigin="0.534,0.562"/>
-
-            <Label x:Name="LblqtdEnv" 
-                   Content="0" 
-                   Grid.Column="1" 
-                   HorizontalAlignment="Left" 
-                   Margin="209,61,0,0" 
-                   Grid.Row="2" 
-                   FontFamily="Century Gothic" 
-                   VerticalAlignment="Top" 
-                   />
-
-            <Label x:Name="LblqtdCons" 
-                   Content="0" 
-                   Grid.Column="1" 
-                   HorizontalAlignment="Left" 
-                   Margin="209,103,0,0" 
-                   Grid.Row="2" 
-                   FontFamily="Century Gothic" 
-                   VerticalAlignment="Top" 
-                   />
 
             <TextBlock x:Name ="txtFolderToken" 
                        HorizontalAlignment="Left" 

@@ -568,10 +568,6 @@ namespace IntegradorApp
 
                 BtnConsultar.Visibility = Visibility.Hidden;
                 BtnEnviar.Visibility = Visibility.Hidden;
-                LblqtdCons.Visibility = Visibility.Hidden;
-                LblqtdEnv.Visibility = Visibility.Hidden;
-                LbltmEnv.Visibility = Visibility.Hidden;
-                LbltmCons.Visibility = Visibility.Hidden;
                 BtnParam.Visibility = Visibility.Hidden;
                 BtnLog.Visibility = Visibility.Hidden;
                 BtnConectarBanco.Visibility = Visibility.Visible;
@@ -580,14 +576,6 @@ namespace IntegradorApp
             {
                 BtnConsultar.Visibility = Visibility.Visible;
                 BtnEnviar.Visibility = Visibility.Visible;
-                LblqtdCons.Visibility = Visibility.Hidden;
-                LblqtdEnv.Visibility = Visibility.Hidden;
-                LbltmEnv.Visibility = Visibility.Hidden;
-                LbltmCons.Visibility = Visibility.Hidden;
-                //LblqtdCons.Visibility = Visibility.Visible;
-                //LblqtdEnv.Visibility = Visibility.Visible;
-                //LbltmEnv.Visibility = Visibility.Visible;
-                //LbltmCons.Visibility = Visibility.Visible;
                 BtnParam.Visibility = Visibility.Visible;
                 BtnLog.Visibility = Visibility.Visible;
 
