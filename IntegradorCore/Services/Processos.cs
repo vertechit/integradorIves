@@ -58,9 +58,9 @@ namespace IntegradorCore.Services
 
         public void CriarPastas()
         {
-            DirectoryInfo di1 = new DirectoryInfo(string.Concat(StaticParametros.GetDirOrigem(), "\\VPGP"));
-            DirectoryInfo di2 = new DirectoryInfo(string.Concat(StaticParametros.GetDirOrigem(), "\\VPGT"));
-            DirectoryInfo di3 = new DirectoryInfo(string.Concat(StaticParametros.GetDirOrigem(), "\\VTGT"));
+            DirectoryInfo di1 = new DirectoryInfo(string.Concat(StaticParametros.GetDirOrigem(), "\\IPGP"));
+            DirectoryInfo di2 = new DirectoryInfo(string.Concat(StaticParametros.GetDirOrigem(), "\\IPGT"));
+            DirectoryInfo di3 = new DirectoryInfo(string.Concat(StaticParametros.GetDirOrigem(), "\\ITGT"));
 
             if (di1.Exists == false)
                 di1.Create();
@@ -80,9 +80,9 @@ namespace IntegradorCore.Services
 
         public void CriarSubPastas()
         {
-            DirectoryInfo di1 = new DirectoryInfo(string.Concat(StaticParametros.GetDirOrigem(), "\\VPGP\\Consultados"));
-            DirectoryInfo di2 = new DirectoryInfo(string.Concat(StaticParametros.GetDirOrigem(), "\\VPGT\\Consultados"));
-            DirectoryInfo di3 = new DirectoryInfo(string.Concat(StaticParametros.GetDirOrigem(), "\\VTGT\\Consultados"));
+            DirectoryInfo di1 = new DirectoryInfo(string.Concat(StaticParametros.GetDirOrigem(), "\\IPGP\\Consultados"));
+            DirectoryInfo di2 = new DirectoryInfo(string.Concat(StaticParametros.GetDirOrigem(), "\\IPGT\\Consultados"));
+            DirectoryInfo di3 = new DirectoryInfo(string.Concat(StaticParametros.GetDirOrigem(), "\\ITGT\\Consultados"));
 
             if (di1.Exists == false)
                 di1.Create();

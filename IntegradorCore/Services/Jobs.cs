@@ -142,8 +142,14 @@ namespace IntegradorCore.Services
                                                         , Convert.ToInt32(retorno.consultaProtocolo.status.cdResposta));
 
                                 //processo.GeraLogDetalhado(filename, Response);
+                                try
+                                {
+                                    proc.CreateFileRetornoTXT(item);
+                                }
+                                catch(Exception e)
+                                {
 
-                                //proc.CreateFileRetornoTXT(item);
+                                }
 
                                 if (retorno.consultaProtocolo.status.cdResposta == 3 || retorno.consultaProtocolo.status.cdResposta == 2)
                                 {
@@ -154,7 +160,7 @@ namespace IntegradorCore.Services
                             }
                             catch (Exception e)
                             {
-                                ex.Exception(e.Message, item, "ConsultaTXT", "");
+                                ex.Exception(e.Message, item, "Consulta", "");
                             }
                         }
                         

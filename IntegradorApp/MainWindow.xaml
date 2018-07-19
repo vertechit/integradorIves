@@ -118,10 +118,9 @@
                 Grid.Column="1" 
                 Grid.Row="2" 
                 Height="30" 
-                Width="150" 
                 FontFamily="Century Gothic" 
                 FontSize="15" 
-                Margin="58,84,58,86" Click="BtnSalvar_Click"/>
+                Margin="50,85,49.667,85" Click="BtnSalvar_Click"/>
 
             <Label x:Name="LblSalvar" 
                    Content="Parâmetros" 
@@ -134,7 +133,7 @@
             <Button x:Name="BtnParam" 
                     Content="Parâmetros" 
                     HorizontalAlignment="Left" 
-                    Margin="50,158,0,10" 
+                    Margin="50,130,0,38" 
                     Width="76" 
                     Grid.Column="1" 
                     Grid.Row="2" 
@@ -145,7 +144,7 @@
 
             <Button x:Name="BtnLog" 
                 Content="Logs" 
-                Margin="140,158,50,10" 
+                Margin="140,130,49.667,38" 
                 Grid.Column="1" 
                 Grid.Row="2" 
                 RenderTransformOrigin="0.505,0.36" 
@@ -163,6 +162,7 @@
                 VerticalAlignment="Top" 
                 Width="365" 
                 Grid.ColumnSpan="3"/>
+            <Button x:Name="ReportBug" Content="Reportar Bug" Grid.Column="1" Margin="95,174,96.667,0" Grid.Row="2" VerticalAlignment="Top" Click="ReportBug_Click"/>
 
         </Grid>
     </Viewbox>

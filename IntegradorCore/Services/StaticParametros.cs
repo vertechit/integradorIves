@@ -47,7 +47,7 @@ namespace IntegradorCore.Services
 
         public static void SetVPGP()
         {
-            VPGP = new ParamVPGP(string.Concat(GetDirOrigem(), "\\", "VPGP"));
+            VPGP = new ParamVPGP(string.Concat(GetDirOrigem(), "\\", "IPGP"));
         }
 
         public static ParamVPGT GetVPGT()
@@ -57,7 +57,7 @@ namespace IntegradorCore.Services
 
         public static void SetVPGT()
         {
-            VPGT = new ParamVPGT(string.Concat(GetDirOrigem(), "\\", "VPGT"));
+            VPGT = new ParamVPGT(string.Concat(GetDirOrigem(), "\\", "IPGT"));
         }
 
         public static ParamVTGT GetVTGT()
@@ -67,7 +67,7 @@ namespace IntegradorCore.Services
 
         public static void SetVTGT()
         {
-            VTGT = new ParamVTGT(string.Concat(GetDirOrigem(), "\\", "VTGT"));
+            VTGT = new ParamVTGT(string.Concat(GetDirOrigem(), "\\", "ITGT"));
         }
         #endregion
 

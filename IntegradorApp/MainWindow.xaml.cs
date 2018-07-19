@@ -588,5 +588,27 @@ namespace IntegradorApp
         }
 
         #endregion
+
+        private void ReportBug_Click(object sender, RoutedEventArgs e)
+        {
+            string target = "https://github.com/vertechit/integradorIves/issues";
+
+            try
+            {
+                System.Diagnostics.Process.Start(target);
+            }
+            catch
+                (
+                 System.ComponentModel.Win32Exception noBrowser)
+            {
+                if (noBrowser.ErrorCode == -2147467259)
+                    System.Windows.MessageBox.Show(noBrowser.Message);
+            }
+            catch (System.Exception other)
+            {
+                System.Windows.MessageBox.Show(other.Message);
+            }
+
+        }
     }
 }
