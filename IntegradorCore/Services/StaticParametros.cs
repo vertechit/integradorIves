@@ -20,9 +20,11 @@ namespace IntegradorCore.Services
         private static long Ambiente = 0; //Ambiente de envio do evento definido pelo usuário
         private static bool Base = false; //Base de dados definida pelo usuário
         private static bool IntegraBanco = false;
+        private static bool LockVariavel = false;
+        private static string Versao = "18.7.4";
         #endregion
 
-        #region Teste
+        #region Param
         private static ParamVPGP VPGP;
         private static ParamVPGT VPGT;
         private static ParamVTGT VTGT;
@@ -70,6 +72,21 @@ namespace IntegradorCore.Services
         #endregion
 
         #region gets/sets
+
+        public static string GetVersao()
+        {
+            return Versao;
+        }
+
+        public static bool GetLockVariavel()
+        {
+            return LockVariavel;
+        }
+
+        public static void SetLockVariavel(bool lockV)
+        {
+            LockVariavel = lockV;
+        }
 
         public static bool GetIntegraBanco()
         {

@@ -20,6 +20,7 @@ using IntegradorCore.NHibernate.DAO;
 using NHibernate;
 using System.Xml.Linq;
 using System.ComponentModel;
+using System.Threading;
 
 namespace IntegradorCore.Services
 {
@@ -1331,12 +1332,14 @@ namespace IntegradorCore.Services
             }
             finally
             {
-                sysinfoDAO.Salvar(new SysInfo { Id = 1, CurrentVersion = "18.7.4", NeedUpdate = false });
+                sysinfoDAO.Salvar(new SysInfo { Id = 1, CurrentVersion = StaticParametros.GetVersao(), NeedUpdate = false });
             }
 
             var valid = Atualizador.VerificaTabela();
 
-            if(valid > 0)
+            StaticParametros.SetLockVariavel(true);
+
+            if (valid > 0)
             {
                 Atualizador.Script();
 
@@ -1368,6 +1371,13 @@ namespace IntegradorCore.Services
                     }
                 }
             }
+
+            Thread Tproc = new Thread(LimpaLog);
+            Tproc.Name = "CleanWorker";
+            Tproc.Start();
+            Tproc.Join();
+
+            StaticParametros.SetLockVariavel(false);
 
         }
 

@@ -9,6 +9,8 @@ using IntegradorCore.Modelos;
 using System.Security.Permissions;
 using System.Security.AccessControl;
 using IntegradorCore.Services;
+using IntegradorCore.NHibernate.DAO;
+using IntegradorCore.NHibernate;
 
 namespace IntegradorCore.Services
 {
@@ -35,6 +37,7 @@ namespace IntegradorCore.Services
 
         public static int VerificaTabela()
         {
+            //Script para verificar versões menores que 18.7.4;
             SQLiteDataAdapter da = null;
             DataTable dt = new DataTable();
 
@@ -76,6 +79,7 @@ namespace IntegradorCore.Services
 
         public static void Script()
         {
+            //Script para atualizar versões menores que 18.7.4;
             try
             {
                 using (var cmd = DbConnection().CreateCommand())
@@ -171,5 +175,6 @@ namespace IntegradorCore.Services
 
             }
         }
+
     }
 }

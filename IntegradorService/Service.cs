@@ -60,8 +60,9 @@ namespace IntegradorService
                         }
                         if (VerificaProcessoRun() == false)
                         {
-                            Thread Tproc = new Thread(process.LimpaLog);
-                            Tproc.Start();
+                            Thread t = new Thread(process.VerificaParaAtualizar);
+                            t.Name = "UpdaterWorker";
+                            t.Start();
                         }
                         else
                         {
@@ -189,21 +190,26 @@ namespace IntegradorService
 
         private void Timer_Tick(object sender)
         {
-            if (Controle == 0)
+            if (StaticParametros.GetLockVariavel() == false)
             {
-                if (proc.ValidaStaticParametros() == true)
+                if (Controle == 0)
                 {
-                    Jobs job = new Jobs();
-                    Job(job);
-                }
-                else
-                {
-                    Log("Não foi possivel localizar as informações, por favor, abra o integrador e defina os parametros novamente.", 2);
-                    this.Stop();
+                    if (proc.ValidaStaticParametros() == true)
+                    {
+                        Jobs job = new Jobs();
+                        Job(job);
+                    }
+                    else
+                    {
+                        Log("Não foi possivel localizar as informações, por favor, abra o integrador e defina os parametros novamente.", 2);
+                        this.Stop();
+                    }
                 }
             }
-            
-            
+            else
+            {
+                Log("Aguardando Thread de atualização/limpeza finalizar execução.", 1);
+            }
         }
 
         private void Job(Jobs job)

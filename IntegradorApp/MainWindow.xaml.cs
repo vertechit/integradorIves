@@ -311,6 +311,7 @@ namespace IntegradorApp
             var sessao = AuxiliarNhibernate.AbrirSessao();
 
             Thread t = new Thread(process.VerificaParaAtualizar);
+            t.Name = "UpdaterWorker";
             t.Start();
 
             if (ctrlFirstExec == 0)
@@ -388,9 +389,6 @@ namespace IntegradorApp
                         {
                             process.CriarPastas();
                         }
-
-                        Thread Tproc = new Thread(process.LimpaLog);
-                        Tproc.Start();
                     }
                     catch (Exception ex)
                     {
@@ -448,33 +446,46 @@ namespace IntegradorApp
 
         private void ActionIntegra()
         {
-
-            if (StaticParametros.GetIntegraBanco() == true)
+            if(StaticParametros.GetLockVariavel() == false)
             {
-                IntegraDB();
-            }
+                if (StaticParametros.GetIntegraBanco() == true)
+                {
+                    IntegraDB();
+                }
 
-            if (StaticParametros.GetDirOrigem() != null && StaticParametros.GetDirOrigem() != "")
-            {
-                IntegraArquivos(1);
+                if (StaticParametros.GetDirOrigem() != null && StaticParametros.GetDirOrigem() != "")
+                {
+                    IntegraArquivos(1);
+                }
+
+                System.Windows.MessageBox.Show("Processo de integração concluido!");
             }
-                
-            System.Windows.MessageBox.Show("Processo de integração concluido!");
+            else
+            {
+                System.Windows.MessageBox.Show("Por favor, aguarde alguns instantes e tente novamente");
+            }
         }
 
         private void ActionConsulta()
         {
-            if (StaticParametros.GetIntegraBanco() == true)
+            if (StaticParametros.GetLockVariavel() == false)
             {
-                ConsultaDB();
-            }
+                if (StaticParametros.GetIntegraBanco() == true)
+                {
+                    ConsultaDB();
+                }
 
-            if (StaticParametros.GetDirOrigem() != null && StaticParametros.GetDirOrigem() != "")
-            {
-                ConsultaArquivos(1);
-            }
+                if (StaticParametros.GetDirOrigem() != null && StaticParametros.GetDirOrigem() != "")
+                {
+                    ConsultaArquivos(1);
+                }
                 
-            System.Windows.MessageBox.Show("Processo de consulta concluido!");
+                System.Windows.MessageBox.Show("Processo de consulta concluido!");
+            }
+            else
+            {
+                System.Windows.MessageBox.Show("Por favor, aguarde alguns instantes e tente novamente");
+            }
         }
 
         private void IntegraDB()
