@@ -558,6 +558,8 @@ namespace IntegradorApp
 
         private void OrganizaTelaEvent(int tipo)
         {
+            LblVersao.Content = string.Concat("v",StaticParametros.GetVersao());
+
             if (tipo == 1)
             {
                 BtnSalvar.Visibility = Visibility.Visible;
