@@ -150,7 +150,7 @@
                 RenderTransformOrigin="0.505,0.36" 
                 FontFamily="Century Gothic" 
                 FontSize="12" Click="BtnLog_Click"/>
-            <Button x:Name="BtnConectarBanco" Content="Conectar Banco" Grid.Column="1" Margin="85,172,84,0" Grid.Row="1" VerticalAlignment="Top" Height="28" Click="BtnConectarBanco_Click"/>
+            <Button x:Name="BtnConectarBanco" Content="Conectar" Grid.Column="2" Margin="56,114,153,0" Grid.Row="1" VerticalAlignment="Top" Height="20" Click="BtnConectarBanco_Click"/>
             <Label Content="Status banco:" Margin="128,110,49,0" Grid.Row="1" VerticalAlignment="Top" FontFamily="Century Gothic"/>
             <TextBlock x:Name ="TxtStatusBanco" 
                 HorizontalAlignment="Left" 
