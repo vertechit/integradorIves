@@ -45,8 +45,8 @@ namespace IntegradorCore.Services
         {
             // Specify what is done when a file is changed, created, or deleted.
             //Console.WriteLine("File: " + e.FullPath + " " + e.ChangeType);
-            ExceptionCore ex = new ExceptionCore();
-            ex.Exception(Convert.ToString(e.ChangeType), e.FullPath, "Consulta", "testar");
+            //ExceptionCore ex = new ExceptionCore();
+            //ex.Exception(Convert.ToString(e.ChangeType), e.FullPath, "Consulta", "testar", Exec);
         }
 
         private static void OnRenamed(object source, RenamedEventArgs e)

@@ -134,11 +134,11 @@ namespace IntegradorCore.NHibernate.DAO
             {
                 protocoloCurrent.baseEnv = protocoloNew.baseEnv;
             }
-            if (protocoloNew.dtenvio.Year != 1)
+            if (protocoloNew.dtenvio != null && protocoloNew.dtenvio != "")
             {
                 protocoloCurrent.dtenvio = protocoloNew.dtenvio;
             }
-            if (protocoloNew.dtconsulta.Year != 1)
+            if (protocoloNew.dtconsulta != null && protocoloNew.dtconsulta != "")
             {
                 protocoloCurrent.dtconsulta = protocoloNew.dtconsulta;
             }

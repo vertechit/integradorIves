@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:IntegradorApp"
         mc:Ignorable="d"
-        Title="Integrador Vertech Ives" Height="616" Width="800" WindowStartupLocation="CenterScreen" ResizeMode="CanMinimize" IsManipulationEnabled="True" >
+        Title="Integrador Ives" Height="616" Width="800" WindowStartupLocation="CenterScreen" ResizeMode="CanMinimize" IsManipulationEnabled="True" >
 
     <Viewbox>
         <Grid  x:Name="Main_Page" Height="600" Width="800">
@@ -50,108 +50,63 @@
 
             <Image
                 Name="_Vertech_component_logo_png" 
-                HorizontalAlignment="Left" 
                 Height="88" 
-                Margin="230,50,0,0" 
+                Margin="233,50,232.333,0" 
                 VerticalAlignment="Top" 
-                Width="335" 
                 Grid.ColumnSpan="3" 
                 Source="/IntegradorApp;component/Imagens/logofinal.png"
                 Stretch="Fill"/>
 
             <TextBlock Name ="txtFolderIni" 
-                       HorizontalAlignment="Left" 
                        Height="23" 
-                       Margin="218,64,0,0" 
+                       Margin="222,60,214,0" 
                        Grid.Row="1" 
                        FontFamily="Century Gothic" 
                        TextWrapping="Wrap" 
                        VerticalAlignment="Top" 
-                       Width="365" 
                        Grid.ColumnSpan="3"/>
 
             <Label Name="LblCaminho" 
-                   Content="Origem:" 
-                   Margin="161,59,49,0" 
+                   Content="Pasta para recepção:" 
+                   Margin="58,55,51,0" 
                    Grid.Row="1" 
                    FontFamily="Century Gothic" 
-                   VerticalAlignment="Top"/>
+                   VerticalAlignment="Top" HorizontalAlignment="Right"/>
 
             <Button Name="BtnProcurarIni" 
-                    Content="Origem" 
+                    Content="Pasta" 
                     Grid.Column="2" 
                     HorizontalAlignment="Left" 
-                    Margin="56,63,0,0" 
+                    Margin="60,59,0,0" 
                     Grid.Row="1" 
                     VerticalAlignment="Top" 
-                    Width="58" 
-                    Click="BtnProcurarIni_Click"/>
-
-            <Label x:Name="LbltmEnv" 
-                   Content="Quantidade para envio" 
-                   Grid.Column="1" 
-                   HorizontalAlignment="Left" 
-                   Margin="44,61,0,0" 
-                   Grid.Row="2" 
-                   FontFamily="Century Gothic" 
-                   VerticalAlignment="Top"/>
-
-            <Label x:Name="LbltmCons" 
-                   Content="Quantidade para consulta" 
-                   Grid.Column="1" 
-                   HorizontalAlignment="Left" 
-                   Margin="44,103,0,0" 
-                   Grid.Row="2" 
-                   FontFamily="Century Gothic" 
-                   VerticalAlignment="Top" 
-                   RenderTransformOrigin="0.534,0.562"/>
-
-            <Label x:Name="LblqtdEnv" 
-                   Content="0" 
-                   Grid.Column="1" 
-                   HorizontalAlignment="Left" 
-                   Margin="209,61,0,0" 
-                   Grid.Row="2" 
-                   FontFamily="Century Gothic" 
-                   VerticalAlignment="Top" 
-                   />
-
-            <Label x:Name="LblqtdCons" 
-                   Content="0" 
-                   Grid.Column="1" 
-                   HorizontalAlignment="Left" 
-                   Margin="209,103,0,0" 
-                   Grid.Row="2" 
-                   FontFamily="Century Gothic" 
-                   VerticalAlignment="Top" 
-                   />
+                    Width="71" 
+                    Click="BtnProcurarIni_Click" Height="24"/>
 
             <TextBlock x:Name ="txtFolderToken" 
-                       HorizontalAlignment="Left" 
                        Height="23" 
-                       Margin="218,3,0,0" 
+                       Margin="222,3,214,0" 
                        Grid.Row="1" 
                        TextWrapping="Wrap" 
                        VerticalAlignment="Top" 
-                       Width="365" 
                        FontFamily="Century Gothic" 
                        Grid.ColumnSpan="3"/>
 
             <Label x:Name="LblToken" 
                    Content="Token:" 
-                   Margin="169,198,51,0" 
+                   Margin="58,198,51,0" 
                    FontFamily="Century Gothic" 
-                   VerticalAlignment="Top" Grid.RowSpan="2"/>
+                   VerticalAlignment="Top" Grid.RowSpan="2" HorizontalAlignment="Right"/>
 
             <Button x:Name="BtnProcurarToken" 
                     Content="Token" 
                     Grid.Column="2" 
                     HorizontalAlignment="Left" 
-                    Margin="56,2,0,0" 
+                    Margin="60,2,0,0" 
                     Grid.Row="1" 
                     VerticalAlignment="Top" 
-                    Width="58" 
-                    Click="BtnProcurarToken_Click"/>
+                    Width="71" 
+                    Click="BtnProcurarToken_Click" Height="24"/>
 
             <Button 
                 x:Name="BtnSalvar" 
@@ -159,10 +114,9 @@
                 Grid.Column="1" 
                 Grid.Row="2" 
                 Height="30" 
-                Width="150" 
                 FontFamily="Century Gothic" 
                 FontSize="15" 
-                Margin="58,84,58,86" Click="BtnSalvar_Click"/>
+                Margin="50,85,49.667,85" Click="BtnSalvar_Click"/>
 
             <Label x:Name="LblSalvar" 
                    Content="Parâmetros" 
@@ -175,7 +129,7 @@
             <Button x:Name="BtnParam" 
                     Content="Parâmetros" 
                     HorizontalAlignment="Left" 
-                    Margin="50,158,0,10" 
+                    Margin="50,130,0,38" 
                     Width="76" 
                     Grid.Column="1" 
                     Grid.Row="2" 
@@ -186,24 +140,24 @@
 
             <Button x:Name="BtnLog" 
                 Content="Logs" 
-                Margin="140,158,50,10" 
+                Margin="140,130,49.667,38" 
                 Grid.Column="1" 
                 Grid.Row="2" 
                 RenderTransformOrigin="0.505,0.36" 
                 FontFamily="Century Gothic" 
                 FontSize="12" Click="BtnLog_Click"/>
-            <Button x:Name="BtnConectarBanco" Content="Conectar Banco" Grid.Column="1" Margin="85,172,84,0" Grid.Row="1" VerticalAlignment="Top" Height="28" Click="BtnConectarBanco_Click"/>
-            <Label Content="Status banco:" Margin="128,110,49,0" Grid.Row="1" VerticalAlignment="Top" FontFamily="Century Gothic"/>
+            <Button x:Name="BtnConectarBanco" Content="Configurar" Grid.Column="2" Margin="60,114,136,0" Grid.Row="1" VerticalAlignment="Top" Height="24" Click="BtnConectarBanco_Click"/>
+            <Label Content="Status banco:" Margin="58,110,51,0" Grid.Row="1" VerticalAlignment="Top" FontFamily="Century Gothic" HorizontalAlignment="Right"/>
             <TextBlock x:Name ="TxtStatusBanco" 
-                HorizontalAlignment="Left" 
                 Height="23" 
-                Margin="220,115,0,0" 
+                Margin="222,115,214,0" 
                 Grid.Row="1" 
                 FontFamily="Century Gothic" 
                 TextWrapping="Wrap" 
                 VerticalAlignment="Top" 
-                Width="365" 
                 Grid.ColumnSpan="3"/>
+            <Button x:Name="ReportBug" Content="Reportar Bug" Grid.Column="1" Margin="95,174,96,0" Grid.Row="2" VerticalAlignment="Top" Click="ReportBug_Click"/>
+            <Label x:Name="LblVersao" Content="" Grid.Column="2" HorizontalAlignment="Left" Margin="221,174,-2,0" Grid.Row="2" VerticalAlignment="Top" Width="48" Height="24"/>
 
         </Grid>
     </Viewbox>

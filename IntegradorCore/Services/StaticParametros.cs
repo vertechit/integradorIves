@@ -20,9 +20,11 @@ namespace IntegradorCore.Services
         private static long Ambiente = 0; //Ambiente de envio do evento definido pelo usuário
         private static bool Base = false; //Base de dados definida pelo usuário
         private static bool IntegraBanco = false;
+        private static bool LockVariavel = false;
+        private static string Versao = "18.7.4";
         #endregion
 
-        #region Teste
+        #region Param
         private static ParamVPGP VPGP;
         private static ParamVPGT VPGT;
         private static ParamVTGT VTGT;
@@ -45,7 +47,7 @@ namespace IntegradorCore.Services
 
         public static void SetVPGP()
         {
-            VPGP = new ParamVPGP(string.Concat(GetDirOrigem(), "\\", "VPGP"));
+            VPGP = new ParamVPGP(string.Concat(GetDirOrigem(), "\\", "IPGP"));
         }
 
         public static ParamVPGT GetVPGT()
@@ -55,7 +57,7 @@ namespace IntegradorCore.Services
 
         public static void SetVPGT()
         {
-            VPGT = new ParamVPGT(string.Concat(GetDirOrigem(), "\\", "VPGT"));
+            VPGT = new ParamVPGT(string.Concat(GetDirOrigem(), "\\", "IPGT"));
         }
 
         public static ParamVTGT GetVTGT()
@@ -65,11 +67,26 @@ namespace IntegradorCore.Services
 
         public static void SetVTGT()
         {
-            VTGT = new ParamVTGT(string.Concat(GetDirOrigem(), "\\", "VTGT"));
+            VTGT = new ParamVTGT(string.Concat(GetDirOrigem(), "\\", "ITGT"));
         }
         #endregion
 
         #region gets/sets
+
+        public static string GetVersao()
+        {
+            return Versao;
+        }
+
+        public static bool GetLockVariavel()
+        {
+            return LockVariavel;
+        }
+
+        public static void SetLockVariavel(bool lockV)
+        {
+            LockVariavel = lockV;
+        }
 
         public static bool GetIntegraBanco()
         {

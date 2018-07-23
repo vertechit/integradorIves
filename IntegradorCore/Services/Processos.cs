@@ -20,6 +20,7 @@ using IntegradorCore.NHibernate.DAO;
 using NHibernate;
 using System.Xml.Linq;
 using System.ComponentModel;
+using System.Threading;
 
 namespace IntegradorCore.Services
 {
@@ -57,9 +58,9 @@ namespace IntegradorCore.Services
 
         public void CriarPastas()
         {
-            DirectoryInfo di1 = new DirectoryInfo(string.Concat(StaticParametros.GetDirOrigem(), "\\VPGP"));
-            DirectoryInfo di2 = new DirectoryInfo(string.Concat(StaticParametros.GetDirOrigem(), "\\VPGT"));
-            DirectoryInfo di3 = new DirectoryInfo(string.Concat(StaticParametros.GetDirOrigem(), "\\VTGT"));
+            DirectoryInfo di1 = new DirectoryInfo(string.Concat(StaticParametros.GetDirOrigem(), "\\IPGP"));
+            DirectoryInfo di2 = new DirectoryInfo(string.Concat(StaticParametros.GetDirOrigem(), "\\IPGT"));
+            DirectoryInfo di3 = new DirectoryInfo(string.Concat(StaticParametros.GetDirOrigem(), "\\ITGT"));
 
             if (di1.Exists == false)
                 di1.Create();
@@ -79,9 +80,9 @@ namespace IntegradorCore.Services
 
         public void CriarSubPastas()
         {
-            DirectoryInfo di1 = new DirectoryInfo(string.Concat(StaticParametros.GetDirOrigem(), "\\VPGP\\Consultados"));
-            DirectoryInfo di2 = new DirectoryInfo(string.Concat(StaticParametros.GetDirOrigem(), "\\VPGT\\Consultados"));
-            DirectoryInfo di3 = new DirectoryInfo(string.Concat(StaticParametros.GetDirOrigem(), "\\VTGT\\Consultados"));
+            DirectoryInfo di1 = new DirectoryInfo(string.Concat(StaticParametros.GetDirOrigem(), "\\IPGP\\Consultados"));
+            DirectoryInfo di2 = new DirectoryInfo(string.Concat(StaticParametros.GetDirOrigem(), "\\IPGT\\Consultados"));
+            DirectoryInfo di3 = new DirectoryInfo(string.Concat(StaticParametros.GetDirOrigem(), "\\ITGT\\Consultados"));
 
             if (di1.Exists == false)
                 di1.Create();
@@ -397,7 +398,7 @@ namespace IntegradorCore.Services
         public Protocolo RetornaProtocolo(string arq, ISession sessao)
         {
             var ProtocoloDAO = new ProtocoloDAO(sessao);
-            var prot = ProtocoloDAO.BuscarPorNomeArquivo(arq);
+            var prot = ProtocoloDAO.BuscarPorNomeArquivo(arq, Convert.ToString(StaticParametros.GetBase()), StaticParametros.GetAmbiente());
 
             return prot;
         }
@@ -415,7 +416,7 @@ namespace IntegradorCore.Services
 
             bool result = false;
             var ProtocoloDAO = new ProtocoloDAO(sessao);
-            var prot = ProtocoloDAO.BuscarPorNomeArquivo(arq);
+            var prot = ProtocoloDAO.BuscarPorNomeArquivo(arq, Convert.ToString(StaticParametros.GetBase()), StaticParametros.GetAmbiente());
             
             try
             {
@@ -427,7 +428,8 @@ namespace IntegradorCore.Services
 
             if (result == true)
             {
-                return false;
+                if(prot.Ambiente == StaticParametros.GetAmbiente() && Convert.ToBoolean(prot.Base) == StaticParametros.GetBase())
+                    return false;
             }
 
             return true;
@@ -440,7 +442,7 @@ namespace IntegradorCore.Services
 
             bool result = false;
             var ProtocoloDAO = new ProtocoloDAO(sessao);
-            var prot = ProtocoloDAO.BuscarPorNomeArquivo(arq);
+            var prot = ProtocoloDAO.BuscarPorNomeArquivo(arq, Convert.ToString(StaticParametros.GetBase()), StaticParametros.GetAmbiente());
             try
             {
                 var a = prot.NroProtocolo;
@@ -451,7 +453,8 @@ namespace IntegradorCore.Services
 
             if (result == true)
             {
-                return 1;
+                if(Convert.ToBoolean(prot.Base) == StaticParametros.GetBase() && prot.Ambiente == StaticParametros.GetAmbiente())
+                    return 1;
             }
 
             int tam = 0;
@@ -522,7 +525,7 @@ namespace IntegradorCore.Services
             }
         }
 
-        public void GeraLogConsultaXML(string filename, string response, string prot)
+        public void GeraLogConsultaXML(string filename, string response, string prot, int tipo)
         {
             DirectoryInfo di = new DirectoryInfo(string.Concat(StaticParametros.GetDirArq(), "\\logs\\retornoXML"));
 
@@ -555,8 +558,14 @@ namespace IntegradorCore.Services
 
                 desc = desc.Replace(tagDescIni, "");
                 desc = desc.Replace(tagDescFim, "");
-
-                InsereLog(2, desc, filename, "Consulta", "Consulte a pasta de log para mais detalhes", prot, "");
+                if(tipo == 1)
+                {
+                    InsereLog(2, desc, filename, "Consulta", "Consulte a pasta de log para mais detalhes", prot, "");
+                }
+                else
+                {
+                    InsereLog(2, desc, filename, "Consulta", "Consulte sua base de dados para obter os detalhes", prot, "");
+                }
 
             }
             catch (Exception e)
@@ -672,6 +681,39 @@ namespace IntegradorCore.Services
 
             }
 
+        }
+
+        public void CreateFileBufferEnviaXML(string XML)
+        {
+            try
+            {
+                System.IO.File.WriteAllText(string.Concat(StaticParametros.GetDirArq(), "\\bufferEnviaXML.dat"), XML);
+            }
+            catch (Exception err)
+            {
+
+            }
+
+        }
+
+        public void RemoveFileBuffer()
+        {
+            try
+            {
+                System.IO.File.Delete(string.Concat(StaticParametros.GetDirArq(), "\\bufferEnviaXML.dat"));
+            }
+            catch (Exception)
+            {
+
+            }
+            try
+            {
+                System.IO.File.Delete(string.Concat(StaticParametros.GetDirArq(), "\\logs\\retornoTXT\\buffer.dat"));
+            }
+            catch (Exception)
+            {
+                //ex.Exception(e.Message, "buffer.dat", "ConsultaTXT", "");
+            }
         }
 
         public void CreateFileRetornoTXT(string filename)
@@ -909,13 +951,21 @@ namespace IntegradorCore.Services
 
         public void LimpaLog()
         {
-            string err = "logerro";
-            string con = "logconsulta";
-            string env = "logenvia";
+            var sessao = AuxiliarNhibernate.AbrirSessao();
+            var logConsultDao = new LogConsultaDAO(sessao);
+            var logEnvioDao = new LogEnvioDAO(sessao);
+            var logErroDao = new LogErroDAO(sessao);
 
-            DataTable dtErro = Log.GetLogs(err);
-            DataTable dtConsu = Log.GetLogs(con);
-            DataTable dtEnvia = Log.GetLogs(env);
+            //string err = "logerro";
+            //string con = "logconsulta";
+            //string env = "logenvia";
+
+            //DataTable dtErro = Log.GetLogs(err);
+            //DataTable dtConsu = Log.GetLogs(con);
+            //DataTable dtEnvia = Log.GetLogs(env);
+            DataTable dtErro = ConvertToDataTable(logErroDao.BuscaTodos());
+            DataTable dtConsu = ConvertToDataTable(logConsultDao.BuscaTodos());
+            DataTable dtEnvia = ConvertToDataTable(logEnvioDao.BuscaTodos());
 
             try
             {
@@ -937,7 +987,8 @@ namespace IntegradorCore.Services
 
                     foreach (var item in remover)
                     {
-                        Log.DeleteByData(err, item);
+                        logErroDao.DeleteByData(item);
+                        //Log.DeleteByData(err, item);
                     }
                 }
 
@@ -959,7 +1010,8 @@ namespace IntegradorCore.Services
 
                     foreach (var item in remover)
                     {
-                        Log.DeleteByData(con, item);
+                        logConsultDao.DeleteByData(item);
+                        //Log.DeleteByData(con, item);
                     }
                 }
 
@@ -981,7 +1033,8 @@ namespace IntegradorCore.Services
 
                     foreach (var item in remover)
                     {
-                        Log.DeleteByData(env, item);
+                        logEnvioDao.DeleteByData(item);
+                        //Log.DeleteByData(env, item);
                     }
                 }
             }
@@ -1137,6 +1190,11 @@ namespace IntegradorCore.Services
 
         public void InsereLog(int tipo, string msg, string arquivo, string servico, string acao, string protocolo, string coderro)
         {
+            var sessao = AuxiliarNhibernate.AbrirSessao();
+
+            var logConsultDao = new LogConsultaDAO(sessao);
+            var logEnvioDao = new LogEnvioDAO(sessao);
+            var logErroDao = new LogErroDAO(sessao);
 
             var strArr = RetornaData();
 
@@ -1145,7 +1203,7 @@ namespace IntegradorCore.Services
 
             if (tipo == 1)
             {
-                Log.AddLogEnvia(
+                logEnvioDao.Salvar(
                         new LogEnvia
                         {
                             Id = 0,
@@ -1158,7 +1216,7 @@ namespace IntegradorCore.Services
             }
             else if (tipo == 2)
             {
-                Log.AddLogConsulta(
+                logConsultDao.Salvar(
                         new LogConsulta
                         {
                             Id = 0,
@@ -1172,7 +1230,7 @@ namespace IntegradorCore.Services
             }
             else
             {
-                Log.AddLogErro(new LogErros
+                logErroDao.Salvar(new LogErros
                 {
                     Id = 0,
                     Servico = servico,
@@ -1184,6 +1242,72 @@ namespace IntegradorCore.Services
                 });
             }
 
+        }
+
+        public void InsereLogInterno(string servico, Exception ex, string codErro, string id)
+        {
+            var sessao = AuxiliarNhibernate.AbrirSessao();
+            var LogInternoDAO = new LogInternoDAO(sessao);
+            var msg = " ";
+            var innerex = " ";
+            var stackTrace = " ";
+            var source = " ";
+            var xml = " ";
+
+            try
+            {
+                if (File.Exists(string.Concat(StaticParametros.GetDirArq(), "\\bufferEnviaXML.dat")))
+                {
+                    xml = File.ReadAllText(string.Concat(StaticParametros.GetDirArq(), "\\bufferEnviaXML.dat"));
+                }
+
+                if (ex.Message != null)
+                {
+                    msg = ex.Message;
+                }
+
+                if (ex.InnerException != null)
+                {
+                    innerex = ex.InnerException.Message;
+                    source = ex.InnerException.Source;
+                }
+
+                else
+                {
+                    source = ex.Source;
+                }
+
+                if (ex.StackTrace.ToString() != null)
+                {
+                    stackTrace = ex.StackTrace.ToString();
+                    if (innerex != " ")
+                    {
+                        stackTrace = stackTrace + "\n\n\n" + ex.InnerException.StackTrace.ToString();
+                    }
+                }
+                var data = RetornaData();
+                var log = new LogInterno
+                {
+                    Servico = servico,
+                    CodErro = codErro,
+                    Data = data[0],
+                    Mensagem = msg,
+                    InnerException = innerex,
+                    StackTrace = stackTrace
+                    ,
+                    Source = source,
+                    Base = StaticParametros.GetBase(),
+                    Ambiente = StaticParametros.GetAmbiente(),
+                    Identificacao = id,
+                    Xml = xml
+                };
+                LogInternoDAO.Salvar(log);
+            }
+            catch (Exception)
+            {
+                
+            }
+            
         }
 
         public bool DefineBaseEnvioDB(string xml)
@@ -1217,6 +1341,71 @@ namespace IntegradorCore.Services
 
             return true;
             
+        }
+
+        public void VerificaParaAtualizar()
+        {
+            var sessao = AuxiliarNhibernate.AbrirSessao();
+            var sysinfoDAO = new SysInfoDAO(sessao);
+
+            var retorno = sysinfoDAO.BuscarPorID(1);
+
+            try
+            {
+                var version = retorno.CurrentVersion;
+            }
+            catch (Exception)
+            {
+            }
+            finally
+            {
+                sysinfoDAO.Salvar(new SysInfo { Id = 1, CurrentVersion = StaticParametros.GetVersao(), NeedUpdate = false });
+            }
+
+            var valid = Atualizador.VerificaTabela();
+
+            StaticParametros.SetLockVariavel(true);
+
+            if (valid > 0)
+            {
+                Atualizador.Script();
+
+                var protDAODB = new ProtocoloDB_DAO(sessao);
+
+                var lista = protDAODB.BuscaTodos();
+
+                if(lista.Count > 0)
+                {
+                    char[] splitchar = { ' ' };
+
+                    foreach (var item in lista)
+                    {
+                        var dtenv = Convert.ToDateTime(item.dtenvio);
+                        var dtcon = Convert.ToDateTime(item.dtconsulta);
+
+                        string[] strArrEnv = null;
+                        string[] strArrCon = null;
+
+                        
+                        strArrEnv = Convert.ToString(dtenv).Split(splitchar);
+                        strArrCon = Convert.ToString(dtcon).Split(splitchar);
+
+                        item.dtenvio = strArrEnv[0];
+                        item.dtconsulta = strArrCon[0];
+
+                        var protDAO_DB = new ProtocoloDB_DAO(sessao);
+                        protDAO_DB.Atualizar(item);
+                    }
+                }
+            }
+
+            Thread Tproc = new Thread(LimpaLog);
+            Tproc.Name = "CleanWorker";
+            Tproc.Start();
+            Tproc.Join();
+
+            StaticParametros.SetLockVariavel(false);
+
         }
 
     }

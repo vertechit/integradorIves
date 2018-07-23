@@ -29,7 +29,7 @@ namespace IntegradorCore.API
 
             }catch(Exception e)
             {
-                ex.ImprimeException(1, e.Message);
+                ex.ImprimeException(1, e.Message, e, " ");
             }
             
         }
@@ -59,7 +59,7 @@ namespace IntegradorCore.API
 
             }catch(Exception e)
             {
-                ex.ImprimeException(1, e.Message);
+                ex.ImprimeException(1, e.Message, e, " ");
             }
 
             return new integraResponse();

@@ -209,7 +209,7 @@ namespace IntegradorCore.DAO
                 catch (Exception ex)
                 {
                     ExceptionCore e = new ExceptionCore();
-                    e.ExBanco(1, ex.Message, StaticParametersDB.GetDriver());
+                    e.ExBanco(1, ex.Message, StaticParametersDB.GetDriver(), ex);
                 }
                 finally
                 {
@@ -252,7 +252,7 @@ namespace IntegradorCore.DAO
                 catch (Exception ex)
                 {
                     ExceptionCore e = new ExceptionCore();
-                    e.ExBanco(2, ex.Message, StaticParametersDB.GetDriver());
+                    e.ExBanco(2, ex.Message, StaticParametersDB.GetDriver(), ex);
 
                     retorno = false;
                 }

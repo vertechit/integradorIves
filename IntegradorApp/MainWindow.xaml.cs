@@ -304,11 +304,15 @@ namespace IntegradorApp
 
             if(fil.Exists != true)
             {
-                Log.CriarBancoSQLite();
-                Log.CriarTabelaSQlite();
+                //Log.CriarBancoSQLite();
+                //Log.CriarTabelaSQlite();
             }
 
             var sessao = AuxiliarNhibernate.AbrirSessao();
+
+            Thread t = new Thread(process.VerificaParaAtualizar);
+            t.Name = "UpdaterWorker";
+            t.Start();
 
             if (ctrlFirstExec == 0)
             {
@@ -385,9 +389,6 @@ namespace IntegradorApp
                         {
                             process.CriarPastas();
                         }
-
-                        Thread Tproc = new Thread(process.LimpaLog);
-                        Tproc.Start();
                     }
                     catch (Exception ex)
                     {
@@ -445,33 +446,46 @@ namespace IntegradorApp
 
         private void ActionIntegra()
         {
-
-            if (StaticParametros.GetIntegraBanco() == true)
+            if(StaticParametros.GetLockVariavel() == false)
             {
-                IntegraDB();
-            }
+                if (StaticParametros.GetIntegraBanco() == true)
+                {
+                    IntegraDB();
+                }
 
-            if (StaticParametros.GetDirOrigem() != null && StaticParametros.GetDirOrigem() != "")
-            {
-                IntegraArquivos(1);
+                if (StaticParametros.GetDirOrigem() != null && StaticParametros.GetDirOrigem() != "")
+                {
+                    IntegraArquivos(1);
+                }
+
+                System.Windows.MessageBox.Show("Processo de integração concluido!");
             }
-                
-            System.Windows.MessageBox.Show("Processo de integração concluido!");
+            else
+            {
+                System.Windows.MessageBox.Show("Por favor, aguarde alguns instantes e tente novamente");
+            }
         }
 
         private void ActionConsulta()
         {
-            if (StaticParametros.GetIntegraBanco() == true)
+            if (StaticParametros.GetLockVariavel() == false)
             {
-                ConsultaDB();
-            }
+                if (StaticParametros.GetIntegraBanco() == true)
+                {
+                    ConsultaDB();
+                }
 
-            if (StaticParametros.GetDirOrigem() != null && StaticParametros.GetDirOrigem() != "")
-            {
-                ConsultaArquivos(1);
-            }
+                if (StaticParametros.GetDirOrigem() != null && StaticParametros.GetDirOrigem() != "")
+                {
+                    ConsultaArquivos(1);
+                }
                 
-            System.Windows.MessageBox.Show("Processo de consulta concluido!");
+                System.Windows.MessageBox.Show("Processo de consulta concluido!");
+            }
+            else
+            {
+                System.Windows.MessageBox.Show("Por favor, aguarde alguns instantes e tente novamente");
+            }
         }
 
         private void IntegraDB()
@@ -544,6 +558,8 @@ namespace IntegradorApp
 
         private void OrganizaTelaEvent(int tipo)
         {
+            LblVersao.Content = string.Concat("v",StaticParametros.GetVersao());
+
             if (tipo == 1)
             {
                 BtnSalvar.Visibility = Visibility.Visible;
@@ -554,10 +570,6 @@ namespace IntegradorApp
 
                 BtnConsultar.Visibility = Visibility.Hidden;
                 BtnEnviar.Visibility = Visibility.Hidden;
-                LblqtdCons.Visibility = Visibility.Hidden;
-                LblqtdEnv.Visibility = Visibility.Hidden;
-                LbltmEnv.Visibility = Visibility.Hidden;
-                LbltmCons.Visibility = Visibility.Hidden;
                 BtnParam.Visibility = Visibility.Hidden;
                 BtnLog.Visibility = Visibility.Hidden;
                 BtnConectarBanco.Visibility = Visibility.Visible;
@@ -566,14 +578,6 @@ namespace IntegradorApp
             {
                 BtnConsultar.Visibility = Visibility.Visible;
                 BtnEnviar.Visibility = Visibility.Visible;
-                LblqtdCons.Visibility = Visibility.Hidden;
-                LblqtdEnv.Visibility = Visibility.Hidden;
-                LbltmEnv.Visibility = Visibility.Hidden;
-                LbltmCons.Visibility = Visibility.Hidden;
-                //LblqtdCons.Visibility = Visibility.Visible;
-                //LblqtdEnv.Visibility = Visibility.Visible;
-                //LbltmEnv.Visibility = Visibility.Visible;
-                //LbltmCons.Visibility = Visibility.Visible;
                 BtnParam.Visibility = Visibility.Visible;
                 BtnLog.Visibility = Visibility.Visible;
 
@@ -586,5 +590,27 @@ namespace IntegradorApp
         }
 
         #endregion
+
+        private void ReportBug_Click(object sender, RoutedEventArgs e)
+        {
+            string target = "https://github.com/vertechit/integradorIves/issues";
+
+            try
+            {
+                System.Diagnostics.Process.Start(target);
+            }
+            catch
+                (
+                 System.ComponentModel.Win32Exception noBrowser)
+            {
+                if (noBrowser.ErrorCode == -2147467259)
+                    System.Windows.MessageBox.Show(noBrowser.Message);
+            }
+            catch (System.Exception other)
+            {
+                System.Windows.MessageBox.Show(other.Message);
+            }
+
+        }
     }
 }

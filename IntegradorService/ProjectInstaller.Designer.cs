@@ -40,9 +40,9 @@
             // 
             // serviceInstaller1
             // 
-            this.serviceInstaller1.Description = "Serviço Integrador iVes da Vertech";
-            this.serviceInstaller1.DisplayName = "Integrador Vertech Ives";
-            this.serviceInstaller1.ServiceName = "Vertech Integrador Service";
+            this.serviceInstaller1.Description = "Serviço Integrador iVes";
+            this.serviceInstaller1.DisplayName = "Integrador Ives";
+            this.serviceInstaller1.ServiceName = "Integrador iVes Service";
             this.serviceInstaller1.AfterInstall += new System.Configuration.Install.InstallEventHandler(this.serviceInstaller1_AfterInstall);
             // 
             // ProjectInstaller

@@ -24,7 +24,7 @@ namespace IntegradorCore.API
             this.CustomEndPoint = customendpoint;
         }
 
-        public string SendXML(string xml)
+        public string SendXML(string xml, string identify)
         {
             var wsClient = AlteraEndPoint();
 
@@ -47,7 +47,7 @@ namespace IntegradorCore.API
             }
             catch (Exception e)
             {
-                ex.ImprimeException(1, e.Message);
+                ex.ImprimeException(1, e.Message, e, identify);
             }
 
             return responseString;
