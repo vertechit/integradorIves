@@ -25,8 +25,11 @@ namespace IntegradorCore.Mapeamento
             Map(x => x.consultado).Column("consultado").Default("0");
             Map(x => x.salvoDB).Column("salvoDB").Default("0");
             Map(x => x.dtenvio).Column("dtenvio");
+            Map(x => x.hrenvio).Column("hrenvio");
             Map(x => x.dtconsulta).Column("dtconsulta");
+            Map(x => x.hrconsulta).Column("hrconsulta");
             Map(x => x.nroProtGov).Column("nrprotgov");
+            Map(x => x.status).Column("status");
         }
     }
 }

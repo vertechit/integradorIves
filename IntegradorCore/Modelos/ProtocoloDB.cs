@@ -20,7 +20,10 @@ namespace IntegradorCore.Modelos
         public virtual string erros { get; set; }
         public virtual bool consultado { get; set; }
         public virtual string dtenvio { get; set; }
+        public virtual string hrenvio { get; set; }
         public virtual string dtconsulta { get; set; }
+        public virtual string hrconsulta { get; set; }
         public virtual string nroProtGov { get; set; }
+        public virtual int status { get; set; }
     }
 }

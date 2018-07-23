@@ -138,13 +138,25 @@ namespace IntegradorCore.NHibernate.DAO
             {
                 protocoloCurrent.dtenvio = protocoloNew.dtenvio;
             }
+            if (protocoloNew.hrenvio != null && protocoloNew.hrenvio != "")
+            {
+                protocoloCurrent.hrenvio = protocoloNew.hrenvio;
+            }
             if (protocoloNew.dtconsulta != null && protocoloNew.dtconsulta != "")
             {
                 protocoloCurrent.dtconsulta = protocoloNew.dtconsulta;
             }
+            if (protocoloNew.hrconsulta != null && protocoloNew.hrconsulta != "")
+            {
+                protocoloCurrent.hrconsulta = protocoloNew.hrconsulta;
+            }
             if (protocoloNew.nroProtGov != null && protocoloNew.nroProtGov != "")
             {
                 protocoloCurrent.nroProtGov = protocoloNew.nroProtGov;
+            }
+            if (protocoloNew.status != null)
+            {
+                protocoloCurrent.status = protocoloNew.status;
             }
 
             return protocoloCurrent;
