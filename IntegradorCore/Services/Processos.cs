@@ -525,7 +525,7 @@ namespace IntegradorCore.Services
             }
         }
 
-        public void GeraLogConsultaXML(string filename, string response, string prot)
+        public void GeraLogConsultaXML(string filename, string response, string prot, int tipo)
         {
             DirectoryInfo di = new DirectoryInfo(string.Concat(StaticParametros.GetDirArq(), "\\logs\\retornoXML"));
 
@@ -558,8 +558,14 @@ namespace IntegradorCore.Services
 
                 desc = desc.Replace(tagDescIni, "");
                 desc = desc.Replace(tagDescFim, "");
-
-                InsereLog(2, desc, filename, "Consulta", "Consulte a pasta de log para mais detalhes", prot, "");
+                if(tipo == 1)
+                {
+                    InsereLog(2, desc, filename, "Consulta", "Consulte a pasta de log para mais detalhes", prot, "");
+                }
+                else
+                {
+                    InsereLog(2, desc, filename, "Consulta", "Consulte sua base de dados para obter os detalhes", prot, "");
+                }
 
             }
             catch (Exception e)

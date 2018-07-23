@@ -201,7 +201,7 @@ namespace IntegradorCore.Services
                                 {
                                     if (proc.VerificaConsultaXML(retorno) == true)
                                     {
-                                        proc.GeraLogConsultaXML(item, retorno, prot.NroProtocolo);
+                                        proc.GeraLogConsultaXML(item, retorno, prot.NroProtocolo, 1);
                                         proc.MoverConsultado(item);
                                         proc.RemoveProtocolo(prot, sessao);//ProtocoloDAO.Remover(prot);//Armazenamento.DeleteProtocolo(item);
                                     }
@@ -284,6 +284,8 @@ namespace IntegradorCore.Services
                             //proc.GeraLogConsultaXML(item.idEvento, retorno, item.nroProt);
                             if(proc.VerificaConsultaXML(retorno) == true)
                             {
+                                proc.GeraLogConsultaXML(item.idEvento, retorno, item.nroProt, 2);
+
                                 if (proc.VerificaXMLRetornoConsulta(retorno) == true)
                                 {
                                     var xmlRec = proc.ExtraiXMLRecibo(retorno);
