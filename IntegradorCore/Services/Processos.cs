@@ -1254,39 +1254,60 @@ namespace IntegradorCore.Services
             var source = " ";
             var xml = " ";
 
-            if (File.Exists(string.Concat(StaticParametros.GetDirArq(), "\\bufferEnviaXML.dat")))
+            try
             {
-                xml = File.ReadAllText(string.Concat(StaticParametros.GetDirArq(), "\\bufferEnviaXML.dat"));
-            }
-
-            if(ex.Message != null)
-            {
-                msg = ex.Message;
-            }
-
-            if(ex.InnerException.Message != null)
-            {
-                innerex = ex.InnerException.Message;
-                source = ex.InnerException.Source;
-            }
-
-            else
-            {
-                source = ex.Source;
-            }
-
-            if(ex.StackTrace.ToString() != null)
-            {
-                stackTrace = ex.StackTrace.ToString();
-                if(innerex != " ")
+                if (File.Exists(string.Concat(StaticParametros.GetDirArq(), "\\bufferEnviaXML.dat")))
                 {
-                    stackTrace = stackTrace + "\n\n\n"+ ex.InnerException.StackTrace.ToString();
+                    xml = File.ReadAllText(string.Concat(StaticParametros.GetDirArq(), "\\bufferEnviaXML.dat"));
                 }
+
+                if (ex.Message != null)
+                {
+                    msg = ex.Message;
+                }
+
+                if (ex.InnerException != null)
+                {
+                    innerex = ex.InnerException.Message;
+                    source = ex.InnerException.Source;
+                }
+
+                else
+                {
+                    source = ex.Source;
+                }
+
+                if (ex.StackTrace.ToString() != null)
+                {
+                    stackTrace = ex.StackTrace.ToString();
+                    if (innerex != " ")
+                    {
+                        stackTrace = stackTrace + "\n\n\n" + ex.InnerException.StackTrace.ToString();
+                    }
+                }
+                var data = RetornaData();
+                var log = new LogInterno
+                {
+                    Servico = servico,
+                    CodErro = codErro,
+                    Data = data[0],
+                    Mensagem = msg,
+                    InnerException = innerex,
+                    StackTrace = stackTrace
+                    ,
+                    Source = source,
+                    Base = StaticParametros.GetBase(),
+                    Ambiente = StaticParametros.GetAmbiente(),
+                    Identificacao = id,
+                    Xml = xml
+                };
+                LogInternoDAO.Salvar(log);
             }
-            var data = RetornaData();
-            var log = new LogInterno { Servico = servico, CodErro = codErro, Data = data[0], Mensagem = msg, InnerException = innerex, StackTrace = stackTrace
-                , Source = source, Base = StaticParametros.GetBase(), Ambiente = StaticParametros.GetAmbiente(), Identificacao = id, Xml = xml };
-            LogInternoDAO.Salvar(log);
+            catch (Exception)
+            {
+                
+            }
+            
         }
 
         public bool DefineBaseEnvioDB(string xml)

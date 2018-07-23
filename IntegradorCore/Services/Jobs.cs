@@ -160,7 +160,7 @@ namespace IntegradorCore.Services
                             }
                             catch (Exception e)
                             {
-                                ex.Exception(e.Message, item, "Consulta", "");
+                                ex.Exception(e.Message, item, "Consulta", "", e);
                             }
                         }
                         
@@ -210,7 +210,7 @@ namespace IntegradorCore.Services
                             }
                             catch (Exception e)
                             {
-                                ex.Exception(e.Message, item, "Consulta", "Tente consultar novamente em alguns minutos");
+                                ex.Exception(e.Message, item, "Consulta", "Tente consultar novamente em alguns minutos", e);
                             }
                         }
                     }
@@ -313,7 +313,7 @@ namespace IntegradorCore.Services
                         }
                         catch (Exception e)
                         {
-                            ex.Exception(e.Message, item.idEvento, "Consulta", "Tente consultar novamente em alguns minutos");
+                            ex.Exception(e.Message, item.idEvento, "Consulta", "Tente consultar novamente em alguns minutos", e);
                         }
                     }
                 }
