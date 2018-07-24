@@ -21,7 +21,7 @@ namespace IntegradorCore.Services
         private static bool Base = false; //Base de dados definida pelo usuário
         private static bool IntegraBanco = false;
         private static bool LockVariavel = false;
-        private static string Versao = "18.7.4";
+        private static string Versao = "18.7.5";
         #endregion
 
         #region Param

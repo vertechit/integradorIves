@@ -154,7 +154,7 @@ namespace IntegradorCore.NHibernate.DAO
             {
                 protocoloCurrent.nroProtGov = protocoloNew.nroProtGov;
             }
-            if (protocoloNew.status != null)
+            if (protocoloNew.status != null && protocoloNew.status != "")
             {
                 protocoloCurrent.status = protocoloNew.status;
             }

@@ -24,6 +24,6 @@ namespace IntegradorCore.Modelos
         public virtual string dtconsulta { get; set; }
         public virtual string hrconsulta { get; set; }
         public virtual string nroProtGov { get; set; }
-        public virtual int status { get; set; }
+        public virtual string status { get; set; }
     }
 }
