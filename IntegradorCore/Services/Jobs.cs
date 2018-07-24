@@ -246,7 +246,7 @@ namespace IntegradorCore.Services
                         {
                             proc.SalvaProtocoloXML(item.idEvento, response, 2, sessao);
                             var data = proc.RetornaData();
-                            var nprot = new ProtocoloDB { idEvento = item.idEvento, dtenvio = data[0], hrenvio = data[1], status = "0" };
+                            var nprot = new ProtocoloDB { idEvento = item.idEvento, dtenvio = data[0], hrenvio = data[1], status = "0 - Enviado" };
                             ProtocoloDAO.Salvar(nprot);
                             proc.GeraLogEnviaXML(item.idEvento, "Foi enviado com sucesso!");
                             //UpdateBanco(nrprot, xmlprot, dt, hr, status );
@@ -294,7 +294,7 @@ namespace IntegradorCore.Services
                                     var nrRec = proc.ExtraiNumRecibo(retorno);
                                     var nrProtgov = proc.ExtraiNumProtGov(xmlRec);
                                     var data = proc.RetornaData();
-                                    var prot = new ProtocoloDB { idEvento = item.idEvento, xmlRec = xmlRec, nroRec = nrRec, consultado = true, dtconsulta = data[0], hrconsulta = data[1], nroProtGov = nrProtgov, status = "2" };
+                                    var prot = new ProtocoloDB { idEvento = item.idEvento, xmlRec = xmlRec, nroRec = nrRec, consultado = true, dtconsulta = data[0], hrconsulta = data[1], nroProtGov = nrProtgov, status = "2 - Aprovado" };
                                     ProtocoloDAO.Salvar(prot);
                                     //Armazenamento.AddProtocoloDB(new ProtocoloDB { idEvento = item.idEvento, xmlRec = xmlRec, nroRec = nrRec, consultado = true });
                                 }
@@ -302,7 +302,7 @@ namespace IntegradorCore.Services
                                 {
                                     var erros = proc.ExtraiErrosXmlDB(retorno);
                                     var data = proc.RetornaData();
-                                    var prot = new ProtocoloDB { idEvento = item.idEvento, erros = erros, consultado = true, dtconsulta = data[0], hrconsulta = data[1], status = "3" };
+                                    var prot = new ProtocoloDB { idEvento = item.idEvento, erros = erros, consultado = true, dtconsulta = data[0], hrconsulta = data[1], status = "3 - Rejeitado" };
                                     ProtocoloDAO.Salvar(prot);
                                     //Armazenamento.AddProtocoloDB(new ProtocoloDB { idEvento = item.idEvento, erros = erros, consultado = true });
                                 }
@@ -310,7 +310,7 @@ namespace IntegradorCore.Services
                             else
                             {
                                 var data = proc.RetornaData();
-                                var prot = new ProtocoloDB { idEvento = item.idEvento, dtconsulta = data[0], hrconsulta = data[1], status = "1" };
+                                var prot = new ProtocoloDB { idEvento = item.idEvento, dtconsulta = data[0], hrconsulta = data[1], status = "1 - Aguardando Governo/iVeS" };
                                 ProtocoloDAO.Salvar(prot);
                                 Banco.CustomUpdateDB(prot, 4);
                                 //UpdateBanco(dt, hr, status );
