@@ -13,7 +13,9 @@ namespace IntegradorCore.Mapeamento
         public ProtocoloDBMapa()
         {
             Table("protocoloDB");
-            Id(x => x.idEvento).Unique().Column("idEvento").Not.Nullable();
+            Id(x => x.id).Unique().Column("id").Not.Nullable();
+            Map(x => x.idEvento).Column("idEvento").Not.Nullable();
+            Map(x => x.idSeq).Column("idSeq").Not.Nullable();
             Map(x => x.xmlEvento).Column("xmlEvento").Not.Nullable();
             Map(x => x.driver).Column("driver").Not.Nullable();
             Map(x => x.nroProt).Column("nroProt");
@@ -25,8 +27,11 @@ namespace IntegradorCore.Mapeamento
             Map(x => x.consultado).Column("consultado").Default("0");
             Map(x => x.salvoDB).Column("salvoDB").Default("0");
             Map(x => x.dtenvio).Column("dtenvio");
+            Map(x => x.hrenvio).Column("hrenvio");
             Map(x => x.dtconsulta).Column("dtconsulta");
+            Map(x => x.hrconsulta).Column("hrconsulta");
             Map(x => x.nroProtGov).Column("nrprotgov");
+            Map(x => x.status).Column("status");
         }
     }
 }
