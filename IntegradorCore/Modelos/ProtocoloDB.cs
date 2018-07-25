@@ -8,7 +8,9 @@ namespace IntegradorCore.Modelos
 {
     public class ProtocoloDB
     {
+        public virtual string id { get; set; }
         public virtual string idEvento { get; set; }
+        public virtual string idSeq { get; set; }
         public virtual string xmlEvento { get; set; }
         public virtual string driver { get; set; }
         public virtual string nroProt { get; set; }

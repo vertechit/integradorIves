@@ -13,7 +13,9 @@ namespace IntegradorCore.Mapeamento
         public ProtocoloDBMapa()
         {
             Table("protocoloDB");
-            Id(x => x.idEvento).Unique().Column("idEvento").Not.Nullable();
+            Id(x => x.id).Unique().Column("id").Not.Nullable();
+            Map(x => x.idEvento).Column("idEvento").Not.Nullable();
+            Map(x => x.idSeq).Column("idSeq").Not.Nullable();
             Map(x => x.xmlEvento).Column("xmlEvento").Not.Nullable();
             Map(x => x.driver).Column("driver").Not.Nullable();
             Map(x => x.nroProt).Column("nroProt");

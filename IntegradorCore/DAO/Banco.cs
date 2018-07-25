@@ -135,7 +135,7 @@ namespace IntegradorCore.DAO
             {
                 var data = RetornaArrayData(prot.dtconsulta);
                 string format = "yyyy-MM-dd hh:mm:ss";
-                var sql = "UPDATE ZMDATVIVES_EVENTOS_ESOCIAL SET NROPROTOCOLO = :Nrprot, XMLPROTOCOLO = :Xmlprot, MENSAGEMERRO = :Erro, DATARETORNO = :Dtretorno, HORARETORNO = :Hrretorno, STATUS = :Status  WHERE ID = :Id";
+                var sql = "UPDATE ZMDATVIVES_EVENTOS_ESOCIAL SET NROPROTOCOLO = :Nrprot, XMLPROTOCOLO = :Xmlprot, MENSAGEMERRO = :Erro, DATARETORNO = :Dtretorno, HORARETORNO = :Hrretorno, STATUS = :Status  WHERE ID = :Idevento AND IDSEQ = :Idseq";
                 sql = sql.Replace(":Nrprot", string.Concat(quote + prot.nroProt + quote));
                 sql = sql.Replace(":Xmlprot", string.Concat(quote + (prot.xmlProt = prot.xmlProt.Replace("> <", "><")) + quote));
                 sql = sql.Replace(":Erro", string.Concat(quote + prot.erros + quote));
@@ -149,7 +149,8 @@ namespace IntegradorCore.DAO
                 }
                 sql = sql.Replace(":Hrretorno", string.Concat(quote + prot.hrconsulta + quote));
                 sql = sql.Replace(":Status", string.Concat(quote + prot.status + quote));
-                sql = sql.Replace(":Id", string.Concat(quote + prot.idEvento + quote));
+                sql = sql.Replace(":Idevento", string.Concat(quote + prot.idEvento + quote));
+                sql = sql.Replace(":Idseq", prot.idSeq);
 
                 return sql;
             }
@@ -157,7 +158,7 @@ namespace IntegradorCore.DAO
             {
                 var data = RetornaArrayData(prot.dtconsulta);
                 string format = "yyyy-MM-dd hh:mm:ss";
-                var sql = "UPDATE ZMDATVIVES_EVENTOS_ESOCIAL SET NROPROTOCOLO = :nrprot, XMLPROTOCOLO = :xmlprot, NRORECIBO = :nroRec, XMLRECIBO = :xmlRec, DATARETORNO = :Dtretorno, HORARETORNO = :Hrretorno, STATUS = :Status WHERE ID = :Id";
+                var sql = "UPDATE ZMDATVIVES_EVENTOS_ESOCIAL SET NROPROTOCOLO = :nrprot, XMLPROTOCOLO = :xmlprot, NRORECIBO = :nroRec, XMLRECIBO = :xmlRec, DATARETORNO = :Dtretorno, HORARETORNO = :Hrretorno, STATUS = :Status WHERE ID = :Idevento AND IDSEQ = :Idseq";
                 sql = sql.Replace(":nrprot", string.Concat(quote + prot.nroProt + quote));
                 sql = sql.Replace(":xmlprot", string.Concat(quote + prot.xmlProt + quote));
                 sql = sql.Replace(":nroRec", string.Concat(quote + prot.nroRec + quote));
@@ -172,7 +173,8 @@ namespace IntegradorCore.DAO
                 }
                 sql = sql.Replace(":Hrretorno", string.Concat(quote + prot.hrconsulta + quote));
                 sql = sql.Replace(":Status", string.Concat(quote + prot.status + quote));
-                sql = sql.Replace(":Id", string.Concat(quote + prot.idEvento + quote));
+                sql = sql.Replace(":Idevento", string.Concat(quote + prot.idEvento + quote));
+                sql = sql.Replace(":Idseq", prot.idSeq);
 
                 return sql;
             }
@@ -180,7 +182,7 @@ namespace IntegradorCore.DAO
             {
                 var data = RetornaArrayData(prot.dtenvio);
                 string format = "yyyy-MM-dd hh:mm:ss";
-                var sql = "UPDATE ZMDATVIVES_EVENTOS_ESOCIAL SET NROPROTOCOLO = :Nrprot, XMLPROTOCOLO = :Xmlprot, STATUS = :Status, DATAENVIO = :Dtenvio, HORAENVIO = :Hrenvio  WHERE ID = :Id";
+                var sql = "UPDATE ZMDATVIVES_EVENTOS_ESOCIAL SET NROPROTOCOLO = :Nrprot, XMLPROTOCOLO = :Xmlprot, STATUS = :Status, DATAENVIO = :Dtenvio, HORAENVIO = :Hrenvio  WHERE ID = :Idevento AND IDSEQ = :Idseq";
                 sql = sql.Replace(":Nrprot", string.Concat(quote + prot.nroProt + quote));
                 sql = sql.Replace(":Xmlprot", string.Concat(quote + prot.xmlProt + quote));
                 sql = sql.Replace(":Status", string.Concat(quote + prot.status + quote));
@@ -193,7 +195,8 @@ namespace IntegradorCore.DAO
                     sql = sql.Replace(":Dtenvio", string.Concat(quote + data.ToString(format) + quote));
                 }
                 sql = sql.Replace(":Hrenvio", string.Concat(quote + prot.hrenvio + quote));
-                sql = sql.Replace(":Id", string.Concat(quote + prot.idEvento + quote));
+                sql = sql.Replace(":Idevento", string.Concat(quote + prot.idEvento + quote));
+                sql = sql.Replace(":Idseq", prot.idSeq);
 
                 return sql;
             }
@@ -201,7 +204,7 @@ namespace IntegradorCore.DAO
             {
                 var data = RetornaArrayData(prot.dtconsulta);
                 string format = "yyyy-MM-dd hh:mm:ss";
-                var sql = "UPDATE ZMDATVIVES_EVENTOS_ESOCIAL SET DATARETORNO = :Dtretorno, HORARETORNO = :Hrretorno, STATUS = :Status  WHERE ID = :Id";
+                var sql = "UPDATE ZMDATVIVES_EVENTOS_ESOCIAL SET DATARETORNO = :Dtretorno, HORARETORNO = :Hrretorno, STATUS = :Status  WHERE ID = :Idevento AND IDSEQ = :Idseq";
                 if (StaticParametersDB.GetDriver() == "oracle")
                 {
                     sql = sql.Replace(":Dtretorno", "trunc(SYSDATE)");
@@ -212,7 +215,8 @@ namespace IntegradorCore.DAO
                 }
                 sql = sql.Replace(":Hrretorno", string.Concat(quote + prot.hrconsulta + quote));
                 sql = sql.Replace(":Status", string.Concat(quote + prot.status + quote));
-                sql = sql.Replace(":Id", string.Concat(quote + prot.idEvento + quote));
+                sql = sql.Replace(":Idevento", string.Concat(quote + prot.idEvento + quote));
+                sql = sql.Replace(":Idseq", prot.idSeq);
 
                 return sql;
             }
@@ -255,7 +259,7 @@ namespace IntegradorCore.DAO
                     using (var comm = GetCommand())
                     {
                         comm.Connection = conn;
-                        comm.CommandText = "SELECT ID, XMLEVENTO FROM ZMDATVIVES_EVENTOS_ESOCIAL WHERE NROPROTOCOLO IS NULL";
+                        comm.CommandText = "SELECT ID, XMLEVENTO, IDSEQ FROM ZMDATVIVES_EVENTOS_ESOCIAL WHERE NROPROTOCOLO IS NULL";
 
                         var adapter = GetAdapter(comm);
                         var dataTable = new System.Data.DataTable();
@@ -265,7 +269,11 @@ namespace IntegradorCore.DAO
                         foreach (System.Data.DataRow row in dataTable.Rows)
                         {
                             var Base = proc.DefineBaseEnvioDB(Convert.ToString(row["XMLEVENTO"]));
-                            var prot = new ProtocoloDB { idEvento = Convert.ToString(row["ID"]), xmlEvento = Convert.ToString(row["XMLEVENTO"]), driver = StaticParametersDB.GetDriver(), baseEnv = Convert.ToString(Base) };
+                            var prot = new ProtocoloDB { id = string.Concat(Convert.ToString(row["ID"]), "-", Convert.ToString(row["IDSEQ"])),
+                                                         idEvento = Convert.ToString(row["ID"]), idSeq = Convert.ToString(row["IDSEQ"]),
+                                                         xmlEvento = Convert.ToString(row["XMLEVENTO"]),
+                                                         driver = StaticParametersDB.GetDriver(),
+                                                         baseEnv = Convert.ToString(Base) };
                             ProtocoloDAO.Salvar(prot);
                         }
                     }

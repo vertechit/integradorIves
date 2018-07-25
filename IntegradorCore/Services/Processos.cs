@@ -383,7 +383,7 @@ namespace IntegradorCore.Services
                 else
                 {
                     ProtocoloDB_DAO ProtocoloDAO = new ProtocoloDB_DAO(sessao);
-                    var prot = new ProtocoloDB { idEvento = id, nroProt = protocolo, xmlProt = Response };
+                    var prot = new ProtocoloDB { id = id, nroProt = protocolo, xmlProt = Response };
                     //Armazenamento.AddProtocoloDB(new ProtocoloDB { idEvento = id, nroProt = protocolo, xmlProt = Response });
                     ProtocoloDAO.Salvar(prot);
                 }

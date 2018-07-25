@@ -64,7 +64,7 @@ namespace IntegradorCore.NHibernate.DAO
         {
             try
             {
-                var prot = BuscarPorIDEvento(protocolo.idEvento);
+                var prot = BuscarPorIDEvento(protocolo.id);
 
                 if (prot.xmlEvento != null)
                 {
