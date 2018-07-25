@@ -282,11 +282,40 @@ namespace IntegradorCore.Services
             int sti = xml.IndexOf(tagIni);// + tagIni.Length;
             int stf = xml.IndexOf(tagFim);// - tagFim.Length;
 
-            var nwxml = xml.Substring(sti, stf + tagFim.Length - sti);
-            //nwxml.Replace();
-            var XML = System.Xml.Linq.XElement.Parse(nwxml);
+            try
+            {
+                var nwxml = xml.Substring(sti, stf + tagFim.Length - sti);
+                var XML = System.Xml.Linq.XElement.Parse(nwxml);
+                return XML.Value;
+            }
+            catch (Exception)
+            {
+                var tagIniP = "<processamento>";
+                var tagFimP = "</processamento>";
+                int stiP = xml.IndexOf(tagIniP);
+                int stfP = xml.IndexOf(tagFimP);
+                var nwxml = xml.Substring(stiP, stfP + tagFimP.Length - stiP);
+                if (nwxml.IndexOf("<dhProcessamento>") > 0)
+                {
+                    var tagdtini = "<dhProcessamento>";
+                    var tagdtfim = "</dhProcessamento>";
+                    int stidt = nwxml.IndexOf(tagdtini);
+                    int stfdt = nwxml.IndexOf(tagdtfim);
+                    nwxml = nwxml.Remove(stidt, (stfdt - stidt) + tagdtfim.Length);
+                }
+                if (nwxml.IndexOf("<versaoAppProcessamento>") > 0)
+                {
+                    var tagdtini = "<versaoAppProcessamento>";
+                    var tagdtfim = "</versaoAppProcessamento>";
+                    int stidt = nwxml.IndexOf(tagdtini);
+                    int stfdt = nwxml.IndexOf(tagdtfim);
+                    nwxml = nwxml.Remove(stidt, (stfdt - stidt) + tagdtfim.Length);
+                }
 
-            return XML.Value;
+                var XML = System.Xml.Linq.XElement.Parse(nwxml);
+                return XML.Value;
+            }
+            
         }
 
         public List<string> ListarArquivos(string ext)
