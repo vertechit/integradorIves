@@ -556,14 +556,16 @@ namespace IntegradorCore.Services
 
         public void GeraLogConsultaXML(string filename, string response, string prot, int tipo)
         {
-            DirectoryInfo di = new DirectoryInfo(string.Concat(StaticParametros.GetDirArq(), "\\logs\\retornoXML"));
+            if(tipo == 1)
+            {
+                DirectoryInfo di = new DirectoryInfo(string.Concat(StaticParametros.GetDirArq(), "\\logs\\retornoXML"));
 
-            if (di.Exists == false)
-                di.Create();
+                if (di.Exists == false)
+                    di.Create();
+                
+            }
             var nome = string.Concat("log_", filename);
-
             string s = MontaCaminhoDir(string.Concat(StaticParametros.GetDirArq(), "\\logs\\retornoXML"), nome);
-
             int sti = 0;
             int stf = 0;
 
@@ -602,17 +604,20 @@ namespace IntegradorCore.Services
                 ExceptionCore ex = new ExceptionCore();
                 ex.ExProcessos(5, e.Message.ToString());
             }
-
-            try
+            if(tipo == 1)
             {
-                System.IO.File.WriteAllText(@s, protocolo);
+                try
+                {
+                    System.IO.File.WriteAllText(@s, protocolo);
 
+                }
+                catch (Exception e)
+                {
+                    ExceptionCore ex = new ExceptionCore();
+                    ex.ExProcessos(5, e.Message.ToString());
+                }
             }
-            catch (Exception e)
-            {
-                ExceptionCore ex = new ExceptionCore();
-                ex.ExProcessos(5, e.Message.ToString());
-            }
+            
         }
 
         public void GeraLogConsulta(string filename, string nroprt, string desc, int cd)
