@@ -127,7 +127,7 @@ namespace IntegradorCore.Services
 
                     if (result == true)
                     {
-                        if(prot.Ambiente == StaticParametros.GetAmbiente() && Convert.ToBoolean(prot.Base) == StaticParametros.GetBase())
+                        if (prot.Ambiente == StaticParametros.GetAmbiente() && Convert.ToBoolean(prot.Base) == StaticParametros.GetBase())
                         {
                             try
                             {
@@ -141,7 +141,7 @@ namespace IntegradorCore.Services
                                 {
                                     proc.CreateFileRetornoTXT(item);
                                 }
-                                catch(Exception e)
+                                catch (Exception e)
                                 {
 
                                 }
@@ -158,7 +158,7 @@ namespace IntegradorCore.Services
                                 ex.Exception(e.Message, item, "Consulta", "", e);
                             }
                         }
-                        
+
                     }
 
 
@@ -220,7 +220,7 @@ namespace IntegradorCore.Services
             var sessao = AuxiliarNhibernate.AbrirSessao();
             ProtocoloDB_DAO ProtocoloDAO = new ProtocoloDB_DAO(sessao);
 
-            SelectDriverToGetXMLOnDataBase(sessao);
+            Banco.GetData(sessao);//SelectDriverToGetXMLOnDataBase(sessao);
 
             var lista = ProtocoloDAO.BuscaEnvio();
 
@@ -250,7 +250,7 @@ namespace IntegradorCore.Services
                             proc.GeraLogEnviaXML(item.id, "Não foi enviado");
                         }
                     }
-                    
+
                 }
             }
 
@@ -276,11 +276,11 @@ namespace IntegradorCore.Services
 
                         try
                         {
-                            if(proc.VerificaConsultaXML(retorno) == true)
+                            if (proc.VerificaConsultaXML(retorno) == true)
                             {
                                 proc.GeraLogConsultaXML(item.id, retorno, item.nroProt, 2); //Ajustar
 
-                                if(proc.VerificaSeTemRecibo(retorno) == true)
+                                if (proc.VerificaSeTemRecibo(retorno) == true)
                                 {
                                     var xmlRec = proc.ExtraiXMLRecibo(retorno);
                                     var nrRec = proc.ExtraiInfoXML(xmlRec, "nrRecibo");
@@ -326,7 +326,7 @@ namespace IntegradorCore.Services
             ProtocoloDB_DAO ProtocoloDAO = new ProtocoloDB_DAO(sessao);
 
             var lista = ProtocoloDAO.BuscaParaAtualizarBanco();
-            //Armazenamento.GetProtocolosDBReadyUpdate();
+
             if (lista.Count > 0)
             {
                 foreach (var item in lista)
@@ -337,13 +337,12 @@ namespace IntegradorCore.Services
                         {
                             if (!item.salvoDB)
                             {
-                                var ret = SelectDriverToUpdate(item);
+                                var ret = Banco.UpdateDB(item); //SelectDriverToUpdate(item);
 
                                 if (ret == true)
                                 {
                                     item.salvoDB = true;
                                     ProtocoloDAO.Salvar(item);
-                                    //Armazenamento.updateSalvoDB(item);
                                 }
                             }
 
@@ -358,43 +357,6 @@ namespace IntegradorCore.Services
             }
 
             sessao.Close();
-        }
-
-        public void SelectDriverToGetXMLOnDataBase(ISession sessao)
-        {
-            if (StaticParametros.GetIntegraBanco() == true)
-            {
-                /*if (StaticParametersDB.GetDriver() == "oracle")
-                    OracleDB.GetData(sessao);
-
-                else
-                {
-                    SQLServerDB.GetData(sessao);
-                }*/
-
-                Banco.GetData(sessao);
-            }
-        }
-
-        public bool SelectDriverToUpdate(ProtocoloDB prot)
-        {
-            if (StaticParametros.GetIntegraBanco() == true)
-            {
-                /*if (StaticParametersDB.GetDriver() == "oracle")
-                {
-                    return OracleDB.UpdateDB(prot);
-                }
-
-                else
-                {
-                    return SQLServerDB.UpdateDB(prot);
-                }*/
-
-                return Banco.UpdateDB(prot);
-
-            }
-
-            return false;
         }
     }
 }
