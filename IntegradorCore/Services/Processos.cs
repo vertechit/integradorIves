@@ -222,7 +222,7 @@ namespace IntegradorCore.Services
             }
         }
 
-        public string ExtraiXMLReciboNew(string xml)
+        public string ExtraiXMLRecibo(string xml)
         {
             XmlDocument doc = new XmlDocument();
             doc.LoadXml(xml);
@@ -557,29 +557,13 @@ namespace IntegradorCore.Services
             }
             var nome = string.Concat("log_", filename);
             string s = MontaCaminhoDir(string.Concat(StaticParametros.GetDirArq(), "\\logs\\retornoXML"), nome);
-            int sti = 0;
-            int stf = 0;
 
-            string tagIni = "<retornoEventos>";
-            string tagFim = "</retornoEventos>";
-
-            sti = response.IndexOf(tagIni);
-            stf = response.IndexOf(tagFim);
-
-            var protocolo = response.Substring(sti, stf + tagFim.Length - sti);
+            var xml = ExtraiXMLRecibo(response);
+            var desc = ExtraiInfoXML(xml, "descResposta");
 
             try
             {
-                var tagDescIni = "<descResposta>";
-                var tagDescFim = "</descResposta>";
 
-                int stiDesc = protocolo.IndexOf(tagDescIni);
-                int stfDesc = protocolo.IndexOf(tagDescFim);
-
-                var desc = protocolo.Substring(stiDesc, stfDesc + tagDescFim.Length - stiDesc);
-
-                desc = desc.Replace(tagDescIni, "");
-                desc = desc.Replace(tagDescFim, "");
                 if(tipo == 1)
                 {
                     InsereLog(2, desc, filename, "Consulta", "Consulte a pasta de log para mais detalhes", prot, "");
@@ -599,7 +583,7 @@ namespace IntegradorCore.Services
             {
                 try
                 {
-                    System.IO.File.WriteAllText(@s, protocolo);
+                    System.IO.File.WriteAllText(@s, xml);
 
                 }
                 catch (Exception e)

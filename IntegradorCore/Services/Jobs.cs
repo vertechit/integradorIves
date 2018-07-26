@@ -282,7 +282,7 @@ namespace IntegradorCore.Services
 
                                 if(proc.VerificaSeTemRecibo(retorno) == true)
                                 {
-                                    var xmlRec = proc.ExtraiXMLReciboNew(retorno);
+                                    var xmlRec = proc.ExtraiXMLRecibo(retorno);
                                     var nrRec = proc.ExtraiInfoXML(xmlRec, "nrRecibo");
                                     var nrProtgov = proc.ExtraiInfoXML(xmlRec, "protocoloEnvioLote");
 
