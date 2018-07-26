@@ -21,6 +21,7 @@ using NHibernate;
 using System.Xml.Linq;
 using System.ComponentModel;
 using System.Threading;
+using System.Xml;
 
 namespace IntegradorCore.Services
 {
@@ -223,7 +224,24 @@ namespace IntegradorCore.Services
             return false;
         }
 
-        public string ExtraiXMLRecibo(string xml)
+        public bool VerificaSeTemRecibo(string xml)
+        {
+            XmlDocument doc = new XmlDocument();
+            doc.LoadXml(xml);
+
+            var elemListRecibo = doc.GetElementsByTagName("recibo");
+
+            if(elemListRecibo.Count == 1)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+
+        /*public string ExtraiXMLRecibo(string xml)
         {
             var tagIni = "<retornoEventos>";
             var tagFim = "</retornoEventos>";
@@ -246,9 +264,30 @@ namespace IntegradorCore.Services
             //xm = xm.Replace(" ", "");
 
             return xm;
+        }*/
+
+        public string ExtraiXMLReciboNew(string xml)
+        {
+            XmlDocument doc = new XmlDocument();
+            doc.LoadXml(xml);
+
+            var elemListRetEve = doc.GetElementsByTagName("retornoEventos");
+
+            foreach (XmlNode item in elemListRetEve[0].ChildNodes)
+            {
+                foreach (XmlNode itens in item.ChildNodes)
+                {
+                    if(itens.Name == "retornoEvento")
+                    {
+                        return itens.InnerXml;
+                    }
+                }
+            }
+
+            return xml;
         }
 
-        public string ExtraiNumRecibo(string xml)
+        /*public string ExtraiNumRecibo(string xml)
         {
             var tagIni = "<nrRecibo>";
             var tagFim = "</nrRecibo>";
@@ -259,9 +298,25 @@ namespace IntegradorCore.Services
             var nrRec = xml.Substring(sti, stf + tagFim.Length - sti);
 
             return nrRec;
+        }*/
+
+        public string ExtraiNumReciboNew(string xml)
+        {
+            var nrRecibo = "";
+            XmlDocument doc = new XmlDocument();
+            doc.LoadXml(xml);
+
+            var elemListRetEve = doc.GetElementsByTagName("nrRecibo");
+
+            if(elemListRetEve.Count == 1)
+            {
+                return elemListRetEve[0].InnerText;
+            }
+
+            return nrRecibo;
         }
 
-        public string ExtraiNumProtGov(string xml)
+        /*public string ExtraiNumProtGov(string xml)
         {
             var tagIni = "<protocoloEnvioLote>";
             var tagFim = "</protocoloEnvioLote>";
@@ -272,9 +327,41 @@ namespace IntegradorCore.Services
             var nrProtgov = xml.Substring(sti, stf + tagFim.Length - sti);
 
             return nrProtgov;
+        }*/
+
+        public string ExtraiNumProtGovNew(string xml)
+        {
+            var nrProt = "";
+            XmlDocument doc = new XmlDocument();
+            doc.LoadXml(xml);
+
+            var elemListRetEve = doc.GetElementsByTagName("protocoloEnvioLote");
+
+            if (elemListRetEve.Count == 1)
+            {
+                return elemListRetEve[0].InnerText;
+            }
+
+            return nrProt;
         }
 
-        public string ExtraiErrosXmlDB(string xml)
+        public string ExtraiInfoXML(string xml, string tag)
+        {
+            var str = "";
+            XmlDocument doc = new XmlDocument();
+            doc.LoadXml(xml);
+
+            var elemList = doc.GetElementsByTagName(tag);
+
+            if (elemList.Count == 1)
+            {
+                return elemList[0].InnerText;
+            }
+
+            return str;
+        }
+
+        /*public string ExtraiErrosXmlDB(string xml)
         {
             var tagIni = "<ocorrencias>";
             var tagFim = "</ocorrencias>";
@@ -285,8 +372,22 @@ namespace IntegradorCore.Services
             try
             {
                 var nwxml = xml.Substring(sti, stf + tagFim.Length - sti);
+                var codigo = "";
+                if (nwxml.IndexOf("<codigo>") > 0)
+                {
+                    var tagdtini = "<codigo>";
+                    var tagdtfim = "</codigo>";
+                    int stidt = nwxml.IndexOf(tagdtini);
+                    int stfdt = nwxml.IndexOf(tagdtfim);
+                    codigo = nwxml.Substring(stidt, stfdt + tagdtfim.Length - stidt);
+                    codigo = codigo.Replace(tagdtini, "");
+                    codigo = codigo.Replace(tagdtfim, "");
+                    nwxml = nwxml.Remove(stidt, (stfdt - stidt) + tagdtfim.Length);
+                }
+
                 var XML = System.Xml.Linq.XElement.Parse(nwxml);
-                return XML.Value;
+                var retorno = codigo+" - "+XML.Value;
+                return retorno;
             }
             catch (Exception)
             {
@@ -295,6 +396,18 @@ namespace IntegradorCore.Services
                 int stiP = xml.IndexOf(tagIniP);
                 int stfP = xml.IndexOf(tagFimP);
                 var nwxml = xml.Substring(stiP, stfP + tagFimP.Length - stiP);
+                var codigo = "";
+                if (nwxml.IndexOf("<cdResposta>") > 0)
+                {
+                    var tagdtini = "<cdResposta>";
+                    var tagdtfim = "</cdResposta>";
+                    int stidt = nwxml.IndexOf(tagdtini);
+                    int stfdt = nwxml.IndexOf(tagdtfim);
+                    codigo = nwxml.Substring(stidt, stfdt + tagdtfim.Length - stidt);
+                    codigo = codigo.Replace(tagdtini, "");
+                    codigo = codigo.Replace(tagdtfim, "");
+                    nwxml = nwxml.Remove(stidt, (stfdt - stidt) + tagdtfim.Length);
+                }
                 if (nwxml.IndexOf("<dhProcessamento>") > 0)
                 {
                     var tagdtini = "<dhProcessamento>";
@@ -313,8 +426,65 @@ namespace IntegradorCore.Services
                 }
 
                 var XML = System.Xml.Linq.XElement.Parse(nwxml);
-                return XML.Value;
+                var retorno = codigo + " - " + XML.Value;
+                return retorno;
             }
+            
+        }*/
+
+        public string ExtraiErrosXmlDB(string xml)
+        {
+            XmlDocument doc = new XmlDocument();
+            doc.LoadXml(xml);
+
+            var elemListOcorrencia = doc.GetElementsByTagName("ocorrencias");
+            var elemListProcessamento = doc.GetElementsByTagName("processamento");
+            var msg = "";
+
+            if(elemListOcorrencia.Count == 1)
+            {
+                foreach (XmlNode item in elemListOcorrencia[0].ChildNodes)
+                {
+                    foreach (XmlNode itens in item.ChildNodes)
+                    {
+                        if(itens.Name == "codigo")
+                        {
+                            msg = msg + "codigo: "+itens.InnerText + " - ";
+                        }else if(itens.Name == "descricao")
+                        {
+                            msg = msg + "descricao: " + itens.InnerText + " - ";
+                        }else if(itens.Name == "tipo")
+                        {
+                            msg = msg + "tipo: "+itens.InnerText + " - ";
+                        }else if(itens.Name == "localizacao")
+                        {
+                            msg = msg + "localizacao: " + itens.InnerText + " | ";
+                        }
+                    }
+                }
+                return msg;
+            }
+            else
+            {
+                if(elemListProcessamento.Count == 1)
+                {
+                    foreach (XmlNode item in elemListProcessamento[0].ChildNodes)
+                    {
+                        if(item.Name == "cdResposta")
+                        {
+                            msg = msg + "cdResposta: " + item.InnerText + " - ";
+                        }
+                        else if(item.Name == "descResposta")
+                        {
+                            msg = msg + "descResposta: " + item.InnerText;
+                        }
+                    }
+                    Console.WriteLine(elemListProcessamento[0].ChildNodes[0].InnerText);
+                }
+
+                return msg;
+            }
+
             
         }
 
@@ -533,7 +703,6 @@ namespace IntegradorCore.Services
 
             return File_Names;
         }
-
 
         public void MoverConsultado(string filename)
         {
@@ -1441,6 +1610,5 @@ namespace IntegradorCore.Services
             StaticParametros.SetLockVariavel(false);
 
         }
-
     }
 }

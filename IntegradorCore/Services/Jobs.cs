@@ -289,11 +289,19 @@ namespace IntegradorCore.Services
                             {
                                 proc.GeraLogConsultaXML(item.id, retorno, item.nroProt, 2);
 
-                                if (proc.VerificaXMLRetornoConsulta(retorno) == true)
+                                //if (proc.VerificaXMLRetornoConsulta(retorno) == true)
+                                if(proc.VerificaSeTemRecibo(retorno) == true)
                                 {
-                                    var xmlRec = proc.ExtraiXMLRecibo(retorno);
-                                    var nrRec = proc.ExtraiNumRecibo(retorno);
-                                    var nrProtgov = proc.ExtraiNumProtGov(xmlRec);
+                                    //var xmlRec1 = proc.ExtraiXMLRecibo(retorno);
+                                    var xmlRec = proc.ExtraiXMLReciboNew(retorno);
+                                    //var nrRec1 = proc.ExtraiNumRecibo(retorno);
+
+                                    var nrRec = proc.ExtraiInfoXML(xmlRec, "nrRecibo");
+                                    //var nrRec1 = proc.ExtraiNumReciboNew(retorno);
+                                    //var nrProtgov1 = proc.ExtraiNumProtGov(xmlRec);
+                                    var nrProtgov1 = proc.ExtraiNumProtGovNew(xmlRec);
+                                    //var nrProtgov = proc.ExtraiInfoXML(xmlRec, "protocoloEnvioLote");
+
                                     var data = proc.RetornaData();
                                     var prot = new ProtocoloDB { id = item.id, xmlRec = xmlRec, nroRec = nrRec, consultado = true, dtconsulta = data[0], hrconsulta = data[1], nroProtGov = nrProtgov, status = "2 - Aprovado" };
                                     ProtocoloDAO.Salvar(prot);
