@@ -58,7 +58,6 @@ namespace IntegradorCore.Services
                     }
                     else if (result == 1)
                     {
-                        //proc.GeraLogIntegra(item, "Já foi enviado!");
                     }
                     else
                     {
@@ -100,7 +99,6 @@ namespace IntegradorCore.Services
         public void Consulta()
         {
             var sessao = AuxiliarNhibernate.AbrirSessao();
-            //var ProtocoloDAO = new ProtocoloDAO(sessao);
 
             DirectoryInfo di = new DirectoryInfo(string.Concat(StaticParametros.GetDirArq(), "\\logs"));
 
@@ -116,7 +114,7 @@ namespace IntegradorCore.Services
                 {
                     bool result = false;
 
-                    var prot = proc.RetornaProtocolo(item, sessao);//ProtocoloDAO.BuscarPorNomeArquivo(item);
+                    var prot = proc.RetornaProtocolo(item, sessao);
                     try
                     {
                         var a = prot.NroProtocolo;
@@ -126,7 +124,6 @@ namespace IntegradorCore.Services
                     {
 
                     }
-                    //Armazenamento.ExistsProtocolo(item);
 
                     if (result == true)
                     {
@@ -134,14 +131,12 @@ namespace IntegradorCore.Services
                         {
                             try
                             {
-                                //var protocolo = Armazenamento.GetProtocolo(item);
                                 var retorno = apiConTXT.ConsultaProtocolo(prot, item);
 
                                 proc.GeraLogConsulta(item, retorno.consultaProtocolo.identificador.protocolo.ToString()
                                                         , Convert.ToString(retorno.consultaProtocolo.status.descResposta)
                                                         , Convert.ToInt32(retorno.consultaProtocolo.status.cdResposta));
 
-                                //processo.GeraLogDetalhado(filename, Response);
                                 try
                                 {
                                     proc.CreateFileRetornoTXT(item);
@@ -154,7 +149,7 @@ namespace IntegradorCore.Services
                                 if (retorno.consultaProtocolo.status.cdResposta == 3 || retorno.consultaProtocolo.status.cdResposta == 2)
                                 {
                                     proc.MoverConsultado(item);
-                                    proc.RemoveProtocolo(prot, sessao);//ProtocoloDAO.Remover(prot);//Armazenamento.DeleteProtocolo(item);
+                                    proc.RemoveProtocolo(prot, sessao);
                                 }
 
                             }
@@ -175,7 +170,7 @@ namespace IntegradorCore.Services
                 foreach (var item in ArquivosXML)
                 {
                     bool result = false;
-                    var prot = proc.RetornaProtocolo(item, sessao);//ProtocoloDAO.BuscarPorNome(item);
+                    var prot = proc.RetornaProtocolo(item, sessao);
 
                     try
                     {
@@ -186,11 +181,9 @@ namespace IntegradorCore.Services
                     {
 
                     }
-                    //bool result = Armazenamento.ExistsProtocolo(item);
 
                     if (result == true)
                     {
-                        //var protocolo = Armazenamento.GetProtocolo(item);
                         if (prot.Ambiente == StaticParametros.GetAmbiente() && Convert.ToBoolean(prot.Base) == StaticParametros.GetBase())
                         {
                             var retorno = apiConXML.ConsultaProtocolo(prot.NroProtocolo, prot.Base, item);
@@ -203,7 +196,7 @@ namespace IntegradorCore.Services
                                     {
                                         proc.GeraLogConsultaXML(item, retorno, prot.NroProtocolo, 1);
                                         proc.MoverConsultado(item);
-                                        proc.RemoveProtocolo(prot, sessao);//ProtocoloDAO.Remover(prot);//Armazenamento.DeleteProtocolo(item);
+                                        proc.RemoveProtocolo(prot, sessao);
                                     }
                                 }
 
@@ -229,8 +222,7 @@ namespace IntegradorCore.Services
 
             SelectDriverToGetXMLOnDataBase(sessao);
 
-            //EnviaXML apiXMLTeste = new EnviaXML(StaticParametros.GetGrupo(), StaticParametros.GetToken(), true);
-            var lista = ProtocoloDAO.BuscaEnvio();//Armazenamento.GetProtocolosDBEnv();
+            var lista = ProtocoloDAO.BuscaEnvio();
 
             if (lista.Count > 0)
             {
@@ -247,8 +239,8 @@ namespace IntegradorCore.Services
                             proc.SalvaProtocoloXML(item.id, response, 2, sessao);
 
                             var data = proc.RetornaData();
-                            var nprot = new ProtocoloDB { id = item.id, dtenvio = data[0], hrenvio = data[1], status = "0 - Enviado" };
-                            ProtocoloDAO.Salvar(nprot);
+                            var protocolo = new ProtocoloDB { id = item.id, dtenvio = data[0], hrenvio = data[1], status = "0 - Enviado" };
+                            ProtocoloDAO.Salvar(protocolo);
                             proc.GeraLogEnviaXML(item.id, "Foi enviado com sucesso!");
 
                             Banco.CustomUpdateDB(ProtocoloDAO.BuscarPorIDEvento(item.id), 3);
@@ -284,28 +276,19 @@ namespace IntegradorCore.Services
 
                         try
                         {
-                            //proc.GeraLogConsultaXML(item.idEvento, retorno, item.nroProt);
                             if(proc.VerificaConsultaXML(retorno) == true)
                             {
-                                proc.GeraLogConsultaXML(item.id, retorno, item.nroProt, 2);
+                                proc.GeraLogConsultaXML(item.id, retorno, item.nroProt, 2); //Ajustar
 
-                                //if (proc.VerificaXMLRetornoConsulta(retorno) == true)
                                 if(proc.VerificaSeTemRecibo(retorno) == true)
                                 {
-                                    //var xmlRec1 = proc.ExtraiXMLRecibo(retorno);
                                     var xmlRec = proc.ExtraiXMLReciboNew(retorno);
-                                    //var nrRec1 = proc.ExtraiNumRecibo(retorno);
-
                                     var nrRec = proc.ExtraiInfoXML(xmlRec, "nrRecibo");
-                                    //var nrRec1 = proc.ExtraiNumReciboNew(retorno);
-                                    //var nrProtgov1 = proc.ExtraiNumProtGov(xmlRec);
-                                    var nrProtgov1 = proc.ExtraiNumProtGovNew(xmlRec);
-                                    //var nrProtgov = proc.ExtraiInfoXML(xmlRec, "protocoloEnvioLote");
+                                    var nrProtgov = proc.ExtraiInfoXML(xmlRec, "protocoloEnvioLote");
 
                                     var data = proc.RetornaData();
                                     var prot = new ProtocoloDB { id = item.id, xmlRec = xmlRec, nroRec = nrRec, consultado = true, dtconsulta = data[0], hrconsulta = data[1], nroProtGov = nrProtgov, status = "2 - Aprovado" };
                                     ProtocoloDAO.Salvar(prot);
-                                    //Armazenamento.AddProtocoloDB(new ProtocoloDB { idEvento = item.idEvento, xmlRec = xmlRec, nroRec = nrRec, consultado = true });
                                 }
                                 else
                                 {
@@ -313,7 +296,6 @@ namespace IntegradorCore.Services
                                     var data = proc.RetornaData();
                                     var prot = new ProtocoloDB { id = item.id, erros = erros, consultado = true, dtconsulta = data[0], hrconsulta = data[1], status = "3 - Rejeitado" };
                                     ProtocoloDAO.Salvar(prot);
-                                    //Armazenamento.AddProtocoloDB(new ProtocoloDB { idEvento = item.idEvento, erros = erros, consultado = true });
                                 }
                             }
                             else
@@ -322,7 +304,6 @@ namespace IntegradorCore.Services
                                 var prot = new ProtocoloDB { id = item.id, dtconsulta = data[0], hrconsulta = data[1], status = "1 - Aguardando Governo/iVeS" };
                                 ProtocoloDAO.Salvar(prot);
                                 Banco.CustomUpdateDB(ProtocoloDAO.BuscarPorIDEvento(item.id), 4);
-                                //UpdateBanco(dt, hr, status );
                             }
 
                         }
