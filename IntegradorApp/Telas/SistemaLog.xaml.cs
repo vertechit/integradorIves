@@ -55,6 +55,11 @@ namespace IntegradorApp.Telas
             list1.Add("");
 
             CboCampos.ItemsSource = list1;
+            CboCampos.SelectedIndex = -1;
+            CboTipo.SelectedIndex = -1;
+            TxbValor.Text = "";
+
+            DtData.ItemsSource = null;
         }
 
         private void BtnBuscar_Click(object sender, RoutedEventArgs e)
@@ -197,6 +202,11 @@ namespace IntegradorApp.Telas
 
                 CboCampos.ItemsSource = list;
             }
+        }
+
+        private void BtnLimpa_Click(object sender, RoutedEventArgs e)
+        {
+            init();
         }
     }
 }

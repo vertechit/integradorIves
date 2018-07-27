@@ -10,12 +10,13 @@
 
         <DataGrid x:Name="DtData" Margin="84,172,85,55"/>
         <ComboBox x:Name="CboTipo" Margin="256,61,257,0" VerticalAlignment="Top" SelectionChanged="CboTipo_SelectionChanged"/>
-        <Button x:Name="BtnBuscar" Content="Buscar" HorizontalAlignment="Left" Margin="572,130,0,0" VerticalAlignment="Top" Width="75" Click="BtnBuscar_Click"/>
+        <Button x:Name="BtnBuscar" Content="Buscar" HorizontalAlignment="Left" Margin="572,129,0,0" VerticalAlignment="Top" Width="75" Click="BtnBuscar_Click"/>
         <Label x:Name="LblLog" Content="Tipo de log" Margin="176,61,538,0" VerticalAlignment="Top"/>
         <ComboBox x:Name="CboCampos" Margin="256,95,418,0" VerticalAlignment="Top"/>
         <TextBox x:Name="TxbValor" Height="23" Margin="256,128,257,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top"/>
         <Label x:Name="LblCampo" Content="Filtro por campo" Margin="148,93,538,0" VerticalAlignment="Top"/>
         <Label x:Name="LblValor" Content="Valor" Margin="209,125,538,0" VerticalAlignment="Top"/>
+        <Button x:Name="BtnLimpa" Content="Limpar" HorizontalAlignment="Left" Margin="572,95,0,0" VerticalAlignment="Top" Width="75" Click="BtnLimpa_Click"/>
 
     </Grid>
 </Window>
