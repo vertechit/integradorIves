@@ -220,7 +220,7 @@ namespace IntegradorCore.Services
             var sessao = AuxiliarNhibernate.AbrirSessao();
             ProtocoloDB_DAO ProtocoloDAO = new ProtocoloDB_DAO(sessao);
 
-            Banco.GetData(sessao);//SelectDriverToGetXMLOnDataBase(sessao);
+            Banco.GetData(sessao);
 
             var lista = ProtocoloDAO.BuscaEnvio();
 
@@ -278,7 +278,7 @@ namespace IntegradorCore.Services
                         {
                             if (proc.VerificaConsultaXML(retorno) == true)
                             {
-                                proc.GeraLogConsultaXML(item.id, retorno, item.nroProt, 2); //Ajustar
+                                proc.GeraLogConsultaXML(item.id, retorno, item.nroProt, 2);
 
                                 if (proc.VerificaSeTemRecibo(retorno) == true)
                                 {
@@ -337,7 +337,7 @@ namespace IntegradorCore.Services
                         {
                             if (!item.salvoDB)
                             {
-                                var ret = Banco.UpdateDB(item); //SelectDriverToUpdate(item);
+                                var ret = Banco.UpdateDB(item);
 
                                 if (ret == true)
                                 {
