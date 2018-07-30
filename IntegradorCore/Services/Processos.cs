@@ -21,6 +21,7 @@ using NHibernate;
 using System.Xml.Linq;
 using System.ComponentModel;
 using System.Threading;
+using System.Xml;
 
 namespace IntegradorCore.Services
 {
@@ -183,138 +184,134 @@ namespace IntegradorCore.Services
 
         public Boolean VerificaConsultaXML(string response)
         {
-            int sti = 0;
-            int stf = 0;
-
             if (response == "")
             {
                 return false;
             }
-            var tagIniStatus = "<status>";
-            var tagFimStatus = "</status>";
 
-            var tagIniCdResp = "<cdResposta>";
-            var tagFimCdResp = "</cdResposta>";
+            XmlDocument doc = new XmlDocument();
+            doc.LoadXml(response);
 
-            sti = response.IndexOf(tagIniStatus) + tagIniStatus.Length;
-            stf = response.IndexOf(tagFimStatus) - tagFimStatus.Length;
-            var retorno = response.Substring(sti, stf + tagFimStatus.Length - sti);
+            var elemListRetEve = doc.GetElementsByTagName("status");
 
-            sti = retorno.IndexOf(tagIniCdResp) + tagIniCdResp.Length;
-            stf = retorno.IndexOf(tagFimCdResp) - tagFimCdResp.Length;
-            var codigo = retorno.Substring(sti, stf + tagFimCdResp.Length - sti);
-
-            if (codigo == "201")
+            foreach (XmlNode item in elemListRetEve[0].ChildNodes)
             {
-                return true;
+                if(item.InnerText == "201")
+                {
+                    return true;
+                }
             }
 
             return false;
         }
 
-        public bool VerificaXMLRetornoConsulta(string xml)
+        public bool VerificaSeTemRecibo(string xml)
         {
-            var v1 = xml.IndexOf("<recibo>");
-            var v2 = xml.IndexOf("</recibo>");
+            XmlDocument doc = new XmlDocument();
+            doc.LoadXml(xml);
 
-            if(v1 != -1 && v2 != -1)
+            var elemListRecibo = doc.GetElementsByTagName("recibo");
+
+            if(elemListRecibo.Count == 1)
+            {
                 return true;
-
-            return false;
+            }
+            else
+            {
+                return false;
+            }
         }
 
         public string ExtraiXMLRecibo(string xml)
         {
-            var tagIni = "<retornoEventos>";
-            var tagFim = "</retornoEventos>";
+            XmlDocument doc = new XmlDocument();
+            doc.LoadXml(xml);
 
-            int sti = xml.IndexOf(tagIni) + tagIni.Length;
-            int stf = xml.IndexOf(tagFim) - tagFim.Length;
+            var elemListRetEve = doc.GetElementsByTagName("retornoEventos");
 
-            var nwxml = xml.Substring(sti, stf + tagFim.Length - sti);
+            foreach (XmlNode item in elemListRetEve[0].ChildNodes)
+            {
+                foreach (XmlNode itens in item.ChildNodes)
+                {
+                    if(itens.Name == "retornoEvento")
+                    {
+                        return itens.InnerXml;
+                    }
+                }
+            }
 
-            var tagIniE = "<retornoEvento>";
-            var tagFimE = "</retornoEvento>";
-
-            int stie = nwxml.IndexOf(tagIniE) + tagIniE.Length;
-            int stfe = nwxml.LastIndexOf(tagFimE) - tagFimE.Length;
-
-            var xm = nwxml.Substring(stie, stfe + tagFimE.Length - stie);
-
-            //xm = xm.Replace("\r\n", "");
-
-            //xm = xm.Replace(" ", "");
-
-            return xm;
+            return xml;
         }
 
-        public string ExtraiNumRecibo(string xml)
+        public string ExtraiInfoXML(string xml, string tag)
         {
-            var tagIni = "<nrRecibo>";
-            var tagFim = "</nrRecibo>";
+            var str = "";
+            XmlDocument doc = new XmlDocument();
+            doc.LoadXml(xml);
 
-            int sti = xml.IndexOf(tagIni) + tagIni.Length;
-            int stf = xml.IndexOf(tagFim) - tagFim.Length;
+            var elemList = doc.GetElementsByTagName(tag);
 
-            var nrRec = xml.Substring(sti, stf + tagFim.Length - sti);
+            if (elemList.Count == 1)
+            {
+                return elemList[0].InnerText;
+            }
 
-            return nrRec;
-        }
-
-        public string ExtraiNumProtGov(string xml)
-        {
-            var tagIni = "<protocoloEnvioLote>";
-            var tagFim = "</protocoloEnvioLote>";
-
-            int sti = xml.IndexOf(tagIni) + tagIni.Length;
-            int stf = xml.IndexOf(tagFim) - tagFim.Length;
-
-            var nrProtgov = xml.Substring(sti, stf + tagFim.Length - sti);
-
-            return nrProtgov;
+            return str;
         }
 
         public string ExtraiErrosXmlDB(string xml)
         {
-            var tagIni = "<ocorrencias>";
-            var tagFim = "</ocorrencias>";
+            XmlDocument doc = new XmlDocument();
+            doc.LoadXml(xml);
 
-            int sti = xml.IndexOf(tagIni);// + tagIni.Length;
-            int stf = xml.IndexOf(tagFim);// - tagFim.Length;
+            var elemListOcorrencia = doc.GetElementsByTagName("ocorrencias");
+            var elemListProcessamento = doc.GetElementsByTagName("processamento");
+            var msg = "";
 
-            try
+            if(elemListOcorrencia.Count == 1)
             {
-                var nwxml = xml.Substring(sti, stf + tagFim.Length - sti);
-                var XML = System.Xml.Linq.XElement.Parse(nwxml);
-                return XML.Value;
-            }
-            catch (Exception)
-            {
-                var tagIniP = "<processamento>";
-                var tagFimP = "</processamento>";
-                int stiP = xml.IndexOf(tagIniP);
-                int stfP = xml.IndexOf(tagFimP);
-                var nwxml = xml.Substring(stiP, stfP + tagFimP.Length - stiP);
-                if (nwxml.IndexOf("<dhProcessamento>") > 0)
+                foreach (XmlNode item in elemListOcorrencia[0].ChildNodes)
                 {
-                    var tagdtini = "<dhProcessamento>";
-                    var tagdtfim = "</dhProcessamento>";
-                    int stidt = nwxml.IndexOf(tagdtini);
-                    int stfdt = nwxml.IndexOf(tagdtfim);
-                    nwxml = nwxml.Remove(stidt, (stfdt - stidt) + tagdtfim.Length);
+                    foreach (XmlNode itens in item.ChildNodes)
+                    {
+                        if(itens.Name == "codigo")
+                        {
+                            msg = msg + "codigo: "+itens.InnerText + " - ";
+                        }else if(itens.Name == "descricao")
+                        {
+                            msg = msg + "descricao: " + itens.InnerText + " - ";
+                        }else if(itens.Name == "tipo")
+                        {
+                            msg = msg + "tipo: "+itens.InnerText + " - ";
+                        }else if(itens.Name == "localizacao")
+                        {
+                            msg = msg + "localizacao: " + itens.InnerText + " | ";
+                        }
+                    }
                 }
-                if (nwxml.IndexOf("<versaoAppProcessamento>") > 0)
+                return msg;
+            }
+            else
+            {
+                if(elemListProcessamento.Count == 1)
                 {
-                    var tagdtini = "<versaoAppProcessamento>";
-                    var tagdtfim = "</versaoAppProcessamento>";
-                    int stidt = nwxml.IndexOf(tagdtini);
-                    int stfdt = nwxml.IndexOf(tagdtfim);
-                    nwxml = nwxml.Remove(stidt, (stfdt - stidt) + tagdtfim.Length);
+                    foreach (XmlNode item in elemListProcessamento[0].ChildNodes)
+                    {
+                        if(item.Name == "cdResposta")
+                        {
+                            msg = msg + "cdResposta: " + item.InnerText + " - ";
+                        }
+                        else if(item.Name == "descResposta")
+                        {
+                            msg = msg + "descResposta: " + item.InnerText;
+                        }
+                    }
+                    Console.WriteLine(elemListProcessamento[0].ChildNodes[0].InnerText);
                 }
 
-                var XML = System.Xml.Linq.XElement.Parse(nwxml);
-                return XML.Value;
+                return msg;
             }
+
             
         }
 
@@ -357,20 +354,22 @@ namespace IntegradorCore.Services
             {
                 return false;
             }
-            var tagIni = "<cdResposta>";
-            var tagFim = "</cdResposta>";
 
-            int sti = response.IndexOf(tagIni) + 12;
-            int stf = response.IndexOf(tagFim) - 13;
+            XmlDocument doc = new XmlDocument();
+            doc.LoadXml(response);
 
-            var codigo = response.Substring(sti, stf + tagFim.Length - sti);
+            var elemListRetEve = doc.GetElementsByTagName("cdResposta");
 
-            if (codigo == "201")
+            foreach (XmlNode item in elemListRetEve[0].ChildNodes)
             {
-                return true;
+                if (item.InnerText == "201")
+                {
+                    return true;
+                }
             }
 
             return false;
+
         }
 
         public void SalvaProtocolo(apiEnviaTXT.integraResponse Response, string arq, ISession sessao)
@@ -391,14 +390,7 @@ namespace IntegradorCore.Services
 
         public void SalvaProtocoloXML(string id, string Response, int tipo, ISession sessao)
         {
-
-            var tagIni = "<protocoloEnvio>";
-            var tagFim = "</protocoloEnvio>";
-
-            int sti = Response.IndexOf(tagIni) + 16;
-            int stf = Response.IndexOf(tagFim) - 17;
-
-            var protocolo = Response.Substring(sti, stf + tagFim.Length - sti);
+            var protocolo = ExtraiInfoXML(Response, "protocoloEnvio");
 
             try
             {
@@ -534,7 +526,6 @@ namespace IntegradorCore.Services
             return File_Names;
         }
 
-
         public void MoverConsultado(string filename)
         {
             string origem = StaticParametros.GetDirArq();
@@ -556,37 +547,23 @@ namespace IntegradorCore.Services
 
         public void GeraLogConsultaXML(string filename, string response, string prot, int tipo)
         {
-            DirectoryInfo di = new DirectoryInfo(string.Concat(StaticParametros.GetDirArq(), "\\logs\\retornoXML"));
+            if(tipo == 1)
+            {
+                DirectoryInfo di = new DirectoryInfo(string.Concat(StaticParametros.GetDirArq(), "\\logs\\retornoXML"));
 
-            if (di.Exists == false)
-                di.Create();
+                if (di.Exists == false)
+                    di.Create();
+                
+            }
             var nome = string.Concat("log_", filename);
-
             string s = MontaCaminhoDir(string.Concat(StaticParametros.GetDirArq(), "\\logs\\retornoXML"), nome);
 
-            int sti = 0;
-            int stf = 0;
-
-            string tagIni = "<retornoEventos>";
-            string tagFim = "</retornoEventos>";
-
-            sti = response.IndexOf(tagIni);
-            stf = response.IndexOf(tagFim);
-
-            var protocolo = response.Substring(sti, stf + tagFim.Length - sti);
+            var xml = ExtraiXMLRecibo(response);
+            var desc = ExtraiInfoXML(xml, "descResposta");
 
             try
             {
-                var tagDescIni = "<descResposta>";
-                var tagDescFim = "</descResposta>";
 
-                int stiDesc = protocolo.IndexOf(tagDescIni);
-                int stfDesc = protocolo.IndexOf(tagDescFim);
-
-                var desc = protocolo.Substring(stiDesc, stfDesc + tagDescFim.Length - stiDesc);
-
-                desc = desc.Replace(tagDescIni, "");
-                desc = desc.Replace(tagDescFim, "");
                 if(tipo == 1)
                 {
                     InsereLog(2, desc, filename, "Consulta", "Consulte a pasta de log para mais detalhes", prot, "");
@@ -602,17 +579,20 @@ namespace IntegradorCore.Services
                 ExceptionCore ex = new ExceptionCore();
                 ex.ExProcessos(5, e.Message.ToString());
             }
-
-            try
+            if(tipo == 1)
             {
-                System.IO.File.WriteAllText(@s, protocolo);
+                try
+                {
+                    System.IO.File.WriteAllText(@s, xml);
 
+                }
+                catch (Exception e)
+                {
+                    ExceptionCore ex = new ExceptionCore();
+                    ex.ExProcessos(5, e.Message.ToString());
+                }
             }
-            catch (Exception e)
-            {
-                ExceptionCore ex = new ExceptionCore();
-                ex.ExProcessos(5, e.Message.ToString());
-            }
+            
         }
 
         public void GeraLogConsulta(string filename, string nroprt, string desc, int cd)
@@ -1436,6 +1416,5 @@ namespace IntegradorCore.Services
             StaticParametros.SetLockVariavel(false);
 
         }
-
     }
 }

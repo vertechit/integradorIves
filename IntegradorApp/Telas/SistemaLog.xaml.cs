@@ -55,6 +55,11 @@ namespace IntegradorApp.Telas
             list1.Add("");
 
             CboCampos.ItemsSource = list1;
+            CboCampos.SelectedIndex = -1;
+            CboTipo.SelectedIndex = -1;
+            TxbValor.Text = "";
+
+            DtData.ItemsSource = null;
         }
 
         private void BtnBuscar_Click(object sender, RoutedEventArgs e)
@@ -75,7 +80,6 @@ namespace IntegradorApp.Telas
                 if(campo == null || campo == "")
                 {
                     DataTable dt = proc.ConvertToDataTable(logConsultDao.BuscaTodos());
-                    //DataTable dt = Log.GetLogs("logconsulta");
                     DtData.ItemsSource = dt.DefaultView;
                 }
                 else
@@ -83,13 +87,11 @@ namespace IntegradorApp.Telas
                     if(campo == "Identificador")
                     {
                         DataTable dt = proc.ConvertToDataTable(logConsultDao.BuscaPorIdentificador(TxbValor.Text));
-                        //DataTable dt = Log.GetLogsWithParam(1, TxbValor.Text, "logconsulta");
                         DtData.ItemsSource = dt.DefaultView;
                     }
                     else
                     {
                         DataTable dt = proc.ConvertToDataTable(logConsultDao.BuscaPorData(TxbValor.Text));
-                        //DataTable dt = Log.GetLogsWithParam(2, TxbValor.Text, "logconsulta");
                         DtData.ItemsSource = dt.DefaultView;
                     }
                 }
@@ -99,7 +101,6 @@ namespace IntegradorApp.Telas
                 if (campo == null || campo == "")
                 {
                     DataTable dt = proc.ConvertToDataTable(logEnvioDao.BuscaTodos());
-                    //DataTable dt = Log.GetLogs("logenvia");
                     DtData.ItemsSource = dt.DefaultView;
                 }
                 else
@@ -107,13 +108,11 @@ namespace IntegradorApp.Telas
                     if (campo == "Identificador")
                     {
                         DataTable dt = proc.ConvertToDataTable(logEnvioDao.BuscaPorIdentificador(TxbValor.Text));
-                        //DataTable dt = Log.GetLogsWithParam(1, TxbValor.Text, "logenvia");
                         DtData.ItemsSource = dt.DefaultView;
                     }
                     else
                     {
                         DataTable dt = proc.ConvertToDataTable(logEnvioDao.BuscaPorData(TxbValor.Text));
-                        //DataTable dt = Log.GetLogsWithParam(2, TxbValor.Text, "logenvia");
                         DtData.ItemsSource = dt.DefaultView;
                     }
                 }
@@ -124,7 +123,6 @@ namespace IntegradorApp.Telas
                 if (campo == null || campo == "")
                 {
                     DataTable dt = proc.ConvertToDataTable(logErroDao.BuscaTodos());
-                    //DataTable dt = Log.GetLogs("logerro");
                     DtData.ItemsSource = dt.DefaultView;
                 }
                 else
@@ -132,13 +130,11 @@ namespace IntegradorApp.Telas
                     if (campo == "Serviço")
                     {
                         DataTable dt = proc.ConvertToDataTable(logErroDao.BuscaPorServico(TxbValor.Text));
-                       // DataTable dt = Log.GetLogsWithParam(1, TxbValor.Text, "logerro");//Log.GetLogsWithParam(1, TxbValor.Text, "logerro");
                         DtData.ItemsSource = dt.DefaultView;
                     }
                     else
                     {
                         DataTable dt = proc.ConvertToDataTable(logErroDao.BuscaPorData(TxbValor.Text));
-                        //DataTable dt = Log.GetLogsWithParam(2, TxbValor.Text, "logerro");
                         DtData.ItemsSource = dt.DefaultView;
                     }
                 }
@@ -197,6 +193,11 @@ namespace IntegradorApp.Telas
 
                 CboCampos.ItemsSource = list;
             }
+        }
+
+        private void BtnLimpa_Click(object sender, RoutedEventArgs e)
+        {
+            init();
         }
     }
 }

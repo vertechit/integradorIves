@@ -107,14 +107,10 @@
     <Compile Include="API\ConsultaTXT.cs" />
     <Compile Include="API\ConsultaXML.cs" />
     <Compile Include="API\CustomEndpointCallBehavior.cs" />
-    <Compile Include="DAO\Armazenamento.cs" />
     <Compile Include="DAO\Banco.cs" />
-    <Compile Include="DAO\Log.cs" />
     <Compile Include="API\EnviaTXT.cs" />
     <Compile Include="API\EnviaXML.cs" />
     <Compile Include="API\MessageHttpHeaderInspector.cs" />
-    <Compile Include="DAO\OracleDB.cs" />
-    <Compile Include="DAO\SQLServerDB.cs" />
     <Compile Include="Mapeamento\LogConsultaMapa.cs" />
     <Compile Include="Mapeamento\LogEnvioMapa.cs" />
     <Compile Include="Mapeamento\LogErroMapa.cs" />
