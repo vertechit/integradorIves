@@ -130,11 +130,11 @@ namespace IntegradorCore.DAO
         private static string CriaSQL(ProtocoloDB prot, int tipo)
         {
             var quote = '\'';
+            string format = "dd-MM-yyyy hh:mm:ss";
 
             if (tipo == 1)
             {
                 var data = RetornaArrayData(prot.dtconsulta);
-                string format = "yyyy-MM-dd hh:mm:ss";
                 var sql = "UPDATE ZMDATVIVES_EVENTOS_ESOCIAL SET NROPROTOCOLO = :Nrprot, XMLPROTOCOLO = :Xmlprot, MENSAGEMERRO = :Erro, DATARETORNO = :Dtretorno, HORARETORNO = :Hrretorno, STATUS = :Status  WHERE ID = :Idevento AND IDSEQ = :Idseq";
                 sql = sql.Replace(":Nrprot", string.Concat(quote + prot.nroProt + quote));
                 sql = sql.Replace(":Xmlprot", string.Concat(quote + (prot.xmlProt = prot.xmlProt.Replace("> <", "><")) + quote));
@@ -157,7 +157,6 @@ namespace IntegradorCore.DAO
             else if (tipo == 2)
             {
                 var data = RetornaArrayData(prot.dtconsulta);
-                string format = "yyyy-MM-dd hh:mm:ss";
                 var sql = "UPDATE ZMDATVIVES_EVENTOS_ESOCIAL SET NROPROTOCOLO = :nrprot, XMLPROTOCOLO = :xmlprot, NRORECIBO = :nroRec, XMLRECIBO = :xmlRec, DATARETORNO = :Dtretorno, HORARETORNO = :Hrretorno, STATUS = :Status WHERE ID = :Idevento AND IDSEQ = :Idseq";
                 sql = sql.Replace(":nrprot", string.Concat(quote + prot.nroProt + quote));
                 sql = sql.Replace(":xmlprot", string.Concat(quote + prot.xmlProt + quote));
@@ -181,7 +180,6 @@ namespace IntegradorCore.DAO
             else if(tipo == 3)//novo
             {
                 var data = RetornaArrayData(prot.dtenvio);
-                string format = "yyyy-MM-dd hh:mm:ss";
                 var sql = "UPDATE ZMDATVIVES_EVENTOS_ESOCIAL SET NROPROTOCOLO = :Nrprot, XMLPROTOCOLO = :Xmlprot, STATUS = :Status, DATAENVIO = :Dtenvio, HORAENVIO = :Hrenvio  WHERE ID = :Idevento AND IDSEQ = :Idseq";
                 sql = sql.Replace(":Nrprot", string.Concat(quote + prot.nroProt + quote));
                 sql = sql.Replace(":Xmlprot", string.Concat(quote + prot.xmlProt + quote));
@@ -203,7 +201,6 @@ namespace IntegradorCore.DAO
             else
             {
                 var data = RetornaArrayData(prot.dtconsulta);
-                string format = "yyyy-MM-dd hh:mm:ss";
                 var sql = "UPDATE ZMDATVIVES_EVENTOS_ESOCIAL SET DATARETORNO = :Dtretorno, HORARETORNO = :Hrretorno, STATUS = :Status  WHERE ID = :Idevento AND IDSEQ = :Idseq";
                 if (StaticParametersDB.GetDriver() == "oracle")
                 {
@@ -307,6 +304,11 @@ namespace IntegradorCore.DAO
                             var sql = CriaSQL(prot, 1);
                             comm.Connection = conn;
                             comm.CommandType = CommandType.Text;
+                            if (StaticParametersDB.GetDriver() == "sqlserver")
+                            {
+                                comm.CommandText = "SET DATEFORMAT dmy";
+                                comm.ExecuteNonQuery();
+                            }
                             comm.CommandText = sql;
                             comm.ExecuteNonQuery();
                         }
@@ -315,6 +317,11 @@ namespace IntegradorCore.DAO
                             var sql = CriaSQL(prot, 2);
                             comm.Connection = conn;
                             comm.CommandType = CommandType.Text;
+                            if (StaticParametersDB.GetDriver() == "sqlserver")
+                            {
+                                comm.CommandText = "SET DATEFORMAT dmy";
+                                comm.ExecuteNonQuery();
+                            }
                             comm.CommandText = sql;
                             comm.ExecuteNonQuery();
                         }
@@ -352,6 +359,13 @@ namespace IntegradorCore.DAO
                         var sql = CriaSQL(prot, tipo);
                         comm.Connection = conn;
                         comm.CommandType = CommandType.Text;
+
+                        if(StaticParametersDB.GetDriver() == "sqlserver")
+                        {
+                            comm.CommandText = "SET DATEFORMAT dmy";
+                            comm.ExecuteNonQuery();
+                        }
+                        
                         comm.CommandText = sql;
                         comm.ExecuteNonQuery();
 
