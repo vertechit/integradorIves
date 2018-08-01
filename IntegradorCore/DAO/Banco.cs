@@ -47,7 +47,7 @@ namespace IntegradorCore.DAO
                 }
                 else
                 {
-                    var strconnection = "Server=myInstanceName;Database=myDataBase;Trusted_Connection=True;User Id=myUsername;Password = myPassword; ";
+                    var strconnection = "Server=myInstanceName;Database=myDataBase;Trusted_Connection=False;User Id=myUsername;Password = myPassword; ";
 
                     strconnection = strconnection.Replace("myInstanceName", StaticParametersDB.GetHost());
                     //strconnection = strconnection.Replace("port", port);
