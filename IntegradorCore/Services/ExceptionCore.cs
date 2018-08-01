@@ -63,7 +63,7 @@ namespace IntegradorCore.Services
 
             var erro = TrataMensagemErro(msg);
 
-            if(erro != null)
+            if(erro.Acao != null && erro.CodErro != null && erro.Msg != null)
             {
                 msg = erro.Msg;
                 acao = erro.Acao;

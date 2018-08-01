@@ -232,6 +232,8 @@ namespace IntegradorCore.DAO
                 catch (Exception e)
                 {
                     MessageBox.Show(e.Message);
+                    Processos p = new Processos();
+                    p.InsereLogInterno(StaticParametersDB.GetDriver(), e, "99", "Teste Conexão");
                     retorno = false;
                 }
                 finally
