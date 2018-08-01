@@ -1321,20 +1321,15 @@ namespace IntegradorCore.Services
 
         public bool DefineBaseEnvioDB(string xml)
         {
-            try
+
+            XmlDocument doc = new XmlDocument();
+            doc.LoadXml(xml);
+
+            var elemListRetEve = doc.GetElementsByTagName("tpAmb");
+
+            foreach (XmlNode item in elemListRetEve[0].ChildNodes)
             {
-                int sti = 0;
-                int stf = 0;
-
-                string tagIni = "<tpAmb>";
-                string tagFim = "</tpAmb>";
-
-                sti = xml.IndexOf(tagIni);
-                stf = xml.IndexOf(tagFim);
-
-                var ambiente = xml.Substring(sti, stf + tagFim.Length - sti);
-
-                if (ambiente == "1")
+                if (item.InnerText == "1")
                 {
                     return false;
                 }
@@ -1343,13 +1338,9 @@ namespace IntegradorCore.Services
                     return true;
                 }
             }
-            catch (Exception)
-            {
-
-            }
 
             return true;
-            
+
         }
 
         public void VerificaParaAtualizar()
