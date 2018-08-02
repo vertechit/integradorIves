@@ -19,6 +19,7 @@ using IntegradorCore.NHibernate;
 using IntegradorCore.Services;
 using IntegradorCore.NHibernate.DAO;
 using System.ComponentModel;
+using System.IO;
 
 namespace IntegradorApp.Telas
 {
@@ -198,6 +199,66 @@ namespace IntegradorApp.Telas
         private void BtnLimpa_Click(object sender, RoutedEventArgs e)
         {
             init();
+        }
+
+        private void BtnDump_Click(object sender, RoutedEventArgs e)
+        {
+            var sessao = AuxiliarNhibernate.AbrirSessao();
+            var logConsultDao = new LogConsultaDAO(sessao);
+            var logEnvioDao = new LogEnvioDAO(sessao);
+            var logErroDao = new LogErroDAO(sessao);
+            var logInterno = new LogInternoDAO(sessao);
+            var proc = new Processos();
+
+            var lt1 = logErroDao.BuscaTodos();
+            var lt2 = logEnvioDao.BuscaTodos();
+            var lt3 = logConsultDao.BuscaTodos();
+            var lt4 = logInterno.BuscaTodos();
+
+            DirectoryInfo dir = new DirectoryInfo(@"c:\\vch\\log");
+            FileInfo fi1 = new FileInfo(@"c:\\vch\\log\\logErro.log");
+            FileInfo fi2 = new FileInfo(@"c:\\vch\\log\\logEnvio.log");
+            FileInfo fi3 = new FileInfo(@"c:\\vch\\log\\logConsulta.log");
+            FileInfo fi4 = new FileInfo(@"c:\\vch\\log\\logInterno.log");
+
+            if (dir.Exists != true)
+            {
+                dir.Create();
+            }
+            if(fi1.Exists == true)
+            {
+                fi1.Delete();
+            }
+            if (fi2.Exists == true)
+            {
+                fi2.Delete();
+            }
+            if (fi3.Exists == true)
+            {
+                fi3.Delete();
+            }
+            if (fi4.Exists == true)
+            {
+                fi4.Delete();
+            }
+
+            StreamWriter vWriter = new StreamWriter(fi1.FullName, true);
+            foreach (var item in lt1)
+            {
+                
+                vWriter.WriteLine("Id: "+ item.Id);
+                vWriter.WriteLine("Serviço: "+ item.Servico);
+                vWriter.WriteLine("Cod erro: "+ item.CodErro);
+                vWriter.WriteLine("Mensagem: "+ item.Msg);
+                vWriter.WriteLine("Ação: "+ item.Acao);
+                vWriter.WriteLine("Data: "+ item.Data);
+                vWriter.WriteLine("Hora: "+ item.Hora);
+                vWriter.WriteLine("");
+                vWriter.WriteLine("--------------------------------------------------");
+
+            }
+            vWriter.Flush();
+            vWriter.Close();
         }
     }
 }

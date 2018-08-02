@@ -20,6 +20,11 @@ namespace IntegradorCore.NHibernate.DAO
             this.criterios = sessao.CreateCriteria<LogInterno>();
         }
 
+        public IList<LogInterno> BuscaTodos()
+        {
+            return criterios.List<LogInterno>();
+        }
+
         public void Salvar(LogInterno log)
         {
 
