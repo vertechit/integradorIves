@@ -58,7 +58,7 @@ namespace IntegradorApp.Telas
             }
             else
             {
-                MessageBox.Show("Preencha todos os campos antes de continuar");
+                MessageBox.Show("Preencha todos os campos antes de continuar", "Atenção", MessageBoxButton.OK, MessageBoxImage.Warning);
             }
         }
 

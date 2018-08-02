@@ -112,10 +112,21 @@ namespace IntegradorApp
         {
             var proc = new Processos();
 
+            if(proc.ReadPermissionFolder() == false || proc.WritePermissionFolder() == false)
+            {
+                System.Windows.Forms.MessageBox.Show("Ops, você não tem permissão para leitura ou escrita na pasta c:/vch", "Erro", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+
+            if (proc.WritePermissionFile() == false || proc.ReadPermissionFile() == false)
+            {
+                System.Windows.Forms.MessageBox.Show("Ops, você não tem permissão para leitura ou escrita no arquivo dados.db | c:/vch/dado.db", "Erro", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+
             var sessao = AuxiliarNhibernate.AbrirSessao();
             var parametroDAO = new ParametroDAO(sessao);
             var parametroDBDAO = new ParametroDB_DAO(sessao);
-
             //var resultadoParam = parametroDAO.BuscarPorID(1);
             //var resultadoParamDB = parametroDBDAO.BuscarPorID(1);
 
@@ -271,6 +282,13 @@ namespace IntegradorApp
 
         private void BtnConectarBanco_Click(object sender, RoutedEventArgs e)
         {
+            var proc = new Processos();
+
+            if (proc.ReadPermissionFile() == false || proc.WritePermissionFile() == false)
+            {
+                System.Windows.Forms.MessageBox.Show("Ops, você não tem permissão para leitura ou escrita no arquivo dados.db | c:/vch/dado.db", "Erro", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
             this.Hide();
             var janela = new Telas.ParametrosBanco(this);
             janela.Show();
@@ -306,6 +324,12 @@ namespace IntegradorApp
             {
                 //Log.CriarBancoSQLite();
                 //Log.CriarTabelaSQlite();
+            }
+
+            if(process.ReadPermissionFolder() == false || process.ReadPermissionFile() == false)
+            {
+                OrganizaTelaEvent(1);
+                return;
             }
 
             var sessao = AuxiliarNhibernate.AbrirSessao();
@@ -408,6 +432,10 @@ namespace IntegradorApp
 
             sessao.Close();
 
+            if(process.WritePermissionFolder() == false || process.WritePermissionFile() == false)
+            {
+                OrganizaTelaEvent(1);
+            }
         }
 
         public bool DefineToken(string dir)
@@ -458,11 +486,11 @@ namespace IntegradorApp
                     IntegraArquivos(1);
                 }
 
-                System.Windows.MessageBox.Show("Processo de integração concluido!");
+                System.Windows.Forms.MessageBox.Show("Processo de integração concluido!", "", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
             else
             {
-                System.Windows.MessageBox.Show("Por favor, aguarde alguns instantes e tente novamente");
+                System.Windows.Forms.MessageBox.Show("Por favor, aguarde alguns instantes e tente novamente", "", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
         }
 
@@ -479,12 +507,12 @@ namespace IntegradorApp
                 {
                     ConsultaArquivos(1);
                 }
-                
-                System.Windows.MessageBox.Show("Processo de consulta concluido!");
+
+                System.Windows.Forms.MessageBox.Show("Processo de consulta concluido!", "Sucesso", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
             else
             {
-                System.Windows.MessageBox.Show("Por favor, aguarde alguns instantes e tente novamente");
+                System.Windows.Forms.MessageBox.Show("Por favor, aguarde alguns instantes e tente novamente", "", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
         }
 

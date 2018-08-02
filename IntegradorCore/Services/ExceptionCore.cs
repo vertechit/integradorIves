@@ -294,6 +294,12 @@ namespace IntegradorCore.Services
                 erro.Acao = "Por favor contate o desenvolvedor";
                 erro.CodErro = "1001";
             }
+            else if(msg == "Server returned an invalid SOAP Fault.  Please see InnerException for more details.")
+            {
+                erro.Msg = "Ops, isso não era para ter acontecido.";
+                erro.Acao = "Por favor contate o desenvolvedor";
+                erro.CodErro = "1001";
+            }
             else if (msg == "O servidor remoto retornou uma resposta inesperada: (502) Bad Gateway.")
             {
                 erro.Msg = "Não foi possivel conectar com o servidor";

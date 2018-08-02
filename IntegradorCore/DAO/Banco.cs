@@ -9,9 +9,10 @@ using IntegradorCore.Services;
 using NHibernate;
 using IntegradorCore.NHibernate.DAO;
 using IntegradorCore.Modelos;
-using System.Windows.Forms;
+//using System.Windows.Forms;
 using Oracle.ManagedDataAccess.Client;
 using System.Data.SqlClient;
+using System.Windows;
 
 namespace IntegradorCore.DAO
 {
@@ -231,7 +232,8 @@ namespace IntegradorCore.DAO
                 }
                 catch (Exception e)
                 {
-                    MessageBox.Show(e.Message);
+                    //MessageBox.Show(e.Message);
+                    MessageBox.Show(e.Message, "", MessageBoxButton.OK, MessageBoxImage.Warning);
                     Processos p = new Processos();
                     p.InsereLogInterno(StaticParametersDB.GetDriver(), e, "99", "Teste Conexão");
                     retorno = false;

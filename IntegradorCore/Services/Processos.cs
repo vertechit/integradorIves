@@ -1348,6 +1348,11 @@ namespace IntegradorCore.Services
             var sessao = AuxiliarNhibernate.AbrirSessao();
             var sysinfoDAO = new SysInfoDAO(sessao);
 
+            if(ReadPermissionFile() == false || WritePermissionFile() == false)
+            {
+                return;
+            }
+
             var retorno = sysinfoDAO.BuscarPorID(1);
 
             try
@@ -1406,6 +1411,131 @@ namespace IntegradorCore.Services
 
             StaticParametros.SetLockVariavel(false);
 
+        }
+
+        public bool ReadPermissionFolder()
+        {
+            try
+            {
+                var readAllow = false;
+                var readDeny = false;
+                var accessControlList = Directory.GetAccessControl(@"c:\\vch");
+                if (accessControlList == null)
+                    return false;
+                var accessRules = accessControlList.GetAccessRules(true, true, typeof(System.Security.Principal.SecurityIdentifier));
+                if (accessRules == null)
+                    return false;
+
+                foreach (FileSystemAccessRule rule in accessRules)
+                {
+                    if ((FileSystemRights.Read & rule.FileSystemRights) != FileSystemRights.Read) continue;
+
+                    if (rule.AccessControlType == AccessControlType.Allow)
+                        readAllow = true;
+                    else if (rule.AccessControlType == AccessControlType.Deny)
+                        readDeny = true;
+                }
+
+                return readAllow && !readDeny;
+            }
+            catch (Exception)
+            {
+                return false;
+            }
+        }
+
+        public bool WritePermissionFolder()
+        {
+            try
+            {
+                var writeAllow = false;
+                var writeDeny = false;
+                var accessControlList = Directory.GetAccessControl(@"c:\\vch");
+                if (accessControlList == null)
+                    return false;
+                var accessRules = accessControlList.GetAccessRules(true, true, typeof(System.Security.Principal.SecurityIdentifier));
+                if (accessRules == null)
+                    return false;
+
+                foreach (FileSystemAccessRule rule in accessRules)
+                {
+                    if ((FileSystemRights.Write & rule.FileSystemRights) != FileSystemRights.Write) continue;
+
+                    if (rule.AccessControlType == AccessControlType.Allow)
+                        writeAllow = true;
+                    else if (rule.AccessControlType == AccessControlType.Deny)
+                        writeDeny = true;
+                }
+
+                return writeAllow && !writeDeny;
+            }
+            catch (Exception)
+            {
+                return false;
+            }
+        }
+
+        public bool ReadPermissionFile()
+        {
+            try
+            {
+                var readAllow = false;
+                var readDeny = false;
+                var accessControlList = File.GetAccessControl(@"c:\\vch\\dados.db");
+                if (accessControlList == null)
+                    return false;
+                var accessRules = accessControlList.GetAccessRules(true, true, typeof(System.Security.Principal.SecurityIdentifier));
+                if (accessRules == null)
+                    return false;
+
+                foreach (FileSystemAccessRule rule in accessRules)
+                {
+                    if ((FileSystemRights.Read & rule.FileSystemRights) != FileSystemRights.Read) continue;
+
+                    if (rule.AccessControlType == AccessControlType.Allow)
+                        readAllow = true;
+                    else if (rule.AccessControlType == AccessControlType.Deny)
+                        readDeny = true;
+                }
+
+                return readAllow && !readDeny;
+            }
+            catch (Exception)
+            {
+                return false;
+            }
+        }
+
+        public bool WritePermissionFile()
+        {
+            try
+            {
+                var writeAllow = false;
+                var writeDeny = false;
+                var accessControlList = File.GetAccessControl(@"c:\\vch\\dados.db");
+                if (accessControlList == null)
+                    return false;
+                var accessRules = accessControlList.GetAccessRules(true, true, typeof(System.Security.Principal.SecurityIdentifier));
+                if (accessRules == null)
+                    return false;
+
+                foreach (FileSystemAccessRule rule in accessRules)
+                {
+                    if ((FileSystemRights.Write & rule.FileSystemRights) != FileSystemRights.Write) continue;
+
+                    if (rule.AccessControlType == AccessControlType.Allow)
+                        writeAllow = true;
+                    else if (rule.AccessControlType == AccessControlType.Deny)
+                        writeDeny = true;
+                }
+
+                return writeAllow && !writeDeny;
+            }
+            catch (Exception)
+            {
+                return false;
+            }
+            
         }
     }
 }
