@@ -41,23 +41,15 @@ namespace IntegradorCore.NHibernate.DAO
 
         public void DeleteByData(string data)
         {
-            //ISession session = sessionFactory.OpenSession();
             ITransaction tx = sessao.BeginTransaction();
 
             String hqlDelete = "DELETE LogInterno c where c.Data = :data";
-            // or String hqlDelete = "delete Customer where name = :oldName";
+
             int deletedEntities = sessao.CreateQuery(hqlDelete)
                     .SetString("data", data)
                     .ExecuteUpdate();
             tx.Commit();
             sessao.Flush();
-            //session.Close();
-
-            //sessao.CreateQuery("DELETE LogConsulta c where c.Data = :data")
-            //.SetParameterList("data", data)
-            //.ExecuteUpdate();
-            //sessao.Delete("delete LogConsulta c where c.Data = " + data);
-            //sessao.Flush();
         }
     }
 }

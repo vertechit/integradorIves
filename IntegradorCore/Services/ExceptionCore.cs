@@ -308,17 +308,53 @@ namespace IntegradorCore.Services
             }
             else if (msg == "Não havia um ponto de extremidade em escuta em https://apiesocial.vertech-it.com.br/vch-esocial/envialote capaz de aceitar a mensagem. Em geral, isso é causado por um endereço ou ação de SOAP incorreta. Consulte InnerException, se presente, para obter mais detalhes.")
             {
-                erro.Msg = "Não foi possivel conectar com o servidor";
-                erro.Acao = "Verifique sua conexão com a internet";
+                erro.Msg = "Não foi possivel conectar com o servidor - envialote";
+                erro.Acao = "Verifique sua conexão com a internet ou se há proxy";
                 erro.CodErro = "1000";
             }
             else if (msg == "Não havia um ponto de extremidade em escuta em https://apiesocial2.vertech-it.com.br/vch-esocial/envialote capaz de aceitar a mensagem. Em geral, isso é causado por um endereço ou ação de SOAP incorreta. Consulte InnerException, se presente, para obter mais detalhes.")
             {
-                erro.Msg = "Não foi possivel conectar com o servidor";
-                erro.Acao = "Verifique sua conexão com a internet";
+                erro.Msg = "Não foi possivel conectar com o servidor - envialote 2";
+                erro.Acao = "Verifique sua conexão com a internet ou se há proxy";
                 erro.CodErro = "1000";
             }
-            else if(msg == "Erro de rede ou específico à instância ao estabelecer conexão com o SQL Server. O servidor não foi encontrado ou não estava acessível. Verifique se o nome da instância está correto e se o SQL Server está configurado para permitir conexões remotas. (provider: TCP Provider, error: 0 - O computador remoto recusou a conexão de rede.)")
+            else if (msg == "Não havia um ponto de extremidade em escuta em https://apiesocial.vertech-it.com.br/vch-esocial/consultalote capaz de aceitar a mensagem. Em geral, isso é causado por um endereço ou ação de SOAP incorreta. Consulte InnerException, se presente, para obter mais detalhes.")
+            {
+                erro.Msg = "Não foi possivel conectar com o servidor";
+                erro.Acao = "Verifique sua conexão com a internet ou se há proxy";
+                erro.CodErro = "1000";
+            }
+            else if (msg == "Não havia um ponto de extremidade em escuta em https://apiesocial2.vertech-it.com.br/vch-esocial/consultalote capaz de aceitar a mensagem. Em geral, isso é causado por um endereço ou ação de SOAP incorreta. Consulte InnerException, se presente, para obter mais detalhes.")
+            {
+                erro.Msg = "Não foi possivel conectar com o servidor - consultalote 2";
+                erro.Acao = "Verifique sua conexão com a internet ou se há proxy";
+                erro.CodErro = "1000";
+            }
+            else if (msg == "Não havia um ponto de extremidade em escuta em https://apiesocial.vertech-it.com.br/vch-esocial/consultaintegra capaz de aceitar a mensagem. Em geral, isso é causado por um endereço ou ação de SOAP incorreta. Consulte InnerException, se presente, para obter mais detalhes.")
+            {
+                erro.Msg = "Não foi possivel conectar com o servidor - consultaintegra";
+                erro.Acao = "Verifique sua conexão com a internet ou se há proxy";
+                erro.CodErro = "1000";
+            }
+            else if (msg == "Não havia um ponto de extremidade em escuta em https://apiesocial2.vertech-it.com.br/vch-esocial/consultaintegra capaz de aceitar a mensagem. Em geral, isso é causado por um endereço ou ação de SOAP incorreta. Consulte InnerException, se presente, para obter mais detalhes.")
+            {
+                erro.Msg = "Não foi possivel conectar com o servidor - consultaintegra 2";
+                erro.Acao = "Verifique sua conexão com a internet ou se há proxy";
+                erro.CodErro = "1000";
+            }
+            else if (msg == "Não havia um ponto de extremidade em escuta em https://apiesocial.vertech-it.com.br/vch-esocial/enviaintegra capaz de aceitar a mensagem. Em geral, isso é causado por um endereço ou ação de SOAP incorreta. Consulte InnerException, se presente, para obter mais detalhes.")
+            {
+                erro.Msg = "Não foi possivel conectar com o servidor - enviaintegra";
+                erro.Acao = "Verifique sua conexão com a internet ou se há proxy";
+                erro.CodErro = "1000";
+            }
+            else if (msg == "Não havia um ponto de extremidade em escuta em https://apiesocial2.vertech-it.com.br/vch-esocial/enviaintegra capaz de aceitar a mensagem. Em geral, isso é causado por um endereço ou ação de SOAP incorreta. Consulte InnerException, se presente, para obter mais detalhes.")
+            {
+                erro.Msg = "Não foi possivel conectar com o servidor - enviaintegra 2";
+                erro.Acao = "Verifique sua conexão com a internet ou se há proxy";
+                erro.CodErro = "1000";
+            }
+            else if (msg == "Erro de rede ou específico à instância ao estabelecer conexão com o SQL Server. O servidor não foi encontrado ou não estava acessível. Verifique se o nome da instância está correto e se o SQL Server está configurado para permitir conexões remotas. (provider: TCP Provider, error: 0 - O computador remoto recusou a conexão de rede.)")
             {
 
             }else if(msg == "O formatador gerou uma exceção ao tentar desserializar a mensagem: Erro ao tentar desserializar o parâmetro http://www.esocial.gov.br/servicos/empregador/lote/eventos/envio/consulta/retornoProcessamento/v1_1_0:ConsultarLoteEventosResponse. A mensagem da InnerException foi 'Houve um erro ao desserializar o objeto do tipo IntegradorCore.apiConsultaXML.ConsultarLoteEventosResponseBody. O prefixo 'xsi' não está definido. Linha 1, posição 818.'. Consulte a InnerException para obter mais detalhes.")
