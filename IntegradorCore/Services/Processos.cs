@@ -1253,7 +1253,7 @@ namespace IntegradorCore.Services
 
         }
 
-        public void InsereLogInterno(string servico, Exception ex, string codErro, string id)
+        public void InsereLogInterno(string servico, Exception ex, string codErro, string id, string query)
         {
             var sessao = AuxiliarNhibernate.AbrirSessao();
             var LogInternoDAO = new LogInternoDAO(sessao);
@@ -1308,7 +1308,8 @@ namespace IntegradorCore.Services
                     Base = StaticParametros.GetBase(),
                     Ambiente = StaticParametros.GetAmbiente(),
                     Identificacao = id,
-                    Xml = xml
+                    Xml = xml,
+                    SQL = query
                 };
                 LogInternoDAO.Salvar(log);
             }

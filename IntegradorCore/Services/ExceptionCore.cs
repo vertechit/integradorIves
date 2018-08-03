@@ -33,12 +33,12 @@ namespace IntegradorCore.Services
                 if (servico == "Consulta")
                 {
                     proc.InsereLog(2, msg, arquivo, "Consulta", acao, " ", " ");
-                    proc.InsereLogInterno("Consulta", ex, codErro, arquivo);
+                    proc.InsereLogInterno("Consulta", ex, codErro, arquivo, "");
                 }
                 else
                 {
                     proc.InsereLog(1, msg, arquivo, "Integra", acao, " ", " ");
-                    proc.InsereLogInterno("Integra", ex, codErro, arquivo);
+                    proc.InsereLogInterno("Integra", ex, codErro, arquivo, "");
                 }
             }
             else
@@ -46,12 +46,12 @@ namespace IntegradorCore.Services
                 if (servico == "Consulta")
                 {
                     proc.InsereLog(2, msg, arquivo, "Consulta", acao, " ", " ");
-                    proc.InsereLogInterno("Consulta", ex, codErro, arquivo);
+                    proc.InsereLogInterno("Consulta", ex, codErro, arquivo, "");
                 }
                 else
                 {
                     proc.InsereLog(1, msg, arquivo, "Integra", acao, " ", " ");
-                    proc.InsereLogInterno("Integra", ex, codErro, arquivo);
+                    proc.InsereLogInterno("Integra", ex, codErro, arquivo, "");
                 }
             }
         }
@@ -78,12 +78,12 @@ namespace IntegradorCore.Services
                     if (StaticParametros.GetTipoApp() == "Service")
                     {
                         proc.InsereLog(3, msg, " ", "Integra", acao, " ", codErro);
-                        proc.InsereLogInterno("Integra", ex, codErro, id);
+                        proc.InsereLogInterno("Integra", ex, codErro, id, "");
                     }
                     else
                     {
                         proc.InsereLog(3, msg, " ", "Integra", acao, " ", codErro);
-                        proc.InsereLogInterno("Integra", ex, codErro, id);
+                        proc.InsereLogInterno("Integra", ex, codErro, id, "");
                     }
                     break;
 
@@ -91,12 +91,12 @@ namespace IntegradorCore.Services
                     if (StaticParametros.GetTipoApp() == "Service")
                     {
                         proc.InsereLog(3, msg, " ", "Consulta", acao, " ", codErro);
-                        proc.InsereLogInterno("Consulta", ex, codErro, id);
+                        proc.InsereLogInterno("Consulta", ex, codErro, id, "");
                     }
                     else
                     {
                         proc.InsereLog(3, msg, " ", "Consulta", acao, " ", codErro);
-                        proc.InsereLogInterno("Consulta", ex, codErro, id);
+                        proc.InsereLogInterno("Consulta", ex, codErro, id, "");
                     }
                     break;
             }
@@ -250,17 +250,17 @@ namespace IntegradorCore.Services
             }
         }
 
-        public void ExBanco(int codErro, string msg, string driver, Exception ex)
+        public void ExBanco(int codErro, string msg, string driver, Exception ex, string query)
         {
             if (StaticParametros.GetTipoApp() == "Service")
             {
                 proc.InsereLog(3, msg, " ", driver, " ", " ", codErro.ToString());
-                proc.InsereLogInterno(driver, ex, Convert.ToString(codErro), msg);
+                proc.InsereLogInterno(driver, ex, Convert.ToString(codErro), msg, query);
             }
             else
             {
                 proc.InsereLog(3, msg, " ", driver, " ", " ", codErro.ToString());
-                proc.InsereLogInterno(driver, ex, Convert.ToString(codErro), msg);
+                proc.InsereLogInterno(driver, ex, Convert.ToString(codErro), msg, query);
             }
         }
 

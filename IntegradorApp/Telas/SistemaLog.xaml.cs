@@ -281,6 +281,7 @@ namespace IntegradorApp.Telas
                     vWriter2.WriteLine("Ambiente: " + item.Ambiente);
                     vWriter2.WriteLine("Identificação: " + item.Identificacao);
                     vWriter2.WriteLine("XML: " + item.Xml);
+                    vWriter2.WriteLine("SQL: " + item.SQL);
                     vWriter2.WriteLine("Data: " + item.Data);
                     vWriter2.WriteLine("");
                     vWriter2.WriteLine("--------------------------------------------------");

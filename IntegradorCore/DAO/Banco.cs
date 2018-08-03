@@ -18,6 +18,8 @@ namespace IntegradorCore.DAO
 {
     public class Banco
     {
+        public static string query = "";
+
         private static dynamic GetConnection()
         {
             if(StaticParametersDB.GetDriver() == "oracle")
@@ -235,7 +237,7 @@ namespace IntegradorCore.DAO
                     //MessageBox.Show(e.Message);
                     MessageBox.Show(e.Message, "", MessageBoxButton.OK, MessageBoxImage.Warning);
                     Processos p = new Processos();
-                    p.InsereLogInterno(StaticParametersDB.GetDriver(), e, "99", "Teste Conexão");
+                    p.InsereLogInterno(StaticParametersDB.GetDriver(), e, "99", "Teste Conexão", "");
                     retorno = false;
                 }
                 finally
@@ -282,7 +284,7 @@ namespace IntegradorCore.DAO
                 catch (Exception ex)
                 {
                     ExceptionCore e = new ExceptionCore();
-                    e.ExBanco(1, ex.Message, StaticParametersDB.GetDriver(), ex);
+                    e.ExBanco(1, ex.Message, StaticParametersDB.GetDriver(), ex, "");
                 }
                 finally
                 {
@@ -306,6 +308,7 @@ namespace IntegradorCore.DAO
                         if (prot.nroRec == null || prot.nroRec == "")
                         {
                             var sql = CriaSQL(prot, 1);
+                            query = sql;
                             comm.Connection = conn;
                             comm.CommandType = CommandType.Text;
                             if (StaticParametersDB.GetDriver() == "sqlserver")
@@ -319,6 +322,7 @@ namespace IntegradorCore.DAO
                         else
                         {
                             var sql = CriaSQL(prot, 2);
+                            query = sql;
                             comm.Connection = conn;
                             comm.CommandType = CommandType.Text;
                             if (StaticParametersDB.GetDriver() == "sqlserver")
@@ -335,7 +339,7 @@ namespace IntegradorCore.DAO
                 catch (Exception ex)
                 {
                     ExceptionCore e = new ExceptionCore();
-                    e.ExBanco(2, ex.Message, StaticParametersDB.GetDriver(), ex);
+                    e.ExBanco(2, ex.Message, StaticParametersDB.GetDriver(), ex, query);
 
                     retorno = false;
                 }
@@ -361,6 +365,7 @@ namespace IntegradorCore.DAO
                     {
 
                         var sql = CriaSQL(prot, tipo);
+                        query = sql;
                         comm.Connection = conn;
                         comm.CommandType = CommandType.Text;
 
@@ -378,7 +383,7 @@ namespace IntegradorCore.DAO
                 catch (Exception ex)
                 {
                     ExceptionCore e = new ExceptionCore();
-                    e.ExBanco(2, ex.Message, StaticParametersDB.GetDriver(), ex);
+                    e.ExBanco(2, ex.Message, StaticParametersDB.GetDriver(), ex, query);
                 }
                 finally
                 {
