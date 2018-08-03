@@ -79,6 +79,9 @@
     <Reference Include="NHibernate">
       <HintPath>..\IntegradorCore\bin\Debug\NHibernate.dll</HintPath>
     </Reference>
+    <Reference Include="Oracle.ManagedDataAccess, Version=4.121.2.0, Culture=neutral, PublicKeyToken=89b483f429c47342, processorArchitecture=MSIL">
+      <HintPath>..\packages\Oracle.ManagedDataAccess.12.1.2400\lib\net40\Oracle.ManagedDataAccess.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Configuration.Install" />
     <Reference Include="System.Core" />
@@ -153,6 +156,7 @@
       <DependentUpon>Reference.svcmap</DependentUpon>
     </None>
     <None Include="Connected Services\apiEnviaXML\ServicoEnviarLoteEventos.wsdl" />
+    <None Include="packages.config" />
     <None Include="Properties\app.manifest" />
     <None Include="System.Xml.Linq.XElement.datasource" />
   </ItemGroup>
