@@ -120,7 +120,7 @@ namespace IntegradorApp
 
             if (proc.WritePermissionFile() == false || proc.ReadPermissionFile() == false)
             {
-                System.Windows.Forms.MessageBox.Show("Ops, você não tem permissão para leitura ou escrita no arquivo dados.db | c:/vch/dado.db", "Erro", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                System.Windows.Forms.MessageBox.Show("Ops, você não tem permissão para leitura ou escrita no arquivo dados.db | c:/vch/dados.db", "Erro", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
 
@@ -286,12 +286,34 @@ namespace IntegradorApp
 
             if (proc.ReadPermissionFile() == false || proc.WritePermissionFile() == false)
             {
-                System.Windows.Forms.MessageBox.Show("Ops, você não tem permissão para leitura ou escrita no arquivo dados.db | c:/vch/dado.db", "Erro", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                System.Windows.Forms.MessageBox.Show("Ops, você não tem permissão para leitura ou escrita no arquivo dados.db | c:/vch/dados.db", "Erro", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
             this.Hide();
             var janela = new Telas.ParametrosBanco(this);
             janela.Show();
+        }
+
+        private void ReportBug_Click(object sender, RoutedEventArgs e)
+        {
+            string target = "https://github.com/vertechit/integradorIves/issues";
+
+            try
+            {
+                System.Diagnostics.Process.Start(target);
+            }
+            catch
+                (
+                 System.ComponentModel.Win32Exception noBrowser)
+            {
+                if (noBrowser.ErrorCode == -2147467259)
+                    System.Windows.MessageBox.Show(noBrowser.Message);
+            }
+            catch (System.Exception other)
+            {
+                System.Windows.MessageBox.Show(other.Message);
+            }
+
         }
         #endregion
 
@@ -301,7 +323,7 @@ namespace IntegradorApp
         {
             Processos process = new Processos();
             DirectoryInfo dir = new DirectoryInfo(@"C:\\vch");
-            FileInfo fil = new FileInfo(@"C:\\vch\\logs.db");
+            FileInfo fil = new FileInfo(@"C:\\vch\\dados.db");
             int ctrlFirstExec = 0;
 
             if (dir.Exists != true)
@@ -320,10 +342,18 @@ namespace IntegradorApp
                 OrganizaTelaEvent(1);
             }
 
-            if(fil.Exists != true)
+            if (fil.Exists != true)
             {
-                //Log.CriarBancoSQLite();
-                //Log.CriarTabelaSQlite();
+                try
+                {
+                    AuxiliarNhibernate.AbrirSessao();
+                    //fil.Create();
+                }
+                catch(Exception e)
+                {
+                    //System.Windows.Forms.MessageBox.Show(e.Message, "Erro", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+                
             }
 
             if(process.ReadPermissionFolder() == false || process.ReadPermissionFile() == false)
@@ -619,26 +649,6 @@ namespace IntegradorApp
 
         #endregion
 
-        private void ReportBug_Click(object sender, RoutedEventArgs e)
-        {
-            string target = "https://github.com/vertechit/integradorIves/issues";
-
-            try
-            {
-                System.Diagnostics.Process.Start(target);
-            }
-            catch
-                (
-                 System.ComponentModel.Win32Exception noBrowser)
-            {
-                if (noBrowser.ErrorCode == -2147467259)
-                    System.Windows.MessageBox.Show(noBrowser.Message);
-            }
-            catch (System.Exception other)
-            {
-                System.Windows.MessageBox.Show(other.Message);
-            }
-
-        }
+        
     }
 }
