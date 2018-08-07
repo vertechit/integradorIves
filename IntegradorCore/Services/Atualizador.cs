@@ -176,5 +176,21 @@ namespace IntegradorCore.Services
             }
         }
 
+        public static void Vaccum()
+        {
+            try
+            {
+                using (SQLiteCommand command = DbConnection().CreateCommand())
+                {
+                    command.CommandText = "vacuum;";
+                    command.ExecuteNonQuery();
+                }
+            }
+            catch (Exception)
+            {
+                //noOp
+            }
+        }
+
     }
 }
