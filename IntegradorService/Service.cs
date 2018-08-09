@@ -132,6 +132,16 @@ namespace IntegradorService
         {
             //System.Diagnostics.Debugger.Launch();
 
+            Processos process = new Processos();
+            if (process.WritePermissionFile() == false || process.ReadPermissionFile() == false)
+            {
+                this.Stop();
+            }
+            if (process.ReadPermissionFolder() == false || process.WritePermissionFolder() == false)
+            {
+                this.Stop();
+            }
+
             DirectoryInfo di = new DirectoryInfo("c:\\vch\\log");
 
             if (di.Exists == false)
@@ -169,12 +179,20 @@ namespace IntegradorService
 
         protected override void OnStop()
         {
-            StreamWriter vWriter = new StreamWriter(@"c:\vch\log\logServico.log", true);
+            try
+            {
+                StreamWriter vWriter = new StreamWriter(@"c:\vch\log\logServico.log", true);
 
-            vWriter.WriteLine("Servico Pausado: " + DateTime.Now.ToString());
-            vWriter.WriteLine("--------------------------------------------------");
-            vWriter.Flush();
-            vWriter.Close();
+                vWriter.WriteLine("Servico Pausado: " + DateTime.Now.ToString());
+                vWriter.WriteLine("--------------------------------------------------");
+                vWriter.Flush();
+                vWriter.Close();
+            }
+            catch (Exception)
+            {
+
+            }
+            
         }
 
         public bool VerificaProcessoRun()

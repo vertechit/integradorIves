@@ -19,6 +19,8 @@ using IntegradorCore.NHibernate;
 using IntegradorCore.Services;
 using IntegradorCore.NHibernate.DAO;
 using System.ComponentModel;
+using System.IO;
+using System.Threading;
 
 namespace IntegradorApp.Telas
 {
@@ -28,6 +30,7 @@ namespace IntegradorApp.Telas
     public partial class SistemaLog : Window
     {
         MainWindow window;
+        int ctrl = 0;
 
         public SistemaLog(MainWindow current)
         {
@@ -198,6 +201,110 @@ namespace IntegradorApp.Telas
         private void BtnLimpa_Click(object sender, RoutedEventArgs e)
         {
             init();
+        }
+
+        private void BtnDump_Click(object sender, RoutedEventArgs e)
+        {
+            if(ctrl == 0)
+            {
+                Thread t = new Thread(ExportLog);
+                t.Name = "Exporting";
+                t.Start();
+            }
+            else
+            {
+                MessageBox.Show("Processo em andamento", "", MessageBoxButton.OK, MessageBoxImage.Asterisk);
+            }
+        }
+
+        private void ExportLog()
+        {
+            ctrl = 1;
+            try
+            {
+                var sessao = AuxiliarNhibernate.AbrirSessao();
+                var logErroDao = new LogErroDAO(sessao);
+                var logInterno = new LogInternoDAO(sessao);
+                var proc = new Processos();
+
+                var lt1 = logErroDao.BuscaTodos();
+                var lt2 = logInterno.BuscaTodos();
+
+                DirectoryInfo dir = new DirectoryInfo(@"c:\\vch\\log");
+                FileInfo fi1 = new FileInfo(@"c:\\vch\\log\\logErro.log");
+                FileInfo fi2 = new FileInfo(@"c:\\vch\\log\\logInterno.log");
+
+                if (dir.Exists != true)
+                {
+                    dir.Create();
+                }
+                if (fi1.Exists == true)
+                {
+                    fi1.Delete();
+                }
+                if (fi2.Exists == true)
+                {
+                    fi2.Delete();
+                }
+
+
+                StreamWriter vWriter = new StreamWriter(fi1.FullName, true);
+                foreach (var item in lt1)
+                {
+
+                    vWriter.WriteLine("Id: " + item.Id);
+                    vWriter.WriteLine("Serviço: " + item.Servico);
+                    vWriter.WriteLine("Cod erro: " + item.CodErro);
+                    vWriter.WriteLine("Mensagem: " + item.Msg);
+                    vWriter.WriteLine("Ação: " + item.Acao);
+                    vWriter.WriteLine("Data: " + item.Data);
+                    vWriter.WriteLine("Hora: " + item.Hora);
+                    vWriter.WriteLine("");
+                    vWriter.WriteLine("--------------------------------------------------");
+
+                }
+                vWriter.Flush();
+                vWriter.Close();
+
+                StreamWriter vWriter2 = new StreamWriter(fi2.FullName, true);
+                foreach (var item in lt2)
+                {
+
+                    vWriter2.WriteLine("Id: " + item.Id);
+                    vWriter2.WriteLine("Serviço: " + item.Servico);
+                    vWriter2.WriteLine("Cod erro: " + item.CodErro);
+                    vWriter2.WriteLine("Mensagem: " + item.Mensagem);
+                    vWriter2.WriteLine("InnerException: " + item.InnerException);
+                    vWriter2.WriteLine("Stack: " + item.StackTrace);
+                    vWriter2.WriteLine("Source: " + item.Source);
+                    vWriter2.WriteLine("Custom EndPoint: " + item.Base);
+                    vWriter2.WriteLine("Ambiente: " + item.Ambiente);
+                    vWriter2.WriteLine("Identificação: " + item.Identificacao);
+                    vWriter2.WriteLine("XML: " + item.Xml);
+                    vWriter2.WriteLine("SQL: " + item.SQL);
+                    vWriter2.WriteLine("Data: " + item.Data);
+                    vWriter2.WriteLine("");
+                    vWriter2.WriteLine("--------------------------------------------------");
+
+                }
+                vWriter2.Flush();
+                vWriter2.Close();
+
+
+                var value = MessageBox.Show("Deseja abrir a pasta de logs?", "Sucesso", MessageBoxButton.YesNo, MessageBoxImage.Question);
+
+                if (value == MessageBoxResult.Yes)
+                {
+                    string argument = @"/select, C:\vch\log\";
+                    System.Diagnostics.Process.Start("explorer.exe", argument);
+                }
+            }
+            catch (Exception e)
+            {
+                MessageBox.Show(e.Message, "Erro", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+
+            ctrl = 0;
         }
     }
 }

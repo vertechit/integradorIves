@@ -25,6 +25,7 @@ namespace IntegradorCore.Mapeamento
             Map(x => x.Data).Column("data");
             Map(x => x.Identificacao).Column("identificacao");
             Map(x => x.Xml).Column("XML");
+            Map(x => x.SQL).Column("sql");
         }
     }
 }

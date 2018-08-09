@@ -205,24 +205,7 @@ namespace IntegradorCore.Services
             return false;
         }
 
-        public bool VerificaSeTemRecibo(string xml)
-        {
-            XmlDocument doc = new XmlDocument();
-            doc.LoadXml(xml);
-
-            var elemListRecibo = doc.GetElementsByTagName("recibo");
-
-            if(elemListRecibo.Count == 1)
-            {
-                return true;
-            }
-            else
-            {
-                return false;
-            }
-        }
-
-        public string ExtraiXMLRecibo(string xml)
+        public bool VerificaSeTemRecibo(string xml, string id)
         {
             XmlDocument doc = new XmlDocument();
             doc.LoadXml(xml);
@@ -231,11 +214,58 @@ namespace IntegradorCore.Services
 
             foreach (XmlNode item in elemListRetEve[0].ChildNodes)
             {
-                foreach (XmlNode itens in item.ChildNodes)
+                if(item.Name == "evento")
                 {
-                    if(itens.Name == "retornoEvento")
+                    if(item.Attributes[0].InnerText == id)
                     {
-                        return itens.InnerXml;
+                        XmlDocument doc1 = new XmlDocument();
+                        doc1.LoadXml(item.InnerXml);
+
+                        var elemList = doc1.GetElementsByTagName("recibo");
+
+                        if(elemList.Count == 1)
+                        {
+                            return true;
+                        }
+                        else
+                        {
+                            return false;
+                        }
+                    }
+                }
+            }
+
+            return false;
+
+            /*XmlDocument doc = new XmlDocument();
+            doc.LoadXml(xml);
+
+            var elemListRecibo = doc.GetElementsByTagName("recibo");
+
+            if(elemListRecibo.Count > 0)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }*/
+        }
+
+        public string ExtraiXMLRecibo(string id, string xml)
+        {
+            XmlDocument doc = new XmlDocument();
+            doc.LoadXml(xml);
+
+            var elemListRetEve = doc.GetElementsByTagName("retornoEventos");
+
+            foreach (XmlNode item in elemListRetEve[0].ChildNodes)
+            {
+                foreach (XmlNode atributo in item.Attributes)
+                {
+                    if(id == atributo.InnerText)
+                    {
+                        return item.InnerXml;
                     }
                 }
             }
@@ -259,10 +289,10 @@ namespace IntegradorCore.Services
             return str;
         }
 
-        public string ExtraiErrosXmlDB(string xml)
+        public string ExtraiErrosXmlDB(string xml, string id)
         {
             XmlDocument doc = new XmlDocument();
-            doc.LoadXml(xml);
+            doc.LoadXml(ExtraiXMLRecibo(id, xml));
 
             var elemListOcorrencia = doc.GetElementsByTagName("ocorrencias");
             var elemListProcessamento = doc.GetElementsByTagName("processamento");
@@ -558,7 +588,7 @@ namespace IntegradorCore.Services
             var nome = string.Concat("log_", filename);
             string s = MontaCaminhoDir(string.Concat(StaticParametros.GetDirArq(), "\\logs\\retornoXML"), nome);
 
-            var xml = ExtraiXMLRecibo(response);
+            var xml = ExtraiXMLRecibo(filename, response);
             var desc = ExtraiInfoXML(xml, "descResposta");
 
             try
@@ -964,88 +994,100 @@ namespace IntegradorCore.Services
             var logConsultDao = new LogConsultaDAO(sessao);
             var logEnvioDao = new LogEnvioDAO(sessao);
             var logErroDao = new LogErroDAO(sessao);
+            var logInterno = new LogInternoDAO(sessao);
 
-            //string err = "logerro";
-            //string con = "logconsulta";
-            //string env = "logenvia";
-
-            //DataTable dtErro = Log.GetLogs(err);
-            //DataTable dtConsu = Log.GetLogs(con);
-            //DataTable dtEnvia = Log.GetLogs(env);
-            DataTable dtErro = ConvertToDataTable(logErroDao.BuscaTodos());
-            DataTable dtConsu = ConvertToDataTable(logConsultDao.BuscaTodos());
-            DataTable dtEnvia = ConvertToDataTable(logEnvioDao.BuscaTodos());
+            var dtErro = logErroDao.BuscaTodos();
+            var dtConsu = logConsultDao.BuscaTodos();
+            var dtEnvia = logEnvioDao.BuscaTodos();
+            var dtInter = logInterno.BuscaTodos();
 
             try
             {
-                if (dtErro.Rows.Count > 0)
+                if (dtErro.Count > 0)
                 {
                     var remover = new List<string>();
 
-                    foreach (DataRow row in dtErro.Rows)
+                    foreach (var row in dtErro)
                     {
-                        var dt = Convert.ToDateTime(row.ItemArray[5]);
+                        var dt = Convert.ToDateTime(row.Data);
                         var qtd = DiferencaDataDias(dt, DateTime.Now);
                         if (qtd > 25)
                         {
-                            if (remover.Find(x => x.Contains(Convert.ToString(row.ItemArray[5]))) == null)
-                                remover.Add(Convert.ToString(row.ItemArray[5]));
-                            //Log.DeleteByID(err, Convert.ToInt32(row.ItemArray[0]));
+                            if (remover.Find(x => x.Contains(Convert.ToString(row.Data))) == null)
+                                remover.Add(Convert.ToString(row.Data));
                         }
                     }
 
                     foreach (var item in remover)
                     {
                         logErroDao.DeleteByData(item);
-                        //Log.DeleteByData(err, item);
                     }
                 }
 
-                if (dtConsu.Rows.Count > 0)
+                if (dtConsu.Count > 0)
                 {
                     var remover = new List<string>();
 
-                    foreach (DataRow row in dtConsu.Rows)
+                    foreach (var row in dtConsu)
                     {
-                        var dt = Convert.ToDateTime(row.ItemArray[5]);
+                        var dt = Convert.ToDateTime(row.Data);
                         var qtd = DiferencaDataDias(dt, DateTime.Now);
                         if (qtd > 25)
                         {
-                            if (remover.Find(x => x.Contains(Convert.ToString(row.ItemArray[5]))) == null)
-                                remover.Add(Convert.ToString(row.ItemArray[5]));
-                            //Log.DeleteByID(con, Convert.ToInt32(row.ItemArray[0]));
+                            if (remover.Find(x => x.Contains(Convert.ToString(row.Data))) == null)
+                                remover.Add(Convert.ToString(row.Data));
                         }
                     }
 
                     foreach (var item in remover)
                     {
                         logConsultDao.DeleteByData(item);
-                        //Log.DeleteByData(con, item);
                     }
                 }
 
-                if (dtEnvia.Rows.Count > 0)
+                if (dtEnvia.Count > 0)
                 {
                     var remover = new List<string>();
 
-                    foreach (DataRow row in dtEnvia.Rows)
+                    foreach (var row in dtEnvia)
                     {
-                        var dt = Convert.ToDateTime(row.ItemArray[4]);//4
+                        var dt = Convert.ToDateTime(row.Data);
                         var qtd = DiferencaDataDias(dt, DateTime.Now);
                         if (qtd > 25)
                         {
-                            if (remover.Find(x => x.Contains(Convert.ToString(row.ItemArray[4]))) == null)
-                                remover.Add(Convert.ToString(row.ItemArray[4]));
-                            //Log.DeleteByID(env, Convert.ToInt32(row.ItemArray[0]));
+                            if (remover.Find(x => x.Contains(Convert.ToString(row.Data))) == null)
+                                remover.Add(Convert.ToString(row.Data));
                         }
                     }
 
                     foreach (var item in remover)
                     {
                         logEnvioDao.DeleteByData(item);
-                        //Log.DeleteByData(env, item);
                     }
                 }
+
+                if (dtInter.Count > 0)
+                {
+                    var remover = new List<string>();
+
+                    foreach (var lt in dtInter)
+                    {
+                        var dt = Convert.ToDateTime(lt.Data);
+                        var qtd = DiferencaDataDias(dt, DateTime.Now);
+                        if (qtd > 25)
+                        {
+                            if (remover.Find(x => x.Contains(Convert.ToString(lt.Data))) == null)
+                                remover.Add(Convert.ToString(lt.Data));
+                        }
+                    }
+
+                    foreach (var item in remover)
+                    {
+                        logInterno.DeleteByData(item);
+                    }
+                }
+
+                Atualizador.Vaccum();
             }
             catch (Exception ex)
             {
@@ -1253,7 +1295,7 @@ namespace IntegradorCore.Services
 
         }
 
-        public void InsereLogInterno(string servico, Exception ex, string codErro, string id)
+        public void InsereLogInterno(string servico, Exception ex, string codErro, string id, string query)
         {
             var sessao = AuxiliarNhibernate.AbrirSessao();
             var LogInternoDAO = new LogInternoDAO(sessao);
@@ -1308,7 +1350,8 @@ namespace IntegradorCore.Services
                     Base = StaticParametros.GetBase(),
                     Ambiente = StaticParametros.GetAmbiente(),
                     Identificacao = id,
-                    Xml = xml
+                    Xml = xml,
+                    SQL = query
                 };
                 LogInternoDAO.Salvar(log);
             }
@@ -1321,20 +1364,15 @@ namespace IntegradorCore.Services
 
         public bool DefineBaseEnvioDB(string xml)
         {
-            try
+
+            XmlDocument doc = new XmlDocument();
+            doc.LoadXml(xml);
+
+            var elemListRetEve = doc.GetElementsByTagName("tpAmb");
+
+            foreach (XmlNode item in elemListRetEve[0].ChildNodes)
             {
-                int sti = 0;
-                int stf = 0;
-
-                string tagIni = "<tpAmb>";
-                string tagFim = "</tpAmb>";
-
-                sti = xml.IndexOf(tagIni);
-                stf = xml.IndexOf(tagFim);
-
-                var ambiente = xml.Substring(sti, stf + tagFim.Length - sti);
-
-                if (ambiente == "1")
+                if (item.InnerText == "1")
                 {
                     return false;
                 }
@@ -1343,19 +1381,20 @@ namespace IntegradorCore.Services
                     return true;
                 }
             }
-            catch (Exception)
-            {
-
-            }
 
             return true;
-            
+
         }
 
         public void VerificaParaAtualizar()
         {
             var sessao = AuxiliarNhibernate.AbrirSessao();
             var sysinfoDAO = new SysInfoDAO(sessao);
+
+            if(ReadPermissionFile() == false || WritePermissionFile() == false)
+            {
+                return;
+            }
 
             var retorno = sysinfoDAO.BuscarPorID(1);
 
@@ -1415,6 +1454,131 @@ namespace IntegradorCore.Services
 
             StaticParametros.SetLockVariavel(false);
 
+        }
+
+        public bool ReadPermissionFolder()
+        {
+            try
+            {
+                var readAllow = false;
+                var readDeny = false;
+                var accessControlList = Directory.GetAccessControl(@"c:\\vch");
+                if (accessControlList == null)
+                    return false;
+                var accessRules = accessControlList.GetAccessRules(true, true, typeof(System.Security.Principal.SecurityIdentifier));
+                if (accessRules == null)
+                    return false;
+
+                foreach (FileSystemAccessRule rule in accessRules)
+                {
+                    if ((FileSystemRights.Read & rule.FileSystemRights) != FileSystemRights.Read) continue;
+
+                    if (rule.AccessControlType == AccessControlType.Allow)
+                        readAllow = true;
+                    else if (rule.AccessControlType == AccessControlType.Deny)
+                        readDeny = true;
+                }
+
+                return readAllow && !readDeny;
+            }
+            catch (Exception)
+            {
+                return false;
+            }
+        }
+
+        public bool WritePermissionFolder()
+        {
+            try
+            {
+                var writeAllow = false;
+                var writeDeny = false;
+                var accessControlList = Directory.GetAccessControl(@"c:\\vch");
+                if (accessControlList == null)
+                    return false;
+                var accessRules = accessControlList.GetAccessRules(true, true, typeof(System.Security.Principal.SecurityIdentifier));
+                if (accessRules == null)
+                    return false;
+
+                foreach (FileSystemAccessRule rule in accessRules)
+                {
+                    if ((FileSystemRights.Write & rule.FileSystemRights) != FileSystemRights.Write) continue;
+
+                    if (rule.AccessControlType == AccessControlType.Allow)
+                        writeAllow = true;
+                    else if (rule.AccessControlType == AccessControlType.Deny)
+                        writeDeny = true;
+                }
+
+                return writeAllow && !writeDeny;
+            }
+            catch (Exception)
+            {
+                return false;
+            }
+        }
+
+        public bool ReadPermissionFile()
+        {
+            try
+            {
+                var readAllow = false;
+                var readDeny = false;
+                var accessControlList = File.GetAccessControl(@"c:\\vch\\dados.db");
+                if (accessControlList == null)
+                    return false;
+                var accessRules = accessControlList.GetAccessRules(true, true, typeof(System.Security.Principal.SecurityIdentifier));
+                if (accessRules == null)
+                    return false;
+
+                foreach (FileSystemAccessRule rule in accessRules)
+                {
+                    if ((FileSystemRights.Read & rule.FileSystemRights) != FileSystemRights.Read) continue;
+
+                    if (rule.AccessControlType == AccessControlType.Allow)
+                        readAllow = true;
+                    else if (rule.AccessControlType == AccessControlType.Deny)
+                        readDeny = true;
+                }
+
+                return readAllow && !readDeny;
+            }
+            catch (Exception)
+            {
+                return false;
+            }
+        }
+
+        public bool WritePermissionFile()
+        {
+            try
+            {
+                var writeAllow = false;
+                var writeDeny = false;
+                var accessControlList = File.GetAccessControl(@"c:\\vch\\dados.db");
+                if (accessControlList == null)
+                    return false;
+                var accessRules = accessControlList.GetAccessRules(true, true, typeof(System.Security.Principal.SecurityIdentifier));
+                if (accessRules == null)
+                    return false;
+
+                foreach (FileSystemAccessRule rule in accessRules)
+                {
+                    if ((FileSystemRights.Write & rule.FileSystemRights) != FileSystemRights.Write) continue;
+
+                    if (rule.AccessControlType == AccessControlType.Allow)
+                        writeAllow = true;
+                    else if (rule.AccessControlType == AccessControlType.Deny)
+                        writeDeny = true;
+                }
+
+                return writeAllow && !writeDeny;
+            }
+            catch (Exception)
+            {
+                return false;
+            }
+            
         }
     }
 }

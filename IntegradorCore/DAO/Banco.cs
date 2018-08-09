@@ -9,14 +9,17 @@ using IntegradorCore.Services;
 using NHibernate;
 using IntegradorCore.NHibernate.DAO;
 using IntegradorCore.Modelos;
-using System.Windows.Forms;
+//using System.Windows.Forms;
 using Oracle.ManagedDataAccess.Client;
 using System.Data.SqlClient;
+using System.Windows;
 
 namespace IntegradorCore.DAO
 {
     public class Banco
     {
+        public static string query = "";
+
         private static dynamic GetConnection()
         {
             if(StaticParametersDB.GetDriver() == "oracle")
@@ -134,7 +137,7 @@ namespace IntegradorCore.DAO
 
             if (tipo == 1)
             {
-                var data = RetornaArrayData(prot.dtconsulta);
+                var data = Convert.ToDateTime(prot.dtconsulta); //RetornaArrayData(prot.dtconsulta);
                 var sql = "UPDATE ZMDATVIVES_EVENTOS_ESOCIAL SET NROPROTOCOLO = :Nrprot, XMLPROTOCOLO = :Xmlprot, MENSAGEMERRO = :Erro, DATARETORNO = :Dtretorno, HORARETORNO = :Hrretorno, STATUS = :Status  WHERE ID = :Idevento AND IDSEQ = :Idseq";
                 sql = sql.Replace(":Nrprot", string.Concat(quote + prot.nroProt + quote));
                 sql = sql.Replace(":Xmlprot", string.Concat(quote + (prot.xmlProt = prot.xmlProt.Replace("> <", "><")) + quote));
@@ -156,7 +159,7 @@ namespace IntegradorCore.DAO
             }
             else if (tipo == 2)
             {
-                var data = RetornaArrayData(prot.dtconsulta);
+                var data = Convert.ToDateTime(prot.dtconsulta);//RetornaArrayData(prot.dtconsulta);
                 var sql = "UPDATE ZMDATVIVES_EVENTOS_ESOCIAL SET NROPROTOCOLO = :nrprot, XMLPROTOCOLO = :xmlprot, NRORECIBO = :nroRec, XMLRECIBO = :xmlRec, DATARETORNO = :Dtretorno, HORARETORNO = :Hrretorno, STATUS = :Status WHERE ID = :Idevento AND IDSEQ = :Idseq";
                 sql = sql.Replace(":nrprot", string.Concat(quote + prot.nroProt + quote));
                 sql = sql.Replace(":xmlprot", string.Concat(quote + prot.xmlProt + quote));
@@ -179,7 +182,7 @@ namespace IntegradorCore.DAO
             }
             else if(tipo == 3)//novo
             {
-                var data = RetornaArrayData(prot.dtenvio);
+                var data = Convert.ToDateTime(prot.dtenvio);//RetornaArrayData(prot.dtenvio);
                 var sql = "UPDATE ZMDATVIVES_EVENTOS_ESOCIAL SET NROPROTOCOLO = :Nrprot, XMLPROTOCOLO = :Xmlprot, STATUS = :Status, DATAENVIO = :Dtenvio, HORAENVIO = :Hrenvio  WHERE ID = :Idevento AND IDSEQ = :Idseq";
                 sql = sql.Replace(":Nrprot", string.Concat(quote + prot.nroProt + quote));
                 sql = sql.Replace(":Xmlprot", string.Concat(quote + prot.xmlProt + quote));
@@ -200,7 +203,7 @@ namespace IntegradorCore.DAO
             }
             else
             {
-                var data = RetornaArrayData(prot.dtconsulta);
+                var data = Convert.ToDateTime(prot.dtconsulta);//RetornaArrayData(prot.dtconsulta);
                 var sql = "UPDATE ZMDATVIVES_EVENTOS_ESOCIAL SET DATARETORNO = :Dtretorno, HORARETORNO = :Hrretorno, STATUS = :Status  WHERE ID = :Idevento AND IDSEQ = :Idseq";
                 if (StaticParametersDB.GetDriver() == "oracle")
                 {
@@ -231,7 +234,10 @@ namespace IntegradorCore.DAO
                 }
                 catch (Exception e)
                 {
-                    MessageBox.Show(e.Message);
+                    //MessageBox.Show(e.Message);
+                    MessageBox.Show(e.Message, "", MessageBoxButton.OK, MessageBoxImage.Warning);
+                    Processos p = new Processos();
+                    p.InsereLogInterno(StaticParametersDB.GetDriver(), e, "99", "Teste Conexão", "");
                     retorno = false;
                 }
                 finally
@@ -278,7 +284,7 @@ namespace IntegradorCore.DAO
                 catch (Exception ex)
                 {
                     ExceptionCore e = new ExceptionCore();
-                    e.ExBanco(1, ex.Message, StaticParametersDB.GetDriver(), ex);
+                    e.ExBanco(1, ex.Message, StaticParametersDB.GetDriver(), ex, "");
                 }
                 finally
                 {
@@ -302,6 +308,7 @@ namespace IntegradorCore.DAO
                         if (prot.nroRec == null || prot.nroRec == "")
                         {
                             var sql = CriaSQL(prot, 1);
+                            query = sql;
                             comm.Connection = conn;
                             comm.CommandType = CommandType.Text;
                             if (StaticParametersDB.GetDriver() == "sqlserver")
@@ -315,6 +322,7 @@ namespace IntegradorCore.DAO
                         else
                         {
                             var sql = CriaSQL(prot, 2);
+                            query = sql;
                             comm.Connection = conn;
                             comm.CommandType = CommandType.Text;
                             if (StaticParametersDB.GetDriver() == "sqlserver")
@@ -331,7 +339,7 @@ namespace IntegradorCore.DAO
                 catch (Exception ex)
                 {
                     ExceptionCore e = new ExceptionCore();
-                    e.ExBanco(2, ex.Message, StaticParametersDB.GetDriver(), ex);
+                    e.ExBanco(2, ex.Message, StaticParametersDB.GetDriver(), ex, query);
 
                     retorno = false;
                 }
@@ -357,6 +365,7 @@ namespace IntegradorCore.DAO
                     {
 
                         var sql = CriaSQL(prot, tipo);
+                        query = sql;
                         comm.Connection = conn;
                         comm.CommandType = CommandType.Text;
 
@@ -374,7 +383,7 @@ namespace IntegradorCore.DAO
                 catch (Exception ex)
                 {
                     ExceptionCore e = new ExceptionCore();
-                    e.ExBanco(2, ex.Message, StaticParametersDB.GetDriver(), ex);
+                    e.ExBanco(2, ex.Message, StaticParametersDB.GetDriver(), ex, query);
                 }
                 finally
                 {

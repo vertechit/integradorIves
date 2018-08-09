@@ -232,7 +232,7 @@ namespace IntegradorCore.Services
 
                     if (item.driver == StaticParametersDB.GetDriver())
                     {
-                        var xmlString = proc.MontaXMLDB(item.idEvento, item.xmlEvento);
+                        var xmlString = proc.MontaXMLDB(item.id, item.xmlEvento);
                         var response = apiXMLTeste.SendXML(xmlString, item.id);
                         if (proc.VerificaResponseXML(response) == true)
                         {
@@ -280,9 +280,9 @@ namespace IntegradorCore.Services
                             {
                                 proc.GeraLogConsultaXML(item.id, retorno, item.nroProt, 2);
 
-                                if (proc.VerificaSeTemRecibo(retorno) == true)
+                                if (proc.VerificaSeTemRecibo(retorno, item.id) == true)
                                 {
-                                    var xmlRec = proc.ExtraiXMLRecibo(retorno);
+                                    var xmlRec = proc.ExtraiXMLRecibo(item.id, retorno);
                                     var nrRec = proc.ExtraiInfoXML(xmlRec, "nrRecibo");
                                     var nrProtgov = proc.ExtraiInfoXML(xmlRec, "protocoloEnvioLote");
 
@@ -292,7 +292,7 @@ namespace IntegradorCore.Services
                                 }
                                 else
                                 {
-                                    var erros = proc.ExtraiErrosXmlDB(retorno);
+                                    var erros = proc.ExtraiErrosXmlDB(retorno, item.id);
                                     var data = proc.RetornaData();
                                     var prot = new ProtocoloDB { id = item.id, erros = erros, consultado = true, dtconsulta = data[0], hrconsulta = data[1], status = "3 - Rejeitado" };
                                     ProtocoloDAO.Salvar(prot);

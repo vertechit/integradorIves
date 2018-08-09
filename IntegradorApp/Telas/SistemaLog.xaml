@@ -16,7 +16,8 @@
         <TextBox x:Name="TxbValor" Height="23" Margin="256,128,257,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top"/>
         <Label x:Name="LblCampo" Content="Filtro por campo" Margin="148,93,538,0" VerticalAlignment="Top"/>
         <Label x:Name="LblValor" Content="Valor" Margin="209,125,538,0" VerticalAlignment="Top"/>
-        <Button x:Name="BtnLimpa" Content="Limpar" HorizontalAlignment="Left" Margin="572,95,0,0" VerticalAlignment="Top" Width="75" Click="BtnLimpa_Click"/>
+        <Button x:Name="BtnLimpa" Content="Limpar" Margin="300,532,419,0" VerticalAlignment="Top" Click="BtnLimpa_Click"/>
+        <Button x:Name="BtnDump" Content="Exportar" Margin="419,532,300,0" VerticalAlignment="Top" Click="BtnDump_Click"/>
 
     </Grid>
 </Window>
