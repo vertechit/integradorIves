@@ -316,8 +316,11 @@ namespace IntegradorCore.DAO
                                 comm.CommandText = "SET DATEFORMAT dmy";
                                 comm.ExecuteNonQuery();
                             }
-                            comm.CommandText = sql;
-                            comm.ExecuteNonQuery();
+                            using (var command = SqlCommandWithParameters(prot, 1))
+                            {
+                                command.Connection = conn;
+                                command.ExecuteNonQuery();
+                            }
                         }
                         else
                         {
@@ -330,8 +333,11 @@ namespace IntegradorCore.DAO
                                 comm.CommandText = "SET DATEFORMAT dmy";
                                 comm.ExecuteNonQuery();
                             }
-                            comm.CommandText = sql;
-                            comm.ExecuteNonQuery();
+                            using (var command = SqlCommandWithParameters(prot, 2))
+                            {
+                                command.Connection = conn;
+                                command.ExecuteNonQuery();
+                            }
                         }
 
                     }
@@ -366,6 +372,7 @@ namespace IntegradorCore.DAO
 
                         var sql = CriaSQL(prot, tipo);
                         query = sql;
+
                         comm.Connection = conn;
                         comm.CommandType = CommandType.Text;
 
@@ -374,10 +381,12 @@ namespace IntegradorCore.DAO
                             comm.CommandText = "SET DATEFORMAT dmy";
                             comm.ExecuteNonQuery();
                         }
-                        
-                        comm.CommandText = sql;
-                        comm.ExecuteNonQuery();
 
+                        using (var command = SqlCommandWithParameters(prot, tipo))
+                        {
+                            command.Connection = conn;
+                            command.ExecuteNonQuery();
+                        }
                     }
                 }
                 catch (Exception ex)
@@ -399,6 +408,123 @@ namespace IntegradorCore.DAO
             int ano = Convert.ToInt32(data.Substring(6, 4));
 
             return new DateTime(ano, mes, dia);
+        }
+
+        private static dynamic SqlCommandWithParameters(ProtocoloDB prot, int tipo)
+        {
+            string format = "dd-MM-yyyy hh:mm:ss";
+
+            if (StaticParametersDB.GetDriver() == "oracle")
+            {
+                if (tipo == 1)
+                {
+                    OracleCommand oraCommand = new OracleCommand("UPDATE ZMDATVIVES_EVENTOS_ESOCIAL SET NROPROTOCOLO = :Nrprot, XMLPROTOCOLO = :Xmlprot, MENSAGEMERRO = :Erro, DATARETORNO = :Dtretorno, HORARETORNO = :Hrretorno, STATUS = :Status  WHERE ID = :Idevento AND IDSEQ = :Idseq");
+                    oraCommand.Parameters.Add(new OracleParameter(":Nrprot", prot.nroProt));
+                    oraCommand.Parameters.Add(new OracleParameter(":Xmlprot", prot.xmlProt));
+                    oraCommand.Parameters.Add(new OracleParameter(":Erro", prot.erros));
+                    oraCommand.Parameters.Add(new OracleParameter(":Dtretorno", prot.dtconsulta));
+                    oraCommand.Parameters.Add(new OracleParameter(":Hrretorno", prot.hrconsulta));
+                    oraCommand.Parameters.Add(new OracleParameter(":Status", prot.status));
+                    oraCommand.Parameters.Add(new OracleParameter(":Idevento", prot.idEvento));
+                    oraCommand.Parameters.Add(new OracleParameter(":Idseq", prot.idSeq));
+
+                    return oraCommand;
+                }
+                else if(tipo == 2)
+                {
+
+                    OracleCommand oraCommand = new OracleCommand("UPDATE ZMDATVIVES_EVENTOS_ESOCIAL SET NROPROTOCOLO = :nrprot, XMLPROTOCOLO = :xmlprot, NRORECIBO = :nroRec, XMLRECIBO = :xmlRec, DATARETORNO = :Dtretorno, HORARETORNO = :Hrretorno, STATUS = :Status WHERE ID = :Idevento AND IDSEQ = :Idseq");
+                    oraCommand.Parameters.Add(new OracleParameter(":nrprot", prot.nroProt));
+                    oraCommand.Parameters.Add(new OracleParameter(":xmlprot", prot.xmlProt));
+                    oraCommand.Parameters.Add(new OracleParameter(":nroRec", prot.nroRec));
+                    oraCommand.Parameters.Add(new OracleParameter(":xmlRec", prot.xmlRec));
+                    oraCommand.Parameters.Add(new OracleParameter(":Dtretorno", prot.dtconsulta));
+                    oraCommand.Parameters.Add(new OracleParameter(":Hrretorno", prot.hrconsulta));
+                    oraCommand.Parameters.Add(new OracleParameter(":Status", prot.status));
+                    oraCommand.Parameters.Add(new OracleParameter(":Idevento", prot.idEvento));
+                    oraCommand.Parameters.Add(new OracleParameter(":Idseq", prot.idSeq));
+
+                    return oraCommand;
+                }
+                else if (tipo == 3)
+                {
+                    OracleCommand oraCommand = new OracleCommand("UPDATE ZMDATVIVES_EVENTOS_ESOCIAL SET NROPROTOCOLO = :Nrprot, XMLPROTOCOLO = :Xmlprot, STATUS = :Status, DATAENVIO = :Dtenvio, HORAENVIO = :Hrenvio  WHERE ID = :Idevento AND IDSEQ = :Idseq");
+                    oraCommand.Parameters.Add(new OracleParameter(":Nrprot", prot.nroProt));
+                    oraCommand.Parameters.Add(new OracleParameter(":Xmlprot", prot.xmlProt));
+                    oraCommand.Parameters.Add(new OracleParameter(":Status", prot.status));
+                    oraCommand.Parameters.Add(new OracleParameter(":Dtenvio", prot.dtenvio));
+                    oraCommand.Parameters.Add(new OracleParameter(":Hrenvio", prot.hrenvio));
+                    oraCommand.Parameters.Add(new OracleParameter(":Idevento", prot.idEvento));
+                    oraCommand.Parameters.Add(new OracleParameter(":Idseq", prot.idSeq));
+                    return oraCommand;
+                }
+                else
+                {
+                    OracleCommand oraCommand = new OracleCommand("UPDATE ZMDATVIVES_EVENTOS_ESOCIAL SET DATARETORNO = :Dtretorno, HORARETORNO = :Hrretorno, STATUS = :Status  WHERE ID = :Idevento AND IDSEQ = :Idseq");
+                    oraCommand.Parameters.Add(new OracleParameter(":Dtretorno", prot.dtconsulta));
+                    oraCommand.Parameters.Add(new OracleParameter(":Hrretorno", prot.hrconsulta));
+                    oraCommand.Parameters.Add(new OracleParameter(":Status", prot.status));
+                    oraCommand.Parameters.Add(new OracleParameter(":Idevento", prot.idEvento));
+                    oraCommand.Parameters.Add(new OracleParameter(":Idseq", prot.idSeq));
+                    return oraCommand;
+                }
+            }
+            else
+            {
+                if (tipo == 1)
+                {
+                    SqlCommand sqlCommand = new SqlCommand("UPDATE ZMDATVIVES_EVENTOS_ESOCIAL SET NROPROTOCOLO = @Nrprot, XMLPROTOCOLO = @Xmlprot, MENSAGEMERRO = @Erro, DATARETORNO = @Dtretorno, HORARETORNO = @Hrretorno, STATUS = @Status  WHERE ID = @Idevento AND IDSEQ = @Idseq");
+                    sqlCommand.Parameters.Add(new SqlParameter("@Nrprot", prot.nroProt));
+                    sqlCommand.Parameters.Add(new SqlParameter("@Xmlprot", prot.xmlProt));
+                    sqlCommand.Parameters.Add(new SqlParameter("@Erro", prot.erros));
+                    sqlCommand.Parameters.Add(new SqlParameter("@Dtretorno", Convert.ToDateTime(prot.dtconsulta).ToString(format)));
+                    sqlCommand.Parameters.Add(new SqlParameter("@Hrretorno", prot.hrconsulta));
+                    sqlCommand.Parameters.Add(new SqlParameter("@Status", prot.status));
+                    sqlCommand.Parameters.Add(new SqlParameter("@Idevento", prot.idEvento));
+                    sqlCommand.Parameters.Add(new SqlParameter("@Idseq", prot.idSeq));
+
+                    return sqlCommand;
+                }
+                else if (tipo == 2)
+                {
+
+                    SqlCommand sqlCommand = new SqlCommand("UPDATE ZMDATVIVES_EVENTOS_ESOCIAL SET NROPROTOCOLO = @nrprot, XMLPROTOCOLO = @xmlprot, NRORECIBO = @nroRec, XMLRECIBO = @xmlRec, DATARETORNO = @Dtretorno, HORARETORNO = @Hrretorno, STATUS = @Status WHERE ID = @Idevento AND IDSEQ = @Idseq");
+                    sqlCommand.Parameters.Add(new SqlParameter("@nrprot", prot.nroProt));
+                    sqlCommand.Parameters.Add(new SqlParameter("@xmlprot", prot.xmlProt));
+                    sqlCommand.Parameters.Add(new SqlParameter("@nroRec", prot.nroRec));
+                    sqlCommand.Parameters.Add(new SqlParameter("@xmlRec", prot.xmlRec));
+                    sqlCommand.Parameters.Add(new SqlParameter("@Dtretorno", Convert.ToDateTime(prot.dtconsulta).ToString(format)));
+                    sqlCommand.Parameters.Add(new SqlParameter("@Hrretorno", prot.hrconsulta));
+                    sqlCommand.Parameters.Add(new SqlParameter("@Status", prot.status));
+                    sqlCommand.Parameters.Add(new SqlParameter("@Idevento", prot.idEvento));
+                    sqlCommand.Parameters.Add(new SqlParameter("@Idseq", prot.idSeq));
+
+                    return sqlCommand;
+                }
+                else if (tipo == 3)
+                {
+                    SqlCommand sqlCommand = new SqlCommand("UPDATE ZMDATVIVES_EVENTOS_ESOCIAL SET NROPROTOCOLO = @Nrprot, XMLPROTOCOLO = @Xmlprot, STATUS = @Status, DATAENVIO = @Dtenvio, HORAENVIO = @Hrenvio  WHERE ID = @Idevento AND IDSEQ = @Idseq");
+                    sqlCommand.Parameters.Add(new SqlParameter("@Nrprot", prot.nroProt));
+                    sqlCommand.Parameters.Add(new SqlParameter("@Xmlprot", prot.xmlProt));
+                    sqlCommand.Parameters.Add(new SqlParameter("@Status", prot.status));
+                    sqlCommand.Parameters.Add(new SqlParameter("@Dtenvio", Convert.ToDateTime(prot.dtenvio).ToString(format)));
+                    sqlCommand.Parameters.Add(new SqlParameter("@Hrenvio", prot.hrenvio));
+                    sqlCommand.Parameters.Add(new SqlParameter("@Idevento", prot.idEvento));
+                    sqlCommand.Parameters.Add(new SqlParameter("@Idseq", prot.idSeq));
+                    return sqlCommand;
+                }
+                else
+                {
+                    SqlCommand sqlCommand = new SqlCommand("UPDATE ZMDATVIVES_EVENTOS_ESOCIAL SET DATARETORNO = @Dtretorno, HORARETORNO = @Hrretorno, STATUS = @Status  WHERE ID = @Idevento AND IDSEQ = @Idseq");
+                    sqlCommand.Parameters.Add(new SqlParameter("@Dtretorno", Convert.ToDateTime(prot.dtconsulta).ToString(format)));
+                    sqlCommand.Parameters.Add(new SqlParameter("@Hrretorno", prot.hrconsulta));
+                    sqlCommand.Parameters.Add(new SqlParameter("@Status", prot.status));
+                    sqlCommand.Parameters.Add(new SqlParameter("@Idevento", prot.idEvento));
+                    sqlCommand.Parameters.Add(new SqlParameter("@Idseq", prot.idSeq));
+                    return sqlCommand;
+                }
+            }
+
         }
     }
 }
