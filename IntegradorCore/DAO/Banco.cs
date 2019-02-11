@@ -141,7 +141,11 @@ namespace IntegradorCore.DAO
                 var sql = "UPDATE ZMDATVIVES_EVENTOS_ESOCIAL SET NROPROTOCOLO = :Nrprot, XMLPROTOCOLO = :Xmlprot, MENSAGEMERRO = :Erro, DATARETORNO = :Dtretorno, HORARETORNO = :Hrretorno, STATUS = :Status  WHERE ID = :Idevento AND IDSEQ = :Idseq";
                 sql = sql.Replace(":Nrprot", string.Concat(quote + prot.nroProt + quote));
                 sql = sql.Replace(":Xmlprot", string.Concat(quote + (prot.xmlProt = prot.xmlProt.Replace("> <", "><")) + quote));
-                sql = sql.Replace(":Erro", string.Concat(quote + prot.erros + quote));
+                if(String.IsNullOrEmpty(prot.erros)){
+                    sql = sql.Replace(":Erro", string.Concat(quote + "null" + quote));
+                }else{
+                    sql = sql.Replace(":Erro", string.Concat(quote + prot.erros.Replace("'", "") + quote));
+                }
                 if (StaticParametersDB.GetDriver() == "oracle")
                 {
                     sql = sql.Replace(":Dtretorno", "trunc(SYSDATE)");
@@ -421,7 +425,14 @@ namespace IntegradorCore.DAO
                     OracleCommand oraCommand = new OracleCommand("UPDATE ZMDATVIVES_EVENTOS_ESOCIAL SET NROPROTOCOLO = :Nrprot, XMLPROTOCOLO = :Xmlprot, MENSAGEMERRO = :Erro, DATARETORNO = :Dtretorno, HORARETORNO = :Hrretorno, STATUS = :Status  WHERE ID = :Idevento AND IDSEQ = :Idseq");
                     oraCommand.Parameters.Add(new OracleParameter(":Nrprot", prot.nroProt));
                     oraCommand.Parameters.Add(new OracleParameter(":Xmlprot", prot.xmlProt));
-                    oraCommand.Parameters.Add(new OracleParameter(":Erro", prot.erros));
+                    if(String.IsNullOrEmpty(prot.erros))
+                    {
+                        oraCommand.Parameters.Add(new OracleParameter(":Erro", DBNull.Value));
+                    }
+                    else
+                    {
+                        oraCommand.Parameters.Add(new OracleParameter(":Erro", prot.erros.Replace("'", "")));
+                    }
                     oraCommand.Parameters.Add(new OracleParameter(":Dtretorno", prot.dtconsulta));
                     oraCommand.Parameters.Add(new OracleParameter(":Hrretorno", prot.hrconsulta));
                     oraCommand.Parameters.Add(new OracleParameter(":Status", prot.status));
@@ -476,7 +487,11 @@ namespace IntegradorCore.DAO
                     SqlCommand sqlCommand = new SqlCommand("UPDATE ZMDATVIVES_EVENTOS_ESOCIAL SET NROPROTOCOLO = @Nrprot, XMLPROTOCOLO = @Xmlprot, MENSAGEMERRO = @Erro, DATARETORNO = @Dtretorno, HORARETORNO = @Hrretorno, STATUS = @Status  WHERE ID = @Idevento AND IDSEQ = @Idseq");
                     sqlCommand.Parameters.Add(new SqlParameter("@Nrprot", prot.nroProt));
                     sqlCommand.Parameters.Add(new SqlParameter("@Xmlprot", prot.xmlProt));
-                    sqlCommand.Parameters.Add(new SqlParameter("@Erro", prot.erros));
+                    if(String.IsNullOrEmpty(prot.erros)){
+                        sqlCommand.Parameters.Add(new SqlParameter("@Erro", DBNull.Value));
+                    }else{
+                        sqlCommand.Parameters.Add(new SqlParameter("@Erro", prot.erros.Replace("'", "")));
+                    }
                     sqlCommand.Parameters.Add(new SqlParameter("@Dtretorno", Convert.ToDateTime(prot.dtconsulta).ToString(format)));
                     sqlCommand.Parameters.Add(new SqlParameter("@Hrretorno", prot.hrconsulta));
                     sqlCommand.Parameters.Add(new SqlParameter("@Status", prot.status));
