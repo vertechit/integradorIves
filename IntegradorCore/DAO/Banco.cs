@@ -431,6 +431,10 @@ namespace IntegradorCore.DAO
                     }
                     else
                     {
+                        if(prot.erros.Length > 4000)
+                        {
+                            prot.erros = "Consulte o portal ives para detalhes do erro";
+                        }
                         oraCommand.Parameters.Add(new OracleParameter(":Erro", prot.erros.Replace("'", "")));
                     }
                     oraCommand.Parameters.Add(new OracleParameter(":Dtretorno", prot.dtconsulta));
@@ -487,9 +491,16 @@ namespace IntegradorCore.DAO
                     SqlCommand sqlCommand = new SqlCommand("UPDATE ZMDATVIVES_EVENTOS_ESOCIAL SET NROPROTOCOLO = @Nrprot, XMLPROTOCOLO = @Xmlprot, MENSAGEMERRO = @Erro, DATARETORNO = @Dtretorno, HORARETORNO = @Hrretorno, STATUS = @Status  WHERE ID = @Idevento AND IDSEQ = @Idseq");
                     sqlCommand.Parameters.Add(new SqlParameter("@Nrprot", prot.nroProt));
                     sqlCommand.Parameters.Add(new SqlParameter("@Xmlprot", prot.xmlProt));
-                    if(String.IsNullOrEmpty(prot.erros)){
+                    if(String.IsNullOrEmpty(prot.erros))
+                    {
                         sqlCommand.Parameters.Add(new SqlParameter("@Erro", DBNull.Value));
-                    }else{
+                    }
+                    else
+                    {
+                        if (prot.erros.Length > 4000)
+                        {
+                            prot.erros = "Consulte o portal do iVes para obter detalhes do erro";
+                        }
                         sqlCommand.Parameters.Add(new SqlParameter("@Erro", prot.erros.Replace("'", "")));
                     }
                     sqlCommand.Parameters.Add(new SqlParameter("@Dtretorno", Convert.ToDateTime(prot.dtconsulta).ToString(format)));

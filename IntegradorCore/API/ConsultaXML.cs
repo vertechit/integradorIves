@@ -34,7 +34,7 @@ namespace IntegradorCore.API
         {
             var wsClient = DefineBaseClient(Base);
             var request = new ConsultarLoteEventosRequestBody();
-
+            
             string strResponse = "";
 
             try
