@@ -275,13 +275,29 @@ namespace IntegradorCore.DAO
                         Processos proc = new Processos();
                         foreach (System.Data.DataRow row in dataTable.Rows)
                         {
-                            var Base = proc.DefineBaseEnvioDB(Convert.ToString(row["XMLEVENTO"]));
-                            var prot = new ProtocoloDB { id = string.Concat(Convert.ToString(row["ID"]), "-", Convert.ToString(row["IDSEQ"])),
-                                                         idEvento = Convert.ToString(row["ID"]), idSeq = Convert.ToString(row["IDSEQ"]),
-                                                         xmlEvento = Convert.ToString(row["XMLEVENTO"]),
-                                                         driver = StaticParametersDB.GetDriver(),
-                                                         baseEnv = Convert.ToString(Base) };
-                            ProtocoloDAO.Salvar(prot);
+                            try
+                            {
+                                var Base = proc.DefineBaseEnvioDB(Convert.ToString(row["XMLEVENTO"]), (Convert.ToString(row["ID"]) + "-" + Convert.ToString(row["IDSEQ"])));
+                                var prot = new ProtocoloDB
+                                {
+                                    id = string.Concat(Convert.ToString(row["ID"]), "-", Convert.ToString(row["IDSEQ"])),
+                                    idEvento = Convert.ToString(row["ID"]),
+                                    idSeq = Convert.ToString(row["IDSEQ"]),
+                                    xmlEvento = Convert.ToString(row["XMLEVENTO"]),
+                                    driver = StaticParametersDB.GetDriver(),
+                                    baseEnv = Convert.ToString(Base)
+                                };
+                                ProtocoloDAO.Salvar(prot);
+                            }
+                            catch (Exception ex)
+                            {
+                                if (ex.HResult != -2147467261)
+                                {
+                                    ExceptionCore e = new ExceptionCore();
+                                    e.ExBanco(30, "ID Evento: " + (Convert.ToString(row["ID"]) + "-" + Convert.ToString(row["IDSEQ"])) + " | Erro: " + ex.Message, StaticParametersDB.GetDriver(), ex, "");
+                                }
+                            }
+                            
                         }
                     }
                 }

@@ -1362,7 +1362,7 @@ namespace IntegradorCore.Services
             
         }
 
-        public bool DefineBaseEnvioDB(string xml)
+        public bool DefineBaseEnvioDB(string xml, string id)
         {
 
             XmlDocument doc = new XmlDocument();
@@ -1370,20 +1370,32 @@ namespace IntegradorCore.Services
 
             var elemListRetEve = doc.GetElementsByTagName("tpAmb");
 
-            foreach (XmlNode item in elemListRetEve[0].ChildNodes)
+            try
             {
-                if (item.InnerText == "1")
+                foreach (XmlNode item in elemListRetEve[0].ChildNodes)
                 {
-                    return false;
+                    if (item.InnerText == "1")
+                    {
+                        return false;
+                    }
+                    else
+                    {
+                        return true;
+                    }
                 }
-                else
-                {
-                    return true;
-                }
+                return true;
             }
-
-            return true;
-
+            
+            catch (Exception ex)
+            {
+                if (ex.HResult == -2147467261)
+                {
+                    ExceptionCore e = new ExceptionCore();
+                    e.ExBanco(10001, "ID Evento: "+ id +" | Tag tipo de ambiente não está presente no xml", StaticParametersDB.GetDriver(), ex, "");
+                }
+                throw ex;
+            }
+            
         }
 
         public void VerificaParaAtualizar()
