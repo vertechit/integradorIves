@@ -336,11 +336,30 @@ namespace IntegradorCore.DAO
                                 comm.CommandText = "SET DATEFORMAT dmy";
                                 comm.ExecuteNonQuery();
                             }
-                            using (var command = SqlCommandWithParameters(prot, 1))
+                            try //Tenta atualizar com tamanho original da mensagem de erro
                             {
-                                command.Connection = conn;
-                                command.ExecuteNonQuery();
+                                using (var command = SqlCommandWithParameters(prot, 1))
+                                {
+                                    command.Connection = conn;
+                                    command.ExecuteNonQuery();
+                                }
                             }
+                            catch (Exception ex)
+                            {
+                                if(ex.HResult == -2146232060 || ex.HResult == -2147467259) //Banco retorna erros de valor de caracteres excedido.
+                                {
+                                    using (var command = SqlCommandWithParameters(prot, 1, true)) //Valor true passado por parametro para forcar a atualização, alterando o valor da mensagem.
+                                    {
+                                        command.Connection = conn;
+                                        command.ExecuteNonQuery();
+                                    }
+                                }
+                                else
+                                {
+                                    throw ex; //Caso seja outro erro, grava log.
+                                }
+                            }
+                            
                         }
                         else
                         {
@@ -430,7 +449,7 @@ namespace IntegradorCore.DAO
             return new DateTime(ano, mes, dia);
         }
 
-        private static dynamic SqlCommandWithParameters(ProtocoloDB prot, int tipo)
+        private static dynamic SqlCommandWithParameters(ProtocoloDB prot, int tipo, bool forceUpdate = false)
         {
             string format = "dd-MM-yyyy hh:mm:ss";
 
@@ -447,7 +466,7 @@ namespace IntegradorCore.DAO
                     }
                     else
                     {
-                        if(prot.erros.Length > 4000)
+                        if(forceUpdate == true && prot.erros.Length > 4000)
                         {
                             prot.erros = "Consulte o portal ives para detalhes do erro";
                         }
@@ -513,7 +532,7 @@ namespace IntegradorCore.DAO
                     }
                     else
                     {
-                        if (prot.erros.Length > 4000)
+                        if (forceUpdate == true && prot.erros.Length > 4000)
                         {
                             prot.erros = "Consulte o portal do iVes para obter detalhes do erro";
                         }
