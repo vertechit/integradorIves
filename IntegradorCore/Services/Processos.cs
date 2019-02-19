@@ -1592,5 +1592,23 @@ namespace IntegradorCore.Services
             }
             
         }
+
+        public ProtocoloDB GeraProtocoloAux(string id, string idEvento, string idSeq, string xmlProt, string nrProt, string erros)
+        {
+            var data = RetornaData();
+            return new ProtocoloDB
+            {
+                id = id,
+                idEvento = idEvento,
+                idSeq = idSeq,
+                nroProt = nrProt,
+                xmlProt = xmlProt,
+                consultado = true,
+                dtconsulta = data[0],
+                hrconsulta = data[1],
+                status = "3 - Rejeitado",
+                erros = erros
+            };
+        }
     }
 }

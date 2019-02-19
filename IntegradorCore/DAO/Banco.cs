@@ -296,6 +296,17 @@ namespace IntegradorCore.DAO
                                     ExceptionCore e = new ExceptionCore();
                                     e.ExBanco(30, "ID Evento: " + (Convert.ToString(row["ID"]) + "-" + Convert.ToString(row["IDSEQ"])) + " | Erro: " + ex.Message, StaticParametersDB.GetDriver(), ex, "");
                                 }
+                                else
+                                {
+                                    UpdateDB(
+                                        proc.GeraProtocoloAux("1"
+                                        , Convert.ToString(row["ID"])
+                                        , Convert.ToString(row["IDSEQ"])
+                                        , "<erro>Tag tipo de ambiente não presente no XML</erro>"
+                                        , "0"
+                                        , "Tag tipo de ambiente não presente no XML")
+                                        );
+                                }
                             }
                             
                         }
