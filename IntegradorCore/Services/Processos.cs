@@ -1011,7 +1011,7 @@ namespace IntegradorCore.Services
                     {
                         var dt = Convert.ToDateTime(row.Data);
                         var qtd = DiferencaDataDias(dt, DateTime.Now);
-                        if (qtd > 25)
+                        if (qtd > 8)
                         {
                             if (remover.Find(x => x.Contains(Convert.ToString(row.Data))) == null)
                                 remover.Add(Convert.ToString(row.Data));
@@ -1032,7 +1032,7 @@ namespace IntegradorCore.Services
                     {
                         var dt = Convert.ToDateTime(row.Data);
                         var qtd = DiferencaDataDias(dt, DateTime.Now);
-                        if (qtd > 25)
+                        if (qtd > 8)
                         {
                             if (remover.Find(x => x.Contains(Convert.ToString(row.Data))) == null)
                                 remover.Add(Convert.ToString(row.Data));
@@ -1053,7 +1053,7 @@ namespace IntegradorCore.Services
                     {
                         var dt = Convert.ToDateTime(row.Data);
                         var qtd = DiferencaDataDias(dt, DateTime.Now);
-                        if (qtd > 25)
+                        if (qtd > 8)
                         {
                             if (remover.Find(x => x.Contains(Convert.ToString(row.Data))) == null)
                                 remover.Add(Convert.ToString(row.Data));
@@ -1074,7 +1074,7 @@ namespace IntegradorCore.Services
                     {
                         var dt = Convert.ToDateTime(lt.Data);
                         var qtd = DiferencaDataDias(dt, DateTime.Now);
-                        if (qtd > 25)
+                        if (qtd > 8)
                         {
                             if (remover.Find(x => x.Contains(Convert.ToString(lt.Data))) == null)
                                 remover.Add(Convert.ToString(lt.Data));
@@ -1086,10 +1086,16 @@ namespace IntegradorCore.Services
                         logInterno.DeleteByData(item);
                     }
                 }
-
-                Atualizador.Vaccum();
             }
             catch (Exception ex)
+            {
+                //noOp
+            }
+            try
+            {
+                Atualizador.Vaccum();
+            }
+            catch(Exception ex)
             {
                 //noOp
             }
