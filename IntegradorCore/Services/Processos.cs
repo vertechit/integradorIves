@@ -196,7 +196,7 @@ namespace IntegradorCore.Services
 
             foreach (XmlNode item in elemListRetEve[0].ChildNodes)
             {
-                if(item.InnerText == "201")
+                if(item.InnerText == "201" || item.InnerText == "202")
                 {
                     return true;
                 }
