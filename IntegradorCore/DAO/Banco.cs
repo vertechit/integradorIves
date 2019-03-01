@@ -141,7 +141,11 @@ namespace IntegradorCore.DAO
                 var sql = "UPDATE ZMDATVIVES_EVENTOS_ESOCIAL SET NROPROTOCOLO = :Nrprot, XMLPROTOCOLO = :Xmlprot, MENSAGEMERRO = :Erro, DATARETORNO = :Dtretorno, HORARETORNO = :Hrretorno, STATUS = :Status  WHERE ID = :Idevento AND IDSEQ = :Idseq";
                 sql = sql.Replace(":Nrprot", string.Concat(quote + prot.nroProt + quote));
                 sql = sql.Replace(":Xmlprot", string.Concat(quote + (prot.xmlProt = prot.xmlProt.Replace("> <", "><")) + quote));
-                sql = sql.Replace(":Erro", string.Concat(quote + prot.erros + quote));
+                if(String.IsNullOrEmpty(prot.erros)){
+                    sql = sql.Replace(":Erro", string.Concat(quote + "null" + quote));
+                }else{
+                    sql = sql.Replace(":Erro", string.Concat(quote + prot.erros.Replace("'", "") + quote));
+                }
                 if (StaticParametersDB.GetDriver() == "oracle")
                 {
                     sql = sql.Replace(":Dtretorno", "trunc(SYSDATE)");
@@ -271,13 +275,40 @@ namespace IntegradorCore.DAO
                         Processos proc = new Processos();
                         foreach (System.Data.DataRow row in dataTable.Rows)
                         {
-                            var Base = proc.DefineBaseEnvioDB(Convert.ToString(row["XMLEVENTO"]));
-                            var prot = new ProtocoloDB { id = string.Concat(Convert.ToString(row["ID"]), "-", Convert.ToString(row["IDSEQ"])),
-                                                         idEvento = Convert.ToString(row["ID"]), idSeq = Convert.ToString(row["IDSEQ"]),
-                                                         xmlEvento = Convert.ToString(row["XMLEVENTO"]),
-                                                         driver = StaticParametersDB.GetDriver(),
-                                                         baseEnv = Convert.ToString(Base) };
-                            ProtocoloDAO.Salvar(prot);
+                            try
+                            {
+                                var Base = proc.DefineBaseEnvioDB(Convert.ToString(row["XMLEVENTO"]), (Convert.ToString(row["ID"]) + "-" + Convert.ToString(row["IDSEQ"])));
+                                var prot = new ProtocoloDB
+                                {
+                                    id = string.Concat(Convert.ToString(row["ID"]), "-", Convert.ToString(row["IDSEQ"])),
+                                    idEvento = Convert.ToString(row["ID"]),
+                                    idSeq = Convert.ToString(row["IDSEQ"]),
+                                    xmlEvento = Convert.ToString(row["XMLEVENTO"]),
+                                    driver = StaticParametersDB.GetDriver(),
+                                    baseEnv = Convert.ToString(Base)
+                                };
+                                ProtocoloDAO.Salvar(prot);
+                            }
+                            catch (Exception ex)
+                            {
+                                if (ex.HResult != -2147467261)
+                                {
+                                    ExceptionCore e = new ExceptionCore();
+                                    e.ExBanco(30, "ID Evento: " + (Convert.ToString(row["ID"]) + "-" + Convert.ToString(row["IDSEQ"])) + " | Erro: " + ex.Message, StaticParametersDB.GetDriver(), ex, "");
+                                }
+                                else
+                                {
+                                    UpdateDB(
+                                        proc.GeraProtocoloAux("1"
+                                        , Convert.ToString(row["ID"])
+                                        , Convert.ToString(row["IDSEQ"])
+                                        , "<erro>Tag tipo de ambiente não presente no XML</erro>"
+                                        , "0"
+                                        , "Tag tipo de ambiente não presente no XML")
+                                        );
+                                }
+                            }
+                            
                         }
                     }
                 }
@@ -316,11 +347,30 @@ namespace IntegradorCore.DAO
                                 comm.CommandText = "SET DATEFORMAT dmy";
                                 comm.ExecuteNonQuery();
                             }
-                            using (var command = SqlCommandWithParameters(prot, 1))
+                            try //Tenta atualizar com tamanho original da mensagem de erro
                             {
-                                command.Connection = conn;
-                                command.ExecuteNonQuery();
+                                using (var command = SqlCommandWithParameters(prot, 1))
+                                {
+                                    command.Connection = conn;
+                                    command.ExecuteNonQuery();
+                                }
                             }
+                            catch (Exception ex)
+                            {
+                                if(ex.HResult == -2146232060 || ex.HResult == -2147467259) //Banco retorna erros de valor de caracteres excedido.
+                                {
+                                    using (var command = SqlCommandWithParameters(prot, 1, true)) //Valor true passado por parametro para forcar a atualização, alterando o valor da mensagem.
+                                    {
+                                        command.Connection = conn;
+                                        command.ExecuteNonQuery();
+                                    }
+                                }
+                                else
+                                {
+                                    throw ex; //Caso seja outro erro, grava log.
+                                }
+                            }
+                            
                         }
                         else
                         {
@@ -410,7 +460,7 @@ namespace IntegradorCore.DAO
             return new DateTime(ano, mes, dia);
         }
 
-        private static dynamic SqlCommandWithParameters(ProtocoloDB prot, int tipo)
+        private static dynamic SqlCommandWithParameters(ProtocoloDB prot, int tipo, bool forceUpdate = false)
         {
             string format = "dd-MM-yyyy hh:mm:ss";
 
@@ -421,7 +471,18 @@ namespace IntegradorCore.DAO
                     OracleCommand oraCommand = new OracleCommand("UPDATE ZMDATVIVES_EVENTOS_ESOCIAL SET NROPROTOCOLO = :Nrprot, XMLPROTOCOLO = :Xmlprot, MENSAGEMERRO = :Erro, DATARETORNO = :Dtretorno, HORARETORNO = :Hrretorno, STATUS = :Status  WHERE ID = :Idevento AND IDSEQ = :Idseq");
                     oraCommand.Parameters.Add(new OracleParameter(":Nrprot", prot.nroProt));
                     oraCommand.Parameters.Add(new OracleParameter(":Xmlprot", prot.xmlProt));
-                    oraCommand.Parameters.Add(new OracleParameter(":Erro", prot.erros));
+                    if(String.IsNullOrEmpty(prot.erros))
+                    {
+                        oraCommand.Parameters.Add(new OracleParameter(":Erro", DBNull.Value));
+                    }
+                    else
+                    {
+                        if(forceUpdate == true && prot.erros.Length > 4000)
+                        {
+                            prot.erros = "Consulte o portal ives para detalhes do erro";
+                        }
+                        oraCommand.Parameters.Add(new OracleParameter(":Erro", prot.erros.Replace("'", "")));
+                    }
                     oraCommand.Parameters.Add(new OracleParameter(":Dtretorno", prot.dtconsulta));
                     oraCommand.Parameters.Add(new OracleParameter(":Hrretorno", prot.hrconsulta));
                     oraCommand.Parameters.Add(new OracleParameter(":Status", prot.status));
@@ -476,7 +537,18 @@ namespace IntegradorCore.DAO
                     SqlCommand sqlCommand = new SqlCommand("UPDATE ZMDATVIVES_EVENTOS_ESOCIAL SET NROPROTOCOLO = @Nrprot, XMLPROTOCOLO = @Xmlprot, MENSAGEMERRO = @Erro, DATARETORNO = @Dtretorno, HORARETORNO = @Hrretorno, STATUS = @Status  WHERE ID = @Idevento AND IDSEQ = @Idseq");
                     sqlCommand.Parameters.Add(new SqlParameter("@Nrprot", prot.nroProt));
                     sqlCommand.Parameters.Add(new SqlParameter("@Xmlprot", prot.xmlProt));
-                    sqlCommand.Parameters.Add(new SqlParameter("@Erro", prot.erros));
+                    if(String.IsNullOrEmpty(prot.erros))
+                    {
+                        sqlCommand.Parameters.Add(new SqlParameter("@Erro", DBNull.Value));
+                    }
+                    else
+                    {
+                        if (forceUpdate == true && prot.erros.Length > 4000)
+                        {
+                            prot.erros = "Consulte o portal do iVes para obter detalhes do erro";
+                        }
+                        sqlCommand.Parameters.Add(new SqlParameter("@Erro", prot.erros.Replace("'", "")));
+                    }
                     sqlCommand.Parameters.Add(new SqlParameter("@Dtretorno", Convert.ToDateTime(prot.dtconsulta).ToString(format)));
                     sqlCommand.Parameters.Add(new SqlParameter("@Hrretorno", prot.hrconsulta));
                     sqlCommand.Parameters.Add(new SqlParameter("@Status", prot.status));

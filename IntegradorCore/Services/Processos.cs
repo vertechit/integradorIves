@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -1011,7 +1011,7 @@ namespace IntegradorCore.Services
                     {
                         var dt = Convert.ToDateTime(row.Data);
                         var qtd = DiferencaDataDias(dt, DateTime.Now);
-                        if (qtd > 25)
+                        if (qtd > 8)
                         {
                             if (remover.Find(x => x.Contains(Convert.ToString(row.Data))) == null)
                                 remover.Add(Convert.ToString(row.Data));
@@ -1032,7 +1032,7 @@ namespace IntegradorCore.Services
                     {
                         var dt = Convert.ToDateTime(row.Data);
                         var qtd = DiferencaDataDias(dt, DateTime.Now);
-                        if (qtd > 25)
+                        if (qtd > 8)
                         {
                             if (remover.Find(x => x.Contains(Convert.ToString(row.Data))) == null)
                                 remover.Add(Convert.ToString(row.Data));
@@ -1053,7 +1053,7 @@ namespace IntegradorCore.Services
                     {
                         var dt = Convert.ToDateTime(row.Data);
                         var qtd = DiferencaDataDias(dt, DateTime.Now);
-                        if (qtd > 25)
+                        if (qtd > 8)
                         {
                             if (remover.Find(x => x.Contains(Convert.ToString(row.Data))) == null)
                                 remover.Add(Convert.ToString(row.Data));
@@ -1074,7 +1074,7 @@ namespace IntegradorCore.Services
                     {
                         var dt = Convert.ToDateTime(lt.Data);
                         var qtd = DiferencaDataDias(dt, DateTime.Now);
-                        if (qtd > 25)
+                        if (qtd > 8)
                         {
                             if (remover.Find(x => x.Contains(Convert.ToString(lt.Data))) == null)
                                 remover.Add(Convert.ToString(lt.Data));
@@ -1086,10 +1086,16 @@ namespace IntegradorCore.Services
                         logInterno.DeleteByData(item);
                     }
                 }
-
-                Atualizador.Vaccum();
             }
             catch (Exception ex)
+            {
+                //noOp
+            }
+            try
+            {
+                Atualizador.Vaccum();
+            }
+            catch(Exception ex)
             {
                 //noOp
             }
@@ -1362,7 +1368,7 @@ namespace IntegradorCore.Services
             
         }
 
-        public bool DefineBaseEnvioDB(string xml)
+        public bool DefineBaseEnvioDB(string xml, string id)
         {
 
             XmlDocument doc = new XmlDocument();
@@ -1370,20 +1376,32 @@ namespace IntegradorCore.Services
 
             var elemListRetEve = doc.GetElementsByTagName("tpAmb");
 
-            foreach (XmlNode item in elemListRetEve[0].ChildNodes)
+            try
             {
-                if (item.InnerText == "1")
+                foreach (XmlNode item in elemListRetEve[0].ChildNodes)
                 {
-                    return false;
+                    if (item.InnerText == "1")
+                    {
+                        return false;
+                    }
+                    else
+                    {
+                        return true;
+                    }
                 }
-                else
-                {
-                    return true;
-                }
+                return true;
             }
-
-            return true;
-
+            
+            catch (Exception ex)
+            {
+                if (ex.HResult == -2147467261)
+                {
+                    ExceptionCore e = new ExceptionCore();
+                    e.ExBanco(10001, "ID Evento: "+ id +" | Tag tipo de ambiente não está presente no xml", StaticParametersDB.GetDriver(), ex, "");
+                }
+                throw ex;
+            }
+            
         }
 
         public void VerificaParaAtualizar()
@@ -1579,6 +1597,24 @@ namespace IntegradorCore.Services
                 return false;
             }
             
+        }
+
+        public ProtocoloDB GeraProtocoloAux(string id, string idEvento, string idSeq, string xmlProt, string nrProt, string erros)
+        {
+            var data = RetornaData();
+            return new ProtocoloDB
+            {
+                id = id,
+                idEvento = idEvento,
+                idSeq = idSeq,
+                nroProt = nrProt,
+                xmlProt = xmlProt,
+                consultado = true,
+                dtconsulta = data[0],
+                hrconsulta = data[1],
+                status = "3 - Rejeitado",
+                erros = erros
+            };
         }
     }
 }

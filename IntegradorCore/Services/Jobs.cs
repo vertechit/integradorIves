@@ -264,7 +264,7 @@ namespace IntegradorCore.Services
             var sessao = AuxiliarNhibernate.AbrirSessao();
             ProtocoloDB_DAO ProtocoloDAO = new ProtocoloDB_DAO(sessao);
 
-            ConsultaXML apiConXMLTeste = new ConsultaXML(StaticParametros.GetGrupo(), StaticParametros.GetToken());
+            //ConsultaXML apiConXMLTeste = new ConsultaXML(StaticParametros.GetGrupo(), StaticParametros.GetToken());
             var lista = ProtocoloDAO.BuscaConsulta();
             if (lista.Count > 0)
             {
