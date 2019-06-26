@@ -63,43 +63,43 @@ namespace IntegradorCore.DAO
             
         }
 
-        private static dynamic GetConnectionWithParam(string host, string port, string servicename, string user, string password, string driver)
+        private static dynamic GetConnectionWithParam(string host, string port, string servicename, string user, string password, string driver, string trusted_conn = "True")
         {
             if (driver.ToLower() == "oracle")
             {
-                string oradb = "Data Source=(DESCRIPTION=(ADDRESS=(PROTOCOL=tcp)(HOST=host1)(PORT=port1))(CONNECT_DATA=(SERVER=DEDICATED)(SERVICE_NAME=servicename1)));User ID=user1;Password=password1;";
+                string oradb = $"Data Source=(DESCRIPTION=(ADDRESS=(PROTOCOL=tcp)(HOST={host})(PORT={port}))(CONNECT_DATA=(SERVER=DEDICATED)(SERVICE_NAME={servicename})));User ID={user};Password={password};";
 
-                oradb = oradb.Replace("host1", host);
-                oradb = oradb.Replace("port1", port);
-                oradb = oradb.Replace("servicename1", servicename);
-                oradb = oradb.Replace("user1", user);
-                oradb = oradb.Replace("password1", password);
+                //oradb = oradb.Replace("host1", host);
+                //oradb = oradb.Replace("port1", port);
+                //oradb = oradb.Replace("servicename1", servicename);
+                //oradb = oradb.Replace("user1", user);
+                //oradb = oradb.Replace("password1", password);
 
                 return new OracleConnection(oradb);
             }
             else
             {
-                if(port != "0")
+                if(port != "0" && port != "1")
                 {
-                    var strconnection = "Data Source=host,port;Network Library=DBMSSOCN;Initial Catalog = myDataBase; User ID = myUsername; Password = myPassword;";
+                    var strconnection = $"Data Source={host},{port};Network Library=DBMSSOCN;Initial Catalog = {servicename}; User ID = {user}; Password = {password};";
 
-                    strconnection = strconnection.Replace("host", host);
-                    strconnection = strconnection.Replace("port", port);
-                    strconnection = strconnection.Replace("myDataBase", servicename);
-                    strconnection = strconnection.Replace("myUsername", user);
-                    strconnection = strconnection.Replace("myPassword", password);
+                    //strconnection = strconnection.Replace("host", host);
+                    //strconnection = strconnection.Replace("port", port);
+                    //strconnection = strconnection.Replace("myDataBase", servicename);
+                    //strconnection = strconnection.Replace("myUsername", user);
+                    //strconnection = strconnection.Replace("myPassword", password);
 
                     return new SqlConnection(strconnection);
                 }
-                else
+                else if(port == "0")
                 {
-                    var strconnection = "Server=myInstanceName;Database=myDataBase;Trusted_Connection=True;User Id=myUsername;Password = myPassword; ";
+                    var strconnection = $"Server={host};Database={servicename};Trusted_Connection={trusted_conn};User Id={user};Password = {password}; ";
 
-                    strconnection = strconnection.Replace("myInstanceName", host);
+                    //strconnection = strconnection.Replace("myInstanceName", host);
                     //strconnection = strconnection.Replace("port", port);
-                    strconnection = strconnection.Replace("myDataBase", servicename);
-                    strconnection = strconnection.Replace("myUsername", user);
-                    strconnection = strconnection.Replace("myPassword", password);
+                    //strconnection = strconnection.Replace("myDataBase", servicename);
+                    //strconnection = strconnection.Replace("myUsername", user);
+                    //strconnection = strconnection.Replace("myPassword", password);
 
                     return new SqlConnection(strconnection);
                 }

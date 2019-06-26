@@ -20,6 +20,7 @@ namespace IntegradorCore.Mapeamento
             Map(x => x.ServiceName).Column("servicename").Length(50).Not.Nullable();
             Map(x => x.User).Column("user").Length(50).Not.Nullable();
             Map(x => x.Password).Column("password").Length(500).Not.Nullable();
+            Map(x => x.Trusted_Conn).Column("trusted_conn").Length(10).Not.Nullable().Default("True");
         }
     }
 }

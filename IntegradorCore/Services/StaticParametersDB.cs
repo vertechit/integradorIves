@@ -14,6 +14,7 @@ namespace IntegradorCore.Services
         private static string ServiceName = null;
         private static string User = null;
         private static string Password = null;
+        private static string Trusted_Conn = null;
 
         #region Sets
         public static void SetDriver(string driver)
@@ -44,6 +45,11 @@ namespace IntegradorCore.Services
         public static void SetPassword(string password)
         {
             Password = password;
+        }
+
+        public static void SetTrustedCon(string trusted_conn)
+        {
+            Trusted_Conn = trusted_conn;
         }
         #endregion
 
@@ -76,6 +82,11 @@ namespace IntegradorCore.Services
         public static string GetPassword()
         {
             return Password;
+        }
+
+        public static string GetTrustedConn()
+        {
+            return Trusted_Conn;
         }
 
         #endregion
