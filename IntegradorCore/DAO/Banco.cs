@@ -24,13 +24,13 @@ namespace IntegradorCore.DAO
         {
             if(StaticParametersDB.GetDriver() == "oracle")
             {
-                string oradb = "Data Source=(DESCRIPTION=(ADDRESS=(PROTOCOL=tcp)(HOST=host1)(PORT=port1))(CONNECT_DATA=(SERVER=DEDICATED)(SERVICE_NAME=servicename1)));User ID=user1;Password=password1;";
+                string oradb = $"Data Source=(DESCRIPTION=(ADDRESS=(PROTOCOL=tcp)(HOST={StaticParametersDB.GetHost()})(PORT={StaticParametersDB.GetPort()}))(CONNECT_DATA=(SERVER=DEDICATED)(SERVICE_NAME={StaticParametersDB.GetServiceName()})));User ID={StaticParametersDB.GetUser()};Password={StaticParametersDB.GetPassword()};";
 
-                oradb = oradb.Replace("host1", StaticParametersDB.GetHost());
-                oradb = oradb.Replace("port1", StaticParametersDB.GetPort());
-                oradb = oradb.Replace("servicename1", StaticParametersDB.GetServiceName());
-                oradb = oradb.Replace("user1", StaticParametersDB.GetUser());
-                oradb = oradb.Replace("password1", StaticParametersDB.GetPassword());
+                //oradb = oradb.Replace("host1", StaticParametersDB.GetHost());
+                //oradb = oradb.Replace("port1", StaticParametersDB.GetPort());
+                //oradb = oradb.Replace("servicename1", StaticParametersDB.GetServiceName());
+                //oradb = oradb.Replace("user1", StaticParametersDB.GetUser());
+                //oradb = oradb.Replace("password1", StaticParametersDB.GetPassword());
 
                 return new OracleConnection(oradb);
             }
@@ -38,25 +38,25 @@ namespace IntegradorCore.DAO
             {
                 if (StaticParametersDB.GetPort() != "0")
                 {
-                    var strconnection = "Data Source=host,port;Network Library=DBMSSOCN;Initial Catalog = myDataBase; User ID = myUsername; Password = myPassword;";
+                    var strconnection = $"Data Source={StaticParametersDB.GetHost()},{StaticParametersDB.GetPort()};Network Library=DBMSSOCN;Initial Catalog = {StaticParametersDB.GetServiceName()}; User ID = {StaticParametersDB.GetUser()}; Password = {StaticParametersDB.GetPassword()};";
 
-                    strconnection = strconnection.Replace("host", StaticParametersDB.GetHost());
-                    strconnection = strconnection.Replace("port", StaticParametersDB.GetPort());
-                    strconnection = strconnection.Replace("myDataBase", StaticParametersDB.GetServiceName());
-                    strconnection = strconnection.Replace("myUsername", StaticParametersDB.GetUser());
-                    strconnection = strconnection.Replace("myPassword", StaticParametersDB.GetPassword());
+                    //strconnection = strconnection.Replace("host", StaticParametersDB.GetHost());
+                    //strconnection = strconnection.Replace("port", StaticParametersDB.GetPort());
+                    //strconnection = strconnection.Replace("myDataBase", StaticParametersDB.GetServiceName());
+                    //strconnection = strconnection.Replace("myUsername", StaticParametersDB.GetUser());
+                    //strconnection = strconnection.Replace("myPassword", StaticParametersDB.GetPassword());
 
                     return new SqlConnection(strconnection);
                 }
                 else
                 {
-                    var strconnection = "Server=myInstanceName;Database=myDataBase;Trusted_Connection=False;User Id=myUsername;Password = myPassword; ";
+                    var strconnection = $"Server={taticParametersDB.GetHost()};Database={StaticParametersDB.GetServiceName()};Trusted_Connection={StaticParametersDB.GetTrustedConn()};User Id={StaticParametersDB.GetUser()};Password = {StaticParametersDB.GetPassword()}; ";
 
-                    strconnection = strconnection.Replace("myInstanceName", StaticParametersDB.GetHost());
-                    //strconnection = strconnection.Replace("port", port);
-                    strconnection = strconnection.Replace("myDataBase", StaticParametersDB.GetServiceName());
-                    strconnection = strconnection.Replace("myUsername", StaticParametersDB.GetUser());
-                    strconnection = strconnection.Replace("myPassword", StaticParametersDB.GetPassword());
+                    //strconnection = strconnection.Replace("myInstanceName", StaticParametersDB.GetHost());
+                    ////strconnection = strconnection.Replace("port", port);
+                    //strconnection = strconnection.Replace("myDataBase", StaticParametersDB.GetServiceName());
+                    //strconnection = strconnection.Replace("myUsername", StaticParametersDB.GetUser());
+                    //strconnection = strconnection.Replace("myPassword", StaticParametersDB.GetPassword());
                     return new SqlConnection(strconnection);
                 }
             }
