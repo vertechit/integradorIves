@@ -100,6 +100,7 @@ namespace IntegradorService
                     StaticParametersDB.SetServiceName(retdb.ServiceName);
                     StaticParametersDB.SetUser(retdb.User);
                     StaticParametersDB.SetPassword(AESThenHMAC.SimpleDecryptWithPassword(retdb.Password, process.GetMacAdress()));
+                    StaticParametersDB.SetTrustedCon(retdb.Trusted_Conn);
                     StaticParametros.SetIntegraBanco(true);
                     ctrl++;
                 }

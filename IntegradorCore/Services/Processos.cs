@@ -1163,9 +1163,13 @@ namespace IntegradorCore.Services
             return false;
         }
 
-        public bool VerificaConexaoBanco(string host, string port, string servicename, string user, string password, string driver)
+        public bool VerificaConexaoBanco(string host, string port, string servicename, string user, string password, string driver, string trusted_conn = "True")
         {
-            return Banco.TesteConexao(host, port, servicename, user, password, driver);
+            if(trusted_conn == "True"){
+                return Banco.TesteConexao(host, port, servicename, user, password, driver);
+            }else{
+                return Banco.TesteConexao(host, port, servicename, user, password, driver, trusted_conn);
+            }
 
 
             /*if(driver == 0)

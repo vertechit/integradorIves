@@ -53,6 +53,25 @@ namespace IntegradorApp.Telas
                     StaticParametersDB.SetServiceName(TxbServiceName.Text);
                     StaticParametersDB.SetUser(TxbUser.Text);
                     StaticParametersDB.SetPassword(PwbSenha.Password);
+                    StaticParametersDB.SetTrustedCon("True");
+                    this.Close();
+                }
+                else if (proc.VerificaConexaoBanco(TxbHost.Text, TxbPort.Text, TxbServiceName.Text, TxbUser.Text, PwbSenha.Password, (string)CboDriver.SelectedItem, "False") == true)
+                {
+                    if (CboDriver.SelectedIndex == 0)
+                    {
+                        StaticParametersDB.SetDriver("oracle");
+                    }
+                    else
+                    {
+                        StaticParametersDB.SetDriver("sqlserver");
+                    }
+                    StaticParametersDB.SetHost(TxbHost.Text);
+                    StaticParametersDB.SetPort(TxbPort.Text);
+                    StaticParametersDB.SetServiceName(TxbServiceName.Text);
+                    StaticParametersDB.SetUser(TxbUser.Text);
+                    StaticParametersDB.SetPassword(PwbSenha.Password);
+                    StaticParametersDB.SetTrustedCon("False");
                     this.Close();
                 }
             }

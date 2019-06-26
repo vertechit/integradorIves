@@ -226,11 +226,11 @@ namespace IntegradorCore.DAO
             }
         }
 
-        public static bool TesteConexao(string host, string port, string servicename, string user, string password, string driver)
+        public static bool TesteConexao(string host, string port, string servicename, string user, string password, string driver, string trusted_conn = "True")
         {
             var retorno = true;
 
-            using (var conn = GetConnectionWithParam(host, port, servicename, user, password, driver))
+            using (var conn = GetConnectionWithParam(host, port, servicename, user, password, driver, trusted_conn))
             {
                 try
                 {
