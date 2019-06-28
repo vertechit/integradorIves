@@ -55,6 +55,7 @@ namespace IntegradorCore.NHibernate.DAO
                 parametroCurrent.ServiceName = paramentroNew.ServiceName;
                 parametroCurrent.User = paramentroNew.User;
                 parametroCurrent.Password = paramentroNew.Password;
+                parametroCurrent.Trusted_Conn = paramentroNew.Trusted_Conn;
 
                 sessao.Update(parametroCurrent);
                 sessao.Flush();
