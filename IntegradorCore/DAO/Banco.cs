@@ -50,7 +50,7 @@ namespace IntegradorCore.DAO
                 }
                 else
                 {
-                    var strconnection = $"Server={taticParametersDB.GetHost()};Database={StaticParametersDB.GetServiceName()};Trusted_Connection={StaticParametersDB.GetTrustedConn()};User Id={StaticParametersDB.GetUser()};Password = {StaticParametersDB.GetPassword()}; ";
+                    var strconnection = $"Server={StaticParametersDB.GetHost()};Database={StaticParametersDB.GetServiceName()};Trusted_Connection={StaticParametersDB.GetTrustedConn()};User Id={StaticParametersDB.GetUser()};Password = {StaticParametersDB.GetPassword()}; ";
 
                     //strconnection = strconnection.Replace("myInstanceName", StaticParametersDB.GetHost());
                     ////strconnection = strconnection.Replace("port", port);
@@ -79,7 +79,7 @@ namespace IntegradorCore.DAO
             }
             else
             {
-                if(port != "0" && port != "1")
+                if(port != "0")
                 {
                     var strconnection = $"Data Source={host},{port};Network Library=DBMSSOCN;Initial Catalog = {servicename}; User ID = {user}; Password = {password};";
 
@@ -104,6 +104,8 @@ namespace IntegradorCore.DAO
                     return new SqlConnection(strconnection);
                 }
             }
+
+            return null;
         }
 
         private static dynamic GetCommand()
