@@ -26,12 +26,6 @@ namespace IntegradorCore.DAO
             {
                 string oradb = $"Data Source=(DESCRIPTION=(ADDRESS=(PROTOCOL=tcp)(HOST={StaticParametersDB.GetHost()})(PORT={StaticParametersDB.GetPort()}))(CONNECT_DATA=(SERVER=DEDICATED)(SERVICE_NAME={StaticParametersDB.GetServiceName()})));User ID={StaticParametersDB.GetUser()};Password={StaticParametersDB.GetPassword()};";
 
-                //oradb = oradb.Replace("host1", StaticParametersDB.GetHost());
-                //oradb = oradb.Replace("port1", StaticParametersDB.GetPort());
-                //oradb = oradb.Replace("servicename1", StaticParametersDB.GetServiceName());
-                //oradb = oradb.Replace("user1", StaticParametersDB.GetUser());
-                //oradb = oradb.Replace("password1", StaticParametersDB.GetPassword());
-
                 return new OracleConnection(oradb);
             }
             else
@@ -40,23 +34,12 @@ namespace IntegradorCore.DAO
                 {
                     var strconnection = $"Data Source={StaticParametersDB.GetHost()},{StaticParametersDB.GetPort()};Network Library=DBMSSOCN;Initial Catalog = {StaticParametersDB.GetServiceName()}; User ID = {StaticParametersDB.GetUser()}; Password = {StaticParametersDB.GetPassword()};";
 
-                    //strconnection = strconnection.Replace("host", StaticParametersDB.GetHost());
-                    //strconnection = strconnection.Replace("port", StaticParametersDB.GetPort());
-                    //strconnection = strconnection.Replace("myDataBase", StaticParametersDB.GetServiceName());
-                    //strconnection = strconnection.Replace("myUsername", StaticParametersDB.GetUser());
-                    //strconnection = strconnection.Replace("myPassword", StaticParametersDB.GetPassword());
-
                     return new SqlConnection(strconnection);
                 }
                 else
                 {
                     var strconnection = $"Server={StaticParametersDB.GetHost()};Database={StaticParametersDB.GetServiceName()};Trusted_Connection={StaticParametersDB.GetTrustedConn()};User Id={StaticParametersDB.GetUser()};Password = {StaticParametersDB.GetPassword()}; ";
 
-                    //strconnection = strconnection.Replace("myInstanceName", StaticParametersDB.GetHost());
-                    ////strconnection = strconnection.Replace("port", port);
-                    //strconnection = strconnection.Replace("myDataBase", StaticParametersDB.GetServiceName());
-                    //strconnection = strconnection.Replace("myUsername", StaticParametersDB.GetUser());
-                    //strconnection = strconnection.Replace("myPassword", StaticParametersDB.GetPassword());
                     return new SqlConnection(strconnection);
                 }
             }
@@ -69,12 +52,6 @@ namespace IntegradorCore.DAO
             {
                 string oradb = $"Data Source=(DESCRIPTION=(ADDRESS=(PROTOCOL=tcp)(HOST={host})(PORT={port}))(CONNECT_DATA=(SERVER=DEDICATED)(SERVICE_NAME={servicename})));User ID={user};Password={password};";
 
-                //oradb = oradb.Replace("host1", host);
-                //oradb = oradb.Replace("port1", port);
-                //oradb = oradb.Replace("servicename1", servicename);
-                //oradb = oradb.Replace("user1", user);
-                //oradb = oradb.Replace("password1", password);
-
                 return new OracleConnection(oradb);
             }
             else
@@ -83,23 +60,11 @@ namespace IntegradorCore.DAO
                 {
                     var strconnection = $"Data Source={host},{port};Network Library=DBMSSOCN;Initial Catalog = {servicename}; User ID = {user}; Password = {password};";
 
-                    //strconnection = strconnection.Replace("host", host);
-                    //strconnection = strconnection.Replace("port", port);
-                    //strconnection = strconnection.Replace("myDataBase", servicename);
-                    //strconnection = strconnection.Replace("myUsername", user);
-                    //strconnection = strconnection.Replace("myPassword", password);
-
                     return new SqlConnection(strconnection);
                 }
                 else
                 {
                     var strconnection = $"Server={host};Database={servicename};Trusted_Connection={trusted_conn};User Id={user};Password = {password}; ";
-
-                    //strconnection = strconnection.Replace("myInstanceName", host);
-                    //strconnection = strconnection.Replace("port", port);
-                    //strconnection = strconnection.Replace("myDataBase", servicename);
-                    //strconnection = strconnection.Replace("myUsername", user);
-                    //strconnection = strconnection.Replace("myPassword", password);
 
                     return new SqlConnection(strconnection);
                 }
