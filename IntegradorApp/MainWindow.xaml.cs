@@ -438,7 +438,14 @@ namespace IntegradorApp
                 {
                     try
                     {
-                        OrganizaTelaEvent(2);
+                        if (txtFolderToken.Text == "")
+                        {
+                            OrganizaTelaEvent(1);
+                        }
+                        else
+                        {
+                            OrganizaTelaEvent(2);
+                        }
                         //Job();
                         if (StaticParametros.GetDirOrigem() != null && StaticParametros.GetDirOrigem() != "")
                         {

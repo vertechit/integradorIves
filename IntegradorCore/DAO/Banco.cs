@@ -91,7 +91,7 @@ namespace IntegradorCore.DAO
 
                     return new SqlConnection(strconnection);
                 }
-                else if(port == "0")
+                else
                 {
                     var strconnection = $"Server={host};Database={servicename};Trusted_Connection={trusted_conn};User Id={user};Password = {password}; ";
 
@@ -104,8 +104,6 @@ namespace IntegradorCore.DAO
                     return new SqlConnection(strconnection);
                 }
             }
-
-            return null;
         }
 
         private static dynamic GetCommand()
