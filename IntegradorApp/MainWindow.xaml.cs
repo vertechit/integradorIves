@@ -405,18 +405,36 @@ namespace IntegradorApp
                 }
 
                 var parametroDBDAO = new ParametroDB_DAO(sessao);
-                var paramDB = parametroDBDAO.BuscarPorID(1);
+                var paramDB = parametroDBDAO.BuscarTodos();//parametroDBDAO.BuscarPorID(1);
                 //var paramDB = Armazenamento.GetParametrosDB();
 
                 try
                 {
-                    StaticParametersDB.SetDriver(paramDB.Driver);
-                    StaticParametersDB.SetHost(paramDB.Host);
-                    StaticParametersDB.SetPort(paramDB.Port);
-                    StaticParametersDB.SetServiceName(paramDB.ServiceName);
-                    StaticParametersDB.SetUser(paramDB.User);
-                    StaticParametersDB.SetPassword(AESThenHMAC.SimpleDecryptWithPassword(paramDB.Password, process.GetMacAdress()));
-                    StaticParametersDB.SetTrustedCon(paramDB.Trusted_Conn);
+                    if(paramDB.Count == 1)
+                    {
+                        StaticParametersDB.SetListBanco(paramDB[0]);
+                        StaticParametersDB.Setcurrent(paramDB[0].Id);
+                        //StaticParametersDB.SetDriver(paramDB[0].Driver);
+                        //StaticParametersDB.SetHost(paramDB[0].Host);
+                        //StaticParametersDB.SetPort(paramDB[0].Port);
+                        //StaticParametersDB.SetServiceName(paramDB[0].ServiceName);
+                        //StaticParametersDB.SetUser(paramDB[0].User);
+                        //StaticParametersDB.SetPassword(AESThenHMAC.SimpleDecryptWithPassword(paramDB[0].Password, process.GetMacAdress()));
+                        //StaticParametersDB.SetTrustedCon(paramDB[0].Trusted_Conn);
+                        //StaticParametersDB.SetId(paramDB[0].Id.ToString());
+                    }
+                    else if(paramDB.Count > 1)
+                    {
+                        foreach(var p in paramDB)
+                        {
+                            StaticParametersDB.SetListBanco(p);
+                        }
+                        StaticParametersDB.Setcurrent(paramDB[0].Id);
+                    }
+                    else
+                    {
+                        throw new Exception();
+                    }
                     StaticParametros.SetIntegraBanco(true);
                     TxtStatusBanco.Text = "Conectado";
                     ctrl++;
@@ -516,7 +534,11 @@ namespace IntegradorApp
             {
                 if (StaticParametros.GetIntegraBanco() == true)
                 {
-                    IntegraDB();
+                    foreach(var p in StaticParametersDB.getAllListBanco())
+                    {
+                        StaticParametersDB.Setcurrent(p.Id);
+                        IntegraDB();
+                    }
                 }
 
                 if (StaticParametros.GetDirOrigem() != null && StaticParametros.GetDirOrigem() != "")
@@ -538,7 +560,11 @@ namespace IntegradorApp
             {
                 if (StaticParametros.GetIntegraBanco() == true)
                 {
-                    ConsultaDB();
+                    foreach (var p in StaticParametersDB.getAllListBanco())
+                    {
+                        StaticParametersDB.Setcurrent(p.Id);
+                        ConsultaDB();
+                    }
                 }
 
                 if (StaticParametros.GetDirOrigem() != null && StaticParametros.GetDirOrigem() != "")

@@ -45,8 +45,8 @@ namespace IntegradorService
             {
                 
                 var ret = ParametroDAO.BuscarPorID(1);//Armazenamento.GetParametros();
-                var retdb = ParametroDBDAO.BuscarPorID(1);
-
+                //var retdb = ParametroDBDAO.BuscarPorID(1);
+                var retdb = ParametroDBDAO.BuscarTodos();
                 try
                 {
                     if (File.Exists(ret.CaminhoToke))
@@ -94,14 +94,32 @@ namespace IntegradorService
 
                 try
                 {
-                    StaticParametersDB.SetDriver(retdb.Driver);
-                    StaticParametersDB.SetHost(retdb.Host);
-                    StaticParametersDB.SetPort(retdb.Port);
-                    StaticParametersDB.SetServiceName(retdb.ServiceName);
-                    StaticParametersDB.SetUser(retdb.User);
-                    StaticParametersDB.SetPassword(AESThenHMAC.SimpleDecryptWithPassword(retdb.Password, process.GetMacAdress()));
-                    StaticParametersDB.SetTrustedCon(retdb.Trusted_Conn);
-                    StaticParametros.SetIntegraBanco(true);
+                    if (retdb.Count == 1)
+                    {
+                        StaticParametersDB.SetListBanco(retdb[0]);
+                        StaticParametersDB.Setcurrent(retdb[0].Id);
+                        //StaticParametersDB.SetDriver(retdb[0].Driver);
+                        //StaticParametersDB.SetHost(retdb[0].Host);
+                        //StaticParametersDB.SetPort(retdb[0].Port);
+                        //StaticParametersDB.SetServiceName(retdb[0].ServiceName);
+                        //StaticParametersDB.SetUser(retdb[0].User);
+                        //StaticParametersDB.SetPassword(AESThenHMAC.SimpleDecryptWithPassword(retdb[0].Password, process.GetMacAdress()));
+                        //StaticParametersDB.SetTrustedCon(retdb[0].Trusted_Conn);
+                        StaticParametros.SetIntegraBanco(true);
+                    }
+                    else if (retdb.Count > 1)
+                    {
+                        foreach (var p in retdb)
+                        {
+                            StaticParametersDB.SetListBanco(p);
+                        }
+                        StaticParametersDB.Setcurrent(retdb[0].Id);
+                    }
+                    else
+                    {
+                        throw new Exception();
+                    }
+
                     ctrl++;
                 }
                 catch (Exception)
@@ -253,7 +271,12 @@ namespace IntegradorService
 
             if (StaticParametros.GetIntegraBanco() == true)
             {
-                IntegraDB();
+                foreach (var p in StaticParametersDB.getAllListBanco())
+                {
+                    StaticParametersDB.Setcurrent(p.Id);
+                    IntegraDB();
+                }
+                //IntegraDB();
             }
 
             if (StaticParametros.GetDirOrigem() != null && StaticParametros.GetDirOrigem() != "")
@@ -268,7 +291,12 @@ namespace IntegradorService
         {
             if (StaticParametros.GetIntegraBanco() == true)
             {
-                ConsultaDB();
+                foreach (var p in StaticParametersDB.getAllListBanco())
+                {
+                    StaticParametersDB.Setcurrent(p.Id);
+                    ConsultaDB();
+                }
+                //ConsultaDB();
 
             }
 

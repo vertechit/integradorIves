@@ -12,10 +12,12 @@ namespace IntegradorCore.NHibernate.DAO
     public class ParametroDB_DAO
     {
         private ISession sessao;
+        private ICriteria criterios;
 
         public ParametroDB_DAO(ISession sessao)
         {
             this.sessao = sessao;
+            this.criterios = sessao.CreateCriteria<ParametroDB>();
 
         }
 
@@ -24,11 +26,16 @@ namespace IntegradorCore.NHibernate.DAO
             return sessao.Load<ParametroDB>(id);
         }
 
+        public IList<ParametroDB> BuscarTodos()
+        {
+            return criterios.List<ParametroDB>();
+        }
+
         public void Salvar(ParametroDB parametro)
         {
             try
             {
-                var param = BuscarPorID(1);
+                var param = BuscarPorID(Convert.ToInt64(parametro.Id));
 
                 if(param.Driver != null)
                 {

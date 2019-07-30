@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using IntegradorCore.Modelos;
+using IntegradorCore.Services;
 using NHibernate;
 using NHibernate.Criterion;
 
@@ -28,12 +29,13 @@ namespace IntegradorCore.NHibernate.DAO
 
         public IList<ProtocoloDB> BuscaTodos()
         {
+            criterios.Add(Restrictions.Eq("idDB", StaticParametersDB.GetId()));
             return criterios.List<ProtocoloDB>();
         }
 
         public IList<ProtocoloDB> BuscaEnvio()
         {
-            criterios.Add(Restrictions.Or(Restrictions.IsNull("nroProt"), Restrictions.Eq("nroProt", "")));
+            criterios.Add(Restrictions.And(Restrictions.Eq("idDB", StaticParametersDB.GetId()), Restrictions.Or(Restrictions.IsNull("nroProt"), Restrictions.Eq("nroProt", ""))));
             return criterios.List<ProtocoloDB>();
         }
 
@@ -46,7 +48,8 @@ namespace IntegradorCore.NHibernate.DAO
             ICriterion criterio2 = Restrictions.IsNotNull("nroProt");
             ICriterion criterio3 = Restrictions.And(criterio1, criterio2);
 
-            criterios.Add(criterio3);
+            ICriterion criterio4 = Restrictions.Eq("idDB", StaticParametersDB.GetId());
+            criterios.Add(Restrictions.And(criterio3,criterio4));
 
             return criterios.List<ProtocoloDB>();
         }
@@ -55,7 +58,8 @@ namespace IntegradorCore.NHibernate.DAO
         {
             ICriterion criterio1 = Restrictions.And(Restrictions.Eq("consultado", true), Restrictions.Eq("salvoDB", false));
 
-            criterios.Add(criterio1);
+            ICriterion criterio2 = Restrictions.Eq("idDB", StaticParametersDB.GetId());
+            criterios.Add(Restrictions.And(criterio1, criterio2));
 
             return criterios.List<ProtocoloDB>();
         }

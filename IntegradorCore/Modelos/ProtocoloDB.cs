@@ -27,5 +27,6 @@ namespace IntegradorCore.Modelos
         public virtual string hrconsulta { get; set; }
         public virtual string nroProtGov { get; set; }
         public virtual string status { get; set; }
+        public virtual string idDB { get; set; }
     }
 }

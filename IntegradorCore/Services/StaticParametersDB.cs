@@ -1,4 +1,5 @@
-﻿using System;
+﻿using IntegradorCore.Modelos;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,6 +9,8 @@ namespace IntegradorCore.Services
 {
     public static class StaticParametersDB
     {
+        private static List<ParametroDB> ListBanco = new List<ParametroDB>();
+        private static ParametroDB current;
         private static string Driver = null;
         private static string Host = null;
         private static string Port = null;
@@ -15,6 +18,52 @@ namespace IntegradorCore.Services
         private static string User = null;
         private static string Password = null;
         private static string Trusted_Conn = null;
+        private static string Id = null;
+
+        public static void SetListBanco(ParametroDB banco)
+        {
+            ListBanco.Add(banco);
+        }
+        public static ParametroDB getListBanco(long? id)
+        {
+            foreach(var b in ListBanco)
+            {
+                if (id == b.Id)
+                    return b;
+            }
+            return new ParametroDB();
+        }
+
+        public static List<ParametroDB> getAllListBanco()
+        {
+            return ListBanco;
+        }
+
+        public static void Setcurrent(long? id)
+        {
+            foreach (var b in ListBanco)
+            {
+                if (id == b.Id)
+                    current = b;
+            }
+
+            Processos process = new Processos();
+
+            StaticParametersDB.SetDriver(current.Driver);
+            StaticParametersDB.SetHost(current.Host);
+            StaticParametersDB.SetPort(current.Port);
+            StaticParametersDB.SetServiceName(current.ServiceName);
+            StaticParametersDB.SetUser(current.User);
+            StaticParametersDB.SetPassword(AESThenHMAC.SimpleDecryptWithPassword(current.Password, process.GetMacAdress()));
+            StaticParametersDB.SetTrustedCon(current.Trusted_Conn);
+            StaticParametersDB.SetId(current.Id.ToString());
+        }
+
+        public static ParametroDB Getcurrent()
+        {
+            return current;
+        }
+
 
         #region Sets
         public static void SetDriver(string driver)
@@ -50,6 +99,10 @@ namespace IntegradorCore.Services
         public static void SetTrustedCon(string trusted_conn)
         {
             Trusted_Conn = trusted_conn;
+        }
+        public static void SetId(string id)
+        {
+            Id = id;
         }
         #endregion
 
@@ -89,6 +142,10 @@ namespace IntegradorCore.Services
             return Trusted_Conn;
         }
 
+        public static string GetId()
+        {
+            return Id;
+        }
         #endregion
 
     }
