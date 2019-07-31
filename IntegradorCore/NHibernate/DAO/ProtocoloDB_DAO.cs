@@ -22,9 +22,14 @@ namespace IntegradorCore.NHibernate.DAO
 
         }
 
-        public ProtocoloDB BuscarPorIDEvento(string id)
+        public IList<ProtocoloDB> BuscarPorIDEvento(string Id)
         {
-            return sessao.Load<ProtocoloDB>(id);
+            ICriterion criterio1 = Restrictions.Eq("idDB", StaticParametersDB.GetId());
+            ICriterion criterio2 = Restrictions.Eq("id", Id);
+            ICriterion criterio3 = Restrictions.And(criterio1, criterio2);
+
+            return sessao.CreateCriteria<ProtocoloDB>().Add(criterio3).List<ProtocoloDB>();
+            //return sessao.Load<ProtocoloDB>(id);
         }
 
         public IList<ProtocoloDB> BuscaTodos()
@@ -70,9 +75,9 @@ namespace IntegradorCore.NHibernate.DAO
             {
                 var prot = BuscarPorIDEvento(protocolo.id);
 
-                if (prot.xmlEvento != null)
+                if (prot[0].xmlEvento != null)
                 {
-                    Atualizar(AjustaParaAtualizar(prot, protocolo));
+                    Atualizar(AjustaParaAtualizar(prot[0], protocolo));
                 }
             }
             catch (Exception ex)
