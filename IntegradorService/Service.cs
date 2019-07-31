@@ -105,7 +105,6 @@ namespace IntegradorService
                         //StaticParametersDB.SetUser(retdb[0].User);
                         //StaticParametersDB.SetPassword(AESThenHMAC.SimpleDecryptWithPassword(retdb[0].Password, process.GetMacAdress()));
                         //StaticParametersDB.SetTrustedCon(retdb[0].Trusted_Conn);
-                        StaticParametros.SetIntegraBanco(true);
                     }
                     else if (retdb.Count > 1)
                     {
@@ -119,7 +118,7 @@ namespace IntegradorService
                     {
                         throw new Exception();
                     }
-
+                    StaticParametros.SetIntegraBanco(true);
                     ctrl++;
                 }
                 catch (Exception)
@@ -149,7 +148,7 @@ namespace IntegradorService
 
         protected override void OnStart(string[] args)
         {
-            //System.Diagnostics.Debugger.Launch();
+            System.Diagnostics.Debugger.Launch();
 
             Processos process = new Processos();
             if (process.WritePermissionFile() == false || process.ReadPermissionFile() == false)
