@@ -39,6 +39,18 @@ namespace IntegradorCore.Services
             return ListBanco;
         }
 
+        public static void clearListBanco()
+        {
+            try
+            {
+                ListBanco = new List<ParametroDB>();
+            }
+            catch (Exception e)
+            {
+
+            }
+        }
+
         public static void Setcurrent(long? id)
         {
             foreach (var b in ListBanco)
@@ -59,6 +71,19 @@ namespace IntegradorCore.Services
             StaticParametersDB.SetId(current.Id.ToString());
         }
 
+        public static void clearAllStatic()
+        {
+            current = new ParametroDB();
+            Driver = null;
+            Host = null;
+            Port = null;
+            ServiceName = null;
+            User = null;
+            Password = null;
+            Trusted_Conn = null;
+            Id = null;
+
+        }
         public static ParametroDB Getcurrent()
         {
             return current;

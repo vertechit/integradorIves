@@ -159,7 +159,7 @@ namespace IntegradorApp
                             ctrl++;
 
                             StaticParametros.SetIntegraBanco(true);
-                            try {
+                            /*try {
                                 var paramdb = new ParametroDB { Id = 1, Driver = StaticParametersDB.GetDriver(), Host = StaticParametersDB.GetHost(), Port = StaticParametersDB.GetPort(), ServiceName = StaticParametersDB.GetServiceName(), User = StaticParametersDB.GetUser(), Password = AESThenHMAC.SimpleEncryptWithPassword(StaticParametersDB.GetPassword(), process.GetMacAdress()), Trusted_Conn =  StaticParametersDB.GetTrustedConn()};
 
                                 parametroDBDAO.Salvar(paramdb);
@@ -170,7 +170,7 @@ namespace IntegradorApp
                                 ExceptionCore exe = new ExceptionCore();
                                 exe.EncryptException(ex.Message, 3);
                                 ctrl--;
-                            }
+                            }*/
                             
                             //TxtStatusBanco.Text = "Conectado";
                             //Armazenamento.AddParametrosDB(new ParametroDB { Id = 1, Driver = StaticParametersDB.GetDriver(), Host = StaticParametersDB.GetHost(), Port = StaticParametersDB.GetPort(), ServiceName = StaticParametersDB.GetServiceName(), User = StaticParametersDB.GetUser(), Password = AESThenHMAC.SimpleEncryptWithPassword(StaticParametersDB.GetPassword(), process.GetMacAdress()) });

@@ -32,7 +32,7 @@ namespace IntegradorCore.Mapeamento
             Map(x => x.hrconsulta).Column("hrconsulta");
             Map(x => x.nroProtGov).Column("nrprotgov");
             Map(x => x.status).Column("status");
-            Map(x => x.idDB).Column("idDB").Default("1").Not.Nullable(); ;
+            Map(x => x.idDB).Column("idDB").Default("1").Not.Nullable();
         }
     }
 }

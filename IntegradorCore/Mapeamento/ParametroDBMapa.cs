@@ -22,6 +22,7 @@ namespace IntegradorCore.Mapeamento
             Map(x => x.Password).Column("password").Length(500).Not.Nullable();
             Map(x => x.Trusted_Conn).Column("trusted_conn").Length(10).Not.Nullable().Default("True");
             Map(x => x.Ativo).Column("ativo").Not.Nullable().Default("true");
+            Map(x => x.Descr).Column("descr").Default("conexao1").Not.Nullable();
         }
     }
 }

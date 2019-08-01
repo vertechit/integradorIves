@@ -148,7 +148,7 @@ namespace IntegradorService
 
         protected override void OnStart(string[] args)
         {
-            System.Diagnostics.Debugger.Launch();
+            //System.Diagnostics.Debugger.Launch();
 
             Processos process = new Processos();
             if (process.WritePermissionFile() == false || process.ReadPermissionFile() == false)

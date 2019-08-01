@@ -224,6 +224,7 @@ namespace IntegradorCore.DAO
 
             using (var conn = GetConnection())
             {
+                //Não é possível abrir o banco de dados solicitado pelo logon. Falha de logon.Falha de logon do usuário 'AUTORIDADE NT\SISTEMA'.
                 try
                 {
                     conn.Open();
