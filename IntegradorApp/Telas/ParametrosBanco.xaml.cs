@@ -33,6 +33,7 @@ namespace IntegradorApp.Telas
             __main = a;
             init2();
         }
+
         #region Click Events
 
         private void BtnSalvar_Click(object sender, RoutedEventArgs e)
