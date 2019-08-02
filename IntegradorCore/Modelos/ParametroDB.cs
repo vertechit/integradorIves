@@ -16,6 +16,8 @@ namespace IntegradorCore.Modelos
         public virtual string User { get; set; }
         public virtual string Password { get; set; }
         public virtual string Trusted_Conn {get; set;}
+        public virtual bool Ativo { get; set; }
+        public virtual string Descr { get; set; }
 
     }
 }

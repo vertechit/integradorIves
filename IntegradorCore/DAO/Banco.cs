@@ -224,6 +224,7 @@ namespace IntegradorCore.DAO
 
             using (var conn = GetConnection())
             {
+                //Não é possível abrir o banco de dados solicitado pelo logon. Falha de logon.Falha de logon do usuário 'AUTORIDADE NT\SISTEMA'.
                 try
                 {
                     conn.Open();
@@ -242,15 +243,16 @@ namespace IntegradorCore.DAO
                         {
                             try
                             {
-                                var Base = proc.DefineBaseEnvioDB(Convert.ToString(row["XMLEVENTO"]), (Convert.ToString(row["ID"]) + "-" + Convert.ToString(row["IDSEQ"])));
+                                var Base = proc.DefineBaseEnvioDB(Convert.ToString(row["XMLEVENTO"]), (Convert.ToString(row["ID"]) + "-" + Convert.ToString(row["IDSEQ"]) + "-" + StaticParametersDB.GetId()));
                                 var prot = new ProtocoloDB
                                 {
-                                    id = string.Concat(Convert.ToString(row["ID"]), "-", Convert.ToString(row["IDSEQ"])),
+                                    id = string.Concat(Convert.ToString(row["ID"]), "-", Convert.ToString(row["IDSEQ"]), "-"+ StaticParametersDB.GetId()),
                                     idEvento = Convert.ToString(row["ID"]),
                                     idSeq = Convert.ToString(row["IDSEQ"]),
                                     xmlEvento = Convert.ToString(row["XMLEVENTO"]),
                                     driver = StaticParametersDB.GetDriver(),
-                                    baseEnv = Convert.ToString(Base)
+                                    baseEnv = Convert.ToString(Base),
+                                    idDB = StaticParametersDB.GetId()
                                 };
                                 ProtocoloDAO.Salvar(prot);
                             }
@@ -259,7 +261,7 @@ namespace IntegradorCore.DAO
                                 if (ex.HResult != -2147467261)
                                 {
                                     ExceptionCore e = new ExceptionCore();
-                                    e.ExBanco(30, "ID Evento: " + (Convert.ToString(row["ID"]) + "-" + Convert.ToString(row["IDSEQ"])) + " | Erro: " + ex.Message, StaticParametersDB.GetDriver(), ex, "");
+                                    e.ExBanco(30, "ID Evento: " + (Convert.ToString(row["ID"]) + "-" + Convert.ToString(row["IDSEQ"])+ "-" + StaticParametersDB.GetId()) + " | Erro: " + ex.Message, StaticParametersDB.GetDriver(), ex, "");
                                 }
                                 else
                                 {
@@ -373,7 +375,7 @@ namespace IntegradorCore.DAO
             return retorno;
         }
 
-        public static void CustomUpdateDB(ProtocoloDB prot, int tipo)
+        public static void CustomUpdateDB(IList<ProtocoloDB> prot, int tipo)
         {
 
             using (var conn = GetConnection())
@@ -385,7 +387,7 @@ namespace IntegradorCore.DAO
                     using (var comm = GetCommand())
                     {
 
-                        var sql = CriaSQL(prot, tipo);
+                        var sql = CriaSQL(prot[0], tipo);
                         query = sql;
 
                         comm.Connection = conn;
@@ -397,7 +399,7 @@ namespace IntegradorCore.DAO
                             comm.ExecuteNonQuery();
                         }
 
-                        using (var command = SqlCommandWithParameters(prot, tipo))
+                        using (var command = SqlCommandWithParameters(prot[0], tipo))
                         {
                             command.Connection = conn;
                             command.ExecuteNonQuery();
