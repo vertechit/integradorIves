@@ -127,8 +127,6 @@ namespace IntegradorApp
             var sessao = AuxiliarNhibernate.AbrirSessao();
             var parametroDAO = new ParametroDAO(sessao);
             var parametroDBDAO = new ParametroDB_DAO(sessao);
-            //var resultadoParam = parametroDAO.BuscarPorID(1);
-            //var resultadoParamDB = parametroDBDAO.BuscarPorID(1);
 
             if (proc.VerificaProcessoRun() == false)
             {
@@ -159,21 +157,6 @@ namespace IntegradorApp
                             ctrl++;
 
                             StaticParametros.SetIntegraBanco(true);
-                            /*try {
-                                var paramdb = new ParametroDB { Id = 1, Driver = StaticParametersDB.GetDriver(), Host = StaticParametersDB.GetHost(), Port = StaticParametersDB.GetPort(), ServiceName = StaticParametersDB.GetServiceName(), User = StaticParametersDB.GetUser(), Password = AESThenHMAC.SimpleEncryptWithPassword(StaticParametersDB.GetPassword(), process.GetMacAdress()), Trusted_Conn =  StaticParametersDB.GetTrustedConn()};
-
-                                parametroDBDAO.Salvar(paramdb);
-                            }
-                            catch(Exception ex)
-                            {
-                                StaticParametros.SetIntegraBanco(false);
-                                ExceptionCore exe = new ExceptionCore();
-                                exe.EncryptException(ex.Message, 3);
-                                ctrl--;
-                            }*/
-                            
-                            //TxtStatusBanco.Text = "Conectado";
-                            //Armazenamento.AddParametrosDB(new ParametroDB { Id = 1, Driver = StaticParametersDB.GetDriver(), Host = StaticParametersDB.GetHost(), Port = StaticParametersDB.GetPort(), ServiceName = StaticParametersDB.GetServiceName(), User = StaticParametersDB.GetUser(), Password = AESThenHMAC.SimpleEncryptWithPassword(StaticParametersDB.GetPassword(), process.GetMacAdress()) });
                         }
 
                         if (ctrl >= 2)
@@ -683,7 +666,5 @@ namespace IntegradorApp
         }
 
         #endregion
-
-        
     }
 }

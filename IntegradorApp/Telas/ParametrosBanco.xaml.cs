@@ -179,15 +179,6 @@ namespace IntegradorApp.Telas
 
         private void BtnVoltar_Click(object sender, RoutedEventArgs e)
         {
-            if(paramDB.Count >= 1)
-            {
-                StaticParametersDB.clearListBanco();
-                foreach(var p in paramDB)
-                {
-                    StaticParametersDB.SetListBanco(p);
-                }
-                StaticParametersDB.Setcurrent(paramDB[0].Id);
-            }
             this.Close();
         }
 
@@ -209,6 +200,15 @@ namespace IntegradorApp.Telas
 
         private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
         {
+            if (paramDB.Count >= 1)
+            {
+                StaticParametersDB.clearListBanco();
+                foreach (var p in paramDB)
+                {
+                    StaticParametersDB.SetListBanco(p);
+                }
+                StaticParametersDB.Setcurrent(paramDB[0].Id);
+            }
             __main.Show();
         }
 
@@ -402,6 +402,7 @@ namespace IntegradorApp.Telas
             }
             
         }
+
         private void validaAlteracoes()
         {
             //throw new NotImplementedException();
