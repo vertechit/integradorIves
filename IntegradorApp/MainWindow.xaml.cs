@@ -198,6 +198,7 @@ namespace IntegradorApp
                         }
                         else
                         {
+                            TxtStatusBanco.Text = "Desconectado";
                             System.Windows.MessageBox.Show("É necessário definir um diretorio ou configurar uma conexão com banco de dados para continuar");
                         }
                     }
