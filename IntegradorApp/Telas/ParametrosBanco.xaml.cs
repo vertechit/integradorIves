@@ -16,6 +16,8 @@ using IntegradorCore.DAO;
 using IntegradorCore.NHibernate;
 using IntegradorCore.NHibernate.DAO;
 using IntegradorCore.Modelos;
+using System.Windows.Forms;
+using System.Text.RegularExpressions;
 
 namespace IntegradorApp.Telas
 {
@@ -40,7 +42,7 @@ namespace IntegradorApp.Telas
         {
             ParametroDB paramdbNew = new ParametroDB();
             Processos proc = new Processos();
-            if(TxbHost.Text != "" && TxbPort.Text != "" && TxbServiceName.Text != "" && TxbUser.Text != "" && PwbSenha.Password != "" && CboDriver.SelectedIndex != -1 && CboConexao.SelectedIndex != -1 && TxbDescr.Text != "")
+            if(TxbHost.Text != "" && TxbPort.Text != "" && TxbServiceName.Text != "" && TxbUser.Text != "" && PwbSenha.Password != "" && CboDriver.SelectedIndex != -1 && CboConexao.SelectedIndex != -1 && TxbDescr.Text != "" && TxbGrupo.Text != "" && TxbToken.Text != "")
             {
                 if (proc.VerificaConexaoBanco(TxbHost.Text, TxbPort.Text, TxbServiceName.Text, TxbUser.Text, PwbSenha.Password, (string)CboDriver.SelectedItem) == true)
                 {
@@ -61,7 +63,17 @@ namespace IntegradorApp.Telas
                         paramDB[lastIndex - 1].User = TxbUser.Text;
                         paramDB[lastIndex - 1].Password = AESThenHMAC.SimpleEncryptWithPassword(PwbSenha.Password, proc.GetMacAdress());
                         paramDB[lastIndex - 1].Trusted_Conn = "True";
-                        salvaDB(paramDB[lastIndex-1]);
+                        paramDB[lastIndex - 1].Token = TxbToken.Text;
+                        try
+                        {
+                            paramDB[lastIndex - 1].Grupo = Convert.ToInt64(TxbGrupo.Text);
+                            salvaDB(paramDB[lastIndex-1]);
+                        }
+                        catch (Exception error)
+                        {
+                            System.Windows.MessageBox.Show("Campo Grupo deve ser numerico", "Atenção", MessageBoxButton.OK, MessageBoxImage.Warning);
+                            return;
+                        }
                     }
                     else
                     {
@@ -80,7 +92,17 @@ namespace IntegradorApp.Telas
                         paramdbNew.User = TxbUser.Text;
                         paramdbNew.Password = AESThenHMAC.SimpleEncryptWithPassword(PwbSenha.Password, proc.GetMacAdress());
                         paramdbNew.Trusted_Conn = "True";
-                        salvaDB(paramdbNew);
+                        paramdbNew.Token = TxbToken.Text;
+                        try
+                        {
+                            paramdbNew.Grupo = Convert.ToInt64(TxbGrupo.Text);
+                            salvaDB(paramdbNew);
+                        }
+                        catch (Exception error)
+                        {
+                            System.Windows.MessageBox.Show("Campo Grupo deve ser numerico", "Atenção", MessageBoxButton.OK, MessageBoxImage.Warning);
+                            return;
+                        }
                     }
                    
                     cleanScreen();
@@ -105,7 +127,17 @@ namespace IntegradorApp.Telas
                         paramDB[lastIndex - 1].User = TxbUser.Text;
                         paramDB[lastIndex - 1].Password = AESThenHMAC.SimpleEncryptWithPassword(PwbSenha.Password, proc.GetMacAdress());
                         paramDB[lastIndex - 1].Trusted_Conn = "False";
-                        salvaDB(paramDB[lastIndex - 1]);
+                        paramDB[lastIndex - 1].Token = TxbToken.Text;
+                        try
+                        {
+                            paramDB[lastIndex - 1].Grupo = Convert.ToInt64(TxbGrupo.Text);
+                            salvaDB(paramDB[lastIndex - 1]);
+                        }
+                        catch (Exception error)
+                        {
+                            System.Windows.MessageBox.Show("Campo Grupo deve ser numerico", "Atenção", MessageBoxButton.OK, MessageBoxImage.Warning);
+                            return;
+                        }
                     }
                     else
                     {
@@ -125,7 +157,17 @@ namespace IntegradorApp.Telas
                         paramdbNew.Password = AESThenHMAC.SimpleEncryptWithPassword(PwbSenha.Password, proc.GetMacAdress());
                         paramdbNew.Trusted_Conn = "False";
                         StaticParametersDB.SetListBanco(paramdbNew);
-                        salvaDB(paramdbNew);
+                        paramdbNew.Token = TxbToken.Text;
+                        try
+                        {
+                            paramdbNew.Grupo = Convert.ToInt64(TxbGrupo.Text);
+                            salvaDB(paramdbNew);
+                        }
+                        catch (Exception error)
+                        {
+                            System.Windows.MessageBox.Show("Campo Grupo deve ser numerico", "Atenção", MessageBoxButton.OK, MessageBoxImage.Warning);
+                            return;
+                        }
                     }
                     
                     cleanScreen();
@@ -134,48 +176,53 @@ namespace IntegradorApp.Telas
             }
             else
             {
-                MessageBox.Show("Preencha todos os campos antes de continuar", "Atenção", MessageBoxButton.OK, MessageBoxImage.Warning);
+                System.Windows.MessageBox.Show("Preencha todos os campos antes de continuar", "Atenção", MessageBoxButton.OK, MessageBoxImage.Warning);
             }
         }
 
         private void BtnDelete_Click(object sender, RoutedEventArgs e)
         {
-            var sessao = AuxiliarNhibernate.AbrirSessao();
-            var paramdb = new ParametroDB_DAO(sessao);
-
-            try
+            MessageBoxResult messageBoxResult = System.Windows.MessageBox.Show("Deseja prosseguir?", "Confirmação de exclusão", System.Windows.MessageBoxButton.YesNo);
+            if (messageBoxResult == MessageBoxResult.Yes)
             {
-                paramdb.Remover(paramDB[lastIndex-1]);
-                paramDB.RemoveAt(lastIndex - 1);
-                if(paramDB.Count >= 1)
+                var sessao = AuxiliarNhibernate.AbrirSessao();
+                var paramdb = new ParametroDB_DAO(sessao);
+
+                try
                 {
-                    StaticParametersDB.clearListBanco();
-                    foreach(var p in paramDB)
+                    paramdb.Remover(paramDB[lastIndex - 1]);
+                    paramDB.RemoveAt(lastIndex - 1);
+                    if (paramDB.Count >= 1)
                     {
-                        StaticParametersDB.SetListBanco(p);
+                        StaticParametersDB.clearListBanco();
+                        foreach (var p in paramDB)
+                        {
+                            StaticParametersDB.SetListBanco(p);
+                        }
+                        StaticParametersDB.Setcurrent(paramDB[0].Id);
+                        refreshCBO(paramDB[0], 1);
                     }
-                    StaticParametersDB.Setcurrent(paramDB[0].Id);
-                    refreshCBO(paramDB[0], 1);
+                    else
+                    {
+                        StaticParametersDB.clearListBanco();
+                        StaticParametersDB.clearAllStatic();
+                        StaticParametros.SetIntegraBanco(false);
+                        BtnDelete.Visibility = Visibility.Hidden;
+                        CboConexao.Items.Clear();
+                        CboConexao.Items.Insert(0, "Nova conexão");
+                        CboConexao.SelectedIndex = 0;
+
+                    }
+                    cleanScreen();
                 }
-                else
+                catch (Exception ex)
                 {
-                    StaticParametersDB.clearListBanco();
-                    StaticParametersDB.clearAllStatic();
-                    StaticParametros.SetIntegraBanco(false);
-                    BtnDelete.Visibility = Visibility.Hidden;
-                    CboConexao.Items.Clear();
-                    CboConexao.Items.Insert(0, "Nova conexão");
-                    CboConexao.SelectedIndex = 0;
 
                 }
-                cleanScreen();
-            }
-            catch (Exception ex)
-            {
 
+                //this.Close();
             }
 
-            //this.Close();
         }
 
         private void BtnVoltar_Click(object sender, RoutedEventArgs e)
@@ -208,15 +255,28 @@ namespace IntegradorApp.Telas
                 {
                     StaticParametersDB.SetListBanco(p);
                 }
+                foreach(var p in paramDB)
+                {
+                    if (p.Grupo == 0 || p.Token == null || p.Token == "")
+                    {
+                        __main.Show();
+                        return;
+                    }
+                }
                 StaticParametersDB.Setcurrent(paramDB[0].Id);
             }
             __main.Show();
         }
 
+        private void TxbGrupo_PreviewTextInput(object sender, TextCompositionEventArgs e)
+        {
+            var textBox = sender as System.Windows.Controls.TextBox;
+            e.Handled = Regex.IsMatch(e.Text, "[^0-9]+");
+        }
         #endregion
 
         #region Functions
-        
+
         private void init()
         {
             init2();
@@ -448,6 +508,8 @@ namespace IntegradorApp.Telas
                 TxbServiceName.Text = paramDB[index].ServiceName;
                 TxbUser.Text = paramDB[index].User;
                 PwbSenha.Password = AESThenHMAC.SimpleDecryptWithPassword(paramDB[index].Password, process.GetMacAdress());
+                TxbGrupo.Text = paramDB[index].Grupo.ToString();
+                TxbToken.Text = paramDB[index].Token;
             }
             catch(Exception e)
             {
@@ -464,6 +526,8 @@ namespace IntegradorApp.Telas
             TxbServiceName.Text = "";
             TxbUser.Text = "";
             PwbSenha.Password = "";
+            TxbToken.Text = "";
+            TxbGrupo.Text = "";
         }
         #endregion
     }

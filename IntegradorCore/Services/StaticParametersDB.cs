@@ -19,6 +19,8 @@ namespace IntegradorCore.Services
         private static string Password = null;
         private static string Trusted_Conn = null;
         private static string Id = null;
+        private static long Grupo = 0;
+        private static string Token = null;
 
         public static void SetListBanco(ParametroDB banco)
         {
@@ -69,6 +71,8 @@ namespace IntegradorCore.Services
             StaticParametersDB.SetPassword(AESThenHMAC.SimpleDecryptWithPassword(current.Password, process.GetMacAdress()));
             StaticParametersDB.SetTrustedCon(current.Trusted_Conn);
             StaticParametersDB.SetId(current.Id.ToString());
+            StaticParametersDB.SetGrupo(current.Grupo);
+            StaticParametersDB.SetToken(current.Token);
         }
 
         public static void clearAllStatic()
@@ -82,6 +86,8 @@ namespace IntegradorCore.Services
             Password = null;
             Trusted_Conn = null;
             Id = null;
+            Grupo = 0;
+            Token = null;
 
         }
         public static ParametroDB Getcurrent()
@@ -129,6 +135,14 @@ namespace IntegradorCore.Services
         {
             Id = id;
         }
+        public static void SetGrupo(long grupo)
+        {
+            Grupo = grupo;
+        }
+        public static void SetToken(string token)
+        {
+            Token = token;
+        }
         #endregion
 
         #region Gets
@@ -170,6 +184,14 @@ namespace IntegradorCore.Services
         public static string GetId()
         {
             return Id;
+        }
+        public static long GetGrupo()
+        {
+            return Grupo;
+        }
+        public static string GetToken()
+        {
+            return Token;
         }
         #endregion
 

@@ -228,12 +228,12 @@ namespace IntegradorCore.Services
             {
                 foreach (var item in lista)
                 {
-                    var apiXMLTeste = new EnviaXML(StaticParametros.GetGrupo(), StaticParametros.GetToken(), Convert.ToBoolean(item.baseEnv));
+                    var apiXMLDB = new EnviaXML(StaticParametersDB.GetGrupo(), StaticParametersDB.GetToken(), Convert.ToBoolean(item.baseEnv));
 
                     if (item.driver == StaticParametersDB.GetDriver())
                     {
                         var xmlString = proc.MontaXMLDB(item.id, item.xmlEvento);
-                        var response = apiXMLTeste.SendXML(xmlString, item.id);
+                        var response = apiXMLDB.SendXML(xmlString, item.id);
                         if (proc.VerificaResponseXML(response) == true)
                         {
                             proc.SalvaProtocoloXML(item.id, response, 2, sessao);
@@ -271,7 +271,8 @@ namespace IntegradorCore.Services
                 {
                     if (item.driver == StaticParametersDB.GetDriver())
                     {
-                        var retorno = apiConXML.ConsultaProtocolo(item.nroProt, item.baseEnv, item.id);
+                        var apiConXMLDB = new ConsultaXML(StaticParametersDB.GetGrupo(), StaticParametersDB.GetToken());
+                        var retorno = apiConXMLDB.ConsultaProtocolo(item.nroProt, item.baseEnv, item.id);
 
                         try
                         {

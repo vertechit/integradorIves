@@ -65,6 +65,8 @@ namespace IntegradorCore.NHibernate.DAO
                 parametroCurrent.Trusted_Conn = paramentroNew.Trusted_Conn;
                 parametroCurrent.Ativo = paramentroNew.Ativo;
                 parametroCurrent.Descr = paramentroNew.Descr;
+                parametroCurrent.Grupo = paramentroNew.Grupo;
+                parametroCurrent.Token = paramentroNew.Token;
                 sessao.Update(parametroCurrent);
                 sessao.Flush();
             }

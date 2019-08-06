@@ -18,6 +18,9 @@ namespace IntegradorCore.Modelos
         public virtual string Trusted_Conn {get; set;}
         public virtual bool Ativo { get; set; }
         public virtual string Descr { get; set; }
+        public virtual long Grupo { get; set; }
+        public virtual string Token { get; set; }
+
 
     }
 }

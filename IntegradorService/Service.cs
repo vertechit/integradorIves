@@ -97,20 +97,24 @@ namespace IntegradorService
                     if (retdb.Count == 1)
                     {
                         StaticParametersDB.SetListBanco(retdb[0]);
+                        if (retdb[0].Grupo == 0 || retdb[0].Token == null || retdb[0].Token == "")
+                        {
+                            throw new Exception();
+                        }
                         StaticParametersDB.Setcurrent(retdb[0].Id);
-                        //StaticParametersDB.SetDriver(retdb[0].Driver);
-                        //StaticParametersDB.SetHost(retdb[0].Host);
-                        //StaticParametersDB.SetPort(retdb[0].Port);
-                        //StaticParametersDB.SetServiceName(retdb[0].ServiceName);
-                        //StaticParametersDB.SetUser(retdb[0].User);
-                        //StaticParametersDB.SetPassword(AESThenHMAC.SimpleDecryptWithPassword(retdb[0].Password, process.GetMacAdress()));
-                        //StaticParametersDB.SetTrustedCon(retdb[0].Trusted_Conn);
                     }
                     else if (retdb.Count > 1)
                     {
                         foreach (var p in retdb)
                         {
                             StaticParametersDB.SetListBanco(p);
+                        }
+                        foreach (var p in retdb)
+                        {
+                            if (p.Grupo == 0 || p.Token == null || p.Token == "")
+                            {
+                                throw new Exception();
+                            }
                         }
                         StaticParametersDB.Setcurrent(retdb[0].Id);
                     }

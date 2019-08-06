@@ -23,10 +23,14 @@
         <TextBox x:Name="TxbServiceName" HorizontalAlignment="Left" Height="23" Margin="143,211,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="108"/>
         <TextBox x:Name="TxbUser" Height="23" Margin="143,240,36,0" TextWrapping="Wrap" VerticalAlignment="Top"/>
         <PasswordBox x:Name="PwbSenha" Margin="143,269,36,0" VerticalAlignment="Top" Height="21"/>
-        <Button x:Name="BtnDelete" Content="Excluir" Margin="121,386,121,0" VerticalAlignment="Top" Height="33" FontSize="14" Click="BtnDelete_Click"/>
-        <Button x:Name="BtnVoltar" Content="Voltar" Margin="14,327,228,0" VerticalAlignment="Top" Height="33" FontSize="14" Click="BtnVoltar_Click"/>
+        <Button x:Name="BtnDelete" Content="Excluir" Margin="121,383,121,0" VerticalAlignment="Top" Height="33" FontSize="14" Click="BtnDelete_Click"/>
+        <Button x:Name="BtnVoltar" Content="Voltar" Margin="14,383,228,0" VerticalAlignment="Top" Height="33" FontSize="14" Click="BtnVoltar_Click"/>
         <Label Content="Conexão Banco de dados" Margin="60,18,51,0" VerticalAlignment="Top" FontSize="18" FontWeight="Bold"/>
-        <Button x:Name="BtnSalvar" Content="Salvar" Margin="228,327,14,0" VerticalAlignment="Top" Height="33" FontSize="14" Click="BtnSalvar_Click"/>
+        <Button x:Name="BtnSalvar" Content="Salvar" Margin="228,383,14,0" VerticalAlignment="Top" Height="33" FontSize="14" Click="BtnSalvar_Click"/>
+        <Label x:Name="LblGrupo" Content="Grupo" HorizontalAlignment="Left" Margin="36,293,0,0" VerticalAlignment="Top"/>
+        <TextBox x:Name="TxbGrupo" Height="23" Margin="143,296,36,0" TextWrapping="Wrap" VerticalAlignment="Top" PreviewTextInput="TxbGrupo_PreviewTextInput"/>
+        <Label x:Name="LblToken" Content="Token" HorizontalAlignment="Left" Margin="36,321,0,0" VerticalAlignment="Top"/>
+        <TextBox x:Name="TxbToken" Height="23" Margin="143,324,36,0" TextWrapping="Wrap" VerticalAlignment="Top"/>
 
     </Grid>
 </Window>

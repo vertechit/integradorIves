@@ -397,22 +397,33 @@ namespace IntegradorApp
                     if(paramDB.Count == 1)
                     {
                         StaticParametersDB.SetListBanco(paramDB[0]);
-                        StaticParametersDB.Setcurrent(paramDB[0].Id);
-                        //StaticParametersDB.SetDriver(paramDB[0].Driver);
-                        //StaticParametersDB.SetHost(paramDB[0].Host);
-                        //StaticParametersDB.SetPort(paramDB[0].Port);
-                        //StaticParametersDB.SetServiceName(paramDB[0].ServiceName);
-                        //StaticParametersDB.SetUser(paramDB[0].User);
-                        //StaticParametersDB.SetPassword(AESThenHMAC.SimpleDecryptWithPassword(paramDB[0].Password, process.GetMacAdress()));
-                        //StaticParametersDB.SetTrustedCon(paramDB[0].Trusted_Conn);
-                        //StaticParametersDB.SetId(paramDB[0].Id.ToString());
+
+                        if (paramDB[0].Grupo == 0 || paramDB[0].Token == null || paramDB[0].Token == "")
+                        {
+                            throw new Exception();
+                        }
+                        else
+                        {
+                            StaticParametersDB.Setcurrent(paramDB[0].Id);
+                        }
+
                     }
                     else if(paramDB.Count > 1)
                     {
+
                         foreach(var p in paramDB)
                         {
                             StaticParametersDB.SetListBanco(p);
                         }
+
+                        foreach (var p in paramDB)
+                        {
+                            if (p.Grupo == 0 || p.Token == null || p.Token == "")
+                            {
+                                throw new Exception();
+                            }
+                        }
+
                         StaticParametersDB.Setcurrent(paramDB[0].Id);
                     }
                     else
