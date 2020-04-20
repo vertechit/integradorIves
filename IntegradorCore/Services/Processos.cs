@@ -1093,7 +1093,7 @@ namespace IntegradorCore.Services
             }
             try
             {
-                Atualizador.Vaccum();
+                //Atualizador.Vaccum();
             }
             catch(Exception ex)
             {
