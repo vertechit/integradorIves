@@ -1251,6 +1251,10 @@ namespace IntegradorCore.Services
 
         public void InsereLog(int tipo, string msg, string arquivo, string servico, string acao, string protocolo, string coderro)
         {
+            if (!StaticParametros.GetGeraLogs())
+            {
+                return;
+            }
             var sessao = AuxiliarNhibernate.AbrirSessao();
 
             var logConsultDao = new LogConsultaDAO(sessao);
@@ -1307,6 +1311,10 @@ namespace IntegradorCore.Services
 
         public void InsereLogInterno(string servico, Exception ex, string codErro, string id, string query)
         {
+            if (!StaticParametros.GetGeraLogs())
+            {
+                return;
+            }
             var sessao = AuxiliarNhibernate.AbrirSessao();
             var LogInternoDAO = new LogInternoDAO(sessao);
             var msg = " ";

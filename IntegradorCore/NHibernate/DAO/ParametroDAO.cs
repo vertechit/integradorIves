@@ -56,6 +56,7 @@ namespace IntegradorCore.NHibernate.DAO
                 parametroCurrent.CaminhoDir = paramentroNew.CaminhoDir;
                 parametroCurrent.CaminhoToke = paramentroNew.CaminhoToke;
                 parametroCurrent.IntegraBanco = paramentroNew.IntegraBanco;
+                parametroCurrent.GeraLog = paramentroNew.GeraLog;
 
                 sessao.Update(parametroCurrent);
                 sessao.Flush();

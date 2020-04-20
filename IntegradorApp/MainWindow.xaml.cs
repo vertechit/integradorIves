@@ -82,6 +82,13 @@ namespace IntegradorApp
             }
         }
 
+        private void BtnHabilitaLog_Click(object sender, RoutedEventArgs e)
+        {
+            StaticParametros.SetGeraLogs(!StaticParametros.GetGeraLogs());
+            BtnHabilitaLog.Content = StaticParametros.GetGeraLogs() ? "Deabilitar Logs" : "Habilitar Logs";
+
+        }
+
         private void BtnProcurarIni_Click(object sender, RoutedEventArgs e)
         {
             var proc = new Processos();
@@ -162,7 +169,7 @@ namespace IntegradorApp
                         if (ctrl >= 2)
                         {
 
-                            var newParam = new Parametro { Id = 1, CaminhoDir = StaticParametros.GetDirOrigem(), CaminhoToke = StaticParametros.GetDirToke(), IntegraBanco = StaticParametros.GetIntegraBanco() };
+                            var newParam = new Parametro { Id = 1, CaminhoDir = StaticParametros.GetDirOrigem(), CaminhoToke = StaticParametros.GetDirToke(), IntegraBanco = StaticParametros.GetIntegraBanco(), GeraLog = StaticParametros.GetGeraLogs() };
                             parametroDAO.Salvar(newParam);
 
                             if(StaticParametersDB.GetDriver() != null)
@@ -361,6 +368,8 @@ namespace IntegradorApp
                 int ctrlVazio = 0;
                 try
                 {
+                    StaticParametros.SetGeraLogs(param.GeraLog);
+
                     if (param.CaminhoToke.Contains(".ives") && param.CaminhoToke != "" && File.Exists(param.CaminhoToke))
                     {
                         StaticParametros.SetDirToke(param.CaminhoToke);
@@ -440,7 +449,7 @@ namespace IntegradorApp
                     TxtStatusBanco.Text = "Desconectado";
                     if (ctrlVazio == 0)
                     {
-                        var paramn = new Parametro { Id = 1, CaminhoDir = StaticParametros.GetDirOrigem(), CaminhoToke = StaticParametros.GetDirToke(), IntegraBanco = StaticParametros.GetIntegraBanco() };
+                        var paramn = new Parametro { Id = 1, CaminhoDir = StaticParametros.GetDirOrigem(), CaminhoToke = StaticParametros.GetDirToke(), IntegraBanco = StaticParametros.GetIntegraBanco(), GeraLog = StaticParametros.GetGeraLogs() };
                         parametroDAO.Salvar(param);
 
                         //Armazenamento.UpdateParametros(new Parametro { Id = 1, CaminhoDir = param.CaminhoDir, CaminhoToke = param.CaminhoToke, IntegraBanco = false });
@@ -647,6 +656,8 @@ namespace IntegradorApp
         {
             LblVersao.Content = string.Concat("v",StaticParametros.GetVersao());
 
+            BtnHabilitaLog.Content = StaticParametros.GetGeraLogs() ? "Deabilitar Logs" : "Habilitar Logs";
+
             if (tipo == 1)
             {
                 BtnSalvar.Visibility = Visibility.Visible;
@@ -660,6 +671,7 @@ namespace IntegradorApp
                 BtnParam.Visibility = Visibility.Hidden;
                 BtnLog.Visibility = Visibility.Hidden;
                 BtnConectarBanco.Visibility = Visibility.Visible;
+                BtnHabilitaLog.Visibility = Visibility.Visible;
             }
             else if (tipo == 2)
             {
@@ -673,9 +685,11 @@ namespace IntegradorApp
                 BtnProcurarIni.Visibility = Visibility.Hidden;
                 BtnProcurarToken.Visibility = Visibility.Hidden;
                 BtnConectarBanco.Visibility = Visibility.Hidden;
+                BtnHabilitaLog.Visibility = Visibility.Hidden;
             }
         }
 
         #endregion
+
     }
 }

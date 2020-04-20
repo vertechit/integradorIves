@@ -49,6 +49,7 @@ namespace IntegradorService
                 var retdb = ParametroDBDAO.BuscarTodos();
                 try
                 {
+                    StaticParametros.SetGeraLogs(ret.GeraLog);
                     if (File.Exists(ret.CaminhoToke))
                     {
                         ctrl++;
