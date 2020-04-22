@@ -77,6 +77,17 @@ namespace IntegradorCore.NHibernate.DAO
             }
         }
 
+        public void Atualizar(LogEnvia currentLog, LogEnvia newLog)
+        {
+            if (newLog != null)
+            {
+                currentLog.Hora = newLog.Hora;
+
+                sessao.Update(currentLog);
+                sessao.Flush();
+            }
+        }
+
         public void DeleteByData(string data)
         {
             ITransaction tx = sessao.BeginTransaction();

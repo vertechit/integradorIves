@@ -78,6 +78,17 @@ namespace IntegradorCore.NHibernate.DAO
             }
         }
 
+        public void Atualizar(LogConsulta currentLog, LogConsulta newLog)
+        {
+            if (newLog != null)
+            {
+                currentLog.Hora = newLog.Hora;
+
+                sessao.Update(currentLog);
+                sessao.Flush();
+            }
+        }
+
         public void DeleteByData(string data)
         {
             //ISession session = sessionFactory.OpenSession();
