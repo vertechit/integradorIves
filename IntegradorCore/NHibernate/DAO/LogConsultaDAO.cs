@@ -37,20 +37,20 @@ namespace IntegradorCore.NHibernate.DAO
             return criterios.List<LogConsulta>();
         }
 
-        public IList<LogConsulta> Buscar(string identificador, string protocolo, string mensagem, string acao, string data)
+        public LogConsulta Buscar(string identificador, string protocolo, string mensagem, string acao, string data)
         {
             //ITransaction tx = sessao.BeginTransaction();
 
             String hqlSelect = "select c.* from logconsulta c where c.identificador = :identificador and c.protocolo = :protocolo and c.mensagem = :mensagem and c.acao = :acao and c.data = :data limit 1";
 
-            IList<LogConsulta> entries = (IList<LogConsulta>)sessao.CreateQuery(hqlSelect)
+            LogConsulta entrie = (LogConsulta) sessao.CreateQuery(hqlSelect)
                     .SetString("identificador", identificador)
                     .SetString("protocolo", protocolo)
                     .SetString("mensagem", mensagem)
                     .SetString("acao", acao)
                     .SetString("data", data)
-                    .List();
-            return entries;
+                    .UniqueResult();
+            return entrie;
             //tx.Commit();
             //sessao.Flush();
         }

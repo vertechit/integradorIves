@@ -37,18 +37,18 @@ namespace IntegradorCore.NHibernate.DAO
             return criterios.List<LogEnvia>();
         }
 
-        public IList<LogEnvia> Buscar(string identificador, string mensagem, string acao, string data)
+        public LogEnvia Buscar(string identificador, string mensagem, string acao, string data)
         {
             //ITransaction tx = sessao.BeginTransaction();
 
             String hqlSelect = "select c.* from logenvia c where c.identificador = :identificador and c.mensagem = :mensagem and c.acao = :acao and c.data = :data limit 1";
 
-            IList<LogEnvia> entries = (IList<LogEnvia>)sessao.CreateQuery(hqlSelect)
+            LogEnvia entries = (LogEnvia)sessao.CreateQuery(hqlSelect)
                     .SetString("identificador", identificador)
                     .SetString("mensagem", mensagem)
                     .SetString("acao", acao)
                     .SetString("data", data)
-                    .List();
+                    .UniqueResult();
             return entries;
             //tx.Commit();
             //sessao.Flush();

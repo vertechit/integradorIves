@@ -39,18 +39,18 @@ namespace IntegradorCore.NHibernate.DAO
             return criterios.List<LogErros>();
         }
 
-        public IList<LogErros> Buscar(string servico, string coderro, string mensagem, string data)
+        public LogErros Buscar(string servico, string coderro, string mensagem, string data)
         {
             //ITransaction tx = sessao.BeginTransaction();
 
             String hqlSelect = "select c.* from LogErros c where c.servico = :servico and c.codErro = :coderro and c.mensagem = :mensagem and c.data = :data limit 1";
 
-            IList<LogErros> entries = (IList<LogErros>) sessao.CreateQuery(hqlSelect)
+            LogErros entries = (LogErros) sessao.CreateQuery(hqlSelect)
                     .SetString("servico", servico)
                     .SetString("coderro", coderro)
                     .SetString("mensagem", mensagem)
                     .SetString("data", data)
-                    .List();
+                    .UniqueResult();
             return entries;
             //tx.Commit();
             //sessao.Flush();
