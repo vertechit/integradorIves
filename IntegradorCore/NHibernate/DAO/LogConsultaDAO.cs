@@ -39,9 +39,9 @@ namespace IntegradorCore.NHibernate.DAO
 
         public LogConsulta Buscar(string identificador, string protocolo, string mensagem, string acao, string data)
         {
-            //ITransaction tx = sessao.BeginTransaction();
+            /*ITransaction tx = sessao.BeginTransaction();
 
-            String hqlSelect = "select c.* from logconsulta c where c.identificador = :identificador and c.protocolo = :protocolo and c.mensagem = :mensagem and c.acao = :acao and c.data = :data limit 1";
+            //String hqlSelect = "select c.* from logconsulta c where c.identificador = :identificador and c.protocolo = :protocolo and c.mensagem = :mensagem and c.acao = :acao and c.data = :data limit 1";
 
             LogConsulta entrie = (LogConsulta) sessao.CreateQuery(hqlSelect)
                     .SetString("identificador", identificador)
@@ -52,7 +52,15 @@ namespace IntegradorCore.NHibernate.DAO
                     .UniqueResult();
             return entrie;
             //tx.Commit();
-            //sessao.Flush();
+            //sessao.Flush();*/
+
+            ICriterion criterio1 = Restrictions.And(Restrictions.Eq("Identificador", identificador), Restrictions.Eq("Msg", mensagem));
+            ICriterion criterio2 = Restrictions.And(Restrictions.Eq("Acao", acao), Restrictions.Eq("Data", data));
+            ICriterion criterio3 = Restrictions.And(criterio1, criterio2);
+            ICriterion criterio4 = Restrictions.Eq("Protocolo", protocolo);
+            
+            criterios.Add(Restrictions.And(criterio3, criterio4));
+            return criterios.SetMaxResults(1).UniqueResult<LogConsulta>();
         }
 
         public LogConsulta BuscarPorID(Int64 id)

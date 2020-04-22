@@ -1268,7 +1268,24 @@ namespace IntegradorCore.Services
 
             if (tipo == 1)
             {
-                logEnvioDao.Salvar(
+                var ret = logEnvioDao.Buscar(arquivo, msg, acao, data);
+                
+                if(ret != null)
+                {
+                    logEnvioDao.Atualizar(ret, 
+                    new LogEnvia
+                    {
+                        Id = 0,
+                        Msg = msg,
+                        Acao = acao,
+                        Identificador = arquivo,
+                        Data = data,
+                        Hora = hora
+                    });
+                }
+                else
+                {
+                    logEnvioDao.Salvar(
                         new LogEnvia
                         {
                             Id = 0,
@@ -1278,10 +1295,30 @@ namespace IntegradorCore.Services
                             Data = data,
                             Hora = hora
                         });
+                }
+                
             }
             else if (tipo == 2)
             {
-                logConsultDao.Salvar(
+                var ret = logConsultDao.Buscar(arquivo, protocolo, msg, acao, data);
+
+                if (ret != null)
+                {
+                    logConsultDao.Atualizar(ret,
+                    new LogConsulta
+                    {
+                        Id = 0,
+                        Identificador = arquivo,
+                        Protocolo = protocolo,
+                        Msg = msg,
+                        Acao = acao,
+                        Data = data,
+                        Hora = hora
+                    });
+                }
+                else
+                {
+                    logConsultDao.Salvar(
                         new LogConsulta
                         {
                             Id = 0,
@@ -1292,19 +1329,41 @@ namespace IntegradorCore.Services
                             Data = data,
                             Hora = hora
                         });
+                }
+                    
             }
             else
             {
-                logErroDao.Salvar(new LogErros
+                var ret = logErroDao.Buscar(servico, coderro, msg, data);
+
+                if (ret != null)
                 {
-                    Id = 0,
-                    Servico = servico,
-                    CodErro = coderro,
-                    Msg = msg,
-                    Acao = acao,
-                    Data = data,
-                    Hora = hora
-                });
+                    logErroDao.Atualizar(ret,
+                    new LogErros
+                    {
+                        Id = 0,
+                        Servico = servico,
+                        CodErro = coderro,
+                        Msg = msg,
+                        Acao = acao,
+                        Data = data,
+                        Hora = hora
+                    });
+                }
+                else
+                {
+                    logErroDao.Salvar(new LogErros
+                    {
+                        Id = 0,
+                        Servico = servico,
+                        CodErro = coderro,
+                        Msg = msg,
+                        Acao = acao,
+                        Data = data,
+                        Hora = hora
+                    });
+                }
+                    
             }
 
         }

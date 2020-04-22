@@ -41,19 +41,12 @@ namespace IntegradorCore.NHibernate.DAO
 
         public LogErros Buscar(string servico, string coderro, string mensagem, string data)
         {
-            //ITransaction tx = sessao.BeginTransaction();
 
-            String hqlSelect = "select c.* from LogErros c where c.servico = :servico and c.codErro = :coderro and c.mensagem = :mensagem and c.data = :data limit 1";
-
-            LogErros entries = (LogErros) sessao.CreateQuery(hqlSelect)
-                    .SetString("servico", servico)
-                    .SetString("coderro", coderro)
-                    .SetString("mensagem", mensagem)
-                    .SetString("data", data)
-                    .UniqueResult();
-            return entries;
-            //tx.Commit();
-            //sessao.Flush();
+            ICriterion criterio1 = Restrictions.And(Restrictions.Eq("Servico", servico), Restrictions.Eq("CodErro", coderro));
+            ICriterion criterio2 = Restrictions.And(Restrictions.Eq("Msg", mensagem), Restrictions.Eq("Data", data));
+            criterios.Add(Restrictions.And(criterio1, criterio2));
+            //return criterios.UniqueResult<LogErros>();
+            return criterios.SetMaxResults(1).UniqueResult<LogErros>();
         }
 
         public LogErros BuscarPorID(Int64 id)
