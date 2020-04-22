@@ -1362,8 +1362,7 @@ namespace IntegradorCore.Services
                     Data = data[0],
                     Mensagem = msg,
                     InnerException = innerex,
-                    StackTrace = stackTrace
-                    ,
+                    StackTrace = stackTrace,
                     Source = source,
                     Base = StaticParametros.GetBase(),
                     Ambiente = StaticParametros.GetAmbiente(),
