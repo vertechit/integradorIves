@@ -37,6 +37,32 @@ namespace IntegradorCore.NHibernate.DAO
             return criterios.List<LogConsulta>();
         }
 
+        public LogConsulta Buscar(string identificador, string protocolo, string mensagem, string acao, string data)
+        {
+            /*ITransaction tx = sessao.BeginTransaction();
+
+            //String hqlSelect = "select c.* from logconsulta c where c.identificador = :identificador and c.protocolo = :protocolo and c.mensagem = :mensagem and c.acao = :acao and c.data = :data limit 1";
+
+            LogConsulta entrie = (LogConsulta) sessao.CreateQuery(hqlSelect)
+                    .SetString("identificador", identificador)
+                    .SetString("protocolo", protocolo)
+                    .SetString("mensagem", mensagem)
+                    .SetString("acao", acao)
+                    .SetString("data", data)
+                    .UniqueResult();
+            return entrie;
+            //tx.Commit();
+            //sessao.Flush();*/
+
+            ICriterion criterio1 = Restrictions.And(Restrictions.Eq("Identificador", identificador), Restrictions.Eq("Msg", mensagem));
+            ICriterion criterio2 = Restrictions.And(Restrictions.Eq("Acao", acao), Restrictions.Eq("Data", data));
+            ICriterion criterio3 = Restrictions.And(criterio1, criterio2);
+            ICriterion criterio4 = Restrictions.Eq("Protocolo", protocolo);
+            
+            criterios.Add(Restrictions.And(criterio3, criterio4));
+            return criterios.SetMaxResults(1).UniqueResult<LogConsulta>();
+        }
+
         public LogConsulta BuscarPorID(Int64 id)
         {
             return sessao.Load<LogConsulta>(id);
@@ -56,6 +82,17 @@ namespace IntegradorCore.NHibernate.DAO
             if (log != null)
             {
                 sessao.Delete(log);
+                sessao.Flush();
+            }
+        }
+
+        public void Atualizar(LogConsulta currentLog, LogConsulta newLog)
+        {
+            if (newLog != null)
+            {
+                currentLog.Hora = newLog.Hora;
+
+                sessao.Update(currentLog);
                 sessao.Flush();
             }
         }

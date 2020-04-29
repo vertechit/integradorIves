@@ -24,13 +24,7 @@ namespace IntegradorCore.DAO
         {
             if(StaticParametersDB.GetDriver() == "oracle")
             {
-                string oradb = "Data Source=(DESCRIPTION=(ADDRESS=(PROTOCOL=tcp)(HOST=host1)(PORT=port1))(CONNECT_DATA=(SERVER=DEDICATED)(SERVICE_NAME=servicename1)));User ID=user1;Password=password1;";
-
-                oradb = oradb.Replace("host1", StaticParametersDB.GetHost());
-                oradb = oradb.Replace("port1", StaticParametersDB.GetPort());
-                oradb = oradb.Replace("servicename1", StaticParametersDB.GetServiceName());
-                oradb = oradb.Replace("user1", StaticParametersDB.GetUser());
-                oradb = oradb.Replace("password1", StaticParametersDB.GetPassword());
+                string oradb = $"Data Source=(DESCRIPTION=(ADDRESS=(PROTOCOL=tcp)(HOST={StaticParametersDB.GetHost()})(PORT={StaticParametersDB.GetPort()}))(CONNECT_DATA=(SERVER=DEDICATED)(SERVICE_NAME={StaticParametersDB.GetServiceName()})));User ID={StaticParametersDB.GetUser()};Password={StaticParametersDB.GetPassword()};";
 
                 return new OracleConnection(oradb);
             }
@@ -38,42 +32,25 @@ namespace IntegradorCore.DAO
             {
                 if (StaticParametersDB.GetPort() != "0")
                 {
-                    var strconnection = "Data Source=host,port;Network Library=DBMSSOCN;Initial Catalog = myDataBase; User ID = myUsername; Password = myPassword;";
-
-                    strconnection = strconnection.Replace("host", StaticParametersDB.GetHost());
-                    strconnection = strconnection.Replace("port", StaticParametersDB.GetPort());
-                    strconnection = strconnection.Replace("myDataBase", StaticParametersDB.GetServiceName());
-                    strconnection = strconnection.Replace("myUsername", StaticParametersDB.GetUser());
-                    strconnection = strconnection.Replace("myPassword", StaticParametersDB.GetPassword());
+                    var strconnection = $"Data Source={StaticParametersDB.GetHost()},{StaticParametersDB.GetPort()};Network Library=DBMSSOCN;Initial Catalog = {StaticParametersDB.GetServiceName()}; User ID = {StaticParametersDB.GetUser()}; Password = {StaticParametersDB.GetPassword()};";
 
                     return new SqlConnection(strconnection);
                 }
                 else
                 {
-                    var strconnection = "Server=myInstanceName;Database=myDataBase;Trusted_Connection=False;User Id=myUsername;Password = myPassword; ";
+                    var strconnection = $"Server={StaticParametersDB.GetHost()};Database={StaticParametersDB.GetServiceName()};Trusted_Connection={StaticParametersDB.GetTrustedConn()};User Id={StaticParametersDB.GetUser()};Password = {StaticParametersDB.GetPassword()}; ";
 
-                    strconnection = strconnection.Replace("myInstanceName", StaticParametersDB.GetHost());
-                    //strconnection = strconnection.Replace("port", port);
-                    strconnection = strconnection.Replace("myDataBase", StaticParametersDB.GetServiceName());
-                    strconnection = strconnection.Replace("myUsername", StaticParametersDB.GetUser());
-                    strconnection = strconnection.Replace("myPassword", StaticParametersDB.GetPassword());
                     return new SqlConnection(strconnection);
                 }
             }
             
         }
 
-        private static dynamic GetConnectionWithParam(string host, string port, string servicename, string user, string password, string driver)
+        private static dynamic GetConnectionWithParam(string host, string port, string servicename, string user, string password, string driver, string trusted_conn = "True")
         {
             if (driver.ToLower() == "oracle")
             {
-                string oradb = "Data Source=(DESCRIPTION=(ADDRESS=(PROTOCOL=tcp)(HOST=host1)(PORT=port1))(CONNECT_DATA=(SERVER=DEDICATED)(SERVICE_NAME=servicename1)));User ID=user1;Password=password1;";
-
-                oradb = oradb.Replace("host1", host);
-                oradb = oradb.Replace("port1", port);
-                oradb = oradb.Replace("servicename1", servicename);
-                oradb = oradb.Replace("user1", user);
-                oradb = oradb.Replace("password1", password);
+                string oradb = $"Data Source=(DESCRIPTION=(ADDRESS=(PROTOCOL=tcp)(HOST={host})(PORT={port}))(CONNECT_DATA=(SERVER=DEDICATED)(SERVICE_NAME={servicename})));User ID={user};Password={password};";
 
                 return new OracleConnection(oradb);
             }
@@ -81,25 +58,13 @@ namespace IntegradorCore.DAO
             {
                 if(port != "0")
                 {
-                    var strconnection = "Data Source=host,port;Network Library=DBMSSOCN;Initial Catalog = myDataBase; User ID = myUsername; Password = myPassword;";
-
-                    strconnection = strconnection.Replace("host", host);
-                    strconnection = strconnection.Replace("port", port);
-                    strconnection = strconnection.Replace("myDataBase", servicename);
-                    strconnection = strconnection.Replace("myUsername", user);
-                    strconnection = strconnection.Replace("myPassword", password);
+                    var strconnection = $"Data Source={host},{port};Network Library=DBMSSOCN;Initial Catalog = {servicename}; User ID = {user}; Password = {password};";
 
                     return new SqlConnection(strconnection);
                 }
                 else
                 {
-                    var strconnection = "Server=myInstanceName;Database=myDataBase;Trusted_Connection=True;User Id=myUsername;Password = myPassword; ";
-
-                    strconnection = strconnection.Replace("myInstanceName", host);
-                    //strconnection = strconnection.Replace("port", port);
-                    strconnection = strconnection.Replace("myDataBase", servicename);
-                    strconnection = strconnection.Replace("myUsername", user);
-                    strconnection = strconnection.Replace("myPassword", password);
+                    var strconnection = $"Server={host};Database={servicename};Trusted_Connection={trusted_conn};User Id={user};Password = {password}; ";
 
                     return new SqlConnection(strconnection);
                 }
@@ -226,11 +191,11 @@ namespace IntegradorCore.DAO
             }
         }
 
-        public static bool TesteConexao(string host, string port, string servicename, string user, string password, string driver)
+        public static bool TesteConexao(string host, string port, string servicename, string user, string password, string driver, string trusted_conn = "True")
         {
             var retorno = true;
 
-            using (var conn = GetConnectionWithParam(host, port, servicename, user, password, driver))
+            using (var conn = GetConnectionWithParam(host, port, servicename, user, password, driver, trusted_conn))
             {
                 try
                 {
@@ -259,6 +224,7 @@ namespace IntegradorCore.DAO
 
             using (var conn = GetConnection())
             {
+                //Não é possível abrir o banco de dados solicitado pelo logon. Falha de logon.Falha de logon do usuário 'AUTORIDADE NT\SISTEMA'.
                 try
                 {
                     conn.Open();
@@ -277,15 +243,16 @@ namespace IntegradorCore.DAO
                         {
                             try
                             {
-                                var Base = proc.DefineBaseEnvioDB(Convert.ToString(row["XMLEVENTO"]), (Convert.ToString(row["ID"]) + "-" + Convert.ToString(row["IDSEQ"])));
+                                var Base = proc.DefineBaseEnvioDB(Convert.ToString(row["XMLEVENTO"]), (Convert.ToString(row["ID"]) + "-" + Convert.ToString(row["IDSEQ"]) + "-" + StaticParametersDB.GetId()));
                                 var prot = new ProtocoloDB
                                 {
-                                    id = string.Concat(Convert.ToString(row["ID"]), "-", Convert.ToString(row["IDSEQ"])),
+                                    id = string.Concat(Convert.ToString(row["ID"]), "-", Convert.ToString(row["IDSEQ"]), "-"+ StaticParametersDB.GetId()),
                                     idEvento = Convert.ToString(row["ID"]),
                                     idSeq = Convert.ToString(row["IDSEQ"]),
                                     xmlEvento = Convert.ToString(row["XMLEVENTO"]),
                                     driver = StaticParametersDB.GetDriver(),
-                                    baseEnv = Convert.ToString(Base)
+                                    baseEnv = Convert.ToString(Base),
+                                    idDB = StaticParametersDB.GetId()
                                 };
                                 ProtocoloDAO.Salvar(prot);
                             }
@@ -294,7 +261,7 @@ namespace IntegradorCore.DAO
                                 if (ex.HResult != -2147467261)
                                 {
                                     ExceptionCore e = new ExceptionCore();
-                                    e.ExBanco(30, "ID Evento: " + (Convert.ToString(row["ID"]) + "-" + Convert.ToString(row["IDSEQ"])) + " | Erro: " + ex.Message, StaticParametersDB.GetDriver(), ex, "");
+                                    e.ExBanco(30, "ID Evento: " + (Convert.ToString(row["ID"]) + "-" + Convert.ToString(row["IDSEQ"])+ "-" + StaticParametersDB.GetId()) + " | Erro: " + ex.Message, StaticParametersDB.GetDriver(), ex, "");
                                 }
                                 else
                                 {
@@ -408,7 +375,7 @@ namespace IntegradorCore.DAO
             return retorno;
         }
 
-        public static void CustomUpdateDB(ProtocoloDB prot, int tipo)
+        public static void CustomUpdateDB(IList<ProtocoloDB> prot, int tipo)
         {
 
             using (var conn = GetConnection())
@@ -420,7 +387,7 @@ namespace IntegradorCore.DAO
                     using (var comm = GetCommand())
                     {
 
-                        var sql = CriaSQL(prot, tipo);
+                        var sql = CriaSQL(prot[0], tipo);
                         query = sql;
 
                         comm.Connection = conn;
@@ -432,7 +399,7 @@ namespace IntegradorCore.DAO
                             comm.ExecuteNonQuery();
                         }
 
-                        using (var command = SqlCommandWithParameters(prot, tipo))
+                        using (var command = SqlCommandWithParameters(prot[0], tipo))
                         {
                             command.Connection = conn;
                             command.ExecuteNonQuery();

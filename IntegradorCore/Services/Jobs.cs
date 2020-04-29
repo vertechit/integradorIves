@@ -228,18 +228,18 @@ namespace IntegradorCore.Services
             {
                 foreach (var item in lista)
                 {
-                    var apiXMLTeste = new EnviaXML(StaticParametros.GetGrupo(), StaticParametros.GetToken(), Convert.ToBoolean(item.baseEnv));
+                    var apiXMLDB = new EnviaXML(StaticParametersDB.GetGrupo(), StaticParametersDB.GetToken(), Convert.ToBoolean(item.baseEnv));
 
                     if (item.driver == StaticParametersDB.GetDriver())
                     {
                         var xmlString = proc.MontaXMLDB(item.id, item.xmlEvento);
-                        var response = apiXMLTeste.SendXML(xmlString, item.id);
+                        var response = apiXMLDB.SendXML(xmlString, item.id);
                         if (proc.VerificaResponseXML(response) == true)
                         {
                             proc.SalvaProtocoloXML(item.id, response, 2, sessao);
 
                             var data = proc.RetornaData();
-                            var protocolo = new ProtocoloDB { id = item.id, dtenvio = data[0], hrenvio = data[1], status = "0 - Enviado" };
+                            var protocolo = new ProtocoloDB { id = item.id, dtenvio = data[0], hrenvio = data[1], status = "0 - Enviado", idDB = StaticParametersDB.GetId() };
                             ProtocoloDAO.Salvar(protocolo);
                             proc.GeraLogEnviaXML(item.id, "Foi enviado com sucesso!");
 
@@ -264,7 +264,6 @@ namespace IntegradorCore.Services
             var sessao = AuxiliarNhibernate.AbrirSessao();
             ProtocoloDB_DAO ProtocoloDAO = new ProtocoloDB_DAO(sessao);
 
-            //ConsultaXML apiConXMLTeste = new ConsultaXML(StaticParametros.GetGrupo(), StaticParametros.GetToken());
             var lista = ProtocoloDAO.BuscaConsulta();
             if (lista.Count > 0)
             {
@@ -272,7 +271,8 @@ namespace IntegradorCore.Services
                 {
                     if (item.driver == StaticParametersDB.GetDriver())
                     {
-                        var retorno = apiConXML.ConsultaProtocolo(item.nroProt, item.baseEnv, item.id);
+                        var apiConXMLDB = new ConsultaXML(StaticParametersDB.GetGrupo(), StaticParametersDB.GetToken());
+                        var retorno = apiConXMLDB.ConsultaProtocolo(item.nroProt, item.baseEnv, item.id);
 
                         try
                         {
@@ -287,21 +287,21 @@ namespace IntegradorCore.Services
                                     var nrProtgov = proc.ExtraiInfoXML(xmlRec, "protocoloEnvioLote");
 
                                     var data = proc.RetornaData();
-                                    var prot = new ProtocoloDB { id = item.id, xmlRec = xmlRec, nroRec = nrRec, consultado = true, dtconsulta = data[0], hrconsulta = data[1], nroProtGov = nrProtgov, status = "2 - Aprovado" };
+                                    var prot = new ProtocoloDB { id = item.id, xmlRec = xmlRec, nroRec = nrRec, consultado = true, dtconsulta = data[0], hrconsulta = data[1], nroProtGov = nrProtgov, status = "2 - Aprovado", idDB = StaticParametersDB.GetId() };
                                     ProtocoloDAO.Salvar(prot);
                                 }
                                 else
                                 {
                                     var erros = proc.ExtraiErrosXmlDB(retorno, item.id);
                                     var data = proc.RetornaData();
-                                    var prot = new ProtocoloDB { id = item.id, erros = erros, consultado = true, dtconsulta = data[0], hrconsulta = data[1], status = "3 - Rejeitado" };
+                                    var prot = new ProtocoloDB { id = item.id, erros = erros, consultado = true, dtconsulta = data[0], hrconsulta = data[1], status = "3 - Rejeitado", idDB = StaticParametersDB.GetId() };
                                     ProtocoloDAO.Salvar(prot);
                                 }
                             }
                             else
                             {
                                 var data = proc.RetornaData();
-                                var prot = new ProtocoloDB { id = item.id, dtconsulta = data[0], hrconsulta = data[1], status = "1 - Aguardando Governo/iVeS" };
+                                var prot = new ProtocoloDB { id = item.id, dtconsulta = data[0], hrconsulta = data[1], status = "1 - Aguardando Governo/iVeS", idDB = StaticParametersDB.GetId() };
                                 ProtocoloDAO.Salvar(prot);
                                 Banco.CustomUpdateDB(ProtocoloDAO.BuscarPorIDEvento(item.id), 4);
                             }

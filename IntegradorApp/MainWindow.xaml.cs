@@ -82,6 +82,13 @@ namespace IntegradorApp
             }
         }
 
+        private void BtnHabilitaLog_Click(object sender, RoutedEventArgs e)
+        {
+            StaticParametros.SetGeraLogs(!StaticParametros.GetGeraLogs());
+            BtnHabilitaLog.Content = StaticParametros.GetGeraLogs() ? "Deabilitar Logs" : "Habilitar Logs";
+
+        }
+
         private void BtnProcurarIni_Click(object sender, RoutedEventArgs e)
         {
             var proc = new Processos();
@@ -127,8 +134,6 @@ namespace IntegradorApp
             var sessao = AuxiliarNhibernate.AbrirSessao();
             var parametroDAO = new ParametroDAO(sessao);
             var parametroDBDAO = new ParametroDB_DAO(sessao);
-            //var resultadoParam = parametroDAO.BuscarPorID(1);
-            //var resultadoParamDB = parametroDBDAO.BuscarPorID(1);
 
             if (proc.VerificaProcessoRun() == false)
             {
@@ -159,27 +164,12 @@ namespace IntegradorApp
                             ctrl++;
 
                             StaticParametros.SetIntegraBanco(true);
-                            try {
-                                var paramdb = new ParametroDB { Id = 1, Driver = StaticParametersDB.GetDriver(), Host = StaticParametersDB.GetHost(), Port = StaticParametersDB.GetPort(), ServiceName = StaticParametersDB.GetServiceName(), User = StaticParametersDB.GetUser(), Password = AESThenHMAC.SimpleEncryptWithPassword(StaticParametersDB.GetPassword(), process.GetMacAdress()) };
-
-                                parametroDBDAO.Salvar(paramdb);
-                            }
-                            catch(Exception ex)
-                            {
-                                StaticParametros.SetIntegraBanco(false);
-                                ExceptionCore exe = new ExceptionCore();
-                                exe.EncryptException(ex.Message, 3);
-                                ctrl--;
-                            }
-                            
-                            //TxtStatusBanco.Text = "Conectado";
-                            //Armazenamento.AddParametrosDB(new ParametroDB { Id = 1, Driver = StaticParametersDB.GetDriver(), Host = StaticParametersDB.GetHost(), Port = StaticParametersDB.GetPort(), ServiceName = StaticParametersDB.GetServiceName(), User = StaticParametersDB.GetUser(), Password = AESThenHMAC.SimpleEncryptWithPassword(StaticParametersDB.GetPassword(), process.GetMacAdress()) });
                         }
 
                         if (ctrl >= 2)
                         {
 
-                            var newParam = new Parametro { Id = 1, CaminhoDir = StaticParametros.GetDirOrigem(), CaminhoToke = StaticParametros.GetDirToke(), IntegraBanco = StaticParametros.GetIntegraBanco() };
+                            var newParam = new Parametro { Id = 1, CaminhoDir = StaticParametros.GetDirOrigem(), CaminhoToke = StaticParametros.GetDirToke(), IntegraBanco = StaticParametros.GetIntegraBanco(), GeraLog = StaticParametros.GetGeraLogs() };
                             parametroDAO.Salvar(newParam);
 
                             if(StaticParametersDB.GetDriver() != null)
@@ -198,6 +188,7 @@ namespace IntegradorApp
                         }
                         else
                         {
+                            TxtStatusBanco.Text = "Desconectado";
                             System.Windows.MessageBox.Show("É necessário definir um diretorio ou configurar uma conexão com banco de dados para continuar");
                         }
                     }
@@ -377,6 +368,8 @@ namespace IntegradorApp
                 int ctrlVazio = 0;
                 try
                 {
+                    StaticParametros.SetGeraLogs(param.GeraLog);
+
                     if (param.CaminhoToke.Contains(".ives") && param.CaminhoToke != "" && File.Exists(param.CaminhoToke))
                     {
                         StaticParametros.SetDirToke(param.CaminhoToke);
@@ -405,17 +398,47 @@ namespace IntegradorApp
                 }
 
                 var parametroDBDAO = new ParametroDB_DAO(sessao);
-                var paramDB = parametroDBDAO.BuscarPorID(1);
+                var paramDB = parametroDBDAO.BuscarTodos();//parametroDBDAO.BuscarPorID(1);
                 //var paramDB = Armazenamento.GetParametrosDB();
 
                 try
                 {
-                    StaticParametersDB.SetDriver(paramDB.Driver);
-                    StaticParametersDB.SetHost(paramDB.Host);
-                    StaticParametersDB.SetPort(paramDB.Port);
-                    StaticParametersDB.SetServiceName(paramDB.ServiceName);
-                    StaticParametersDB.SetUser(paramDB.User);
-                    StaticParametersDB.SetPassword(AESThenHMAC.SimpleDecryptWithPassword(paramDB.Password, process.GetMacAdress()));
+                    if(paramDB.Count == 1)
+                    {
+                        StaticParametersDB.SetListBanco(paramDB[0]);
+
+                        if (paramDB[0].Grupo == 0 || paramDB[0].Token == null || paramDB[0].Token == "")
+                        {
+                            throw new Exception();
+                        }
+                        else
+                        {
+                            StaticParametersDB.Setcurrent(paramDB[0].Id);
+                        }
+
+                    }
+                    else if(paramDB.Count > 1)
+                    {
+
+                        foreach(var p in paramDB)
+                        {
+                            StaticParametersDB.SetListBanco(p);
+                        }
+
+                        foreach (var p in paramDB)
+                        {
+                            if (p.Grupo == 0 || p.Token == null || p.Token == "")
+                            {
+                                throw new Exception();
+                            }
+                        }
+
+                        StaticParametersDB.Setcurrent(paramDB[0].Id);
+                    }
+                    else
+                    {
+                        throw new Exception();
+                    }
                     StaticParametros.SetIntegraBanco(true);
                     TxtStatusBanco.Text = "Conectado";
                     ctrl++;
@@ -426,7 +449,7 @@ namespace IntegradorApp
                     TxtStatusBanco.Text = "Desconectado";
                     if (ctrlVazio == 0)
                     {
-                        var paramn = new Parametro { Id = 1, CaminhoDir = StaticParametros.GetDirOrigem(), CaminhoToke = StaticParametros.GetDirToke(), IntegraBanco = StaticParametros.GetIntegraBanco() };
+                        var paramn = new Parametro { Id = 1, CaminhoDir = StaticParametros.GetDirOrigem(), CaminhoToke = StaticParametros.GetDirToke(), IntegraBanco = StaticParametros.GetIntegraBanco(), GeraLog = StaticParametros.GetGeraLogs() };
                         parametroDAO.Salvar(param);
 
                         //Armazenamento.UpdateParametros(new Parametro { Id = 1, CaminhoDir = param.CaminhoDir, CaminhoToke = param.CaminhoToke, IntegraBanco = false });
@@ -437,7 +460,14 @@ namespace IntegradorApp
                 {
                     try
                     {
-                        OrganizaTelaEvent(2);
+                        if (txtFolderToken.Text == "")
+                        {
+                            OrganizaTelaEvent(1);
+                        }
+                        else
+                        {
+                            OrganizaTelaEvent(2);
+                        }
                         //Job();
                         if (StaticParametros.GetDirOrigem() != null && StaticParametros.GetDirOrigem() != "")
                         {
@@ -508,7 +538,11 @@ namespace IntegradorApp
             {
                 if (StaticParametros.GetIntegraBanco() == true)
                 {
-                    IntegraDB();
+                    foreach(var p in StaticParametersDB.getAllListBanco())
+                    {
+                        StaticParametersDB.Setcurrent(p.Id);
+                        IntegraDB();
+                    }
                 }
 
                 if (StaticParametros.GetDirOrigem() != null && StaticParametros.GetDirOrigem() != "")
@@ -530,7 +564,11 @@ namespace IntegradorApp
             {
                 if (StaticParametros.GetIntegraBanco() == true)
                 {
-                    ConsultaDB();
+                    foreach (var p in StaticParametersDB.getAllListBanco())
+                    {
+                        StaticParametersDB.Setcurrent(p.Id);
+                        ConsultaDB();
+                    }
                 }
 
                 if (StaticParametros.GetDirOrigem() != null && StaticParametros.GetDirOrigem() != "")
@@ -618,6 +656,8 @@ namespace IntegradorApp
         {
             LblVersao.Content = string.Concat("v",StaticParametros.GetVersao());
 
+            BtnHabilitaLog.Content = StaticParametros.GetGeraLogs() ? "Deabilitar Logs" : "Habilitar Logs";
+
             if (tipo == 1)
             {
                 BtnSalvar.Visibility = Visibility.Visible;
@@ -631,6 +671,7 @@ namespace IntegradorApp
                 BtnParam.Visibility = Visibility.Hidden;
                 BtnLog.Visibility = Visibility.Hidden;
                 BtnConectarBanco.Visibility = Visibility.Visible;
+                BtnHabilitaLog.Visibility = Visibility.Visible;
             }
             else if (tipo == 2)
             {
@@ -644,11 +685,11 @@ namespace IntegradorApp
                 BtnProcurarIni.Visibility = Visibility.Hidden;
                 BtnProcurarToken.Visibility = Visibility.Hidden;
                 BtnConectarBanco.Visibility = Visibility.Hidden;
+                BtnHabilitaLog.Visibility = Visibility.Hidden;
             }
         }
 
         #endregion
 
-        
     }
 }

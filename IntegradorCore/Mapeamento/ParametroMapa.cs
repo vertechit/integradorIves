@@ -17,6 +17,7 @@ namespace IntegradorCore.Mapeamento
             Map(x => x.CaminhoToke).Column("caminhoToken").Length(200).Not.Nullable();
             Map(x => x.CaminhoDir).Column("caminhoDir").Length(200);
             Map(x => x.IntegraBanco).Column("integraBanco").Not.Nullable();
+            Map(x => x.GeraLog).Column("geralog").Not.Nullable();
 
         }
     }

@@ -45,10 +45,11 @@ namespace IntegradorService
             {
                 
                 var ret = ParametroDAO.BuscarPorID(1);//Armazenamento.GetParametros();
-                var retdb = ParametroDBDAO.BuscarPorID(1);
-
+                //var retdb = ParametroDBDAO.BuscarPorID(1);
+                var retdb = ParametroDBDAO.BuscarTodos();
                 try
                 {
+                    StaticParametros.SetGeraLogs(ret.GeraLog);
                     if (File.Exists(ret.CaminhoToke))
                     {
                         ctrl++;
@@ -94,12 +95,34 @@ namespace IntegradorService
 
                 try
                 {
-                    StaticParametersDB.SetDriver(retdb.Driver);
-                    StaticParametersDB.SetHost(retdb.Host);
-                    StaticParametersDB.SetPort(retdb.Port);
-                    StaticParametersDB.SetServiceName(retdb.ServiceName);
-                    StaticParametersDB.SetUser(retdb.User);
-                    StaticParametersDB.SetPassword(AESThenHMAC.SimpleDecryptWithPassword(retdb.Password, process.GetMacAdress()));
+                    if (retdb.Count == 1)
+                    {
+                        StaticParametersDB.SetListBanco(retdb[0]);
+                        if (retdb[0].Grupo == 0 || retdb[0].Token == null || retdb[0].Token == "")
+                        {
+                            throw new Exception();
+                        }
+                        StaticParametersDB.Setcurrent(retdb[0].Id);
+                    }
+                    else if (retdb.Count > 1)
+                    {
+                        foreach (var p in retdb)
+                        {
+                            StaticParametersDB.SetListBanco(p);
+                        }
+                        foreach (var p in retdb)
+                        {
+                            if (p.Grupo == 0 || p.Token == null || p.Token == "")
+                            {
+                                throw new Exception();
+                            }
+                        }
+                        StaticParametersDB.Setcurrent(retdb[0].Id);
+                    }
+                    else
+                    {
+                        throw new Exception();
+                    }
                     StaticParametros.SetIntegraBanco(true);
                     ctrl++;
                 }
@@ -252,7 +275,12 @@ namespace IntegradorService
 
             if (StaticParametros.GetIntegraBanco() == true)
             {
-                IntegraDB();
+                foreach (var p in StaticParametersDB.getAllListBanco())
+                {
+                    StaticParametersDB.Setcurrent(p.Id);
+                    IntegraDB();
+                }
+                //IntegraDB();
             }
 
             if (StaticParametros.GetDirOrigem() != null && StaticParametros.GetDirOrigem() != "")
@@ -267,7 +295,12 @@ namespace IntegradorService
         {
             if (StaticParametros.GetIntegraBanco() == true)
             {
-                ConsultaDB();
+                foreach (var p in StaticParametersDB.getAllListBanco())
+                {
+                    StaticParametersDB.Setcurrent(p.Id);
+                    ConsultaDB();
+                }
+                //ConsultaDB();
 
             }
 

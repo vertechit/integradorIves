@@ -1,4 +1,5 @@
-﻿using System;
+﻿using IntegradorCore.Modelos;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,12 +9,92 @@ namespace IntegradorCore.Services
 {
     public static class StaticParametersDB
     {
+        private static List<ParametroDB> ListBanco = new List<ParametroDB>();
+        private static ParametroDB current;
         private static string Driver = null;
         private static string Host = null;
         private static string Port = null;
         private static string ServiceName = null;
         private static string User = null;
         private static string Password = null;
+        private static string Trusted_Conn = null;
+        private static string Id = null;
+        private static long Grupo = 0;
+        private static string Token = null;
+
+        public static void SetListBanco(ParametroDB banco)
+        {
+            ListBanco.Add(banco);
+        }
+        public static ParametroDB getListBanco(long? id)
+        {
+            foreach(var b in ListBanco)
+            {
+                if (id == b.Id)
+                    return b;
+            }
+            return new ParametroDB();
+        }
+
+        public static List<ParametroDB> getAllListBanco()
+        {
+            return ListBanco;
+        }
+
+        public static void clearListBanco()
+        {
+            try
+            {
+                ListBanco = new List<ParametroDB>();
+            }
+            catch (Exception e)
+            {
+
+            }
+        }
+
+        public static void Setcurrent(long? id)
+        {
+            foreach (var b in ListBanco)
+            {
+                if (id == b.Id)
+                    current = b;
+            }
+
+            Processos process = new Processos();
+
+            StaticParametersDB.SetDriver(current.Driver);
+            StaticParametersDB.SetHost(current.Host);
+            StaticParametersDB.SetPort(current.Port);
+            StaticParametersDB.SetServiceName(current.ServiceName);
+            StaticParametersDB.SetUser(current.User);
+            StaticParametersDB.SetPassword(AESThenHMAC.SimpleDecryptWithPassword(current.Password, process.GetMacAdress()));
+            StaticParametersDB.SetTrustedCon(current.Trusted_Conn);
+            StaticParametersDB.SetId(current.Id.ToString());
+            StaticParametersDB.SetGrupo(current.Grupo);
+            StaticParametersDB.SetToken(current.Token);
+        }
+
+        public static void clearAllStatic()
+        {
+            current = new ParametroDB();
+            Driver = null;
+            Host = null;
+            Port = null;
+            ServiceName = null;
+            User = null;
+            Password = null;
+            Trusted_Conn = null;
+            Id = null;
+            Grupo = 0;
+            Token = null;
+
+        }
+        public static ParametroDB Getcurrent()
+        {
+            return current;
+        }
+
 
         #region Sets
         public static void SetDriver(string driver)
@@ -44,6 +125,23 @@ namespace IntegradorCore.Services
         public static void SetPassword(string password)
         {
             Password = password;
+        }
+
+        public static void SetTrustedCon(string trusted_conn)
+        {
+            Trusted_Conn = trusted_conn;
+        }
+        public static void SetId(string id)
+        {
+            Id = id;
+        }
+        public static void SetGrupo(long grupo)
+        {
+            Grupo = grupo;
+        }
+        public static void SetToken(string token)
+        {
+            Token = token;
         }
         #endregion
 
@@ -78,6 +176,23 @@ namespace IntegradorCore.Services
             return Password;
         }
 
+        public static string GetTrustedConn()
+        {
+            return Trusted_Conn;
+        }
+
+        public static string GetId()
+        {
+            return Id;
+        }
+        public static long GetGrupo()
+        {
+            return Grupo;
+        }
+        public static string GetToken()
+        {
+            return Token;
+        }
         #endregion
 
     }

@@ -176,7 +176,7 @@ namespace IntegradorCore.Services
             }
         }
 
-        public static void Vaccum()
+        /*public static void Vaccum()
         {
             try
             {
@@ -190,7 +190,7 @@ namespace IntegradorCore.Services
             {
                 //noOp
             }
-        }
+        }*/
 
     }
 }

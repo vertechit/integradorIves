@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using IntegradorCore.Modelos;
 using NHibernate;
 using NHibernate.Criterion;
+using NHibernate.Util;
 
 namespace IntegradorCore.NHibernate.DAO
 {
@@ -37,6 +38,14 @@ namespace IntegradorCore.NHibernate.DAO
             return criterios.List<LogEnvia>();
         }
 
+        public LogEnvia Buscar(string identificador, string mensagem, string acao, string data)
+        {
+            ICriterion criterio1 = Restrictions.And(Restrictions.Eq("Identificador", identificador), Restrictions.Eq("Msg", mensagem));
+            ICriterion criterio2 = Restrictions.And(Restrictions.Eq("Acao", acao), Restrictions.Eq("Data", data));
+            criterios.Add(Restrictions.And(criterio1, criterio2));
+            return criterios.SetMaxResults(1).UniqueResult<LogEnvia>();
+        }
+
         public LogEnvia BuscarPorID(Int64 id)
         {
             return sessao.Load<LogEnvia>(id);
@@ -56,6 +65,17 @@ namespace IntegradorCore.NHibernate.DAO
             if (log != null)
             {
                 sessao.Delete(log);
+                sessao.Flush();
+            }
+        }
+
+        public void Atualizar(LogEnvia currentLog, LogEnvia newLog)
+        {
+            if (newLog != null)
+            {
+                currentLog.Hora = newLog.Hora;
+
+                sessao.Update(currentLog);
                 sessao.Flush();
             }
         }

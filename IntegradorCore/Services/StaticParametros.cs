@@ -21,7 +21,8 @@ namespace IntegradorCore.Services
         private static bool Base = false; //Base de dados definida pelo usuário
         private static bool IntegraBanco = false;
         private static bool LockVariavel = false;
-        private static readonly string Versao = "19.3.1";
+        private static readonly string Versao = "20.4.2";
+        private static bool GeraLogs = true;
         #endregion
 
         #region Param
@@ -176,6 +177,17 @@ namespace IntegradorCore.Services
         public static void SetToken(string token)
         {
             Token = token;
+        }
+
+
+        public static bool GetGeraLogs()
+        {
+            return GeraLogs;
+        }
+
+        public static void SetGeraLogs(bool gera)
+        {
+            GeraLogs = gera;
         }
 
         #endregion

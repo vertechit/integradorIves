@@ -39,6 +39,16 @@ namespace IntegradorCore.NHibernate.DAO
             return criterios.List<LogErros>();
         }
 
+        public LogErros Buscar(string servico, string coderro, string mensagem, string data)
+        {
+
+            ICriterion criterio1 = Restrictions.And(Restrictions.Eq("Servico", servico), Restrictions.Eq("CodErro", coderro));
+            ICriterion criterio2 = Restrictions.And(Restrictions.Eq("Msg", mensagem), Restrictions.Eq("Data", data));
+            criterios.Add(Restrictions.And(criterio1, criterio2));
+            //return criterios.UniqueResult<LogErros>();
+            return criterios.SetMaxResults(1).UniqueResult<LogErros>();
+        }
+
         public LogErros BuscarPorID(Int64 id)
         {
             return sessao.Load<LogErros>(id);
@@ -59,6 +69,17 @@ namespace IntegradorCore.NHibernate.DAO
             if (log != null)
             {
                 sessao.Delete(log);
+                sessao.Flush();
+            }
+        }
+
+        public void Atualizar(LogErros currentLog, LogErros newLog)
+        {
+            if (newLog != null)
+            {
+                currentLog.Hora = newLog.Hora;
+
+                sessao.Update(currentLog);
                 sessao.Flush();
             }
         }

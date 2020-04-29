@@ -1093,7 +1093,7 @@ namespace IntegradorCore.Services
             }
             try
             {
-                Atualizador.Vaccum();
+                //Atualizador.Vaccum();
             }
             catch(Exception ex)
             {
@@ -1163,9 +1163,13 @@ namespace IntegradorCore.Services
             return false;
         }
 
-        public bool VerificaConexaoBanco(string host, string port, string servicename, string user, string password, string driver)
+        public bool VerificaConexaoBanco(string host, string port, string servicename, string user, string password, string driver, string trusted_conn = "True")
         {
-            return Banco.TesteConexao(host, port, servicename, user, password, driver);
+            if(trusted_conn == "True"){
+                return Banco.TesteConexao(host, port, servicename, user, password, driver);
+            }else{
+                return Banco.TesteConexao(host, port, servicename, user, password, driver, trusted_conn);
+            }
 
 
             /*if(driver == 0)
@@ -1247,6 +1251,10 @@ namespace IntegradorCore.Services
 
         public void InsereLog(int tipo, string msg, string arquivo, string servico, string acao, string protocolo, string coderro)
         {
+            //if (!StaticParametros.GetGeraLogs())
+            //{
+            //    return;
+            //}
             var sessao = AuxiliarNhibernate.AbrirSessao();
 
             var logConsultDao = new LogConsultaDAO(sessao);
@@ -1260,7 +1268,24 @@ namespace IntegradorCore.Services
 
             if (tipo == 1)
             {
-                logEnvioDao.Salvar(
+                var ret = logEnvioDao.Buscar(arquivo, msg, acao, data);
+                
+                if(ret != null)
+                {
+                    logEnvioDao.Atualizar(ret, 
+                    new LogEnvia
+                    {
+                        Id = 0,
+                        Msg = msg,
+                        Acao = acao,
+                        Identificador = arquivo,
+                        Data = data,
+                        Hora = hora
+                    });
+                }
+                else
+                {
+                    logEnvioDao.Salvar(
                         new LogEnvia
                         {
                             Id = 0,
@@ -1270,10 +1295,30 @@ namespace IntegradorCore.Services
                             Data = data,
                             Hora = hora
                         });
+                }
+                
             }
             else if (tipo == 2)
             {
-                logConsultDao.Salvar(
+                var ret = logConsultDao.Buscar(arquivo, protocolo, msg, acao, data);
+
+                if (ret != null)
+                {
+                    logConsultDao.Atualizar(ret,
+                    new LogConsulta
+                    {
+                        Id = 0,
+                        Identificador = arquivo,
+                        Protocolo = protocolo,
+                        Msg = msg,
+                        Acao = acao,
+                        Data = data,
+                        Hora = hora
+                    });
+                }
+                else
+                {
+                    logConsultDao.Salvar(
                         new LogConsulta
                         {
                             Id = 0,
@@ -1284,25 +1329,51 @@ namespace IntegradorCore.Services
                             Data = data,
                             Hora = hora
                         });
+                }
+                    
             }
             else
             {
-                logErroDao.Salvar(new LogErros
+                var ret = logErroDao.Buscar(servico, coderro, msg, data);
+
+                if (ret != null)
                 {
-                    Id = 0,
-                    Servico = servico,
-                    CodErro = coderro,
-                    Msg = msg,
-                    Acao = acao,
-                    Data = data,
-                    Hora = hora
-                });
+                    logErroDao.Atualizar(ret,
+                    new LogErros
+                    {
+                        Id = 0,
+                        Servico = servico,
+                        CodErro = coderro,
+                        Msg = msg,
+                        Acao = acao,
+                        Data = data,
+                        Hora = hora
+                    });
+                }
+                else
+                {
+                    logErroDao.Salvar(new LogErros
+                    {
+                        Id = 0,
+                        Servico = servico,
+                        CodErro = coderro,
+                        Msg = msg,
+                        Acao = acao,
+                        Data = data,
+                        Hora = hora
+                    });
+                }
+                    
             }
 
         }
 
         public void InsereLogInterno(string servico, Exception ex, string codErro, string id, string query)
         {
+            if (!StaticParametros.GetGeraLogs())
+            {
+                return;
+            }
             var sessao = AuxiliarNhibernate.AbrirSessao();
             var LogInternoDAO = new LogInternoDAO(sessao);
             var msg = " ";
@@ -1350,8 +1421,7 @@ namespace IntegradorCore.Services
                     Data = data[0],
                     Mensagem = msg,
                     InnerException = innerex,
-                    StackTrace = stackTrace
-                    ,
+                    StackTrace = stackTrace,
                     Source = source,
                     Base = StaticParametros.GetBase(),
                     Ambiente = StaticParametros.GetAmbiente(),
