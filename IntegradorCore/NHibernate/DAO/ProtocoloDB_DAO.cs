@@ -59,6 +59,15 @@ namespace IntegradorCore.NHibernate.DAO
             return criterios.List<ProtocoloDB>();
         }
 
+        public IList<ProtocoloDB> BuscaPorData(string data)
+        {
+            ICriterion criterio = Restrictions.Eq("dtconsulta", data);
+
+            criterios.Add(criterio);
+
+            return criterios.List<ProtocoloDB>();
+        }
+
         public IList<ProtocoloDB> BuscaParaAtualizarBanco()
         {
             ICriterion criterio1 = Restrictions.And(Restrictions.Eq("consultado", true), Restrictions.Eq("salvoDB", false));
@@ -91,6 +100,28 @@ namespace IntegradorCore.NHibernate.DAO
 
         }
 
+        public void SalvarReconsulta(ProtocoloDB protocolo)
+        {
+            try
+            {
+                var prot = BuscarPorIDEvento(protocolo.id);
+
+                if (prot[0].xmlEvento != null)
+                {
+                    Atualizar(AjustaParaAtualizarReconsulta(prot[0], protocolo));
+                }
+            }
+            catch (Exception ex)
+            {
+                if (protocolo != null)
+                {
+                    sessao.Save(protocolo);
+                    sessao.Flush();
+                }
+            }
+
+        }
+
         public void Atualizar(ProtocoloDB protocolo)
         {
             if (protocolo != null)
@@ -107,6 +138,46 @@ namespace IntegradorCore.NHibernate.DAO
                 sessao.Delete(parametro);
                 sessao.Flush();
             }
+        }
+
+        public ProtocoloDB AjustaParaAtualizarReconsulta(ProtocoloDB protocoloCurrent, ProtocoloDB protocoloNew)
+        {
+
+            protocoloCurrent.nroRec = protocoloNew.nroRec;
+            protocoloCurrent.xmlRec = protocoloNew.xmlRec;
+            protocoloCurrent.erros = protocoloNew.erros;
+            protocoloCurrent.salvoDB = protocoloNew.salvoDB;
+            protocoloCurrent.consultado = protocoloNew.consultado;
+            protocoloCurrent.dtconsulta = protocoloNew.dtconsulta;
+            protocoloCurrent.hrconsulta = protocoloNew.hrconsulta;
+            protocoloCurrent.nroProtGov = protocoloNew.nroProtGov;
+
+            if (protocoloNew.nroProt != null && protocoloNew.nroProt != "")
+            {
+                protocoloCurrent.nroProt = protocoloNew.nroProt;
+            }
+            if (protocoloNew.xmlProt != null && protocoloNew.xmlProt != "")
+            {
+                protocoloCurrent.xmlProt = protocoloNew.xmlProt;
+            }
+            if (protocoloNew.baseEnv != null && protocoloNew.baseEnv != "")
+            {
+                protocoloCurrent.baseEnv = protocoloNew.baseEnv;
+            }
+            if (protocoloNew.dtenvio != null && protocoloNew.dtenvio != "")
+            {
+                protocoloCurrent.dtenvio = protocoloNew.dtenvio;
+            }
+            if (protocoloNew.hrenvio != null && protocoloNew.hrenvio != "")
+            {
+                protocoloCurrent.hrenvio = protocoloNew.hrenvio;
+            }
+            if (protocoloNew.status != null && protocoloNew.status != "")
+            {
+                protocoloCurrent.status = protocoloNew.status;
+            }
+
+            return protocoloCurrent;
         }
 
         public ProtocoloDB AjustaParaAtualizar(ProtocoloDB protocoloCurrent, ProtocoloDB protocoloNew)
@@ -135,7 +206,7 @@ namespace IntegradorCore.NHibernate.DAO
             {
                 protocoloCurrent.salvoDB = protocoloNew.salvoDB;
             }
-            if(protocoloNew.consultado != false)
+            if (protocoloNew.consultado != false)
             {
                 protocoloCurrent.consultado = protocoloNew.consultado;
             }

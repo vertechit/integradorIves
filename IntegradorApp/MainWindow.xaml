@@ -159,6 +159,15 @@
             <Button x:Name="ReportBug" Content="Reportar Bug" Grid.Column="1" Margin="95,174,96,0" Grid.Row="2" VerticalAlignment="Top" Click="ReportBug_Click"/>
             <Label x:Name="LblVersao" Content="" Grid.Column="2" HorizontalAlignment="Left" Margin="221,174,-2,0" Grid.Row="2" VerticalAlignment="Top" Width="48" Height="24"/>
             <Button x:Name="BtnHabilitaLog" Content="Desabilitar Logs" Grid.Column="1" Margin="78.333,176,78.667,0" Grid.Row="1" VerticalAlignment="Top" Height="24" Click="BtnHabilitaLog_Click" />
+            <Button 
+                x:Name="BtnReIntegrar" 
+                Content="Reconsultar" 
+                Grid.Column="1" 
+                Grid.Row="2" 
+                Height="30" 
+                FontFamily="Century Gothic" 
+                FontSize="15" 
+                Margin="50.333,85,49.334,85" Click="BtnReIntegrar_Click"/>
 
         </Grid>
     </Viewbox>

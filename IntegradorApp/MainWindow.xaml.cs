@@ -42,8 +42,23 @@ namespace IntegradorApp
             Init();
             StaticParametros.SetTipoApp("Client");
         }
-        
+
         #region Click events
+
+        private void BtnReIntegrar_Click(object sender, RoutedEventArgs e)
+        {
+            var proc = new Processos();
+            if (proc.VerificaProcessoRun() == false)
+            {
+                var Tela = new Telas.ReIntegrar(this);
+                Tela.Show();
+                this.Hide();
+            }
+            else
+            {
+                System.Windows.MessageBox.Show("O serviço está em execução");
+            }
+        }
         private void BtnProcurarToken_Click(object sender, RoutedEventArgs e)
         {
             
@@ -660,6 +675,7 @@ namespace IntegradorApp
 
             if (tipo == 1)
             {
+                BtnReIntegrar.Visibility = Visibility.Hidden;
                 BtnSalvar.Visibility = Visibility.Visible;
                 LblSalvar.Visibility = Visibility.Visible;
 
@@ -675,6 +691,7 @@ namespace IntegradorApp
             }
             else if (tipo == 2)
             {
+                BtnReIntegrar.Visibility = Visibility.Visible;
                 BtnConsultar.Visibility = Visibility.Visible;
                 BtnEnviar.Visibility = Visibility.Visible;
                 BtnParam.Visibility = Visibility.Visible;
@@ -691,5 +708,6 @@ namespace IntegradorApp
 
         #endregion
 
+        
     }
 }
