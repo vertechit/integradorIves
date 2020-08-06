@@ -50,6 +50,7 @@ namespace IntegradorApp.Telas
                     foreach(var protocolo in protocolos)
                     {
                         var procotolodb = new ProtocoloDB();
+
                         procotolodb.id = protocolo.id;
                         procotolodb.consultado = false;
                         procotolodb.salvoDB = false;
