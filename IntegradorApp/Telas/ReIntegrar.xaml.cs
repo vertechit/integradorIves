@@ -55,7 +55,7 @@ namespace IntegradorApp.Telas
                         procotolodb.salvoDB = false;
                         procotolodb.erros = null;
                         procotolodb.dtconsulta = null;
-                        procotolodb.dtenvio = null;
+                        procotolodb.hrconsulta = null;
                         procotolodb.nroRec = null;
                         procotolodb.xmlRec = null;
                         procotolodb.nroProtGov = null;
