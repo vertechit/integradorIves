@@ -126,6 +126,9 @@
     <Compile Include="Telas\ParametrosBanco.xaml.cs">
       <DependentUpon>ParametrosBanco.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Telas\ReIntegrar.xaml.cs">
+      <DependentUpon>ReIntegrar.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Telas\SistemaLog.xaml.cs" />
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
@@ -140,6 +143,10 @@
       <SubType>Code</SubType>
     </Compile>
     <Page Include="Telas\ParametrosBanco.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Telas\ReIntegrar.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
