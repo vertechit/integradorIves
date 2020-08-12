@@ -293,9 +293,16 @@ namespace IntegradorCore.Services
                                 else
                                 {
                                     var erros = proc.ExtraiErrosXmlDB(retorno, item.id);
-                                    var data = proc.RetornaData();
-                                    var prot = new ProtocoloDB { id = item.id, erros = erros, consultado = true, dtconsulta = data[0], hrconsulta = data[1], status = "3 - Rejeitado", idDB = StaticParametersDB.GetId() };
-                                    ProtocoloDAO.Salvar(prot);
+                                    if(!erros.Equals(""))
+                                    {
+                                        var data = proc.RetornaData();
+                                        var prot = new ProtocoloDB { id = item.id, erros = erros, consultado = true, dtconsulta = data[0], hrconsulta = data[1], status = "3 - Rejeitado", idDB = StaticParametersDB.GetId() };
+                                        ProtocoloDAO.Salvar(prot);
+                                    }
+                                    else
+                                    {
+                                        throw new Exception($"Erro na consulta do item {item.id}, Retorno: {retorno}");
+                                    }
                                 }
                             }
                             else
