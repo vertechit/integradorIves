@@ -61,7 +61,15 @@ namespace IntegradorApp.Telas
                         procotolodb.xmlRec = null;
                         procotolodb.nroProtGov = null;
 
-                        ProtocoloDAO.SalvarReconsulta(procotolodb);
+                        try {
+                            ProtocoloDAO.SalvarReconsulta(procotolodb);
+                        } 
+                        catch (Exception ex)
+                        {
+                            Processos proc = new Processos();
+                            proc.InsereLogInterno("Reconsultar", ex, "999", "1", "");
+                        }
+                        
                     }
                     System.Windows.MessageBox.Show("Sucesso");
                 }
