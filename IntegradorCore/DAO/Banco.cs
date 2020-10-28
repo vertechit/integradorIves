@@ -99,10 +99,12 @@ namespace IntegradorCore.DAO
         {
             var quote = '\'';
             string format = "dd-MM-yyyy hh:mm:ss";
+            //string format1 = "yyyy-MM-dd hh:mm:ss";
 
             if (tipo == 1)
             {
-                var data = Convert.ToDateTime(prot.dtconsulta); //RetornaArrayData(prot.dtconsulta);
+                //var data = Convert.ToDateTime(prot.dtconsulta); //RetornaArrayData(prot.dtconsulta);
+                var data = ConvertDate(prot.dtconsulta);
                 var sql = "UPDATE ZMDATVIVES_EVENTOS_ESOCIAL SET NROPROTOCOLO = :Nrprot, XMLPROTOCOLO = :Xmlprot, MENSAGEMERRO = :Erro, DATARETORNO = :Dtretorno, HORARETORNO = :Hrretorno, STATUS = :Status  WHERE ID = :Idevento AND IDSEQ = :Idseq";
                 sql = sql.Replace(":Nrprot", string.Concat(quote + prot.nroProt + quote));
                 sql = sql.Replace(":Xmlprot", string.Concat(quote + (prot.xmlProt = prot.xmlProt.Replace("> <", "><")) + quote));
@@ -117,6 +119,7 @@ namespace IntegradorCore.DAO
                 }
                 else
                 {
+                    //CONVERT(DATETIME, '2012-06-05', 102)
                     sql = sql.Replace(":Dtretorno", string.Concat(quote + data.ToString(format) + quote));
                 }
                 sql = sql.Replace(":Hrretorno", string.Concat(quote + prot.hrconsulta + quote));
@@ -128,7 +131,8 @@ namespace IntegradorCore.DAO
             }
             else if (tipo == 2)
             {
-                var data = Convert.ToDateTime(prot.dtconsulta);//RetornaArrayData(prot.dtconsulta);
+                //var data = Convert.ToDateTime(prot.dtconsulta);//RetornaArrayData(prot.dtconsulta);
+                var data = ConvertDate(prot.dtconsulta);
                 var sql = "UPDATE ZMDATVIVES_EVENTOS_ESOCIAL SET NROPROTOCOLO = :nrprot, XMLPROTOCOLO = :xmlprot, NRORECIBO = :nroRec, XMLRECIBO = :xmlRec, DATARETORNO = :Dtretorno, HORARETORNO = :Hrretorno, STATUS = :Status WHERE ID = :Idevento AND IDSEQ = :Idseq";
                 sql = sql.Replace(":nrprot", string.Concat(quote + prot.nroProt + quote));
                 sql = sql.Replace(":xmlprot", string.Concat(quote + prot.xmlProt + quote));
@@ -140,6 +144,7 @@ namespace IntegradorCore.DAO
                 }
                 else
                 {
+                    //CONVERT(DATETIME, '2012-06-05', 102)
                     sql = sql.Replace(":Dtretorno", string.Concat(quote + data.ToString(format) + quote));
                 }
                 sql = sql.Replace(":Hrretorno", string.Concat(quote + prot.hrconsulta + quote));
@@ -151,7 +156,8 @@ namespace IntegradorCore.DAO
             }
             else if(tipo == 3)//novo
             {
-                var data = Convert.ToDateTime(prot.dtenvio);//RetornaArrayData(prot.dtenvio);
+                //var data = Convert.ToDateTime(prot.dtenvio);//RetornaArrayData(prot.dtenvio);
+                var data = ConvertDate(prot.dtenvio);
                 var sql = "UPDATE ZMDATVIVES_EVENTOS_ESOCIAL SET NROPROTOCOLO = :Nrprot, XMLPROTOCOLO = :Xmlprot, STATUS = :Status, DATAENVIO = :Dtenvio, HORAENVIO = :Hrenvio  WHERE ID = :Idevento AND IDSEQ = :Idseq";
                 sql = sql.Replace(":Nrprot", string.Concat(quote + prot.nroProt + quote));
                 sql = sql.Replace(":Xmlprot", string.Concat(quote + prot.xmlProt + quote));
@@ -162,6 +168,7 @@ namespace IntegradorCore.DAO
                 }
                 else
                 {
+                    //CONVERT(DATETIME, '2012-06-05', 102)
                     sql = sql.Replace(":Dtenvio", string.Concat(quote + data.ToString(format) + quote));
                 }
                 sql = sql.Replace(":Hrenvio", string.Concat(quote + prot.hrenvio + quote));
@@ -172,7 +179,8 @@ namespace IntegradorCore.DAO
             }
             else
             {
-                var data = Convert.ToDateTime(prot.dtconsulta);//RetornaArrayData(prot.dtconsulta);
+                //var data = Convert.ToDateTime(prot.dtconsulta);//RetornaArrayData(prot.dtconsulta);
+                var data = ConvertDate(prot.dtconsulta);
                 var sql = "UPDATE ZMDATVIVES_EVENTOS_ESOCIAL SET DATARETORNO = :Dtretorno, HORARETORNO = :Hrretorno, STATUS = :Status  WHERE ID = :Idevento AND IDSEQ = :Idseq";
                 if (StaticParametersDB.GetDriver() == "oracle")
                 {
@@ -180,6 +188,7 @@ namespace IntegradorCore.DAO
                 }
                 else
                 {
+                    //CONVERT(DATETIME, '2012-06-05', 102)
                     sql = sql.Replace(":Dtretorno", string.Concat(quote + data.ToString(format) + quote));
                 }
                 sql = sql.Replace(":Hrretorno", string.Concat(quote + prot.hrconsulta + quote));
@@ -425,6 +434,18 @@ namespace IntegradorCore.DAO
             int ano = Convert.ToInt32(data.Substring(6, 4));
 
             return new DateTime(ano, mes, dia);
+        }
+
+        private static DateTime ConvertDate(string data)
+        {
+            try
+            {
+                return Convert.ToDateTime(data);
+            } catch(Exception err)
+            {
+                Console.WriteLine(err.Message);
+                return DateTime.Now;
+            }
         }
 
         private static dynamic SqlCommandWithParameters(ProtocoloDB prot, int tipo, bool forceUpdate = false)
