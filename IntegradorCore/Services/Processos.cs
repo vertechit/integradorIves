@@ -157,6 +157,11 @@ namespace IntegradorCore.Services
                 xmlString = xmlString.Replace("<tpAmb>3</tpAmb>", string.Concat(tagIni, StaticParametros.GetAmbiente(), tagFim));
             }
 
+            if (xmlString.Contains("<?xml version=\"1.0\"?>"))
+            {
+                xmlString = xmlString.Replace("<?xml version=\"1.0\"?>", "");
+            }
+
             string xsdInicio = "<eSocial><envioLoteEventos grupo=\"1\"><eventos><evento Id=\"123\">";
 
             xsdInicio = xsdInicio.Replace("123", arqname);
