@@ -157,6 +157,16 @@ namespace IntegradorCore.Services
                 xmlString = xmlString.Replace("<tpAmb>3</tpAmb>", string.Concat(tagIni, StaticParametros.GetAmbiente(), tagFim));
             }
 
+            if (xmlString.Contains("<?xml version=\"1.0\"?>"))
+            {
+                xmlString = xmlString.Replace("<?xml version=\"1.0\"?>", "");
+            }
+
+            if (xmlString.Contains("<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"no\"?"))
+            {
+                xmlString = xmlString.Replace("<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"no\"?", "");
+            }
+
             string xsdInicio = "<eSocial><envioLoteEventos grupo=\"1\"><eventos><evento Id=\"123\">";
 
             xsdInicio = xsdInicio.Replace("123", arqname);
@@ -281,9 +291,9 @@ namespace IntegradorCore.Services
 
             var elemList = doc.GetElementsByTagName(tag);
 
-            if (elemList.Count == 1)
+            if (elemList.Count >= 1)
             {
-                return elemList[0].InnerText;
+                return elemList[elemList.Count-1].InnerText;
             }
 
             return str;
@@ -562,7 +572,7 @@ namespace IntegradorCore.Services
             string destino = StaticParametros.GetDirFim();
 
             string o = MontaCaminhoDir(origem, filename);
-            string d = MontaCaminhoDir(destino, filename);
+            string d = MontaCaminhoDir(destino, DateTime.Now.ToString("yyyyMMdd_hhmmss")+"_"+filename);
 
             try
             {
@@ -583,24 +593,46 @@ namespace IntegradorCore.Services
 
                 if (di.Exists == false)
                     di.Create();
-                
+
+                DirectoryInfo di2 = new DirectoryInfo(string.Concat(StaticParametros.GetDirArq(), "\\logs\\retornoXML\\Sucesso"));
+
+                if (di2.Exists == false)
+                    di2.Create();
+                DirectoryInfo di3 = new DirectoryInfo(string.Concat(StaticParametros.GetDirArq(), "\\logs\\retornoXML\\Erro"));
+
+                if (di3.Exists == false)
+                    di3.Create();
+
             }
-            var nome = string.Concat("log_", filename);
+            //var nome = string.Concat("log_", filename);
+            var nome = filename;
             string s = MontaCaminhoDir(string.Concat(StaticParametros.GetDirArq(), "\\logs\\retornoXML"), nome);
 
             var xml = ExtraiXMLRecibo(filename, response);
             var desc = ExtraiInfoXML(xml, "descResposta");
+            var cdResposta = ExtraiInfoXML(xml, "cdResposta");
+            xml = xml.Replace("retornoProcessamento/v1_1_0", "retornoProcessamento/v1_3_0");
+            xml = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>"+xml;
+
+            if (cdResposta == "201" || cdResposta == "202")
+            {
+                s = MontaCaminhoDir(string.Concat(StaticParametros.GetDirArq(), "\\logs\\retornoXML\\Sucesso"), nome);
+            }
+            else
+            {
+                s = MontaCaminhoDir(string.Concat(StaticParametros.GetDirArq(), "\\logs\\retornoXML\\Erro"), nome);
+            }
 
             try
             {
 
                 if(tipo == 1)
                 {
-                    InsereLog(2, desc, filename, "Consulta", "Consulte a pasta de log para mais detalhes", prot, "");
+                    InsereLog(2, cdResposta+" - "+ desc, (cdResposta+" - "+ filename), "Consulta", "Consulte a pasta de log para mais detalhes", prot, "");
                 }
                 else
                 {
-                    InsereLog(2, desc, filename, "Consulta", "Consulte sua base de dados para obter os detalhes", prot, "");
+                    InsereLog(2, cdResposta + " - " + desc, filename, "Consulta", "Consulte sua base de dados para obter os detalhes", prot, "");
                 }
 
             }
