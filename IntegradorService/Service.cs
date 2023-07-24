@@ -314,7 +314,7 @@ namespace IntegradorService
 
         private void Integra(int i)
         {
-            if (i > 3)
+            if (i > 4)
             {
                 
                 return;
@@ -341,7 +341,7 @@ namespace IntegradorService
 
         private void Consulta(int i)
         {
-            if (i > 3)
+            if (i > 4)
             {
                 
                 return;

@@ -62,6 +62,7 @@ namespace IntegradorCore.Services
             DirectoryInfo di1 = new DirectoryInfo(string.Concat(StaticParametros.GetDirOrigem(), "\\IPGP"));
             DirectoryInfo di2 = new DirectoryInfo(string.Concat(StaticParametros.GetDirOrigem(), "\\IPGT"));
             DirectoryInfo di3 = new DirectoryInfo(string.Concat(StaticParametros.GetDirOrigem(), "\\ITGT"));
+            DirectoryInfo di4 = new DirectoryInfo(string.Concat(StaticParametros.GetDirOrigem(), "\\IPGQ"));
 
             if (di1.Exists == false)
                 di1.Create();
@@ -72,9 +73,13 @@ namespace IntegradorCore.Services
             if (di3.Exists == false)
                 di3.Create();
 
+            if (di4.Exists == false)
+                di4.Create();
+
             StaticParametros.SetVPGP();
             StaticParametros.SetVPGT();
             StaticParametros.SetVTGT();
+            StaticParametros.SetVPGQ();
 
             CriarSubPastas();
         }
@@ -84,6 +89,7 @@ namespace IntegradorCore.Services
             DirectoryInfo di1 = new DirectoryInfo(string.Concat(StaticParametros.GetDirOrigem(), "\\IPGP\\Consultados"));
             DirectoryInfo di2 = new DirectoryInfo(string.Concat(StaticParametros.GetDirOrigem(), "\\IPGT\\Consultados"));
             DirectoryInfo di3 = new DirectoryInfo(string.Concat(StaticParametros.GetDirOrigem(), "\\ITGT\\Consultados"));
+            DirectoryInfo di4 = new DirectoryInfo(string.Concat(StaticParametros.GetDirOrigem(), "\\IPGQ\\Consultados"));
 
             if (di1.Exists == false)
                 di1.Create();
@@ -93,6 +99,9 @@ namespace IntegradorCore.Services
 
             if (di3.Exists == false)
                 di3.Create();
+
+            if (di4.Exists == false)
+                di4.Create();
         }
 
         public void AlteraParametro(int tipo)
@@ -116,6 +125,14 @@ namespace IntegradorCore.Services
             else if(tipo == 3)
             {
                 var param = StaticParametros.GetVTGT();
+                StaticParametros.SetAmbiente(param.Ambiente);
+                StaticParametros.SetBase(Convert.ToBoolean(param.Base));
+                StaticParametros.SetDirArq(param.CaminhoDir);
+                StaticParametros.SetDirFim(string.Concat(param.CaminhoDir, "\\Consultados"));
+            }
+            else if (tipo == 4)
+            {
+                var param = StaticParametros.GetVPGQ();
                 StaticParametros.SetAmbiente(param.Ambiente);
                 StaticParametros.SetBase(Convert.ToBoolean(param.Base));
                 StaticParametros.SetDirArq(param.CaminhoDir);
@@ -165,6 +182,16 @@ namespace IntegradorCore.Services
             if (xmlString.Contains("<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"no\"?"))
             {
                 xmlString = xmlString.Replace("<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"no\"?", "");
+            }
+
+            if (xmlString.Contains("<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"no\"?>"))
+            {
+                xmlString = xmlString.Replace("<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"no\"?>", "");
+            }
+
+            if (xmlString.Contains("<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"no\" ?>"))
+            {
+                xmlString = xmlString.Replace("<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"no\" ?>", "");
             }
 
             string xsdInicio = "<eSocial><envioLoteEventos grupo=\"1\"><eventos><evento Id=\"123\">";
@@ -533,12 +560,14 @@ namespace IntegradorCore.Services
                 else
                 {
                     return 2;
+                    //return 0;
                 }
             }
 
             else
             {
                 return 2;
+                //return 0; // Alterado para 0, para não validar o OPEN e CLOSE devido a customização do leiaute ONE SOURCE
             }
         }
 
@@ -743,6 +772,15 @@ namespace IntegradorCore.Services
             if (di.Exists == false)
                 di.Create();
 
+            DirectoryInfo di2 = new DirectoryInfo(string.Concat(StaticParametros.GetDirArq(), "\\logs\\retornoTXT\\Sucesso"));
+
+            if (di2.Exists == false)
+                di2.Create();
+            DirectoryInfo di3 = new DirectoryInfo(string.Concat(StaticParametros.GetDirArq(), "\\logs\\retornoTXT\\Erro"));
+
+            if (di3.Exists == false)
+                di3.Create();
+
             try
             {
                 System.IO.File.WriteAllText(string.Concat(StaticParametros.GetDirArq(), "\\logs\\retornoTXT\\buffer.dat"), XML);
@@ -793,9 +831,19 @@ namespace IntegradorCore.Services
 
             if (di.Exists == false)
                 di.Create();
-            var nome = string.Concat("log_", filename, ".xml");
 
-            string s = MontaCaminhoDir(string.Concat(StaticParametros.GetDirArq(), "\\logs\\retornoTXT"), nome);
+            DirectoryInfo di2 = new DirectoryInfo(string.Concat(StaticParametros.GetDirArq(), "\\logs\\retornoTXT\\Sucesso"));
+
+            if (di2.Exists == false)
+                di2.Create();
+
+            DirectoryInfo di3 = new DirectoryInfo(string.Concat(StaticParametros.GetDirArq(), "\\logs\\retornoTXT\\Erro"));
+
+            if (di3.Exists == false)
+                di3.Create();
+
+            var nome = string.Concat("log_", filename, ".xml");
+            var nomeTXT = string.Concat("log_", filename, ".txt");
 
             var ret = LerArquivo(string.Concat(StaticParametros.GetDirArq(), "\\logs\\retornoTXT"), "buffer.dat");
             var xml = "";
@@ -807,17 +855,40 @@ namespace IntegradorCore.Services
                 }
             }
 
-            try
+            var cdResposta = ExtraiInfoXML(xml, "cdResposta");
+
+            if (cdResposta != "1")
             {
-                System.IO.File.WriteAllText(@s, xml);
-                //StreamWriter w = File.AppendText(@s);
-                //w.Write(xml);
-                //w.Close();
-            }
-            catch (Exception e)
-            {
-                ExceptionCore ex = new ExceptionCore();
-                ex.ExProcessos(5, e.Message.ToString());
+                var retornoTXT = ExtraiInfoXML(xml, "retornoTXT").Replace("\\n", "\n");
+
+                string s = MontaCaminhoDir(string.Concat(StaticParametros.GetDirArq(), "\\logs\\retornoTXT"), nome);
+                string sTXT = MontaCaminhoDir(string.Concat(StaticParametros.GetDirArq(), "\\logs\\retornoTXT"), nomeTXT);
+                if (cdResposta == "3") //Sucesso
+                {
+                    nomeTXT = filename;
+                    s = MontaCaminhoDir(string.Concat(StaticParametros.GetDirArq(), "\\logs\\retornoTXT\\Sucesso"), nome);
+                    sTXT = MontaCaminhoDir(string.Concat(StaticParametros.GetDirArq(), "\\logs\\retornoTXT\\Sucesso"), nomeTXT);
+                }
+                else if (cdResposta == "2") //Erro
+                {
+                    nomeTXT = filename;
+                    s = MontaCaminhoDir(string.Concat(StaticParametros.GetDirArq(), "\\logs\\retornoTXT\\Erro"), nome);
+                    sTXT = MontaCaminhoDir(string.Concat(StaticParametros.GetDirArq(), "\\logs\\retornoTXT\\Erro"), nomeTXT);
+                }
+
+                try
+                {
+                    System.IO.File.WriteAllText(@s, xml);
+                    System.IO.File.WriteAllText(@sTXT, retornoTXT);
+                    //StreamWriter w = File.AppendText(@s);
+                    //w.Write(xml);
+                    //w.Close();
+                }
+                catch (Exception e)
+                {
+                    ExceptionCore ex = new ExceptionCore();
+                    ex.ExProcessos(5, e.Message.ToString());
+                }
             }
         }
 
@@ -846,6 +917,16 @@ namespace IntegradorCore.Services
 
                         if (di.Exists == false)
                             di.Create();
+
+                        DirectoryInfo di2 = new DirectoryInfo(string.Concat(StaticParametros.GetDirArq(), "\\logs\\retornoTXT\\Sucesso"));
+
+                        if (di2.Exists == false)
+                            di2.Create();
+
+                        DirectoryInfo di3 = new DirectoryInfo(string.Concat(StaticParametros.GetDirArq(), "\\logs\\retornoTXT\\Erro"));
+
+                        if (di3.Exists == false)
+                            di3.Create();
 
                         string s = MontaCaminhoDir(string.Concat(StaticParametros.GetDirArq(), "\\logs\\retornoTXT"), nome);
 
@@ -1150,10 +1231,10 @@ namespace IntegradorCore.Services
                     return false;
                 }
             }
-            
+
             FileInfo diTok = new FileInfo(StaticParametros.GetDirToke());
 
-            
+
 
             if (diTok.Exists == false)
             {
@@ -1173,7 +1254,7 @@ namespace IntegradorCore.Services
             {
                 return false;
             }
-            
+
 
             return true;
         }
@@ -1301,10 +1382,10 @@ namespace IntegradorCore.Services
             if (tipo == 1)
             {
                 var ret = logEnvioDao.Buscar(arquivo, msg, acao, data);
-                
+
                 if(ret != null)
                 {
-                    logEnvioDao.Atualizar(ret, 
+                    logEnvioDao.Atualizar(ret,
                     new LogEnvia
                     {
                         Id = 0,
@@ -1328,7 +1409,7 @@ namespace IntegradorCore.Services
                             Hora = hora
                         });
                 }
-                
+
             }
             else if (tipo == 2)
             {
@@ -1362,7 +1443,7 @@ namespace IntegradorCore.Services
                             Hora = hora
                         });
                 }
-                    
+
             }
             else
             {
@@ -1395,7 +1476,7 @@ namespace IntegradorCore.Services
                         Hora = hora
                     });
                 }
-                    
+
             }
 
         }
@@ -1465,9 +1546,9 @@ namespace IntegradorCore.Services
             }
             catch (Exception)
             {
-                
+
             }
-            
+
         }
 
         public bool DefineBaseEnvioDB(string xml, string id)
@@ -1493,7 +1574,7 @@ namespace IntegradorCore.Services
                 }
                 return true;
             }
-            
+
             catch (Exception ex)
             {
                 if (ex.HResult == -2147467261)
@@ -1503,7 +1584,7 @@ namespace IntegradorCore.Services
                 }
                 throw ex;
             }
-            
+
         }
 
         public void VerificaParaAtualizar()
@@ -1698,7 +1779,7 @@ namespace IntegradorCore.Services
             {
                 return false;
             }
-            
+
         }
 
         public ProtocoloDB GeraProtocoloAux(string id, string idEvento, string idSeq, string xmlProt, string nrProt, string erros)

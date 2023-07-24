@@ -23,12 +23,16 @@ namespace IntegradorCore.Services
         private static bool LockVariavel = false;
         private static readonly string Versao = "22.07.1";
         private static bool GeraLogs = true;
+        private static string UrlProd = null;
+        private static string UrlQa = null;
+        private static string UrlTeste = null;
         #endregion
 
         #region Param
         private static ParamVPGP VPGP;
         private static ParamVPGT VPGT;
         private static ParamVTGT VTGT;
+        private static ParamVPGQ VPGQ;
         private static string DirOrigem = null;
 
         public static string GetDirOrigem()
@@ -69,6 +73,16 @@ namespace IntegradorCore.Services
         public static void SetVTGT()
         {
             VTGT = new ParamVTGT(string.Concat(GetDirOrigem(), "\\", "ITGT"));
+        }
+
+        public static ParamVPGQ GetVPGQ()
+        {
+            return VPGQ;
+        }
+
+        public static void SetVPGQ()
+        {
+            VPGQ = new ParamVPGQ(string.Concat(GetDirOrigem(), "\\", "IPGQ"));
         }
         #endregion
 
@@ -188,6 +202,36 @@ namespace IntegradorCore.Services
         public static void SetGeraLogs(bool gera)
         {
             GeraLogs = gera;
+        }
+
+        public static string GetUrlProd()
+        {
+            return UrlProd;
+        }
+
+        public static void SetUrlProd(string a)
+        {
+            UrlProd = a;
+        }
+
+        public static string GetUrlQa()
+        {
+            return UrlQa;
+        }
+
+        public static void SetUrlQa(string a)
+        {
+            UrlQa = a;
+        }
+
+        public static string GetUrlTeste()
+        {
+            return UrlTeste;
+        }
+
+        public static void SetUrlTeste(string a)
+        {
+            UrlTeste = a;
         }
 
         #endregion

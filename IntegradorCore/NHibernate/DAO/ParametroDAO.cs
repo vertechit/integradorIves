@@ -57,6 +57,9 @@ namespace IntegradorCore.NHibernate.DAO
                 parametroCurrent.CaminhoToke = paramentroNew.CaminhoToke;
                 parametroCurrent.IntegraBanco = paramentroNew.IntegraBanco;
                 parametroCurrent.GeraLog = paramentroNew.GeraLog;
+                parametroCurrent.UrlProd = paramentroNew.UrlProd;
+                parametroCurrent.UrlTeste = paramentroNew.UrlTeste;
+                parametroCurrent.UrlQa = paramentroNew.UrlQa;
 
                 sessao.Update(parametroCurrent);
                 sessao.Flush();
