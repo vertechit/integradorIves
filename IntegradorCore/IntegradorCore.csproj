@@ -9,10 +9,11 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>IntegradorCore</RootNamespace>
     <AssemblyName>IntegradorCore</AssemblyName>
-    <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <NuGetPackageImportStamp>
     </NuGetPackageImportStamp>
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -128,6 +129,7 @@
     <Compile Include="Modelos\LogInterno.cs" />
     <Compile Include="Modelos\Parametro.cs" />
     <Compile Include="Modelos\ParametroDB.cs" />
+    <Compile Include="Modelos\ParamVPGQ.cs" />
     <Compile Include="Modelos\ParamVPGP.cs" />
     <Compile Include="Modelos\ParamVPGT.cs" />
     <Compile Include="Modelos\ParamVTGT.cs" />
