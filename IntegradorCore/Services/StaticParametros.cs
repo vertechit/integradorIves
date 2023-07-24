@@ -29,6 +29,7 @@ namespace IntegradorCore.Services
         private static ParamVPGP VPGP;
         private static ParamVPGT VPGT;
         private static ParamVTGT VTGT;
+        private static ParamVPGQ VPGQ;
         private static string DirOrigem = null;
 
         public static string GetDirOrigem()
@@ -69,6 +70,16 @@ namespace IntegradorCore.Services
         public static void SetVTGT()
         {
             VTGT = new ParamVTGT(string.Concat(GetDirOrigem(), "\\", "ITGT"));
+        }
+
+        public static ParamVPGQ GetVPGQ()
+        {
+            return VPGQ;
+        }
+
+        public static void SetVPGQ()
+        {
+            VPGQ = new ParamVPGQ(string.Concat(GetDirOrigem(), "\\", "IPGQ"));
         }
         #endregion
 

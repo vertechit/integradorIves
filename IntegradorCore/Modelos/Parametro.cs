@@ -13,5 +13,8 @@ namespace IntegradorCore.Modelos
         public virtual string CaminhoToke { get; set; }
         public virtual bool IntegraBanco { get; set; }
         public virtual bool GeraLog { get; set; }
+        public virtual string UrlProd { get; set; }
+        public virtual string UrlTeste { get; set; }
+        public virtual string UrlQa { get; set; }
     }
 }

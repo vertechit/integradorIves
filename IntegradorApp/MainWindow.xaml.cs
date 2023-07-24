@@ -184,7 +184,7 @@ namespace IntegradorApp
                         if (ctrl >= 2)
                         {
 
-                            var newParam = new Parametro { Id = 1, CaminhoDir = StaticParametros.GetDirOrigem(), CaminhoToke = StaticParametros.GetDirToke(), IntegraBanco = StaticParametros.GetIntegraBanco(), GeraLog = StaticParametros.GetGeraLogs() };
+                            var newParam = new Parametro { Id = 1, CaminhoDir = StaticParametros.GetDirOrigem(), CaminhoToke = StaticParametros.GetDirToke(), IntegraBanco = StaticParametros.GetIntegraBanco(), GeraLog = StaticParametros.GetGeraLogs(), UrlProd = null, UrlQa = null, UrlTeste = null };
                             parametroDAO.Salvar(newParam);
 
                             if(StaticParametersDB.GetDriver() != null)
@@ -614,7 +614,7 @@ namespace IntegradorApp
 
         private void IntegraArquivos(int i)
         {
-            if(i > 3)
+            if(i > 4)
             {
                 //System.Windows.MessageBox.Show("Processo de integração concluido!");
                 return;
@@ -641,7 +641,7 @@ namespace IntegradorApp
 
         private void ConsultaArquivos(int i)
         {
-            if (i > 3)
+            if (i > 4)
             {
                 //System.Windows.MessageBox.Show("Processo de consulta concluido!");
                 return;

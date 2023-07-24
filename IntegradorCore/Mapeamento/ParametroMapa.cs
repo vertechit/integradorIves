@@ -18,6 +18,9 @@ namespace IntegradorCore.Mapeamento
             Map(x => x.CaminhoDir).Column("caminhoDir").Length(200);
             Map(x => x.IntegraBanco).Column("integraBanco").Not.Nullable();
             Map(x => x.GeraLog).Column("geralog").Not.Nullable();
+            Map(x => x.UrlProd).Column("urlProd").Length(300);
+            Map(x => x.UrlTeste).Column("urlTeste").Length(300);
+            Map(x => x.UrlQa).Column("urlQa").Length(300);
 
         }
     }
