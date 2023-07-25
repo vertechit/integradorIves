@@ -18,7 +18,7 @@ namespace IntegradorCore.Modelos
             Id = 2;
             CaminhoDir = caminho;
             Ambiente = 2;
-            Base = "False";
+            Base = "prod";
         }
     }
 }

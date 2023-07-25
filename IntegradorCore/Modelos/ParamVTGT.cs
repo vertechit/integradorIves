@@ -18,7 +18,7 @@ namespace IntegradorCore.Modelos
             Id = 3;
             CaminhoDir = caminho;
             Ambiente = 2;
-            Base = "True";
+            Base = "teste";
         }
     }
 }

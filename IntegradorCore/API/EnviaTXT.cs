@@ -14,11 +14,11 @@ namespace IntegradorCore.API
         public long Grupo { get; set; }
         public string Token { get; set; }
         public long Ambiente { get; set; }
-        public bool CustomEndpoint { get; set; }
+        public string CustomEndpoint { get; set; }
 
         ExceptionCore ex = new ExceptionCore();
 
-        public EnviaTXT(long grupo, string token, long ambiente, bool customendpoint)
+        public EnviaTXT(long grupo, string token, long ambiente, string customendpoint)
         {
             try
             {
@@ -67,7 +67,7 @@ namespace IntegradorCore.API
 
         private EsocialServiceClient AlteraEndPoint()
         {
-            if (this.CustomEndpoint)
+            if (this.CustomEndpoint=="teste")
             {
                 var urlServicoEnvio = @"https://apiesocial2.vertech-it.com.br/vch-esocial/enviaintegra?wsdl";
 

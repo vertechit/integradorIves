@@ -49,7 +49,7 @@ namespace IntegradorCore.Services
                         if (retorno.protocolo > 0)
                         {
                             proc.SalvaProtocolo(retorno, item, sessao);
-                            proc.GeraLogIntegra(item, "Foi enviado com sucesso!");
+                            proc.GeraLogIntegra(item, "Foi enviado com sucesso! "+ StaticParametros.GetUrl());
                         }
                         else
                         {
@@ -77,7 +77,7 @@ namespace IntegradorCore.Services
                         if (proc.VerificaResponseXML(response) == true)
                         {
                             proc.SalvaProtocoloXML(item, response, 1, sessao);
-                            proc.GeraLogEnviaXML(item, "Foi enviado com sucesso!");
+                            proc.GeraLogEnviaXML(item, "Foi enviado com sucesso!" + StaticParametros.GetUrl());
                         }
                         else
                         {
@@ -127,7 +127,7 @@ namespace IntegradorCore.Services
 
                     if (result == true)
                     {
-                        if (prot.Ambiente == StaticParametros.GetAmbiente() && Convert.ToBoolean(prot.Base) == StaticParametros.GetBase())
+                        if (prot.Ambiente == StaticParametros.GetAmbiente() && prot.Base == StaticParametros.GetBase())
                         {
                             try
                             {
@@ -184,7 +184,7 @@ namespace IntegradorCore.Services
 
                     if (result == true)
                     {
-                        if (prot.Ambiente == StaticParametros.GetAmbiente() && Convert.ToBoolean(prot.Base) == StaticParametros.GetBase())
+                        if (prot.Ambiente == StaticParametros.GetAmbiente() && prot.Base == StaticParametros.GetBase())
                         {
                             var retorno = apiConXML.ConsultaProtocolo(prot.NroProtocolo, prot.Base, item);
 
@@ -228,7 +228,7 @@ namespace IntegradorCore.Services
             {
                 foreach (var item in lista)
                 {
-                    var apiXMLDB = new EnviaXML(StaticParametersDB.GetGrupo(), StaticParametersDB.GetToken(), Convert.ToBoolean(item.baseEnv));
+                    var apiXMLDB = new EnviaXML(StaticParametersDB.GetGrupo(), StaticParametersDB.GetToken(), item.baseEnv);
 
                     if (item.driver == StaticParametersDB.GetDriver())
                     {
@@ -241,7 +241,7 @@ namespace IntegradorCore.Services
                             var data = proc.RetornaData();
                             var protocolo = new ProtocoloDB { id = item.id, dtenvio = data[0], hrenvio = data[1], status = "0 - Enviado", idDB = StaticParametersDB.GetId() };
                             ProtocoloDAO.Salvar(protocolo);
-                            proc.GeraLogEnviaXML(item.id, "Foi enviado com sucesso!");
+                            proc.GeraLogEnviaXML(item.id, "Foi enviado com sucesso!" + StaticParametros.GetUrl());
 
                             Banco.CustomUpdateDB(ProtocoloDAO.BuscarPorIDEvento(item.id), 3);
                         }

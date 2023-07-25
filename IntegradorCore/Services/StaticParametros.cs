@@ -18,14 +18,12 @@ namespace IntegradorCore.Services
         private static string Token = null; //Deve ser definido com a leitura do arquivo token
         private static string TipoApp = null; //Define se está executando um app ou um serviço
         private static long Ambiente = 0; //Ambiente de envio do evento definido pelo usuário
-        private static bool Base = false; //Base de dados definida pelo usuário
+        private static string Base = "prod"; //Base de dados definida pelo usuário
         private static bool IntegraBanco = false;
         private static bool LockVariavel = false;
-        private static readonly string Versao = "22.07.1";
+        private static readonly string Versao = "23.07.1"; 
         private static bool GeraLogs = true;
-        private static string UrlProd = null;
-        private static string UrlQa = null;
-        private static string UrlTeste = null;
+        private static string Url = null;
         #endregion
 
         #region Param
@@ -113,12 +111,12 @@ namespace IntegradorCore.Services
             IntegraBanco = integraBanco;
         }
 
-        public static bool GetBase()
+        public static string GetBase()
         {
             return Base;
         }
 
-        public static void SetBase(bool basea)
+        public static void SetBase(string basea)
         {
             Base = basea;
         }
@@ -204,34 +202,14 @@ namespace IntegradorCore.Services
             GeraLogs = gera;
         }
 
-        public static string GetUrlProd()
+        public static string GetUrl()
         {
-            return UrlProd;
+            return Url;
         }
 
-        public static void SetUrlProd(string a)
+        public static void SetUrl(string a)
         {
-            UrlProd = a;
-        }
-
-        public static string GetUrlQa()
-        {
-            return UrlQa;
-        }
-
-        public static void SetUrlQa(string a)
-        {
-            UrlQa = a;
-        }
-
-        public static string GetUrlTeste()
-        {
-            return UrlTeste;
-        }
-
-        public static void SetUrlTeste(string a)
-        {
-            UrlTeste = a;
+            Url = a;
         }
 
         #endregion

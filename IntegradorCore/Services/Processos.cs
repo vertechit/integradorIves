@@ -106,42 +106,51 @@ namespace IntegradorCore.Services
 
         public void AlteraParametro(int tipo)
         {
-            if(tipo == 1)
+            var sessao = AuxiliarNhibernate.AbrirSessao();
+            var parametroDAO = new ParametroDAO(sessao);
+            var pa = parametroDAO.BuscarPorID(1);
+
+            if (tipo == 1)
             {
                 var param = StaticParametros.GetVPGP();
                 StaticParametros.SetAmbiente(param.Ambiente);
-                StaticParametros.SetBase(Convert.ToBoolean(param.Base));
+                StaticParametros.SetBase(param.Base);
                 StaticParametros.SetDirArq(param.CaminhoDir);
                 StaticParametros.SetDirFim(string.Concat(param.CaminhoDir, "\\Consultados"));
+                StaticParametros.SetUrl(pa.UrlProd);
             }
             else if(tipo == 2)
             {
                 var param = StaticParametros.GetVPGT();
                 StaticParametros.SetAmbiente(param.Ambiente);
-                StaticParametros.SetBase(Convert.ToBoolean(param.Base));
+                StaticParametros.SetBase(param.Base);
                 StaticParametros.SetDirArq(param.CaminhoDir);
                 StaticParametros.SetDirFim(string.Concat(param.CaminhoDir, "\\Consultados"));
+                StaticParametros.SetUrl(pa.UrlProd);
             }
             else if(tipo == 3)
             {
                 var param = StaticParametros.GetVTGT();
                 StaticParametros.SetAmbiente(param.Ambiente);
-                StaticParametros.SetBase(Convert.ToBoolean(param.Base));
+                StaticParametros.SetBase(param.Base);
                 StaticParametros.SetDirArq(param.CaminhoDir);
                 StaticParametros.SetDirFim(string.Concat(param.CaminhoDir, "\\Consultados"));
+                StaticParametros.SetUrl(pa.UrlTeste);
             }
             else if (tipo == 4)
             {
                 var param = StaticParametros.GetVPGQ();
                 StaticParametros.SetAmbiente(param.Ambiente);
-                StaticParametros.SetBase(Convert.ToBoolean(param.Base));
+                StaticParametros.SetBase(param.Base);
                 StaticParametros.SetDirArq(param.CaminhoDir);
                 StaticParametros.SetDirFim(string.Concat(param.CaminhoDir, "\\Consultados"));
+                StaticParametros.SetUrl(pa.UrlQa);
             }
             else
             {
                 //noOp
             }
+            sessao.Close();
         }
 
         public string MontaCaminhoDir(string dir, string name)
@@ -516,7 +525,7 @@ namespace IntegradorCore.Services
 
             if (result == true)
             {
-                if(prot.Ambiente == StaticParametros.GetAmbiente() && Convert.ToBoolean(prot.Base) == StaticParametros.GetBase())
+                if(prot.Ambiente == StaticParametros.GetAmbiente() && prot.Base == StaticParametros.GetBase())
                     return false;
             }
 
@@ -541,7 +550,7 @@ namespace IntegradorCore.Services
 
             if (result == true)
             {
-                if(Convert.ToBoolean(prot.Base) == StaticParametros.GetBase() && prot.Ambiente == StaticParametros.GetAmbiente())
+                if(prot.Base == StaticParametros.GetBase() && prot.Ambiente == StaticParametros.GetAmbiente())
                     return 1;
             }
 

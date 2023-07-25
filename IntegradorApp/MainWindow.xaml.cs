@@ -184,8 +184,7 @@ namespace IntegradorApp
                         if (ctrl >= 2)
                         {
 
-                            var newParam = new Parametro { Id = 1, CaminhoDir = StaticParametros.GetDirOrigem(), CaminhoToke = StaticParametros.GetDirToke(), IntegraBanco = StaticParametros.GetIntegraBanco(), GeraLog = StaticParametros.GetGeraLogs(), UrlProd = StaticParametros.GetUrlProd(), UrlQa = StaticParametros.GetUrlQa(), UrlTeste = StaticParametros.GetUrlTeste() };
-                            //var newParam = new Parametro { Id = 1, CaminhoDir = StaticParametros.GetDirOrigem(), CaminhoToke = StaticParametros.GetDirToke(), IntegraBanco = StaticParametros.GetIntegraBanco(), GeraLog = StaticParametros.GetGeraLogs()};
+                            var newParam = new Parametro { Id = 1, CaminhoDir = StaticParametros.GetDirOrigem(), CaminhoToke = StaticParametros.GetDirToke(), IntegraBanco = StaticParametros.GetIntegraBanco(), GeraLog = StaticParametros.GetGeraLogs(), UrlProd = "api.compliancehcm.com.br", UrlQa = "hml-api.compliancehcm.com.br", UrlTeste = "teste-api.compliancehcm.com.br" };
                             parametroDAO.Salvar(newParam);
 
                             if(StaticParametersDB.GetDriver() != null)

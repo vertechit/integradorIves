@@ -65,9 +65,27 @@ namespace IntegradorCore.API
 
         private ServicoConsultarLoteEventosClient DefineBaseClient(string Base)
         {
-            if (Base == "True")
+            var urlServicoEnvio = @"https://" + StaticParametros.GetUrl() + "/vch-esocial/consultalote?wsdl";
+
+            var address = new EndpointAddress(urlServicoEnvio);
+
+            var binding = new BasicHttpsBinding();
+
+            binding.Security.Transport.ClientCredentialType = HttpClientCredentialType.Basic;
+
+            var wsClient = new ServicoConsultarLoteEventosClient(binding, address);
+
+            wsClient.ClientCredentials.UserName.UserName = Convert.ToString(this.Grupo);
+            wsClient.ClientCredentials.UserName.Password = this.Token;
+
+            wsClient.Endpoint.Behaviors.Add(new CustomEndpointCallBehavior(Convert.ToString(this.Grupo), this.Token));
+
+            return wsClient;
+/*
+            if (Base != "prod")
             {
-                var urlServicoEnvio = @"https://apiesocial2.vertech-it.com.br/vch-esocial/consultalote?wsdl";
+                //var urlServicoEnvio = @"https://apiesocial2.vertech-it.com.br/vch-esocial/consultalote?wsdl";
+                var urlServicoEnvio = @"https://" + StaticParametros.GetUrl() + "/vch-esocial/consultalote?wsdl";
 
                 var address = new EndpointAddress(urlServicoEnvio);
 
@@ -90,6 +108,8 @@ namespace IntegradorCore.API
             wsClientP.Endpoint.Behaviors.Add(new CustomEndpointCallBehavior(Convert.ToString(this.Grupo), this.Token));
 
             return wsClientP;
+*/
         }
     }
 }
+

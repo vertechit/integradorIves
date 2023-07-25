@@ -13,11 +13,11 @@ namespace IntegradorCore.API
     {
         public long Grupo { get; set; }
         public string Token { get; set; }
-        public bool CustomEndPoint { get; set; }
+        public string CustomEndPoint { get; set; }
 
         ExceptionCore ex = new ExceptionCore();
 
-        public EnviaXML(long grupo, string token, bool customendpoint)
+        public EnviaXML(long grupo, string token, string customendpoint)
         {
             this.Grupo = grupo;
             this.Token = token;
@@ -55,9 +55,29 @@ namespace IntegradorCore.API
 
         private ServicoEnviarLoteEventosClient AlteraEndPoint()
         {
-            if (this.CustomEndPoint)
+            var urlServicoEnvio = @"https://" + StaticParametros.GetUrl() + "/vch-esocial/envialote?wsdl";
+
+            var address = new EndpointAddress(urlServicoEnvio);
+
+            var binding = new BasicHttpsBinding();
+
+            binding.Security.Transport.ClientCredentialType = HttpClientCredentialType.Basic;
+
+            var wsClient = new ServicoEnviarLoteEventosClient(binding, address);
+
+            wsClient.ClientCredentials.UserName.UserName = Convert.ToString(this.Grupo);
+            wsClient.ClientCredentials.UserName.Password = this.Token;
+
+            wsClient.Endpoint.Behaviors.Add(new CustomEndpointCallBehavior(Convert.ToString(this.Grupo), this.Token));
+
+
+            return wsClient;
+/*
+
+            if (this.CustomEndPoint != "prod")
             {
-                var urlServicoEnvio = @"https://apiesocial2.vertech-it.com.br/vch-esocial/envialote?wsdl";
+                //var urlServicoEnvio = @"https://apiesocial2.vertech-it.com.br/vch-esocial/envialote?wsdl";
+                var urlServicoEnvio = @"https://"+ StaticParametros.GetUrl() +"/vch-esocial/envialote?wsdl"; 
 
                 var address = new EndpointAddress(urlServicoEnvio);
 
@@ -81,6 +101,7 @@ namespace IntegradorCore.API
             wsClientP.Endpoint.Behaviors.Add(new CustomEndpointCallBehavior(Convert.ToString(this.Grupo), this.Token));
 
             return wsClientP;
+*/
         }
     }
 }
