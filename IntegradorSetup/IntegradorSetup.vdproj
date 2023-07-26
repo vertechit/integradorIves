@@ -516,10 +516,10 @@
             "ComponentsUrl" = "8:"
                 "Items"
                 {
-                    "{EDC2488A-8267-493A-A98E-7D9C3B36CDF3}:.NETFramework,Version=v4.6.1"
+                    "{EDC2488A-8267-493A-A98E-7D9C3B36CDF3}:.NETFramework,Version=v4.8"
                     {
-                    "Name" = "8:Microsoft .NET Framework 4.6.1 (x86 and x64)"
-                    "ProductCode" = "8:.NETFramework,Version=v4.6.1"
+                    "Name" = "8:Microsoft .NET Framework 4.8 (x86 e x64)"
+                    "ProductCode" = "8:.NETFramework,Version=v4.8"
                     }
                 }
             }
@@ -600,7 +600,7 @@
                 {
                 "Name" = "8:.NET Framework"
                 "Message" = "8:[VSDNETMSG]"
-                "FrameworkVersion" = "8:v4.6.1"
+                "FrameworkVersion" = "8:.NETFramework,Version=v4.8"
                 "AllowLaterVersions" = "11:FALSE"
                 "InstallUrl" = "8:http://go.microsoft.com/fwlink/?LinkId=671728"
                 }
@@ -1242,15 +1242,15 @@
         {
         "Name" = "8:Microsoft Visual Studio"
         "ProductName" = "8:Integrador Ives"
-        "ProductCode" = "8:{27886C1F-4A7E-446A-8E73-9CF51F81978E}"
-        "PackageCode" = "8:{B9D4446A-267D-4D6E-9B42-EBBFC44E660D}"
+        "ProductCode" = "8:{46CEF955-1C3F-4774-B68E-32B13FBC2D33}"
+        "PackageCode" = "8:{AA0D5CE7-897E-453A-8834-EDE058035600}"
         "UpgradeCode" = "8:{CB00914A-54FC-4D14-97AC-FA0A0C276ABA}"
         "AspNetVersion" = "8:4.0.30319.0"
         "RestartWWWService" = "11:FALSE"
         "RemovePreviousVersions" = "11:TRUE"
         "DetectNewerInstalledVersion" = "11:TRUE"
         "InstallAllUsers" = "11:TRUE"
-        "ProductVersion" = "8:23.07.3"
+        "ProductVersion" = "8:23.07.5"
         "Manufacturer" = "8:Compliance Soluções"
         "ARPHELPTELEPHONE" = "8:"
         "ARPHELPLINK" = "8:"
