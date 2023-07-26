@@ -67,6 +67,23 @@ namespace IntegradorCore.API
 
         private EsocialServiceClient AlteraEndPoint()
         {
+            var urlServicoEnvio = @"https://" + StaticParametros.GetUrl() + "/vch-esocial/enviaintegra?wsdl";
+
+            var address = new EndpointAddress(urlServicoEnvio);
+
+            var binding = new BasicHttpsBinding();
+
+            binding.Security.Transport.ClientCredentialType = HttpClientCredentialType.Basic;
+
+            var wsClient = new EsocialServiceClient(binding, address);
+
+            wsClient.ClientCredentials.UserName.UserName = Convert.ToString(this.Grupo);
+            wsClient.ClientCredentials.UserName.Password = this.Token;
+
+            wsClient.Endpoint.Behaviors.Add(new CustomEndpointCallBehavior(Convert.ToString(this.Grupo), this.Token));
+
+            return wsClient;
+/*
             if (this.CustomEndpoint=="teste")
             {
                 var urlServicoEnvio = @"https://apiesocial2.vertech-it.com.br/vch-esocial/enviaintegra?wsdl";
@@ -89,6 +106,7 @@ namespace IntegradorCore.API
             var wsClientp = new EsocialServiceClient();
 
             return wsClientp;
+*/
         }
 
     }
