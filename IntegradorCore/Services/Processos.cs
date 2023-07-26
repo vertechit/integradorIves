@@ -213,6 +213,11 @@ namespace IntegradorCore.Services
                 xmlString = xmlString.Replace("<?xml version=\"1.0\" encoding=\"UTF-8\"?>", "");
             }
 
+            if (xmlString.Contains("<?xml version=\"1.0\" encoding=\"utf-8\"?>"))
+            {
+                xmlString = xmlString.Replace("<?xml version=\"1.0\" encoding=\"utf-8\"?>", "");
+            }
+
             string xsdInicio = "<eSocial><envioLoteEventos grupo=\"1\"><eventos><evento Id=\"123\">";
 
             xsdInicio = xsdInicio.Replace("123", arqname);
@@ -529,8 +534,8 @@ namespace IntegradorCore.Services
             {
                 var a = prot.NroProtocolo;
                 result = true;
-            }catch(Exception e){
-
+            }catch(Exception ex){
+                ex.ToString();
             }
 
             if (result == true)
@@ -554,8 +559,8 @@ namespace IntegradorCore.Services
             {
                 var a = prot.NroProtocolo;
                 result = true;
-            }catch(Exception e){
-
+            }catch(Exception ex){
+                ex.ToString();
             }
 
             if (result == true)
@@ -804,9 +809,9 @@ namespace IntegradorCore.Services
             {
                 System.IO.File.WriteAllText(string.Concat(StaticParametros.GetDirArq(), "\\logs\\retornoTXT\\buffer.dat"), XML);
             }
-            catch (Exception err)
+            catch (Exception ex)
             {
-
+                ex.ToString();
             }
 
         }
@@ -817,9 +822,9 @@ namespace IntegradorCore.Services
             {
                 System.IO.File.WriteAllText(string.Concat(StaticParametros.GetDirArq(), "\\bufferEnviaXML.dat"), XML);
             }
-            catch (Exception err)
+            catch (Exception ex)
             {
-
+                ex.ToString();
             }
 
         }
@@ -1221,7 +1226,7 @@ namespace IntegradorCore.Services
             }
             catch (Exception ex)
             {
-                //noOp
+                ex.ToString();
             }
             try
             {
@@ -1229,7 +1234,7 @@ namespace IntegradorCore.Services
             }
             catch(Exception ex)
             {
-                //noOp
+                ex.ToString();
             }
 
         }
@@ -1271,6 +1276,7 @@ namespace IntegradorCore.Services
                 DirectoryInfo diCon = new DirectoryInfo(StaticParametros.GetDirFim());
             }catch(Exception ex)
             {
+                ex.ToString();
                 return false;
             }
 

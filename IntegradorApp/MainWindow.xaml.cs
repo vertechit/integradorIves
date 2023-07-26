@@ -355,9 +355,10 @@ namespace IntegradorApp
                     AuxiliarNhibernate.AbrirSessao();
                     //fil.Create();
                 }
-                catch(Exception e)
+                catch(Exception ex)
                 {
                     //System.Windows.Forms.MessageBox.Show(e.Message, "Erro", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    ex.ToString();
                 }
                 
             }
@@ -408,7 +409,7 @@ namespace IntegradorApp
                 }
                 catch (Exception ex)
                 {
-                    //OrganizaTelaEvent(1);
+                    ex.ToString();
                     ctrlVazio = 1;
                 }
 
@@ -460,6 +461,7 @@ namespace IntegradorApp
                 }
                 catch (Exception ex)
                 {
+                    ex.ToString();
                     StaticParametros.SetIntegraBanco(false);
                     TxtStatusBanco.Text = "Desconectado";
                     if (ctrlVazio == 0)
@@ -491,6 +493,7 @@ namespace IntegradorApp
                     }
                     catch (Exception ex)
                     {
+                        ex.ToString();
                         OrganizaTelaEvent(1);
                     }
 

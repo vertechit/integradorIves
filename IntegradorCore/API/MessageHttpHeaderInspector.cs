@@ -37,7 +37,7 @@ namespace IntegradorCore.API
             }
             catch (Exception ex)
             {
-
+                ex.ToString();
             }
             Processos p = new Processos();
             if (stringXML.Contains("<consultaResponse xmlns=\"http://www.esocial.gov.br/ws\">"))

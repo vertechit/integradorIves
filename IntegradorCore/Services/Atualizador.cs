@@ -31,6 +31,7 @@ namespace IntegradorCore.Services
             }
             catch (Exception ex)
             {
+                ex.ToString();
             }
             return null;
         }
@@ -69,9 +70,9 @@ namespace IntegradorCore.Services
                     }
                 }
             }
-            catch (Exception e)
+            catch (Exception ex)
             {
-
+                ex.ToString();
             }
             return 0;
                 
@@ -170,9 +171,9 @@ namespace IntegradorCore.Services
                     cmd.ExecuteNonQuery();
                 }
             }
-            catch (Exception e)
+            catch (Exception ex)
             {
-
+                ex.ToString();
             }
         }
 

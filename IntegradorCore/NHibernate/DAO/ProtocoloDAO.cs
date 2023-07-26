@@ -46,6 +46,7 @@ namespace IntegradorCore.NHibernate.DAO
             }
             catch (Exception ex)
             {
+                ex.ToString();
                 if (protocolo != null)
                 {
                     sessao.Save(protocolo);

@@ -69,8 +69,9 @@ namespace IntegradorApp.Telas
                             paramDB[lastIndex - 1].Grupo = Convert.ToInt64(TxbGrupo.Text);
                             salvaDB(paramDB[lastIndex-1]);
                         }
-                        catch (Exception error)
+                        catch (Exception ex)
                         {
+                            ex.ToString();
                             System.Windows.MessageBox.Show("Campo Grupo deve ser numerico", "Atenção", MessageBoxButton.OK, MessageBoxImage.Warning);
                             return;
                         }
@@ -98,8 +99,9 @@ namespace IntegradorApp.Telas
                             paramdbNew.Grupo = Convert.ToInt64(TxbGrupo.Text);
                             salvaDB(paramdbNew);
                         }
-                        catch (Exception error)
+                        catch (Exception ex)
                         {
+                            ex.ToString();
                             System.Windows.MessageBox.Show("Campo Grupo deve ser numerico", "Atenção", MessageBoxButton.OK, MessageBoxImage.Warning);
                             return;
                         }
@@ -133,8 +135,9 @@ namespace IntegradorApp.Telas
                             paramDB[lastIndex - 1].Grupo = Convert.ToInt64(TxbGrupo.Text);
                             salvaDB(paramDB[lastIndex - 1]);
                         }
-                        catch (Exception error)
+                        catch (Exception ex)
                         {
+                            ex.ToString();
                             System.Windows.MessageBox.Show("Campo Grupo deve ser numerico", "Atenção", MessageBoxButton.OK, MessageBoxImage.Warning);
                             return;
                         }
@@ -163,8 +166,9 @@ namespace IntegradorApp.Telas
                             paramdbNew.Grupo = Convert.ToInt64(TxbGrupo.Text);
                             salvaDB(paramdbNew);
                         }
-                        catch (Exception error)
+                        catch (Exception ex)
                         {
+                            ex.ToString();
                             System.Windows.MessageBox.Show("Campo Grupo deve ser numerico", "Atenção", MessageBoxButton.OK, MessageBoxImage.Warning);
                             return;
                         }
@@ -217,7 +221,7 @@ namespace IntegradorApp.Telas
                 }
                 catch (Exception ex)
                 {
-
+                    ex.ToString();
                 }
 
                 //this.Close();
@@ -321,8 +325,9 @@ namespace IntegradorApp.Telas
 
                     BtnDelete.Visibility = Visibility.Visible;
                 }
-                catch (Exception e)
+                catch (Exception ex)
                 {
+                    ex.ToString();
                     if (StaticParametersDB.GetDriver() != null)
                     {
                         var driver = StaticParametersDB.GetDriver();
@@ -345,9 +350,9 @@ namespace IntegradorApp.Telas
                 }
                 
 
-            }catch(Exception e)
+            }catch(Exception ex)
             {
-                
+                ex.ToString();
             }
 
             sessao.Close();
@@ -383,9 +388,9 @@ namespace IntegradorApp.Telas
                     throw new Exception();
                 }
             }
-            catch (Exception e)
+            catch (Exception ex)
             {
-
+                ex.ToString();
             }
         }
 
@@ -421,9 +426,9 @@ namespace IntegradorApp.Telas
                     }
 
                 }
-                catch (Exception e)
+                catch (Exception ex)
                 {
-
+                    ex.ToString();
                 }
             }
             else
@@ -456,9 +461,9 @@ namespace IntegradorApp.Telas
                         CboConexao.Items.Insert(1, paramDB[0].Descr);
                     }
                 }
-                catch (Exception e)
+                catch (Exception ex)
                 {
-
+                    ex.ToString();
                 }
             }
             
@@ -511,9 +516,9 @@ namespace IntegradorApp.Telas
                 TxbGrupo.Text = paramDB[index].Grupo.ToString();
                 TxbToken.Text = paramDB[index].Token;
             }
-            catch(Exception e)
+            catch(Exception ex)
             {
-
+                ex.ToString();
             }
         }
 

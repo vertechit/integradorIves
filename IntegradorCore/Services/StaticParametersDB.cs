@@ -47,9 +47,9 @@ namespace IntegradorCore.Services
             {
                 ListBanco = new List<ParametroDB>();
             }
-            catch (Exception e)
+            catch (Exception ex)
             {
-
+                ex.ToString();
             }
         }
 

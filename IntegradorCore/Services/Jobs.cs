@@ -120,9 +120,9 @@ namespace IntegradorCore.Services
                         var a = prot.NroProtocolo;
                         result = true;
                     }
-                    catch (Exception e)
+                    catch (Exception ex)
                     {
-
+                        ex.ToString();
                     }
 
                     if (result == true)
@@ -141,9 +141,9 @@ namespace IntegradorCore.Services
                                 {
                                     proc.CreateFileRetornoTXT(item);
                                 }
-                                catch (Exception e)
+                                catch (Exception ex)
                                 {
-
+                                    ex.ToString();
                                 }
 
                                 if (retorno.consultaProtocolo.status.cdResposta == 3 || retorno.consultaProtocolo.status.cdResposta == 2)
@@ -177,9 +177,9 @@ namespace IntegradorCore.Services
                         var a = prot.NroProtocolo;
                         result = true;
                     }
-                    catch (Exception e)
+                    catch (Exception ex)
                     {
-
+                        ex.ToString();
                     }
 
                     if (result == true)
@@ -356,7 +356,7 @@ namespace IntegradorCore.Services
                         }
                         catch (Exception ex)
                         {
-
+                            ex.ToString();
                         }
                     }
 
