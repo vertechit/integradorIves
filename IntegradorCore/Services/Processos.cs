@@ -583,15 +583,15 @@ namespace IntegradorCore.Services
 
                 else
                 {
-                    return 2;
-                    //return 0;
+                    //return 2;
+                    return 0;
                 }
             }
 
             else
             {
-                return 2;
-                //return 0; // Alterado para 0, para não validar o OPEN e CLOSE devido a customização do leiaute ONE SOURCE
+                //return 2;
+                return 0; // Alterado para 0, para não validar o OPEN e CLOSE devido a customização do leiaute ONE SOURCE
             }
         }
 
