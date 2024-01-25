@@ -369,12 +369,16 @@ namespace IntegradorService
 
         private void IntegraDB()
         {
+            Processos proc = new Processos();
+            proc.AlteraParametro(1); //PROD
             Jobs Job = new Jobs();
             Job.EnviaDB();
         }
 
         private void ConsultaDB()
         {
+            Processos proc = new Processos();
+            proc.AlteraParametro(1); //PROD
             Jobs Job = new Jobs();
             Job.ConsultaDB();
             Job.UpdateDB();

@@ -6,6 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using IntegradorCore.Services;
 using IntegradorCore.apiEnviaXML;
+using IntegradorCore.NHibernate.DAO;
 
 namespace IntegradorCore.API
 {
@@ -55,6 +56,17 @@ namespace IntegradorCore.API
 
         private ServicoEnviarLoteEventosClient AlteraEndPoint()
         {
+            /*
+            var sessao = AuxiliarNhibernate.AbrirSessao();
+            var parametroDAO = new ParametroDAO(sessao);
+            var param = StaticParametros.GetVPGP();
+            var pa = parametroDAO.BuscarPorID(1);
+            StaticParametros.SetAmbiente(param.Ambiente);
+            StaticParametros.SetBase(param.Base);
+            StaticParametros.SetDirArq(param.CaminhoDir);
+            StaticParametros.SetDirFim(string.Concat(param.CaminhoDir, "\\Consultados"));
+            StaticParametros.SetUrl(pa.UrlProd);
+            */
             var urlServicoEnvio = @"https://" + StaticParametros.GetUrl() + "/vch-esocial/envialote?wsdl";
 
             var address = new EndpointAddress(urlServicoEnvio);
